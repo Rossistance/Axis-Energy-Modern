@@ -1,0 +1,18 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'>
+  <defs>
+    <linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='#0b1416'/><stop offset='60%' stop-color='#074b4b'/><stop offset='100%' stop-color='#0a8d88'/></linearGradient>
+  </defs>
+  <rect width='1600' height='900' fill='url(#bg)'/>
+  
+    <g fill='none' stroke='rgba(255,255,255,.9)' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'>
+      <rect x='360' y='420' width='160' height='200' rx='12' fill='rgba(255,255,255,.08)'/>
+      <rect x='720' y='380' width='160' height='240' rx='12' fill='rgba(255,255,255,.08)'/>
+      <rect x='1080' y='420' width='160' height='200' rx='12' fill='rgba(255,255,255,.08)'/>
+      <!-- checkmarks above each pillar -->
+      <path d='M420 360 l30 30 l60 -60'/>
+      <path d='M780 320 l30 30 l60 -60'/>
+      <path d='M1140 360 l30 30 l60 -60'/>
+    </g>
+    <line x1='260' y1='660' x2='1340' y2='660' stroke='rgba(255,255,255,.22)' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/>
+    
+</svg>
