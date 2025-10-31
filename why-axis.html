@@ -9,72 +9,95 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="container header-inner">
+    <div class="frame header-bar" data-reveal>
       <a class="brand" href="index.html">
         <img src="assets/img/logo-axis.png" alt="Axis Energy logo" />
         <span>Axis Energy</span>
       </a>
-      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="nav-toggle-box"><span></span><span></span><span></span></span>
-      </button>
-      <nav class="site-nav" id="primary-nav">
-        <ul>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="why-axis.html" class="is-active">Why Axis</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="news.html">News</a></li>
-          <li><a href="careers.html">Careers</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
+      <nav class="primary-nav" aria-label="Primary">
+        <div class="nav-list">
+          <span class="nav-indicator" aria-hidden="true"></span>
+          <a href="services.html">Services</a>
+          <a href="projects.html">Projects</a>
+          <a href="why-axis.html" aria-current="page">Why Axis</a>
+          <a href="about.html">About</a>
+          <a href="news.html">News</a>
+          <a href="careers.html">Careers</a>
+          <a href="contact.html">Contact</a>
+        </div>
       </nav>
+      <button class="nav-trigger" type="button" aria-controls="mobile-nav" aria-expanded="false">
+        <span class="nav-trigger-box" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
     </div>
   </header>
-  <div class="nav-backdrop" hidden></div>
+
+  <div class="nav-overlay" hidden></div>
+  <nav class="nav-drawer" id="mobile-nav" aria-label="Mobile">
+    <ul>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="why-axis.html" aria-current="page">Why Axis</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="careers.html">Careers</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
   <main>
-    <section class="hero" style="--hero-image:url('assets/img/hero-why.svg'); --hero-image-2025:url('assets/img/hero-2025/hero-why-axis-grid.png')">
-      <div class="container">
-        <div class="hero-content">
+    <section class="hero">
+      <div class="frame">
+        <div class="hero-copy" data-reveal>
           <span class="eyebrow">Why Axis</span>
           <h1>Owner-minded. Outcome-driven.</h1>
           <p class="lead">Bankable execution for investors, developers, utilities and operators.</p>
         </div>
+        <div class="hero-visual" data-reveal="right">
+          <div class="hero-media" data-parallax>
+            <img src="assets/img/hero-2025/hero-why-axis-grid.png" alt="Grid overlay on renewable landscape" />
+            <span class="hero-sheen" aria-hidden="true"></span>
+            <div class="hero-canvas" aria-hidden="true">
+              <span class="hero-beam"></span>
+              <span class="hero-beam hero-beam--2"></span>
+              <span class="hero-beam hero-beam--3"></span>
+              <span class="hero-focus"></span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-heading">
+    <section class="section" data-pattern="grid">
+      <div class="frame">
+        <div class="section-heading" data-reveal>
           <span class="eyebrow">What sets us apart</span>
           <h2>A partner you can underwrite</h2>
           <p class="lead">Our model is simple: align incentives, communicate clearly, and deliver with rigor. From EPC to O&amp;M, we reduce risk and raise performance.</p>
         </div>
-        <div class="card-grid">
-          <article class="card">
+        <div class="pulse-grid">
+          <article class="glow-card" data-reveal>
             <h3>Total solution</h3>
             <p>Full array of EPC and O&amp;M services with a single point of accountability.</p>
           </article>
-          <article class="card">
+          <article class="glow-card" data-reveal>
             <h3>Strong financials</h3>
             <p>Backed by 1910 Legacy Enterprises with bonding capacity for projects of all sizes.</p>
           </article>
-          <article class="card">
+          <article class="glow-card" data-reveal>
             <h3>Superior quality</h3>
             <p>Experienced leadership on every site; standardized QA/QC; competitive delivery.</p>
           </article>
-        </div>
-        <div class="card-grid" style="margin-top:2rem;">
-          <article class="card">
+          <article class="glow-card" data-reveal>
             <h3>Bench strength</h3>
             <p>Boots on the ground across the Southeast; trusted partners for scale.</p>
           </article>
-          <article class="card">
+          <article class="glow-card" data-reveal>
             <h3>Employee-owned</h3>
             <p>We put skin in the game—your success is our success.</p>
           </article>
-          <article class="card">
+          <article class="glow-card" data-reveal>
             <h3>Safety first</h3>
             <p>Industry-best practices to protect people and projects.</p>
           </article>
@@ -82,9 +105,9 @@
       </div>
     </section>
 
-    <section class="section is-alt">
-      <div class="container">
-        <div class="section-heading">
+    <section class="section" data-pattern="mesh">
+      <div class="frame">
+        <div class="section-heading" data-reveal>
           <span class="eyebrow">O&amp;M excellence</span>
           <h2>Operate and optimize your assets</h2>
           <p class="lead">Our technicians are versed in diverse PV technologies and controls. We focus on rapid detection, preventative care, and performance lifts.</p>
@@ -93,11 +116,11 @@
     </section>
 
     <section class="section">
-      <div class="container">
-        <div class="card card--accent">
+      <div class="frame">
+        <div class="callout" data-reveal>
           <span class="eyebrow">Ready to talk?</span>
           <h2>Let’s build what’s next together.</h2>
-          <div class="hero-actions" style="justify-content:center;">
+          <div class="hero-actions" style="justify-content:center;margin-top:1.6rem;">
             <a class="btn btn-primary" href="contact.html">Connect with Axis</a>
           </div>
         </div>
@@ -105,39 +128,41 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <a class="brand" href="index.html">
-          <img src="assets/img/logo-axis.png" alt="Axis Energy logo" />
-          <span>Axis Energy</span>
-        </a>
-        <p>EPC &amp; O&amp;M solutions for renewable energy.</p>
-        <div class="footer-contact">
-          <span>Email <a href="mailto:info@axis-energyinc.com">info@axis-energyinc.com</a></span>
-          <span>Phone <a href="tel:+19193468333">+1 (919) 346-8333</a></span>
-          <span>100 Newspaper Way, Suite 105, Holly Springs, NC 27540</span>
+  <footer class="footer">
+    <div class="frame">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img src="assets/img/logo-axis.png" alt="Axis Energy logo" />
+            <span>Axis Energy</span>
+          </a>
+          <p>EPC &amp; O&amp;M solutions for renewable energy.</p>
+          <div class="footer-contact">
+            <span>Email <a href="mailto:info@axis-energyinc.com">info@axis-energyinc.com</a></span>
+            <span>Phone <a href="tel:+19193468333">+1 (919) 346-8333</a></span>
+            <span>100 Newspaper Way, Suite 105, Holly Springs, NC 27540</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Explore</h3>
+          <ul class="footer-nav">
+            <li><a href="services.html">Services</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Resources</h3>
+          <ul class="footer-nav">
+            <li><a href="why-axis.html" aria-current="page">Why Axis</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
         </div>
       </div>
-      <div>
-        <h3 class="footer-heading">Explore</h3>
-        <ul class="footer-nav">
-          <li><a href="services.html">Services</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="careers.html">Careers</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="footer-heading">Resources</h3>
-        <ul class="footer-nav">
-          <li><a href="why-axis.html">Why Axis</a></li>
-          <li><a href="news.html">News</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
+      <div class="footer-bottom">© <span id="year"></span> Axis Energy, Inc. All rights reserved.</div>
     </div>
-    <div class="footer-bottom">© <span id="year"></span> Axis Energy, Inc. All rights reserved.</div>
   </footer>
 
   <script src="assets/js/main.js"></script>

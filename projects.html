@@ -9,34 +9,47 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="container header-inner">
+    <div class="frame header-bar" data-reveal>
       <a class="brand" href="index.html">
         <img src="assets/img/logo-axis.png" alt="Axis Energy logo" />
         <span>Axis Energy</span>
       </a>
-      <button class="nav-toggle" type="button" aria-controls="primary-nav" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="nav-toggle-box"><span></span><span></span><span></span></span>
-      </button>
-      <nav class="site-nav" id="primary-nav">
-        <ul>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="projects.html" class="is-active">Projects</a></li>
-          <li><a href="why-axis.html">Why Axis</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="news.html">News</a></li>
-          <li><a href="careers.html">Careers</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
+      <nav class="primary-nav" aria-label="Primary">
+        <div class="nav-list">
+          <span class="nav-indicator" aria-hidden="true"></span>
+          <a href="services.html">Services</a>
+          <a href="projects.html" aria-current="page">Projects</a>
+          <a href="why-axis.html">Why Axis</a>
+          <a href="about.html">About</a>
+          <a href="news.html">News</a>
+          <a href="careers.html">Careers</a>
+          <a href="contact.html">Contact</a>
+        </div>
       </nav>
+      <button class="nav-trigger" type="button" aria-controls="mobile-nav" aria-expanded="false">
+        <span class="nav-trigger-box" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
     </div>
   </header>
-  <div class="nav-backdrop" hidden></div>
+
+  <div class="nav-overlay" hidden></div>
+  <nav class="nav-drawer" id="mobile-nav" aria-label="Mobile">
+    <ul>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="projects.html" aria-current="page">Projects</a></li>
+      <li><a href="why-axis.html">Why Axis</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="careers.html">Careers</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
   <main>
-    <section class="hero" style="--hero-image:url('assets/img/hero-projects.svg'); --hero-image-2025:url('assets/img/hero-2025/hero-projects-sunrise.png')">
-      <div class="container">
-        <div class="hero-content">
+    <section class="hero">
+      <div class="frame">
+        <div class="hero-copy" data-reveal>
           <span class="eyebrow">Projects</span>
           <h1>Proven delivery across technologies</h1>
           <p class="lead">Selected projects demonstrating scale, complexity, and outcomes.</p>
@@ -45,34 +58,46 @@
             <a class="btn btn-outline" href="contact.html">Request case studies</a>
           </div>
         </div>
+        <div class="hero-visual" data-reveal="right">
+          <div class="hero-media" data-parallax>
+            <img src="assets/img/hero-2025/hero-projects-sunrise.png" alt="Sunrise over renewable energy installation" />
+            <span class="hero-sheen" aria-hidden="true"></span>
+            <div class="hero-canvas" aria-hidden="true">
+              <span class="hero-beam"></span>
+              <span class="hero-beam hero-beam--2"></span>
+              <span class="hero-beam hero-beam--3"></span>
+              <span class="hero-focus"></span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="portfolio">
-      <div class="container">
-        <div class="card-grid">
-          <article class="card project-card">
-            <span class="project-tag">Solar + BESS — 120 MW</span>
+    <section class="section" id="portfolio" data-pattern="grid">
+      <div class="frame">
+        <div class="pulse-grid">
+          <article class="glow-card" data-reveal>
+            <span class="badge">Solar + BESS — 120 MW</span>
             <p>EPC delivery with grid services and ramp control.</p>
           </article>
-          <article class="card project-card">
-            <span class="project-tag">Utility PV — 200 MW</span>
+          <article class="glow-card" data-reveal>
+            <span class="badge">Utility PV — 200 MW</span>
             <p>Accelerated schedule, multi-contract execution.</p>
           </article>
-          <article class="card project-card">
-            <span class="project-tag">Microgrid</span>
+          <article class="glow-card" data-reveal>
+            <span class="badge">Microgrid</span>
             <p>Resilience for critical facilities and communities.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section is-alt">
-      <div class="container">
-        <div class="card card--accent" style="text-align:center;">
+    <section class="section">
+      <div class="frame">
+        <div class="callout" data-reveal>
           <h2>Want the full project list?</h2>
           <p>We’ll share a capability deck and representative case studies on request.</p>
-          <div class="hero-actions" style="justify-content:center;">
+          <div class="hero-actions" style="justify-content:center;margin-top:1.6rem;">
             <a class="btn btn-primary" href="contact.html">Request case studies</a>
           </div>
         </div>
@@ -80,39 +105,41 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <a class="brand" href="index.html">
-          <img src="assets/img/logo-axis.png" alt="Axis Energy logo" />
-          <span>Axis Energy</span>
-        </a>
-        <p>EPC &amp; O&amp;M solutions for renewable energy.</p>
-        <div class="footer-contact">
-          <span>Email <a href="mailto:info@axis-energyinc.com">info@axis-energyinc.com</a></span>
-          <span>Phone <a href="tel:+19193468333">+1 (919) 346-8333</a></span>
-          <span>100 Newspaper Way, Suite 105, Holly Springs, NC 27540</span>
+  <footer class="footer">
+    <div class="frame">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img src="assets/img/logo-axis.png" alt="Axis Energy logo" />
+            <span>Axis Energy</span>
+          </a>
+          <p>EPC &amp; O&amp;M solutions for renewable energy.</p>
+          <div class="footer-contact">
+            <span>Email <a href="mailto:info@axis-energyinc.com">info@axis-energyinc.com</a></span>
+            <span>Phone <a href="tel:+19193468333">+1 (919) 346-8333</a></span>
+            <span>100 Newspaper Way, Suite 105, Holly Springs, NC 27540</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer-heading">Explore</h3>
+          <ul class="footer-nav">
+            <li><a href="services.html">Services</a></li>
+            <li><a href="projects.html" aria-current="page">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Resources</h3>
+          <ul class="footer-nav">
+            <li><a href="why-axis.html">Why Axis</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
         </div>
       </div>
-      <div>
-        <h3 class="footer-heading">Explore</h3>
-        <ul class="footer-nav">
-          <li><a href="services.html">Services</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="careers.html">Careers</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="footer-heading">Resources</h3>
-        <ul class="footer-nav">
-          <li><a href="why-axis.html">Why Axis</a></li>
-          <li><a href="news.html">News</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
+      <div class="footer-bottom">© <span id="year"></span> Axis Energy, Inc. All rights reserved.</div>
     </div>
-    <div class="footer-bottom">© <span id="year"></span> Axis Energy, Inc. All rights reserved.</div>
   </footer>
 
   <script src="assets/js/main.js"></script>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Axis Energy Redesign Preview</title>
+  <link rel="icon" href="../assets/img/logo.png" />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <style>
+    body {
+      padding-top: 4rem;
+    }
+    .preview-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: start;
+    }
+    .preview-frame {
+      position: relative;
+      border-radius: 34px;
+      padding: 1.25rem;
+      background: rgba(3, 9, 24, 0.86);
+      border: 1px solid rgba(111, 142, 201, 0.18);
+      box-shadow: var(--shadow-floating);
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .preview-frame h2 {
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--axis-muted);
+    }
+    .preview-frame iframe {
+      border: 0;
+      width: 100%;
+      flex: 1;
+      border-radius: 22px;
+      background: #01030a;
+      box-shadow: inset 0 0 0 1px rgba(78, 123, 233, 0.18);
+    }
+    header.preview-header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      padding: 1rem 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(4, 9, 22, 0.72);
+      border-bottom: 1px solid rgba(111, 142, 201, 0.2);
+    }
+    header.preview-header .frame {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+    }
+    header.preview-header p {
+      margin: 0;
+      color: var(--axis-muted);
+      font-size: 0.95rem;
+    }
+    @media (max-width: 768px) {
+      body {
+        padding-top: 6rem;
+      }
+      header.preview-header .frame {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="preview-header">
+    <div class="frame">
+      <a class="brand" href="../index.html">
+        <img src="../assets/img/logo-axis.png" alt="Axis Energy logo" />
+        <span>Axis Energy</span>
+      </a>
+      <p>Preview the cinematic redesign across each live page.</p>
+    </div>
+  </header>
+
+  <main class="frame" style="padding-bottom:6rem;">
+    <div class="preview-grid">
+      <div class="preview-frame">
+        <h2>Home</h2>
+        <iframe title="Home" src="../index.html"></iframe>
+      </div>
+      <div class="preview-frame">
+        <h2>Services</h2>
+        <iframe title="Services" src="../services.html"></iframe>
+      </div>
+      <div class="preview-frame">
+        <h2>Projects</h2>
+        <iframe title="Projects" src="../projects.html"></iframe>
+      </div>
+      <div class="preview-frame">
+        <h2>Why Axis</h2>
+        <iframe title="Why Axis" src="../why-axis.html"></iframe>
+      </div>
+      <div class="preview-frame">
+        <h2>About</h2>
+        <iframe title="About" src="../about.html"></iframe>
+      </div>
+      <div class="preview-frame">
+        <h2>News</h2>
+        <iframe title="News" src="../news.html"></iframe>
+      </div>
+      <div class="preview-frame">
+        <h2>Careers</h2>
+        <iframe title="Careers" src="../careers.html"></iframe>
+      </div>
+      <div class="preview-frame">
+        <h2>Contact</h2>
+        <iframe title="Contact" src="../contact.html"></iframe>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
