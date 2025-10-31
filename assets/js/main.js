@@ -62,13 +62,32 @@
     return primaryLinks.find((link) => link.getAttribute('aria-current') === 'page') || primaryLinks[0];
   }
 
-  function positionIndicator(target) {
+  let indicatorInitialized = false;
+
+  function positionIndicator(target, { immediate = false } = {}) {
     if (!navIndicator || !navList || !target) return;
     const targetRect = target.getBoundingClientRect();
     const listRect = navList.getBoundingClientRect();
     const offsetX = targetRect.left - listRect.left;
+
+    const shouldBypassTransition = immediate && !indicatorInitialized;
+
+    if (shouldBypassTransition) {
+      navIndicator.style.transition = 'none';
+    }
+
     navIndicator.style.width = `${targetRect.width}px`;
     navIndicator.style.transform = `translateX(${offsetX}px)`;
+
+    if (shouldBypassTransition) {
+      void navIndicator.offsetWidth;
+      navIndicator.style.transition = '';
+    }
+
+    if (!indicatorInitialized) {
+      navIndicator.classList.add('is-ready');
+      indicatorInitialized = true;
+    }
   }
 
   let indicatorResetTimeout;
@@ -81,7 +100,7 @@
   }
 
   if (primaryLinks.length) {
-    positionIndicator(getActiveNavLink());
+    positionIndicator(getActiveNavLink(), { immediate: true });
     window.setTimeout(() => positionIndicator(getActiveNavLink()), 250);
     window.addEventListener('resize', () => positionIndicator(getActiveNavLink()));
 
@@ -90,6 +109,16 @@
       link.addEventListener('focus', () => positionIndicator(link));
       link.addEventListener('mouseleave', resetIndicator);
       link.addEventListener('blur', resetIndicator);
+      link.addEventListener('click', () => {
+        window.clearTimeout(indicatorResetTimeout);
+        primaryLinks.forEach((navLink) => {
+          if (navLink !== link) {
+            navLink.removeAttribute('aria-current');
+          }
+        });
+        link.setAttribute('aria-current', 'page');
+        positionIndicator(link);
+      });
     });
 
     if (navList) {
