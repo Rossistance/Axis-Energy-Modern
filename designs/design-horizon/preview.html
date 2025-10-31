@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Horizon Flux Preview</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: 'Manrope', system-ui, sans-serif;
+      --bg: #0A1328;
+      --accent: #18E6FF;
+      --accent-2: #FF5C5C;
+      --text: #D1D6E0;
+      --muted: #52607A;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(115deg, rgba(10,19,40,0.95), rgba(10,19,40,0.9)), url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 200 200"%3E%3Cpath d="M0 180 L200 20" stroke="%2318E6FF" stroke-opacity="0.07" stroke-width="6"/%3E%3C/svg%3E');
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 6vw;
+      background: rgba(10,19,40,0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(24,230,255,0.2);
+      transform: skewX(-12deg);
+    }
+    header > * { transform: skewX(12deg); }
+    nav a {
+      color: var(--muted);
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 -0.6rem 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    nav a:hover { color: var(--text); }
+    nav a:hover::after { opacity: 1; }
+    .command {
+      background: rgba(24,230,255,0.15);
+      border: 1px solid rgba(24,230,255,0.35);
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+    main {
+      padding: 6rem 6vw 8rem;
+      display: grid;
+      gap: 4rem;
+    }
+    section {
+      background: rgba(10,19,40,0.65);
+      border: 1px solid rgba(24,230,255,0.15);
+      border-radius: 32px;
+      padding: 3rem;
+      position: relative;
+      transform: skewX(-12deg);
+      overflow: hidden;
+    }
+    section > * { transform: skewX(12deg); }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.4em; font-size: 0.75rem; color: var(--muted); }
+    h1 { font-family: 'Monument Extended', 'Arial Black', sans-serif; font-size: clamp(2.8rem, 5vw, 4.2rem); text-transform: uppercase; margin-top: 1rem; }
+    .cta-row { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.85rem 2.4rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(110deg, var(--accent), var(--accent-2));
+      color: #041027;
+      box-shadow: 0 18px 45px rgba(24,230,255,0.45);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid rgba(24,230,255,0.35);
+    }
+    .grid {
+      display: grid;
+      gap: 1.6rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .card {
+      background: rgba(4,10,25,0.9);
+      padding: 2rem;
+      border-radius: 24px;
+      border: 1px solid rgba(24,230,255,0.2);
+      box-shadow: inset 0 0 0 1px rgba(255,92,92,0.15);
+    }
+    footer {
+      padding: 3rem 6vw 4rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+      background: rgba(4,9,22,0.9);
+      border-top: 1px solid rgba(24,230,255,0.25);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Axis Energy</div>
+    <nav>
+      <a href="#">Services</a>
+      <a href="#">Projects</a>
+      <a href="#">Why Axis</a>
+      <a href="#">About</a>
+      <a href="#">News</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="command">/ Command</div>
+  </header>
+  <main>
+    <section>
+      <div class="eyebrow">Energy • EPC • O&M</div>
+      <h1>The power of partnership</h1>
+      <p>Renewable excellence that generates trust and value.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary">Launch project</button>
+        <button class="btn btn-outline">Explore services</button>
+      </div>
+    </section>
+    <section>
+      <div class="eyebrow">About Axis Energy</div>
+      <h2 style="font-family:'Monument Extended','Arial Black',sans-serif; text-transform:uppercase; letter-spacing:0.1em;">One solid, reliable partner</h2>
+      <p>Axis Energy brings you a direct, one-to-one partnership that provides a total EPC and O&M solution.</p>
+      <div class="grid">
+        <div class="card"><h3>Total project peace of mind</h3><p>Technical collaboration, precise scheduling, clean integration, empowered QA/QC.</p></div>
+        <div class="card"><h3>O&M that just works</h3><p>24/7 response, scheduled maintenance, BOS & string analytics, fast storm repair.</p></div>
+        <div class="card"><h3>Let’s build what’s next</h3><p>Tell us about your project or operating needs—our team will respond quickly.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div>
+      <strong>Axis Energy</strong>
+      <p>EPC &amp; O&amp;M solutions for renewable energy.</p>
+    </div>
+    <div>
+      <strong>Pulse updates</strong>
+      <p>99.6% portfolio uptime · 2.4 GW installed</p>
+    </div>
+    <div>
+      <strong>Contact</strong>
+      <p>info@axis-energyinc.com · +1 (919) 346-8333</p>
+    </div>
+  </footer>
+</body>
+</html>
