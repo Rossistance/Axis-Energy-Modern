@@ -319,7 +319,7 @@ html.nav-open .nav-toggle-box span:nth-child(3) {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: var(--hero-image), var(--hero-image-2025);
+  background-image: var(--hero-image-2025), var(--hero-image);
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat;
