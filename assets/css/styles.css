@@ -368,54 +368,46 @@ html.nav-open .nav-drawer {
   position: relative;
   padding: clamp(4rem, 12vw, 8.5rem) 0 clamp(3rem, 10vw, 6rem);
   overflow: hidden;
-  --hero-card-image: none;
-}
-
-.hero[data-hero-art] {
-  --hero-card-image: var(--hero-art);
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(140deg, rgba(9, 20, 44, 0.88), rgba(9, 20, 44, 0.45) 55%, transparent 76%),
-    radial-gradient(circle at 18% 22%, rgba(78, 123, 233, 0.35), transparent 58%),
-    radial-gradient(circle at 74% 42%, rgba(46, 242, 198, 0.28), transparent 62%);
-  opacity: 0.85;
-  pointer-events: none;
-  z-index: 0;
-  animation: hero-atmosphere 24s ease-in-out infinite alternate;
+  min-height: clamp(520px, 74vh, 780px);
+  background: radial-gradient(circle at 18% 20%, rgba(18, 42, 96, 0.42), transparent 55%),
+    radial-gradient(circle at 78% 45%, rgba(12, 84, 92, 0.32), transparent 60%),
+    linear-gradient(160deg, rgba(4, 10, 24, 0.96) 0%, rgba(4, 10, 24, 0.82) 42%, rgba(4, 10, 24, 0.32) 78%, rgba(4, 10, 24, 0.12) 100%);
+  --hero-art-image: var(--hero-art, none);
 }
 
 .hero::after {
   content: "";
   position: absolute;
-  top: clamp(2.8rem, 9vw, 6.2rem);
-  right: clamp(1.5rem, 9vw, 9rem);
-  width: min(520px, 45vw);
-  aspect-ratio: 4 / 5;
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(111, 142, 201, 0.32);
-  box-shadow: var(--shadow-floating);
-  pointer-events: none;
-  background-image: radial-gradient(circle at 65% 40%, rgba(189, 213, 255, 0.78), rgba(7, 18, 38, 0)),
-    linear-gradient(90deg, transparent 0%, rgba(46, 242, 198, 0.65) 35%, rgba(78, 123, 233, 0.85) 70%, transparent 100%),
-    linear-gradient(90deg, transparent 10%, rgba(46, 242, 198, 0.5) 45%, rgba(78, 123, 233, 0.75) 82%, transparent 100%),
-    linear-gradient(90deg, transparent 20%, rgba(46, 242, 198, 0.42) 52%, rgba(78, 123, 233, 0.62) 88%, transparent 100%),
-    repeating-linear-gradient(115deg, rgba(78, 123, 233, 0.2) 0%, rgba(78, 123, 233, 0.2) 2px, transparent 2px, transparent 14px),
-    conic-gradient(from 90deg at 50% 50%, rgba(46, 242, 198, 0.14), transparent 45%, rgba(78, 123, 233, 0.26)),
-    radial-gradient(circle at 32% 24%, rgba(46, 242, 198, 0.22), rgba(9, 20, 44, 0.9)),
-    var(--hero-card-image);
-  background-size: 185% 185%, 230% 14%, 260% 12%, 280% 12%, 140% 140%, 220% 220%, 100% 100%, cover;
-  background-position: 68% 58%, -140% 32%, -200% 46%, -260% 60%, 0% 0%, 50% 50%, 50% 50%, 50% 50%;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, no-repeat, no-repeat, no-repeat;
-  background-blend-mode: screen, screen, screen, screen, screen, screen, normal, screen;
-  opacity: 0.92;
+  inset: -6%;
+  background-image: var(--hero-art-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center right;
+  filter: saturate(1.08) contrast(1.03);
   transform-origin: center;
-  mix-blend-mode: screen;
+  animation: hero-drift 24s ease-in-out infinite alternate;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -8% -10% -12%;
+  background-image: linear-gradient(140deg, rgba(4, 12, 30, 0.92) 0%, rgba(4, 12, 30, 0.65) 46%, rgba(4, 12, 30, 0.22) 78%, rgba(4, 12, 30, 0.05) 100%),
+    radial-gradient(circle at 18% 24%, rgba(78, 123, 233, 0.32), transparent 62%),
+    radial-gradient(circle at 74% 42%, rgba(46, 242, 198, 0.24), transparent 64%),
+    linear-gradient(100deg, transparent 0%, rgba(46, 242, 198, 0.28) 45%, rgba(78, 123, 233, 0.32) 75%, transparent 100%),
+    repeating-linear-gradient(118deg, rgba(78, 123, 233, 0.18) 0%, rgba(78, 123, 233, 0.18) 2px, transparent 2px, transparent 14px);
+  background-size: cover, 150% 150%, 160% 160%, 220% 120%, 140% 140%;
+  background-position: center, 20% 22%, 70% 40%, 65% 55%, 50% 50%;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-blend-mode: normal, screen, screen, lighten, screen;
+  opacity: 0.72;
+  mix-blend-mode: normal;
   z-index: 1;
-  animation: hero-card-drift 20s ease-in-out infinite alternate, hero-overlay 28s linear infinite;
+  pointer-events: none;
+  animation: hero-atmosphere 32s ease-in-out infinite alternate, hero-overlay 28s linear infinite;
 }
 
 .hero .frame {
@@ -883,15 +875,17 @@ html.nav-open {
     justify-content: center;
   }
 
+  .hero {
+    min-height: clamp(420px, 92vh, 560px);
+  }
+
   .hero::after {
-    left: 50%;
-    right: auto;
-    top: clamp(1.8rem, 8vw, 3.2rem);
-    width: min(420px, 88vw);
-    aspect-ratio: 16 / 12;
-    opacity: 0.75;
-    transform: translate3d(-50%, 0, 0);
-    animation: hero-overlay 24s linear infinite;
+    background-position: center;
+  }
+
+  .hero::before {
+    inset: -12% -22% -18%;
+    opacity: 0.72;
   }
 }
 
@@ -906,42 +900,42 @@ html.nav-open {
   }
 }
 
-@keyframes hero-card-drift {
+@keyframes hero-drift {
   0% {
-    transform: scale(1) translate3d(-6px, 0, 0);
+    transform: scale(1.06) translate3d(-10px, -6px, 0);
   }
   50% {
-    transform: scale(1.06) translate3d(6px, -4px, 0);
+    transform: scale(1.12) translate3d(6px, 4px, 0);
   }
   100% {
-    transform: scale(1.1) translate3d(-4px, 4px, 0);
+    transform: scale(1.08) translate3d(-8px, 8px, 0);
   }
 }
 
 @keyframes hero-atmosphere {
   0% {
-    opacity: 0.55;
+    opacity: 0.7;
     transform: translate3d(-4%, -3%, 0) scale(1);
   }
   50% {
-    opacity: 0.7;
-    transform: translate3d(2%, 3%, 0) scale(1.02);
+    opacity: 0.85;
+    transform: translate3d(2%, 3%, 0) scale(1.03);
   }
   100% {
-    opacity: 0.8;
+    opacity: 0.72;
     transform: translate3d(4%, -2%, 0) scale(1.05);
   }
 }
 
 @keyframes hero-overlay {
   0% {
-    background-position: 68% 58%, -140% 32%, -200% 46%, -260% 60%, 0% 0%, 50% 50%, 50% 50%, 50% 50%;
+    background-position: center, 20% 22%, 70% 40%, 60% 55%, 50% 50%;
   }
   50% {
-    background-position: 66% 57%, -30% 36%, -90% 48%, -150% 62%, 28% 18%, 50% 52%, 50% 50%, 50% 50%;
+    background-position: center, 16% 20%, 74% 42%, 66% 58%, 52% 52%;
   }
   100% {
-    background-position: 64% 55%, 120% 40%, 30% 50%, 20% 65%, 56% 36%, 52% 48%, 50% 50%, 50% 50%;
+    background-position: center, 22% 24%, 68% 38%, 62% 52%, 48% 48%;
   }
 }
 
