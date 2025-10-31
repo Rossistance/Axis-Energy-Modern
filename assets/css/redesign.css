@@ -304,12 +304,14 @@ html.nav-open .nav-toggle-box span:nth-child(3) {
   --hero-image-2025: none;
 }
 
+
+
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(4, 11, 29, 0.95) 20%, rgba(9, 22, 46, 0.78) 60%, rgba(6, 12, 26, 0.92) 100%);
-  backdrop-filter: blur(6px);
+  background: linear-gradient(120deg, rgba(4, 11, 29, 0.48) 15%, rgba(9, 22, 46, 0.34) 56%, rgba(6, 12, 26, 0.46) 100%);
+  backdrop-filter: blur(4px);
   z-index: 0;
 }
 
@@ -322,7 +324,7 @@ html.nav-open .nav-toggle-box span:nth-child(3) {
   background-position: center, center;
   background-repeat: no-repeat;
   background-blend-mode: screen, normal;
-  opacity: 0.3;
+  opacity: 0.88;
   z-index: -1;
 }
 
