@@ -4,6 +4,7 @@
   const nav = document.getElementById('primary-nav');
   const backdrop = document.querySelector('.nav-backdrop');
   const header = document.querySelector('.site-header');
+  const progressIndicator = document.querySelector('.scroll-progress span');
 
   function setNav(open) {
     if (!navToggle || !nav) return;
@@ -43,10 +44,25 @@
   }
 
   function updateHeader() {
-    if (!header) return;
-    header.classList.toggle('is-scrolled', window.scrollY > 8);
+    if (header) {
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+    }
   }
 
-  updateHeader();
-  window.addEventListener('scroll', updateHeader, { passive: true });
+  function updateScrollProgress() {
+    if (!progressIndicator) return;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    const ratio = max <= 0 ? 0 : Math.min(1, window.scrollY / max);
+    doc.style.setProperty('--scroll-progress', `${(ratio * 100).toFixed(1)}%`);
+  }
+
+  const onScroll = () => {
+    updateHeader();
+    updateScrollProgress();
+  };
+
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', updateScrollProgress);
 })();

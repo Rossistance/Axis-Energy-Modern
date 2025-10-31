@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="assets/css/redesign.css" />
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true">
+    <span></span>
+  </div>
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="index.html">
@@ -32,6 +35,23 @@
     </div>
   </header>
   <div class="nav-backdrop" hidden></div>
+
+  <nav class="page-atlas" aria-label="Axis Energy site atlas">
+    <div class="page-atlas__label">
+      <span>Site Atlas</span>
+      <span>8 pages</span>
+    </div>
+    <ul>
+      <li><a href="index.html"><span>01</span><strong>Home</strong></a></li>
+      <li><a href="services.html"><span>02</span><strong>Services</strong></a></li>
+      <li><a href="projects.html"><span>03</span><strong>Projects</strong></a></li>
+      <li><a href="why-axis.html"><span>04</span><strong>Why Axis</strong></a></li>
+      <li><a href="about.html" class="is-current" aria-current="page"><span>05</span><strong>About</strong></a></li>
+      <li><a href="news.html"><span>06</span><strong>News</strong></a></li>
+      <li><a href="careers.html"><span>07</span><strong>Careers</strong></a></li>
+      <li><a href="contact.html"><span>08</span><strong>Contact</strong></a></li>
+    </ul>
+  </nav>
 
   <main>
     <section class="hero" style="--hero-image:url('/assets/img/hero-about.svg'); --hero-image-2025:url('/assets/img/hero-2025/about.png')">
