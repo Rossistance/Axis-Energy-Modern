@@ -17,12 +17,12 @@ nav ul{display:flex;gap:24px;list-style:none;padding:0;margin:0}
 nav a{font-weight:700}
 nav a.active, nav a[aria-current="page"]{color:var(--brand-accent); position:relative}
 nav a.active::after, nav a[aria-current="page"]::after{content:""; position:absolute; left:0; right:0; bottom:-8px; height:3px; background:var(--brand-accent); border-radius:2px}
-.axis-hero{min-height:88vh;display:grid;place-items:center;text-align:center;color:#fff;position:relative;overflow:hidden;background-image:var(--hero-image,linear-gradient(135deg,#0b1416,#063132));background-position:center;background-size:cover;background-repeat:no-repeat;background-color:#0b1416}
+.axis-hero{min-height:88vh;display:grid;place-items:center;text-align:center;color:#fff;position:relative;overflow:hidden;background-image:var(--hero-image-2025,linear-gradient(135deg,#0b1416,#063132));background-position:center;background-size:cover;background-repeat:no-repeat;background-color:#0b1416}
 .axis-hero[data-hero="home"]{--hero-image:url('../img/hero-home.svg')}
 .axis-hero[data-hero="services"]{--hero-image:url('../img/hero-services.svg')}
 .axis-hero[data-hero="projects"]{--hero-image:url('../img/hero-projects.svg')}
 .axis-hero[data-hero="why-axis"]{--hero-image:url('../img/hero-why.svg')}
-.axis-hero[data-hero="about"]{--hero-image:url('../img/hero-about.svg'); --hero-image-2025:url('../img/hero-2025/hero-about-trust.png')}
+.axis-hero[data-hero="about"]{--hero-image-2025:url('../img/hero-2025/hero-about-trust.png')}
 .axis-hero[data-hero="news"]{--hero-image:url('../img/hero-news.svg')}
 .axis-hero[data-hero="careers"]{--hero-image:url('../img/hero-careers.svg')}
 .axis-hero[data-hero="contact"]{--hero-image:url('../img/hero-contact.svg')}
