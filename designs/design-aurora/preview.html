@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Aurora Grid Preview</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050714;
+      --accent: #3BF7A6;
+      --accent-2: #FFB649;
+      --text: #F2F7FF;
+      --muted: #94A3B8;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 20%, rgba(59,247,166,0.35), transparent 40%),
+                  radial-gradient(circle at 80% 10%, rgba(255,182,73,0.35), transparent 45%),
+                  radial-gradient(circle at 50% 80%, rgba(59,247,166,0.2), transparent 50%),
+                  var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    header {
+      position: sticky;
+      top: 2rem;
+      margin: 2rem auto;
+      width: min(1000px, 90vw);
+      backdrop-filter: blur(20px);
+      background: rgba(5,7,20,0.55);
+      border: 1px solid rgba(242,247,255,0.15);
+      border-radius: 40px;
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    }
+    nav a {
+      color: var(--muted);
+      margin: 0 0.75rem;
+      text-decoration: none;
+      position: relative;
+      transition: color .3s;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 -0.4rem 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transform: scaleX(0.2);
+      transition: opacity .3s, transform .3s;
+    }
+    nav a:hover {
+      color: var(--text);
+    }
+    nav a:hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+    .cta-chip {
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color: var(--bg);
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      font-weight: 600;
+      box-shadow: 0 12px 30px rgba(59,247,166,0.35);
+    }
+    main {
+      width: min(1100px, 92vw);
+      margin: 0 auto 6rem;
+      display: grid;
+      gap: 4rem;
+      padding-bottom: 6rem;
+    }
+    section {
+      background: rgba(5,7,20,0.6);
+      border-radius: 32px;
+      border: 1px solid rgba(242,247,255,0.08);
+      padding: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    section::before {
+      content: "";
+      position: absolute;
+      inset: -40% -40% 40% 40%;
+      background: radial-gradient(circle, rgba(59,247,166,0.12), transparent 60%);
+      animation: float 12s infinite alternate;
+    }
+    section * { position: relative; }
+    h1 {
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      margin-bottom: 1rem;
+    }
+    .eyebrow { letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); font-size: 0.75rem; }
+    .grid {
+      display: grid;
+      gap: 1.8rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .card {
+      background: rgba(9,12,35,0.55);
+      border-radius: 24px;
+      padding: 2rem;
+      border: 1px solid rgba(242,247,255,0.05);
+      box-shadow: inset 0 0 0 1px rgba(59,247,166,0.05);
+    }
+    .card h3 { margin-top: 0.4rem; }
+    .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2.2rem;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 0.75rem 1.8rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color: var(--bg);
+      box-shadow: 0 15px 40px rgba(59,247,166,0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(242,247,255,0.2);
+    }
+    footer {
+      width: min(1100px, 92vw);
+      margin: 0 auto 4rem;
+      padding: 2.5rem 3rem;
+      border-radius: 28px;
+      background: rgba(5,7,20,0.65);
+      border: 1px solid rgba(242,247,255,0.08);
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    @keyframes float {
+      to { transform: translate3d(10%, 10%, 0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Axis Energy</strong>
+    <nav>
+      <a href="#">Services</a>
+      <a href="#">Projects</a>
+      <a href="#">Why Axis</a>
+      <a href="#">About</a>
+      <a href="#">News</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="cta-chip">Let’s Connect</div>
+  </header>
+  <main>
+    <section>
+      <div class="eyebrow">Energy • EPC • O&M</div>
+      <h1>The power of partnership</h1>
+      <p>Renewable excellence that generates trust and value.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary">Start a project</button>
+        <button class="btn btn-outline">Explore services</button>
+      </div>
+    </section>
+    <section>
+      <div class="eyebrow">About Axis Energy</div>
+      <h2>One solid, reliable partner</h2>
+      <p>Axis Energy brings you a direct, one-to-one partnership that provides a total EPC and O&M solution. We’re an established, financially secure company with a strong reputation and track record.</p>
+      <div class="grid">
+        <div class="card"><h3>Total project peace of mind</h3><p>Technical collaboration, precise scheduling, clean integration, empowered QA/QC.</p></div>
+        <div class="card"><h3>O&M that just works</h3><p>24/7 response, scheduled maintenance, BOS & string analytics, fast storm repair.</p></div>
+        <div class="card"><h3>Let’s build what’s next</h3><p>Tell us about your project or operating needs—our team will respond quickly.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div>
+      <strong>Axis Energy</strong>
+      <p>EPC &amp; O&amp;M solutions for renewable energy.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <p>Services · Projects · About · Careers</p>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <p>info@axis-energyinc.com · +1 (919) 346-8333</p>
+    </div>
+  </footer>
+</body>
+</html>
