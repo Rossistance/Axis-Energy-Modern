@@ -397,6 +397,8 @@ html.nav-open .nav-drawer {
   background-position: right center;
   mix-blend-mode: lighten;
   opacity: 0.25;
+  transform-origin: center;
+  animation: hero-drift 18s ease-in-out infinite alternate;
 }
 
 .hero .frame {
@@ -930,6 +932,7 @@ html.nav-open {
   .hero-visual {
     grid-column: 1 / -1;
     justify-self: center;
+    display: none;
   }
 }
 
