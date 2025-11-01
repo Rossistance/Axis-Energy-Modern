@@ -180,12 +180,8 @@ button {
   display: flex;
   align-items: center;
   gap: clamp(1.4rem, 2.5vw, 3rem);
-  padding: 0 1.5rem;
+  padding: 0 clamp(1rem, 2.5vw, 1.75rem);
   min-height: var(--header-logo-height);
-  border-radius: var(--radius-lg);
-  background: linear-gradient(130deg, rgba(11, 26, 55, 0.85), rgba(9, 20, 44, 0.72));
-  border: 1px solid var(--axis-outline);
-  box-shadow: var(--shadow-lifted);
 }
 
 .brand {
@@ -232,6 +228,9 @@ button {
 
 .header-bar .brand-mark {
   --brand-mark-height: var(--header-logo-height);
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 .nav-trigger {
   margin-left: auto;
