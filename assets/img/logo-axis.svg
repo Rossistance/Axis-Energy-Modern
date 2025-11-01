@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
+  <title id="title">Axis Energy logo</title>
+  <desc id="desc">Circular mark with blue and green halves and a white leaf cutout.</desc>
+  <defs>
+    <linearGradient id="shadow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f3155" stop-opacity="0.12" />
+      <stop offset="1" stop-color="#0f3155" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(12 12)">
+    <rect width="216" height="216" rx="108" fill="url(#shadow)" />
+    <path d="M108 0C48.355 0 0 48.355 0 108s48.355 108 108 108z" fill="#2d8c4d" />
+    <path d="M108 0c59.645 0 108 48.355 108 108S167.645 216 108 216z" fill="#1f6ea9" />
+    <path d="M108 48c-48.601 0-90 28.653-90 60s41.399 60 90 60 90-28.653 90-60-41.399-60-90-60zm0 102c-30.376 0-54-18.977-54-42s23.624-42 54-42 54 18.977 54 42-23.624 42-54 42z" fill="#f5f7fb" />
+    <path d="M18 108c0 46.323 31.923 85.23 75.059 96.002C72.63 176.399 54 144.725 54 108S72.63 39.601 93.059 11.998C49.923 22.77 18 61.677 18 108z" fill="#1f6ea9" opacity="0.24" />
+    <path d="M108 216c-52.08 0-96.455-33.364-112.579-80.095C15.522 171.373 56.954 204 108 204s92.478-32.627 112.579-68.095C204.455 182.636 160.08 216 108 216z" fill="#0f3155" opacity="0.16" />
+  </g>
+</svg>
