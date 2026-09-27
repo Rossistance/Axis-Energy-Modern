@@ -12,7 +12,7 @@ storageBrand: "LG Chem"
 summary: "2.579 MWdc solar + storage microgrid project in Walnut Grove, Mississippi with 5.288 MWh of LG Chem battery storage, delivered by Axis Energy as EPC and completed in December 2021."
 featured: false
 published: false
-source: "Solar Power World Top Solar Contractors submission (SPW 2022 sheet, Axis Marketing/Solar Power World Master.xlsx)."
+source: "Solar Power World Top Solar Contractors submission (SPW 2022 sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
 2.579 MWdc solar + storage microgrid project in Walnut Grove, Mississippi with 5.288 MWh of LG Chem battery storage, delivered by Axis Energy as EPC and completed in December 2021.

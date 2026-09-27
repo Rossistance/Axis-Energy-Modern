@@ -10,7 +10,7 @@ role: ["EPC"]
 summary: "580 kWdc municipal solar project in Camden, Arkansas, delivered by Axis Energy as EPC and completed in December 2020."
 featured: false
 published: false
-source: "Solar Power World Top Solar Contractors submission (SPW 2021 sheet, Axis Marketing/Solar Power World Master.xlsx)."
+source: "Solar Power World Top Solar Contractors submission (SPW 2021 sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
 580 kWdc municipal solar project in Camden, Arkansas, delivered by Axis Energy as EPC and completed in December 2020.

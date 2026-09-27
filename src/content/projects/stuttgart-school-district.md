@@ -10,7 +10,7 @@ role: ["EPC"]
 summary: "1.328 MWdc municipal solar project in Stuttgart, Arkansas, delivered by Axis Energy as EPC and completed in September 2020."
 featured: false
 published: false
-source: "Solar Power World Top Solar Contractors submission (SPW 2021 sheet, Axis Marketing/Solar Power World Master.xlsx)."
+source: "Solar Power World Top Solar Contractors submission (SPW 2021 sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
 1.328 MWdc municipal solar project in Stuttgart, Arkansas, delivered by Axis Energy as EPC and completed in September 2020.

@@ -106,6 +106,6 @@ node scripts/screenshots.mjs   # full-page screenshots of every route (needs `np
 
 Pushes to `Main-Backup` build and deploy to GitHub Pages through `.github/workflows/deploy.yml` (repository **Settings → Pages → Source: GitHub Actions** must be selected once). The same workflow also uploads a root-domain build (`site-dist` artifact) for hosting elsewhere. Full instructions, including custom-domain and DNS cut-over steps, are in [`docs/HANDOFF.md`](docs/HANDOFF.md).
 
-## Note on `Axis Marketing/`
+## Source collateral
 
-The `Axis Marketing/` folder contains source collateral (brochures, the 2024 overview deck, Solar Power World submissions). It is not used by the build. It also holds an internal job-cost workbook and a payment receipt; consider moving the folder to private storage since this repository is public.
+The marketing source files that informed the redesign (2018 brochures, the 2024 company overview deck, Solar Power World submission workbooks, an O&M requirements memo) were removed from this public repository on 2026-09-27 and handed to the owner as a private archive, because the set also contained an internal job-cost workbook and a payment receipt. The files remain in the repository's git history before that commit; purging them from history requires a history rewrite of every branch and is a separate, deliberate step.

@@ -10,7 +10,7 @@ role: ["Electrical contractor"]
 summary: "4.8 MWdc utility-scale solar project in Jacksonville, Florida, delivered by Axis Energy as Electrical contractor and completed in January 2020."
 featured: false
 published: false
-source: "Solar Power World Top Solar Contractors submission (SPW Master sheet, Axis Marketing/Solar Power World Master.xlsx)."
+source: "Solar Power World Top Solar Contractors submission (SPW Master sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
 4.8 MWdc utility-scale solar project in Jacksonville, Florida, delivered by Axis Energy as Electrical contractor and completed in January 2020.

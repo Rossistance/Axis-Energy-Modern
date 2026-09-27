@@ -10,7 +10,7 @@ role: ["EPC"]
 summary: "851 kWdc municipal solar project in North Little Rock, Arkansas, delivered by Axis Energy as EPC and completed in January 2023."
 featured: false
 published: false
-source: "Solar Power World Top Solar Contractors submission (SPW 2024 sheet, Axis Marketing/Solar Power World Master.xlsx)."
+source: "Solar Power World Top Solar Contractors submission (SPW 2024 sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
 851 kWdc municipal solar project in North Little Rock, Arkansas, delivered by Axis Energy as EPC and completed in January 2023.

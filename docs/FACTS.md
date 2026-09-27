@@ -3,9 +3,11 @@
 Every figure and claim on the site traces to one of these sources. Items marked **owner to confirm** are pre-entered but should be verified (or switched off) before launch. Sources:
 
 - **[live]** www.axis-energyinc.com as crawled on 2026-09-27
-- **[brochure]** `Axis Marketing/AE.Brochure Covers.Update.3.26.18.pdf` and `AE.Brochure Interior.Update.3.6.18.pdf` (2018)
-- **[deck]** `Axis Marketing/2024 1910 Safety Summit - Axis Overview.pdf` (December 2024)
-- **[SPW]** Solar Power World supplier profile (public, 2026) and the submission workbooks in `Axis Marketing/`
+- **[brochure]** Axis Energy brochure covers (updated 3.26.18) and interior (updated 3.6.18), 2018 — in the private marketing archive
+- **[deck]** "2024 1910 Safety Summit — Axis Overview" deck (December 2024) — in the private marketing archive
+- **[SPW]** Solar Power World supplier profile (public, 2026) and the submission workbooks (2021–2025) — in the private marketing archive
+
+The marketing archive was removed from this public repository on 2026-09-27 and delivered to the owner; it is also present in git history before that commit.
 - **[parent]** www.1910legacy.com
 
 | Claim                                                                                                                                          | Where used                           | Source                                                                               | Status                                                                                                                                                                                            |

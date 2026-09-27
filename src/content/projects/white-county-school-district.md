@@ -10,7 +10,7 @@ role: ["EPC"]
 summary: "702 kWdc municipal solar project in Judsonia, Arkansas, delivered by Axis Energy as EPC and completed in December 2021."
 featured: false
 published: false
-source: "Solar Power World Top Solar Contractors submission (SPW 2022 sheet, Axis Marketing/Solar Power World Master.xlsx)."
+source: "Solar Power World Top Solar Contractors submission (SPW 2022 sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
 702 kWdc municipal solar project in Judsonia, Arkansas, delivered by Axis Energy as EPC and completed in December 2021.

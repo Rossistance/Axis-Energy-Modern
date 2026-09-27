@@ -10,7 +10,7 @@ role: ["EPC"]
 summary: "88 kWdc solar carport project in Gainesville, Georgia, delivered by Axis Energy as EPC and completed in December 2020."
 featured: false
 published: false
-source: "Solar Power World Top Solar Contractors submission (SPW 2021 sheet, Axis Marketing/Solar Power World Master.xlsx)."
+source: "Solar Power World Top Solar Contractors submission (SPW 2021 sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
 88 kWdc solar carport project in Gainesville, Georgia, delivered by Axis Energy as EPC and completed in December 2020.

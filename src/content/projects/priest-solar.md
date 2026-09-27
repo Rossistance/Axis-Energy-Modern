@@ -10,7 +10,7 @@ role: ["EPC"]
 summary: "2.68 MWdc utility-scale solar project in Council, North Carolina, delivered by Axis Energy as EPC and completed in March 2020."
 featured: false
 published: false
-source: "Solar Power World Top Solar Contractors submission (SPW Master sheet, Axis Marketing/Solar Power World Master.xlsx)."
+source: "Solar Power World Top Solar Contractors submission (SPW Master sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
 2.68 MWdc utility-scale solar project in Council, North Carolina, delivered by Axis Energy as EPC and completed in March 2020.
