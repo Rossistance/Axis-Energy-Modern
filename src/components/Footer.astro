@@ -1,0 +1,213 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import logo from '@assets/logo/logo-flat.png';
+import { company } from '@data/company';
+import { footerColumns } from '@data/nav';
+import { href } from '@lib/href';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__top">
+    <div class="footer__brand">
+      <a href={href('/')} aria-label="Axis Energy — home" class="footer__logo">
+        <Image src={logo} alt="" width={180} densities={[1, 2]} />
+      </a>
+      <p class="footer__tagline">{company.tagline}</p>
+      <p class="footer__desc">{company.description}</p>
+      <a class="footer__linkedin" href={company.linkedin} rel="noopener" target="_blank">
+        <Icon name="lucide:linkedin" />
+        Follow Axis Energy on LinkedIn
+      </a>
+    </div>
+
+    {footerColumns.map((col) => (
+      <div class="footer__col">
+        <h2 class="footer__heading">{col.title}</h2>
+        <ul>
+          {col.items.map((item) => (
+            <li>
+              <a href={href(item.href)}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+    <div class="footer__col footer__contact">
+      <h2 class="footer__heading">Contact</h2>
+      <address>
+        <p>
+          {company.address.street}
+          <br />
+          {company.address.city}, {company.address.state} {company.address.zip}
+        </p>
+        <p>
+          <span>Office</span> <a href={`tel:${company.phone.tel}`}>{company.phone.display}</a>
+          <br />
+          <span>Fax</span> {company.fax.display}
+          <br />
+          <span>Email</span> <a href={`mailto:${company.email}`}>{company.email}</a>
+        </p>
+        <p>
+          <span>Hours</span> {company.hours}
+        </p>
+      </address>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <p>
+        © {year} {company.legalName} · A subsidiary of{' '}
+        <a href={company.parent.url} rel="noopener" target="_blank">
+          {company.parent.name}
+        </a>
+      </p>
+      <p class="footer__recognition">
+        <Icon name="lucide:award" />
+        {company.recognition}
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--mist-50);
+    border-top: 1px solid var(--line);
+    font-size: var(--text-sm);
+  }
+
+  .footer__top {
+    display: grid;
+    gap: 2.5rem 2rem;
+    padding-block: clamp(3rem, 6vw, 4.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+    max-width: 560px;
+  }
+
+  .footer__logo {
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .footer__logo img {
+    height: 56px;
+    width: auto;
+  }
+
+  .footer__tagline {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--brand-navy);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer__desc {
+    color: var(--text-muted);
+  }
+
+  .footer__linkedin {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .footer__linkedin :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .footer__heading {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brand-navy);
+    margin-bottom: 1rem;
+  }
+
+  .footer__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .footer__col a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .footer__col a:hover {
+    color: var(--brand-blue);
+    text-decoration: underline;
+  }
+
+  .footer__contact address {
+    font-style: normal;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .footer__contact span {
+    display: inline-block;
+    min-width: 3.2rem;
+    color: var(--text-muted);
+  }
+
+  .footer__bottom {
+    background: var(--navy-deep);
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .footer__bottom a {
+    color: #fff;
+  }
+
+  .footer__bottom-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 1.1rem;
+    font-size: var(--text-xs);
+  }
+
+  .footer__recognition {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--aqua-200);
+    font-weight: 600;
+  }
+
+  .footer__recognition :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    .footer__top {
+      grid-template-columns: 1.6fr repeat(4, 1fr);
+    }
+
+    .footer__brand {
+      grid-column: auto;
+    }
+  }
+</style>

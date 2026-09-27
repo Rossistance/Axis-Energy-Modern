@@ -1,0 +1,109 @@
+---
+interface Props {
+  steps: { title: string; body: string }[];
+}
+
+const { steps } = Astro.props;
+---
+
+<ol class="timeline" data-reveal-group>
+  {steps.map((step, i) => (
+    <li class="timeline__step">
+      <span class="timeline__num" aria-hidden="true">
+        {String(i + 1).padStart(2, '0')}
+      </span>
+      <h3>{step.title}</h3>
+      <p>{step.body}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    counter-reset: steps;
+    position: relative;
+  }
+
+  .timeline__step {
+    position: relative;
+    padding: 1.25rem 1.25rem 1.25rem 4rem;
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+
+  .timeline__num {
+    position: absolute;
+    left: 1.1rem;
+    top: 1.15rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.2rem;
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .timeline h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 900px) {
+    .timeline {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .timeline__step {
+      padding: 3.25rem 1.4rem 1.4rem;
+    }
+
+    .timeline__step::before {
+      content: '';
+      position: absolute;
+      left: 1.4rem;
+      right: -1.25rem;
+      top: 1.6rem;
+      height: 2px;
+      background: var(--line);
+    }
+
+    .timeline__step:nth-child(3n)::before,
+    .timeline__step:last-child::before {
+      right: 1.4rem;
+    }
+
+    .timeline__step::after {
+      content: '';
+      position: absolute;
+      left: 1.4rem;
+      top: 1.15rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--grad-brand);
+      box-shadow: 0 0 0 4px #fff;
+    }
+
+    .timeline__num {
+      left: 2.4rem;
+      top: 0.95rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      -webkit-text-fill-color: var(--text-muted);
+      color: var(--text-muted);
+      background: none;
+    }
+  }
+</style>

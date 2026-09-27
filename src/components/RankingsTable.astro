@@ -1,0 +1,50 @@
+---
+import { rankings } from '@data/stats';
+---
+
+<div class="table-wrap" data-reveal>
+  <table class="table rankings">
+    <caption class="sr-only">
+      Solar Power World Top Solar Contractors rankings for Axis Energy
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Year</th>
+        <th scope="col">National rank</th>
+        <th scope="col">Category</th>
+        <th scope="col" class="num">
+          kW installed (prior year)
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {rankings.map((r) => (
+        <tr>
+          <td class="tabular">{r.year}</td>
+          <td class="rankings__rank">#{r.rank}</td>
+          <td>{r.category}</td>
+          <td class="num">{r.kw.toLocaleString('en-US')}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="rankings__source">Source: Solar Power World Top Solar Contractors lists, 2021–2026.</p>
+
+<style>
+  .rankings {
+    min-width: 520px;
+  }
+
+  .rankings__rank {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--brand-blue);
+  }
+
+  .rankings__source {
+    margin-top: 0.75rem;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+</style>

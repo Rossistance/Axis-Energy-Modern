@@ -1,0 +1,12 @@
+{
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/team", "destination": "/leadership/", "permanent": true },
+    { "source": "/project", "destination": "/projects/", "permanent": true },
+    { "source": "/category/general", "destination": "/news/", "permanent": true },
+    { "source": "/project-category/general", "destination": "/projects/", "permanent": true },
+    { "source": "/five-takeaways-from-a-nc-energy-policy-panel", "destination": "/news/five-takeaways-from-a-nc-energy-policy-panel/", "permanent": true },
+    { "source": "/solar-could-provide-25-of-the-worlds-energy-by-2050", "destination": "/news/solar-could-provide-25-of-the-worlds-energy-by-2050/", "permanent": true },
+    { "source": "/sitemap.xml", "destination": "/sitemap-index.xml", "permanent": true }
+  ]
+}

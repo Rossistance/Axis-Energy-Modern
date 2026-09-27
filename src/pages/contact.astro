@@ -1,0 +1,197 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import FormShell from '@components/FormShell.astro';
+import heroArt from '@assets/hero/hero-contact.png';
+import { contactForm } from '@data/forms';
+import { company } from '@data/company';
+import { href, absoluteUrl } from '@lib/href';
+import { localBusinessSchema } from '@lib/schema';
+
+const description = `Contact Axis Energy in Holly Springs, NC. Call ${company.phone.display}, email ${company.email}, or send us a message.`;
+const siteUrl = absoluteUrl('/', Astro.site);
+const jsonLd = [localBusinessSchema(siteUrl, absoluteUrl('/icon-512.png', Astro.site))];
+const cards = [
+  {
+    icon: 'lucide:map-pin',
+    title: 'Visit',
+    lines: [
+      company.address.street,
+      `${company.address.city}, ${company.address.state} ${company.address.zip}`,
+    ],
+    href: company.address.mapsUrl,
+    cta: 'Open in Google Maps',
+    external: true,
+  },
+  {
+    icon: 'lucide:phone',
+    title: 'Call',
+    lines: [
+      company.phone.display,
+      `${company.primaryContact.name}, ${company.primaryContact.title}`,
+    ],
+    href: `tel:${company.phone.tel}`,
+    cta: 'Call now',
+  },
+  {
+    icon: 'lucide:mail',
+    title: 'Email',
+    lines: [company.email],
+    href: `mailto:${company.email}`,
+    cta: 'Send an email',
+  },
+  { icon: 'lucide:clock', title: 'Hours', lines: [company.hours, `Fax ${company.fax.display}`] },
+];
+---
+
+<BaseLayout title="Contact" {description} {jsonLd} cta={false}>
+  <PageHero
+    eyebrow="Contact"
+    title="Let’s Connect"
+    lead="Give us a call or drop us an email and let’s talk about your next successful renewable energy project."
+    art={heroArt}
+    light
+    crumbs={[{ label: 'Contact', href: '/contact/' }]}
+  />
+
+  <section class="section section--sm">
+    <div class="container">
+      <div class="grid grid--4" data-reveal-group>
+        {cards.map((c) => (
+          <div class="card contact-card">
+            <div class="icon-tile">
+              <Icon name={c.icon} />
+            </div>
+            <h2>{c.title}</h2>
+            {c.lines.map((l) => (
+              <p>{l}</p>
+            ))}
+            {c.href && (
+              <a
+                class="link-arrow"
+                href={c.href}
+                rel={c.external ? 'noopener' : undefined}
+                target={c.external ? '_blank' : undefined}
+              >
+                {c.cta}{' '}
+                <Icon
+                  name={c.external ? 'lucide:external-link' : 'lucide:arrow-right'}
+                  class="icon"
+                />
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--flush-top" aria-labelledby="message-title">
+    <div class="container form-layout">
+      <div class="card form-card">
+        <h2 id="message-title" class="form-title">
+          Send us a message
+        </h2>
+        <FormShell spec={contactForm} endpointEnv="PUBLIC_FORM_ENDPOINT_CONTACT" />
+      </div>
+      <aside class="form-aside">
+        <div class="card quick">
+          <h3 class="aside-title">Have a project in mind?</h3>
+          <p class="text-muted">
+            Our quote request captures the details our estimators need, so we can respond faster.
+          </p>
+          <a class="btn btn--primary" href={href('/request-a-quote/')}>
+            Request a quote
+          </a>
+        </div>
+        <div class="card quick">
+          <h3 class="aside-title">Subcontractors</h3>
+          <p class="text-muted">Trade partners can start our prequalification process online.</p>
+          <a class="link-arrow" href={href('/subcontractors/')}>
+            Prequalification <Icon name="lucide:arrow-right" class="icon" />
+          </a>
+        </div>
+        <div class="card quick">
+          <h3 class="aside-title">Careers</h3>
+          <p class="text-muted">
+            E-mail your résumé and salary history to{' '}
+            <a href={`mailto:${company.careersEmail}`}>{company.careersEmail}</a>.
+          </p>
+        </div>
+        <a class="linkedin" href={company.linkedin} rel="noopener" target="_blank">
+          <Icon name="lucide:linkedin" /> Follow Axis Energy on LinkedIn
+        </a>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .contact-card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .contact-card p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .contact-card p:first-of-type {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .contact-card .link-arrow {
+    margin-top: 0.75rem;
+  }
+
+  .form-title {
+    font-size: var(--h3);
+    margin-bottom: 1.25rem;
+  }
+
+  .form-layout {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  .form-card {
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  .form-aside {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .aside-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .quick p {
+    margin-bottom: 0.9rem;
+  }
+
+  .linkedin {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .linkedin svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (min-width: 1024px) {
+    .form-layout {
+      grid-template-columns: minmax(0, 1fr) 340px;
+    }
+  }
+</style>

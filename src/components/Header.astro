@@ -1,0 +1,348 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import logo from '@assets/logo/logo-flat.png';
+import { primaryNav, headerCta } from '@data/nav';
+import { href, isActive } from '@lib/href';
+import NavDrawer from './NavDrawer.astro';
+
+const current = Astro.url.pathname;
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+---
+
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a class="brand" href={href('/')} aria-label="Axis Energy — home">
+      <Image
+        src={logo}
+        alt=""
+        width={148}
+        densities={[1, 2, 3]}
+        loading="eager"
+        class="brand__logo"
+      />
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <ul class="primary-nav__list">
+        {primaryNav.map((item) => {
+          const active =
+            isActive(item.href, current) || item.children?.some((c) => isActive(c.href, current));
+          if (!item.children) {
+            return (
+              <li>
+                <a href={href(item.href)} aria-current={active ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          }
+          const id = `submenu-${slugify(item.label)}`;
+          return (
+            <li class="has-submenu" data-submenu>
+              <a href={href(item.href)} aria-current={active ? 'page' : undefined}>
+                {item.label}
+              </a>
+              <button
+                type="button"
+                class="submenu-toggle"
+                aria-expanded="false"
+                aria-controls={id}
+                aria-label={`${item.label} menu`}
+              >
+                <Icon name="lucide:chevron-down" />
+              </button>
+              <ul class="submenu" id={id}>
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={href(child.href)}
+                      aria-current={isActive(child.href, current, true) ? 'page' : undefined}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="btn btn--primary btn--sm header-cta" href={href(headerCta.href)}>
+        {headerCta.label}
+      </a>
+      <button
+        type="button"
+        class="nav-toggle"
+        aria-expanded="false"
+        aria-controls="site-drawer"
+        data-drawer-open
+      >
+        <Icon name="lucide:menu" />
+        <span class="sr-only">Open menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<NavDrawer />
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition:
+      box-shadow var(--dur-2) ease,
+      border-color var(--dur-2) ease;
+  }
+
+  .site-header.is-scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: 0 6px 24px -18px rgba(0, 35, 82, 0.35);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: var(--header-h);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    border-radius: 6px;
+  }
+
+  .brand__logo {
+    height: 46px;
+    width: auto;
+  }
+
+  .primary-nav {
+    display: none;
+    margin-left: auto;
+  }
+
+  .primary-nav__list {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .primary-nav__list > li {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .primary-nav a {
+    position: relative;
+    display: inline-block;
+    padding: 0.55rem 0.8rem;
+    font-weight: 500;
+    font-size: 0.97rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: 8px;
+  }
+
+  .primary-nav__list > li > a::after {
+    content: '';
+    position: absolute;
+    left: 0.8rem;
+    right: 0.8rem;
+    bottom: 0.25rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--grad-brand);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .primary-nav__list > li > a:hover::after,
+  .primary-nav__list > li > a[aria-current='page']::after,
+  .primary-nav__list > li > a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .primary-nav__list > li > a[aria-current='page'] {
+    color: var(--brand-blue);
+  }
+
+  .has-submenu > a {
+    padding-right: 0.3rem;
+  }
+
+  .submenu-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-right: 0.35rem;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ink-muted);
+  }
+
+  .submenu-toggle :global(svg) {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .has-submenu.is-open .submenu-toggle :global(svg),
+  .has-submenu:hover .submenu-toggle :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .submenu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 220px;
+    margin: 0;
+    padding: 0.5rem;
+    list-style: none;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out),
+      visibility 0s linear var(--dur-2);
+  }
+
+  .submenu::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+  }
+
+  .has-submenu:hover .submenu,
+  .has-submenu:focus-within .submenu,
+  .has-submenu.is-open .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .submenu a {
+    display: block;
+    padding: 0.55rem 0.75rem;
+    font-weight: 500;
+    border-radius: 8px;
+  }
+
+  .submenu a:hover,
+  .submenu a[aria-current='page'] {
+    background: var(--mist-100);
+    color: var(--brand-blue);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .nav-toggle :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (min-width: 560px) {
+    .header-cta {
+      display: inline-flex;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .primary-nav {
+      display: block;
+    }
+
+    .site-header__actions {
+      margin-left: 0;
+    }
+
+    .nav-toggle {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const submenus = Array.from(document.querySelectorAll<HTMLElement>('[data-submenu]'));
+  const closeAll = (except?: HTMLElement) => {
+    submenus.forEach((li) => {
+      if (li === except) return;
+      li.classList.remove('is-open');
+      li.querySelector('.submenu-toggle')?.setAttribute('aria-expanded', 'false');
+    });
+  };
+  submenus.forEach((li) => {
+    const toggle = li.querySelector<HTMLButtonElement>('.submenu-toggle');
+    toggle?.addEventListener('click', () => {
+      const open = li.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      closeAll(li);
+      if (open) li.querySelector<HTMLAnchorElement>('.submenu a')?.focus();
+    });
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && li.classList.contains('is-open')) {
+        closeAll();
+        toggle?.focus();
+      }
+    });
+    li.addEventListener('focusout', (e) => {
+      if (!li.contains(e.relatedTarget as Node)) closeAll();
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!submenus.some((li) => li.contains(e.target as Node))) closeAll();
+  });
+</script>

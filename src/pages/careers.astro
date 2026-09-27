@@ -1,0 +1,180 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import JobsFeed from '@components/JobsFeed.astro';
+import heroArt from '@assets/hero/hero-careers.png';
+import { company } from '@data/company';
+import { values } from '@data/pillars';
+import { href } from '@lib/href';
+
+const description =
+  'Careers at Axis Energy: an employee-owned solar EPC and O&M contractor looking for qualified, safety-minded people with initiative, good communication skills and a desire to achieve.';
+const notes = [
+  'Zero tolerance, certified drug and tobacco free workplace',
+  'Behavioral/Personality assessment as part of interview process',
+  'Background check and drug screen required at time of hire',
+  'Only individuals who have a legal right to work in the U.S. are eligible for employment',
+];
+const reasons = [
+  {
+    icon: 'lucide:users',
+    title: 'You become an owner',
+    body: 'Axis is 100% employee-owned through the 1910 Legacy Enterprises ESOP. Every employee is directly vested in the company’s success.',
+  },
+  {
+    icon: 'lucide:hard-hat',
+    title: 'Safety is non-negotiable',
+    body: 'We see safety as our moral obligation and employ industry-best practices so that our people go home at the end of every day.',
+  },
+  {
+    icon: 'lucide:trending-up',
+    title: 'Meaningful, growing work',
+    body: 'Solar, storage and electrical projects across the Southeast and beyond — with a century of heritage and a Top Solar Contractor track record behind you.',
+  },
+];
+---
+
+<BaseLayout title="Careers" {description}>
+  <PageHero
+    eyebrow="Careers"
+    title="Build the future with us"
+    lead="As an employee-owned company, Axis Energy Inc. values its people and understands the importance of their contribution to its success. We are continuously looking for qualified, safety minded individuals with initiative, good communication skills, and a desire to achieve."
+    art={heroArt}
+    ratio="1 / 1"
+    crumbs={[{ label: 'Careers', href: '/careers/' }]}
+  >
+    <div class="cluster mt-5">
+      <a class="btn btn--primary btn--lg" href="#openings">
+        View openings
+      </a>
+      <a class="btn btn--secondary btn--lg" href={`mailto:${company.careersEmail}`}>
+        <Icon name="lucide:mail" class="icon" /> Send a résumé
+      </a>
+    </div>
+  </PageHero>
+
+  <section class="section" aria-labelledby="why-title">
+    <div class="container">
+      <SectionHeading eyebrow="Why Axis" title="A company of owners" id="why-title" />
+      <div class="grid grid--3" data-reveal-group>
+        {reasons.map((r) => (
+          <article class="card">
+            <div class="icon-tile">
+              <Icon name={r.icon} />
+            </div>
+            <h3 class="reason-title">{r.title}</h3>
+            <p class="text-muted">{r.body}</p>
+          </article>
+        ))}
+      </div>
+      <ul class="values-row" data-reveal>
+        {values.map((v) => (
+          <li>
+            <strong>{v.title}</strong>
+            <span>{v.body}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="openings-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Current opportunities"
+        title="Open positions"
+        lead="Roles are posted here and on our job boards. If you don’t see the right fit, we still want to hear from you."
+        id="openings-title"
+      />
+      <JobsFeed />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="notes-title">
+    <div class="container split">
+      <div data-reveal>
+        <p class="eyebrow">Before you apply</p>
+        <h2 id="notes-title">Important things to note</h2>
+        <ul class="list-check">
+          {notes.map((n) => (
+            <li>{n}</li>
+          ))}
+        </ul>
+        <p class="eeo">
+          Axis Energy, Inc. is an Equal Opportunity Employer. Our policy prohibits unlawful
+          discrimination and extends equal employment opportunity (EEO) to all employees and job
+          applicants based on their individual merit and qualifications.
+        </p>
+        <p>
+          If you are interested in employment at Axis Energy, e-mail your resume and salary history
+          to <a href={`mailto:${company.careersEmail}`}>{company.careersEmail}</a>.
+        </p>
+      </div>
+      <div class="stack">
+        <div class="card" data-reveal>
+          <h3 class="card-title">Recruiters and staffing agencies</h3>
+          <p class="text-muted">
+            Recruiting for Axis Energy is coordinated through the 1910 Legacy Enterprises Talent
+            Acquisition Department. Unsolicited résumés submitted by agencies without a signed
+            agreement become the property of the company and no fee will be paid.
+          </p>
+        </div>
+        <div class="card" data-reveal>
+          <h3 class="card-title">Subcontractor, not a job seeker?</h3>
+          <p class="text-muted">
+            Trade partners can start our prequalification process to be considered for upcoming
+            civil, mechanical and electrical scopes.
+          </p>
+          <a class="link-arrow" href={href('/subcontractors/')}>
+            Start prequalification <Icon name="lucide:arrow-right" class="icon" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .reason-title,
+  .card-title {
+    font-size: 1.15rem;
+  }
+
+  .values-row {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 1.5rem;
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg, rgba(0, 75, 141, 0.06), rgba(0, 135, 82, 0.08));
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    font-size: var(--text-sm);
+  }
+
+  .values-row li {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .values-row strong {
+    color: var(--brand-blue);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+  }
+
+  .values-row span {
+    color: var(--text-muted);
+  }
+
+  .eeo {
+    margin-top: 1.25rem;
+    padding: 1rem 1.1rem;
+    border-left: 4px solid var(--brand-green);
+    background: var(--mist-50);
+    font-size: var(--text-sm);
+  }
+</style>

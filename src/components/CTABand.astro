@@ -1,0 +1,178 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import photo from '@assets/photos/battery-storage-pad.jpg';
+import { company } from '@data/company';
+import { href } from '@lib/href';
+
+interface Props {
+  compact?: boolean;
+  title?: string;
+  body?: string;
+}
+
+const {
+  compact = false,
+  title = 'Let’s talk about your next successful renewable energy project.',
+  body = 'Give us a call or drop us an email and let’s talk about your next successful renewable energy project.',
+} = Astro.props;
+---
+
+<section
+  class:list={['cta-band', 'band-dark', { 'cta-band--compact': compact }]}
+  aria-labelledby="cta-title"
+>
+  <div class="cta-band__photo photo photo--duotone" aria-hidden="true">
+    <Image
+      src={photo}
+      alt=""
+      widths={[800, 1200, 1800]}
+      sizes="100vw"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="container cta-band__inner">
+    <div class="cta-band__copy" data-reveal>
+      <p class="eyebrow">Let’s Connect</p>
+      <h2 id="cta-title">{title}</h2>
+      {!compact && <p class="lead">{body}</p>}
+      <div class="cluster cta-band__actions">
+        <a class="btn btn--primary btn--lg" href={href('/request-a-quote/')}>
+          Request a quote
+        </a>
+        <a class="btn btn--secondary btn--lg" href={href('/contact/')}>
+          Talk to us
+        </a>
+      </div>
+    </div>
+    <ul class="cta-band__contact" data-reveal>
+      <li>
+        <Icon name="lucide:phone" />
+        <span>
+          <a href={`tel:${company.phone.tel}`}>{company.phone.display}</a>
+          <small>
+            {company.primaryContact.name}, {company.primaryContact.title}
+          </small>
+        </span>
+      </li>
+      <li>
+        <Icon name="lucide:mail" />
+        <span>
+          <a href={`mailto:${company.email}`}>{company.email}</a>
+          <small>We respond within one business day</small>
+        </span>
+      </li>
+      <li>
+        <Icon name="lucide:map-pin" />
+        <span>
+          <a href={company.address.mapsUrl} rel="noopener" target="_blank">
+            {company.address.street}
+          </a>
+          <small>
+            {company.address.city}, {company.address.state} {company.address.zip}
+          </small>
+        </span>
+      </li>
+      <li>
+        <Icon name="lucide:clock" />
+        <span>
+          {company.hours}
+          <small>Eastern time</small>
+        </span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--section-y);
+  }
+
+  .cta-band--compact {
+    padding-block: var(--section-y-sm);
+  }
+
+  .cta-band__photo {
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+    opacity: 0.55;
+  }
+
+  .cta-band__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cta-band__inner {
+    position: relative;
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .cta-band__copy h2 {
+    color: #fff;
+    max-width: 18ch;
+  }
+
+  .cta-band__actions {
+    margin-top: 1.75rem;
+  }
+
+  .cta-band__contact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cta-band__contact li {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding: 1rem 1.1rem;
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  .cta-band__contact :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--aqua-400);
+    margin-top: 0.15rem;
+  }
+
+  .cta-band__contact span {
+    display: grid;
+  }
+
+  .cta-band__contact a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .cta-band__contact a:hover {
+    text-decoration: underline;
+  }
+
+  .cta-band__contact small {
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 900px) {
+    .cta-band__inner {
+      grid-template-columns: 1.2fr 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import TeamCard from '@components/TeamCard.astro';
+import heroArt from '@assets/hero/hero-about.png';
+import { href } from '@lib/href';
+
+const team = (await getCollection('team', ({ data }) => data.published)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const description =
+  'Meet the leadership of Axis Energy — renewable experience and expertise from a company of owners.';
+---
+
+<BaseLayout title="Leadership" {description}>
+  <PageHero
+    eyebrow="Leadership"
+    title="Renewable Experience and Expertise"
+    lead="Axis is led by people who have spent their careers building things well: logistics, construction, electrical work and renewable energy. As employee-owners, they have real ownership in every relationship and every system we deliver."
+    art={heroArt}
+    artPosition="right center"
+    artScale={1.35}
+    crumbs={[
+      { label: 'About', href: '/about/' },
+      { label: 'Leadership', href: '/leadership/' },
+    ]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid" data-reveal-group>
+        {team.map((person) => (
+          <TeamCard person={person} />
+        ))}
+      </div>
+      <div class="card join" data-reveal>
+        <div>
+          <h2>Join the team</h2>
+          <p class="text-muted">
+            As an employee-owned company, Axis Energy values its people and understands the
+            importance of their contribution to its success.
+          </p>
+        </div>
+        <a class="btn btn--primary" href={href('/careers/')}>
+          See careers
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .join {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .join h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.35rem;
+  }
+</style>

@@ -1,0 +1,9 @@
+# Legacy WordPress URLs -> new site (Netlify / Cloudflare Pages format). Copy to the publish directory root.
+/team/                                                   /leadership/                                              301
+/project/                                                /projects/                                                301
+/category/general/                                       /news/                                                    301
+/project-category/general/                               /projects/                                                301
+/five-takeaways-from-a-nc-energy-policy-panel/           /news/five-takeaways-from-a-nc-energy-policy-panel/       301
+/solar-could-provide-25-of-the-worlds-energy-by-2050/    /news/solar-could-provide-25-of-the-worlds-energy-by-2050/ 301
+/sitemap.xml                                             /sitemap-index.xml                                        301
+/wp-content/*                                            /                                                         301

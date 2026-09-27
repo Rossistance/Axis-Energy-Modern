@@ -1,0 +1,172 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import SubNav from '@components/SubNav.astro';
+import ServiceBlock from '@components/ServiceBlock.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ProcessTimeline from '@components/ProcessTimeline.astro';
+import MarketsGrid from '@components/MarketsGrid.astro';
+import heroArt from '@assets/hero/hero-services.png';
+import photoRacking from '@assets/photos/racking-under-construction.jpg';
+import photoBess from '@assets/photos/battery-storage-pad.jpg';
+import photoArray from '@assets/photos/array-aerial-woodland.jpg';
+import { serviceGroups, process, experienceGroups } from '@data/services';
+import { href } from '@lib/href';
+
+const description =
+  'A total EPC and O&M solution: engineering, procurement and construction for solar and battery storage, plus 24/7 rapid response, scheduled maintenance and performance optimization.';
+const subnav = [
+  { label: 'EPC', href: '#epc' },
+  { label: 'O&M', href: '#om' },
+  { label: 'Storage & electrical', href: '#storage-electrical' },
+  { label: 'Added value', href: '#added-value' },
+  { label: 'Markets', href: '#markets' },
+  { label: 'How we work', href: '#process' },
+];
+const photos = {
+  epc: {
+    src: photoRacking,
+    alt: 'Aerial view of a solar site under construction with racking rows and equipment pads',
+    caption: 'Racking and foundations under construction',
+  },
+  om: {
+    src: photoArray,
+    alt: 'Aerial view of a completed ground-mounted solar array bordered by woodland',
+    caption: 'Operating utility-scale array',
+  },
+  'storage-electrical': {
+    src: photoBess,
+    alt: 'Battery storage enclosures and inverters on a concrete pad beside a solar array',
+    caption: 'Solar + battery energy storage pad',
+  },
+};
+---
+
+<BaseLayout title="Services" {description}>
+  <PageHero
+    eyebrow="Services"
+    title="A Total EPC and O&M Solution"
+    lead="Our clients enjoy great peace of mind being able to make one phone call to Axis Energy and know their renewable energy project will be executed with excellence. We take care of it all, from development and due diligence, to pre-construction and full design, through construction and commissioning."
+    art={heroArt}
+    crumbs={[{ label: 'Services', href: '/services/' }]}
+  >
+    <div class="cluster mt-5">
+      <a class="btn btn--primary btn--lg" href={href('/request-a-quote/')}>
+        Request a quote
+      </a>
+      <a class="btn btn--secondary btn--lg" href="#epc">
+        Explore capabilities
+      </a>
+    </div>
+  </PageHero>
+
+  <SubNav items={subnav} />
+
+  {serviceGroups.map((group, i) => (
+    <ServiceBlock
+      group={group}
+      photo={photos[group.id as keyof typeof photos]}
+      flip={i % 2 === 1}
+    />
+  ))}
+
+  <section class="section band-alt" id="markets" aria-labelledby="markets-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Markets we serve"
+        title="Commercial and industrial distributed energy, utility-scale solar and everything in between"
+        lead="Axis provides turnkey engineering, procurement, construction and operations & maintenance of commercial and industrial distributed energy resources for utilities, independent power producers, government agencies, and private developers and owners."
+        id="markets-title"
+      />
+      <MarketsGrid />
+      <div class="grid grid--3 experience" data-reveal-group>
+        {experienceGroups.map((g) => (
+          <div class="experience__item">
+            <h3>{g.title}</h3>
+            <p class="experience__detail">{g.detail}</p>
+            <p class="experience__example">Example: {g.example}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="process" aria-labelledby="process-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="How we work"
+        title="One point of contact from first call to final commissioning"
+        lead="Every project runs through the same disciplined sequence, led by an Axis project manager and an experienced superintendent on site."
+        id="process-title"
+      />
+      <ProcessTimeline steps={process} />
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="safety-title">
+    <div class="container split">
+      <div data-reveal>
+        <p class="eyebrow">Safety and quality</p>
+        <h2 id="safety-title">We see safety as our moral obligation.</h2>
+        <p class="lead">
+          As a partnership-based, employee-owned company, we employ and enforce rigorous,
+          industry-best safety practices to ensure that our people go home at the end of the day,
+          and shield our customers from the negative impact of safety-related accidents.
+        </p>
+      </div>
+      <div class="card sub-card" data-reveal>
+        <div class="icon-tile">
+          <Icon name="lucide:handshake" />
+        </div>
+        <h3>Work with Axis as a subcontractor</h3>
+        <p>
+          We build with a network of trusted trade partners across the Southeast. Start the
+          prequalification process to be considered for upcoming civil, mechanical and electrical
+          scopes.
+        </p>
+        <a class="btn btn--secondary" href={href('/subcontractors/')}>
+          Start prequalification <Icon name="lucide:arrow-right" class="icon" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .experience {
+    margin-top: 2rem;
+  }
+
+  .experience__item {
+    padding: 1.35rem;
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg, rgba(0, 75, 141, 0.06), rgba(0, 135, 82, 0.08));
+  }
+
+  .experience__item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .experience__detail {
+    font-weight: 600;
+    color: var(--brand-blue);
+    font-size: var(--text-sm);
+  }
+
+  .experience__example {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin-top: 0.4rem;
+  }
+
+  .sub-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .sub-card p {
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+</style>

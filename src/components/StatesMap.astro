@@ -1,0 +1,139 @@
+---
+import { US_STATE_PATHS, US_MAP_VIEWBOX } from '@data/us-states';
+import { stateName } from '@lib/format';
+
+interface Props {
+  served: readonly string[];
+  /** Optional published-project counts per state for tooltips. */
+  counts?: Record<string, number>;
+  hq?: string;
+}
+
+const { served, counts = {}, hq = 'NC' } = Astro.props;
+const servedSet = new Set(served);
+// Alaska and Hawaii are drawn far from the served footprint; keep them for honesty but faint.
+const label = (id: string) => {
+  const n = counts[id];
+  const base = stateName(id);
+  if (id === hq)
+    return `${base} — headquarters${n ? `, ${n} published project${n === 1 ? '' : 's'}` : ''}`;
+  if (servedSet.has(id))
+    return `${base} — Axis project footprint${n ? `, ${n} published project${n === 1 ? '' : 's'}` : ''}`;
+  return base;
+};
+---
+
+<figure class="states-map" data-reveal>
+  <svg
+    viewBox={US_MAP_VIEWBOX}
+    role="img"
+    aria-labelledby="states-map-title states-map-desc"
+    class="states-map__svg"
+  >
+    <title id="states-map-title">States where Axis Energy has built projects</title>
+    <desc id="states-map-desc">
+      Highlighted: {served.map((s) => stateName(s)).join(', ')}. Headquarters in {stateName(hq)}.
+    </desc>
+    <g>
+      {US_STATE_PATHS.map((s) => (
+        <path
+          d={s.d}
+          class:list={['state', { 'state--served': servedSet.has(s.id), 'state--hq': s.id === hq }]}
+          data-state={s.id}
+        >
+          <title>{label(s.id)}</title>
+        </path>
+      ))}
+    </g>
+  </svg>
+  <figcaption class="states-map__legend">
+    <span>
+      <i class="swatch swatch--hq"></i> Headquarters, Holly Springs, NC
+    </span>
+    <span>
+      <i class="swatch swatch--served"></i> Project footprint
+    </span>
+  </figcaption>
+</figure>
+<ul class="states-map__list" aria-label="States served">
+  {served.map((s) => (
+    <li>{stateName(s)}</li>
+  ))}
+</ul>
+
+<style>
+  .states-map {
+    margin: 0;
+  }
+
+  .states-map__svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .state {
+    fill: var(--mist-100);
+    stroke: #fff;
+    stroke-width: 1;
+    transition: fill var(--dur-2) ease;
+  }
+
+  .state--served {
+    fill: url(#axis-grad);
+    fill: var(--brand-blue);
+  }
+
+  .state--hq {
+    fill: var(--brand-green);
+  }
+
+  .state--served:hover,
+  .state--hq:hover {
+    fill: var(--brand-blue-bright);
+  }
+
+  .states-map__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1rem;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    vertical-align: -2px;
+    margin-right: 0.35rem;
+  }
+
+  .swatch--served {
+    background: var(--brand-blue);
+  }
+
+  .swatch--hq {
+    background: var(--brand-green);
+  }
+
+  .states-map__list {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .states-map__list li {
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--r-pill);
+    background: var(--mist-100);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--brand-navy);
+  }
+</style>

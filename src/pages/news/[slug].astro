@@ -1,0 +1,274 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import NewsCard from '@components/NewsCard.astro';
+import heroArt from '@assets/hero/hero-news.png';
+import { company } from '@data/company';
+import { href, absoluteUrl } from '@lib/href';
+import { formatDate, readingTime } from '@lib/format';
+import { articleSchema } from '@lib/schema';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('news', ({ data }) => data.published)).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      newer: posts[i - 1] ?? null,
+      older: posts[i + 1] ?? null,
+      related: posts.filter((p) => p.id !== post.id).slice(0, 2),
+    },
+  }));
+}
+
+const { post, newer, older, related } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+const url = absoluteUrl(`/news/${post.id}/`, Astro.site);
+const minutes = readingTime(post.body ?? '');
+const jsonLd = [
+  articleSchema({
+    url,
+    title: data.title,
+    description: data.excerpt,
+    datePublished: data.date,
+    author: data.author,
+    siteUrl: absoluteUrl('/', Astro.site),
+  }),
+];
+const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+---
+
+<BaseLayout title={data.title} description={data.excerpt} ogType="article" {jsonLd}>
+  <section class="article-hero band-dark">
+    <div class="article-hero__art" aria-hidden="true">
+      <Image
+        src={heroArt}
+        alt=""
+        format="webp"
+        widths={[800, 1400]}
+        sizes="100vw"
+        loading="eager"
+      />
+    </div>
+    <div class="container container--narrow">
+      <Breadcrumbs
+        items={[
+          { label: 'News', href: '/news/' },
+          { label: data.title, href: `/news/${post.id}/` },
+        ]}
+      />
+      <p class="eyebrow">{data.category}</p>
+      <h1>{data.title}</h1>
+      <p class="article-hero__meta">
+        By {data.author} · <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time> ·{' '}
+        {minutes} min read
+      </p>
+    </div>
+  </section>
+
+  <article class="section">
+    <div class="container container--narrow">
+      <div class="prose">
+        <Content />
+      </div>
+
+      {data.sources && data.sources.length > 0 && (
+        <section class="sources" aria-labelledby="sources-title">
+          <h2 id="sources-title">Sources and further reading</h2>
+          <ol>
+            {data.sources.map((s) => (
+              <li>
+                <a href={s.url} rel="noopener nofollow" target="_blank">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      <div class="share">
+        <span>Share</span>
+        <a class="btn btn--secondary btn--sm" href={linkedinShare} rel="noopener" target="_blank">
+          <Icon name="lucide:linkedin" class="icon" /> LinkedIn
+        </a>
+        <button type="button" class="btn btn--secondary btn--sm" data-copy-link={url}>
+          <Icon name="lucide:link" class="icon" /> Copy link
+        </button>
+        <span class="share__status" aria-live="polite"></span>
+      </div>
+
+      <nav class="pn" aria-label="Article navigation">
+        {older ? (
+          <a href={href(`/news/${older.id}/`)} class="pn__link">
+            <Icon name="lucide:arrow-left" />
+            <span>
+              <small>Older</small>
+              {older.data.title}
+            </span>
+          </a>
+        ) : (
+          <span />
+        )}
+        {newer ? (
+          <a href={href(`/news/${newer.id}/`)} class="pn__link pn__link--next">
+            <span>
+              <small>Newer</small>
+              {newer.data.title}
+            </span>
+            <Icon name="lucide:arrow-right" />
+          </a>
+        ) : (
+          <span />
+        )}
+      </nav>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="section band-alt" aria-labelledby="more-title">
+      <div class="container">
+        <div class="section-heading section-heading--row">
+          <div>
+            <p class="eyebrow">More from Axis</p>
+            <h2 id="more-title">Related reading</h2>
+          </div>
+          <a class="btn btn--secondary" href={href('/news/')}>
+            All news
+          </a>
+        </div>
+        <div class="grid grid--2" data-reveal-group>
+          {related.map((p) => (
+            <NewsCard post={p} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .article-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .article-hero__art {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+  }
+
+  .article-hero__art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .article-hero .container {
+    position: relative;
+  }
+
+  .article-hero h1 {
+    color: #fff;
+    font-size: clamp(2rem, 1.4rem + 2.2vw, 3.2rem);
+  }
+
+  .article-hero__meta {
+    color: var(--text-muted);
+  }
+
+  .sources {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .sources h2 {
+    font-size: 1.15rem;
+  }
+
+  .sources ol {
+    padding-left: 1.25rem;
+    font-size: var(--text-sm);
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .share {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .share__status {
+    color: var(--success);
+    font-weight: 500;
+  }
+
+  .pn {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pn__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .pn__link span {
+    display: grid;
+  }
+
+  .pn__link small {
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .pn__link--next {
+    justify-self: end;
+    text-align: right;
+  }
+
+  .pn :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--brand-green);
+    flex: none;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-link]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const status = btn.parentElement?.querySelector<HTMLElement>('.share__status');
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copyLink ?? location.href);
+        if (status) status.textContent = 'Link copied';
+      } catch {
+        if (status) status.textContent = 'Copy failed — use your browser’s address bar';
+      }
+    });
+  });
+</script>

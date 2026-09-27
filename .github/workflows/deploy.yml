@@ -1,0 +1,79 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [Main-Backup]
+  # Rebuild every 6 hours so the jobs feed stays fresh once a source is configured.
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # GitHub Pages project site. Override in repository variables when a custom domain is attached.
+      SITE_URL: ${{ vars.SITE_URL || 'https://rossistance.github.io' }}
+      SITE_BASE: ${{ vars.SITE_BASE || '/Axis-Energy-Modern' }}
+      PUBLIC_SITE_MODE: ${{ vars.PUBLIC_SITE_MODE || 'preview' }}
+      PUBLIC_FORM_ENDPOINT_CONTACT: ${{ vars.PUBLIC_FORM_ENDPOINT_CONTACT }}
+      PUBLIC_FORM_ENDPOINT_RFQ: ${{ vars.PUBLIC_FORM_ENDPOINT_RFQ }}
+      PUBLIC_FORM_ENDPOINT_SUBS: ${{ vars.PUBLIC_FORM_ENDPOINT_SUBS }}
+      JOBS_SOURCE: ${{ vars.JOBS_SOURCE || 'static' }}
+      JOBS_BOARD: ${{ vars.JOBS_BOARD }}
+      JOBS_URL: ${{ vars.JOBS_URL }}
+      PUBLIC_JOBS_LINKEDIN_URL: ${{ vars.PUBLIC_JOBS_LINKEDIN_URL }}
+      PUBLIC_JOBS_INDEED_URL: ${{ vars.PUBLIC_JOBS_INDEED_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install, build and upload the site
+        uses: withastro/action@v6
+        with:
+          node-version: 22
+          package-manager: npm@latest
+
+  # A second build with SITE_BASE=/ for hand-off to any host (download from the run's Artifacts).
+  handoff:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: ${{ vars.HANDOFF_SITE_URL || 'https://www.axis-energyinc.com' }}
+      SITE_BASE: /
+      PUBLIC_SITE_MODE: ${{ vars.PUBLIC_SITE_MODE || 'preview' }}
+      JOBS_SOURCE: ${{ vars.JOBS_SOURCE || 'static' }}
+      JOBS_BOARD: ${{ vars.JOBS_BOARD }}
+      JOBS_URL: ${{ vars.JOBS_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Upload root-domain build
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+          retention-days: 30
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

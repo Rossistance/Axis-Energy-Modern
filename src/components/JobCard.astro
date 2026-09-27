@@ -1,0 +1,115 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Job } from '@lib/jobs';
+
+interface Props {
+  job: Job;
+}
+
+const { job } = Astro.props;
+const posted = job.posted ? new Date(job.posted) : null;
+const applyHref =
+  job.applyUrl ??
+  (job.applyEmail
+    ? `mailto:${job.applyEmail}?subject=${encodeURIComponent(`Application: ${job.title}`)}`
+    : undefined);
+---
+
+<article class="job card">
+  <div class="job__head">
+    <h3>{job.title}</h3>
+    {job.sample && <span class="badge badge--warn">Sample</span>}
+  </div>
+  <ul class="job__meta">
+    <li>
+      <Icon name="lucide:map-pin" /> {job.location}
+    </li>
+    {job.type && (
+      <li>
+        <Icon name="lucide:briefcase" /> {job.type}
+      </li>
+    )}
+    {job.department && (
+      <li>
+        <Icon name="lucide:users" /> {job.department}
+      </li>
+    )}
+    {posted && !Number.isNaN(posted.valueOf()) && (
+      <li>
+        <Icon name="lucide:calendar" />
+        <time datetime={posted.toISOString()}>
+          {posted.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            timeZone: 'UTC',
+          })}
+        </time>
+      </li>
+    )}
+  </ul>
+  {job.summary && <p class="job__summary">{job.summary}</p>}
+  {applyHref && (
+    <a
+      class="btn btn--secondary btn--sm"
+      href={applyHref}
+      rel={job.applyUrl ? 'noopener' : undefined}
+      target={job.applyUrl ? '_blank' : undefined}
+    >
+      Apply
+      <Icon name={job.applyUrl ? 'lucide:external-link' : 'lucide:mail'} class="icon" />
+    </a>
+  )}
+</article>
+
+<style>
+  .job {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+  }
+
+  .job__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .job h3 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  .job__meta {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .job__meta li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .job__meta :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .job__summary {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .job .btn {
+    justify-self: start;
+  }
+</style>

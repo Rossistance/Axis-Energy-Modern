@@ -1,0 +1,11 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "form-dup-name": ["error", { "shared": ["radio", "checkbox", "submit", "button"] }],
+    "no-inline-style": "off",
+    "doctype-style": "off",
+    "long-title": "off",
+    "no-raw-characters": ["error", { "relaxed": true }],
+    "tel-non-breaking": "off"
+  }
+}

@@ -1,0 +1,90 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import NewsCard from '@components/NewsCard.astro';
+import RankingsTable from '@components/RankingsTable.astro';
+import heroArt from '@assets/hero/hero-news.png';
+import { company } from '@data/company';
+import { href } from '@lib/href';
+
+const posts = (await getCollection('news', ({ data }) => data.published)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const [latest, ...rest] = posts;
+const description = 'News, perspectives and updates from the Axis Energy team.';
+---
+
+<BaseLayout title="News" {description}>
+  <PageHero
+    eyebrow="News"
+    title="Insights and updates from Axis"
+    lead="Perspectives on solar policy, markets and project delivery from the Axis Energy team, plus company announcements."
+    art={heroArt}
+    crumbs={[{ label: 'News', href: '/news/' }]}
+  >
+    <div class="cluster mt-5">
+      <a class="btn btn--secondary" href={company.linkedin} rel="noopener" target="_blank">
+        <Icon name="lucide:linkedin" class="icon" /> Follow on LinkedIn
+      </a>
+      <a class="btn btn--ghost" href={href('/rss.xml')}>
+        <Icon name="lucide:rss" class="icon" /> RSS feed
+      </a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container news-layout">
+      <div class="stack">
+        {latest && <NewsCard post={latest} featured />}
+        <div class="grid grid--2" data-reveal-group>
+          {rest.map((post) => (
+            <NewsCard post={post} />
+          ))}
+        </div>
+      </div>
+      <aside class="news-aside">
+        <div class="card">
+          <h2 class="aside-title">Recognition</h2>
+          <p class="text-muted">
+            Axis Energy has been named a Solar Power World Top Solar Contractor every year since
+            2021.
+          </p>
+          <RankingsTable />
+        </div>
+        <div class="card">
+          <h2 class="aside-title">Media inquiries</h2>
+          <p class="text-muted">
+            For press and speaking requests, contact{' '}
+            <a href={`mailto:${company.email}`}>{company.email}</a> or call {company.phone.display}.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .news-layout {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .news-aside {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .aside-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .news-layout {
+      grid-template-columns: minmax(0, 1fr) 360px;
+    }
+  }
+</style>

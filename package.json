@@ -1,0 +1,44 @@
+{
+  "name": "axis-energy-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Axis Energy marketing website (Astro static site)",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:root": "SITE_BASE=/ astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate:html": "html-validate \"dist/**/*.html\"",
+    "test": "playwright test",
+    "icons": "node scripts/make-icons.mjs",
+    "og": "node scripts/make-og.mjs",
+    "screenshots": "node scripts/screenshots.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
+    "@iconify-json/lucide": "^1.2.137",
+    "astro": "^7.3.5",
+    "astro-icon": "^1.2.0",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "1.56.1",
+    "@types/node": "^22.0.0",
+    "html-validate": "^11.16.1",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.1.0",
+    "typescript": "^5.9.0"
+  }
+}

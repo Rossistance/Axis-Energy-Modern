@@ -1,0 +1,480 @@
+---
+import { Icon } from 'astro-icon/components';
+import FormField from './FormField.astro';
+import type { FormSpec } from '@data/forms';
+import { company } from '@data/company';
+
+interface Props {
+  spec: FormSpec;
+  endpointEnv:
+    'PUBLIC_FORM_ENDPOINT_CONTACT' | 'PUBLIC_FORM_ENDPOINT_RFQ' | 'PUBLIC_FORM_ENDPOINT_SUBS';
+}
+
+const { spec, endpointEnv } = Astro.props;
+const env = import.meta.env as Record<string, string | undefined>;
+const endpoint = (env[endpointEnv] ?? '').trim();
+const mode = endpoint ? 'live' : 'review';
+const multi = spec.steps.length > 1;
+const steps = multi
+  ? [
+      ...spec.steps,
+      { id: 'review', title: 'Review and submit', intro: spec.reviewIntro, fields: [] },
+    ]
+  : spec.steps;
+const action = endpoint || `mailto:${company.email}?subject=${encodeURIComponent(spec.subject)}`;
+---
+
+<form
+  class="form"
+  method="POST"
+  action={action}
+  enctype={endpoint ? undefined : 'text/plain'}
+  novalidate
+  data-form
+  data-form-id={spec.id}
+  data-mode={mode}
+  data-endpoint={endpoint}
+  data-subject={spec.subject}
+  data-draft-key={spec.draftKey}
+  data-mailto={company.email}
+  data-success-title={spec.successTitle}
+  data-success-body={spec.successBody}
+>
+  <input type="hidden" name="_subject" value={spec.subject} />
+  <input type="hidden" name="_form" value={spec.id} />
+  <p class="hp" aria-hidden="true">
+    <label>
+      Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+    </label>
+  </p>
+
+  {multi && (
+    <ol class="steps" data-steps aria-label="Form progress">
+      {steps.map((s, i) => (
+        <li aria-current={i === 0 ? 'step' : undefined}>
+          <button type="button" class="steps__btn" data-step-jump={i} disabled={i !== 0}>
+            <span class="steps__bar" />
+            <span class="steps__label">
+              {i + 1}. {s.title}
+            </span>
+          </button>
+        </li>
+      ))}
+    </ol>
+  )}
+
+  <div class="form__summary" data-summary role="alert" tabindex="-1"></div>
+
+  {steps.map((step, i) => (
+    <section
+      class:list={['step', { 'is-active': i === 0, 'step--review': step.id === 'review' }]}
+      data-step={i}
+      aria-labelledby={multi ? `${spec.id}-step-${i}` : undefined}
+    >
+      {multi && (
+        <header>
+          <h2 class="step__title" id={`${spec.id}-step-${i}`}>
+            {step.title}
+          </h2>
+          {step.intro && <p class="step__intro">{step.intro}</p>}
+        </header>
+      )}
+      {step.id === 'review' ? (
+        <div class="stack">
+          <div class="review" data-review />
+          {mode === 'review' && (
+            <p class="review__mode">
+              <strong>Review mode.</strong> This form is not connected to a delivery service yet.
+              Submitting opens your email app with the request pre-filled and addressed to{' '}
+              {company.email}.
+            </p>
+          )}
+        </div>
+      ) : (
+        <div class="form__grid">
+          {step.fields.map((field) => (
+            <FormField field={field} formId={spec.id} />
+          ))}
+        </div>
+      )}
+    </section>
+  ))}
+
+  <div class="form__actions">
+    <p class="draft-note" data-draft-note hidden>
+      <Icon name="lucide:save" class="icon" />
+      Saved in this browser.
+      <button type="button" data-draft-clear>
+        Clear saved answers
+      </button>
+    </p>
+    <div class="form__actions-right">
+      {multi && (
+        <button type="button" class="btn btn--secondary" data-prev hidden>
+          Back
+        </button>
+      )}
+      {multi && (
+        <button type="button" class="btn btn--primary" data-next>
+          Continue
+        </button>
+      )}
+      <button type="submit" class="btn btn--primary" data-submit hidden={multi}>
+        {spec.submitLabel}
+        <Icon name="lucide:send" class="icon" />
+      </button>
+    </div>
+  </div>
+
+  <div class="form__status" data-status role="status" aria-live="polite"></div>
+</form>
+
+<script>
+  type Values = Record<string, string | string[]>;
+
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-form]');
+  forms.forEach(initForm);
+
+  function initForm(form: HTMLFormElement) {
+    const steps = Array.from(form.querySelectorAll<HTMLElement>('[data-step]'));
+    const stepItems = Array.from(form.querySelectorAll<HTMLLIElement>('[data-steps] li'));
+    const prevBtn = form.querySelector<HTMLButtonElement>('[data-prev]');
+    const nextBtn = form.querySelector<HTMLButtonElement>('[data-next]');
+    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const summary = form.querySelector<HTMLElement>('[data-summary]')!;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const review = form.querySelector<HTMLElement>('[data-review]');
+    const draftNote = form.querySelector<HTMLElement>('[data-draft-note]');
+    const multi = steps.length > 1;
+    const draftKey = form.dataset.draftKey ?? '';
+    const started = Date.now();
+    let current = 0;
+
+    const fieldsIn = (root: ParentNode) =>
+      Array.from(root.querySelectorAll<HTMLElement>('[data-field-id]'));
+
+    const readField = (wrap: HTMLElement): string | string[] => {
+      const type = wrap.dataset.type;
+      if (type === 'checkboxes') {
+        return Array.from(wrap.querySelectorAll<HTMLInputElement>('input:checked')).map(
+          (i) => i.value,
+        );
+      }
+      if (type === 'radio') {
+        return wrap.querySelector<HTMLInputElement>('input:checked')?.value ?? '';
+      }
+      if (type === 'checkbox') {
+        return wrap.querySelector<HTMLInputElement>('input')?.checked ? 'Yes' : '';
+      }
+      const control = wrap.querySelector<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >('input, select, textarea');
+      return control?.value.trim() ?? '';
+    };
+
+    const values = (): Values => {
+      const out: Values = {};
+      fieldsIn(form).forEach((wrap) => {
+        out[wrap.dataset.fieldId!] = readField(wrap);
+      });
+      return out;
+    };
+
+    const setError = (wrap: HTMLElement, message: string) => {
+      const err = wrap.querySelector<HTMLElement>('.field__error');
+      const controls = wrap.querySelectorAll<HTMLElement>('input, select, textarea');
+      if (message) {
+        wrap.classList.add('is-invalid');
+        if (err) err.textContent = message;
+        controls.forEach((c) => c.setAttribute('aria-invalid', 'true'));
+      } else {
+        wrap.classList.remove('is-invalid');
+        if (err) err.textContent = '';
+        controls.forEach((c) => c.removeAttribute('aria-invalid'));
+      }
+    };
+
+    const validateField = (wrap: HTMLElement): string => {
+      const label = wrap.dataset.label ?? 'This field';
+      const required = wrap.dataset.required === 'true';
+      const type = wrap.dataset.type;
+      const value = readField(wrap);
+      if (type === 'checkboxes' || type === 'radio' || type === 'checkbox') {
+        const empty = Array.isArray(value) ? value.length === 0 : !value;
+        return required && empty
+          ? `${type === 'checkbox' ? 'Please confirm' : 'Please choose at least one option for'} “${label}”.`
+          : '';
+      }
+      const control = wrap.querySelector<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >('input, select, textarea');
+      if (!control) return '';
+      if (required && !control.value.trim()) return `Please enter ${label.toLowerCase()}.`;
+      if (control.value && !control.checkValidity()) {
+        if (control.validity.typeMismatch) return `Please enter a valid ${label.toLowerCase()}.`;
+        if (control.validity.rangeUnderflow || control.validity.rangeOverflow)
+          return `“${label}” is out of range.`;
+        if (control.validity.stepMismatch) return `Please enter a valid number for “${label}”.`;
+        return control.validationMessage;
+      }
+      return '';
+    };
+
+    const validate = (root: ParentNode): { wrap: HTMLElement; message: string }[] => {
+      const errors: { wrap: HTMLElement; message: string }[] = [];
+      fieldsIn(root).forEach((wrap) => {
+        const message = validateField(wrap);
+        setError(wrap, message);
+        if (message) errors.push({ wrap, message });
+      });
+      return errors;
+    };
+
+    const showSummary = (errors: { wrap: HTMLElement; message: string }[]) => {
+      if (!errors.length) {
+        summary.classList.remove('is-visible');
+        summary.innerHTML = '';
+        return;
+      }
+      summary.innerHTML = `<strong>Please fix the following ${errors.length === 1 ? 'item' : `${errors.length} items`}:</strong><ul>${errors
+        .map((e) => `<li><a href="#" data-focus="${e.wrap.dataset.fieldId}">${e.message}</a></li>`)
+        .join('')}</ul>`;
+      summary.classList.add('is-visible');
+      summary.focus();
+      summary.querySelectorAll<HTMLAnchorElement>('[data-focus]').forEach((a) =>
+        a.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          const wrap = form.querySelector<HTMLElement>(`[data-field-id="${a.dataset.focus}"]`);
+          wrap?.querySelector<HTMLElement>('input, select, textarea')?.focus();
+        }),
+      );
+    };
+
+    const renderReview = () => {
+      if (!review) return;
+      const groups = steps
+        .filter((s) => !s.classList.contains('step--review'))
+        .map((s, i) => {
+          const title = s.querySelector('.step__title')?.textContent ?? `Step ${i + 1}`;
+          const rows = fieldsIn(s)
+            .map((wrap) => {
+              const v = readField(wrap);
+              const text = Array.isArray(v) ? v.join(', ') : v;
+              return `<dt>${wrap.dataset.label}</dt><dd>${text ? escapeHtml(text) : '<span class="text-muted">—</span>'}</dd>`;
+            })
+            .join('');
+          return `<section class="review__group"><h4>${escapeHtml(title)}<button type="button" data-step-jump="${i}">Edit</button></h4><dl class="review__list">${rows}</dl></section>`;
+        });
+      review.innerHTML = groups.join('');
+      review
+        .querySelectorAll<HTMLButtonElement>('[data-step-jump]')
+        .forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.stepJump))));
+    };
+
+    const show = (index: number) => {
+      current = Math.max(0, Math.min(index, steps.length - 1));
+      steps.forEach((s, i) => s.classList.toggle('is-active', i === current));
+      stepItems.forEach((li, i) => {
+        li.classList.toggle('is-done', i < current);
+        if (i === current) li.setAttribute('aria-current', 'step');
+        else li.removeAttribute('aria-current');
+        const btn = li.querySelector<HTMLButtonElement>('button');
+        if (btn) btn.disabled = i > current;
+      });
+      const last = current === steps.length - 1;
+      if (prevBtn) prevBtn.hidden = current === 0;
+      if (nextBtn) nextBtn.hidden = last;
+      if (submitBtn) submitBtn.hidden = multi && !last;
+      if (last && multi) renderReview();
+      showSummary([]);
+      steps[current].querySelector<HTMLElement>('.step__title')?.setAttribute('tabindex', '-1');
+      steps[current].querySelector<HTMLElement>('.step__title')?.focus({ preventScroll: false });
+      const top = steps[current].getBoundingClientRect().top + window.scrollY - 120;
+      if (index !== 0) window.scrollTo({ top, behavior: 'smooth' });
+    };
+
+    nextBtn?.addEventListener('click', () => {
+      const errors = validate(steps[current]);
+      showSummary(errors);
+      if (!errors.length) {
+        saveDraft();
+        show(current + 1);
+      }
+    });
+    prevBtn?.addEventListener('click', () => show(current - 1));
+    stepItems.forEach((li, i) =>
+      li.querySelector('button')?.addEventListener('click', () => {
+        if (i < current) show(i);
+      }),
+    );
+
+    /* Drafts */
+    let timer: number | undefined;
+    function saveDraft() {
+      if (!draftKey) return;
+      try {
+        localStorage.setItem(draftKey, JSON.stringify({ t: Date.now(), v: values() }));
+        if (draftNote) draftNote.hidden = false;
+      } catch {
+        /* storage unavailable */
+      }
+    }
+    form.addEventListener('input', () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(saveDraft, 400);
+    });
+    form.addEventListener('change', saveDraft);
+    const restoreDraft = () => {
+      if (!draftKey) return;
+      try {
+        const raw = localStorage.getItem(draftKey);
+        if (!raw) return;
+        const { v } = JSON.parse(raw) as { v: Values };
+        fieldsIn(form).forEach((wrap) => {
+          const val = v[wrap.dataset.fieldId!];
+          if (val === undefined) return;
+          const type = wrap.dataset.type;
+          if (type === 'checkboxes' || type === 'radio') {
+            const set = new Set(Array.isArray(val) ? val : [val]);
+            wrap
+              .querySelectorAll<HTMLInputElement>('input')
+              .forEach((i) => (i.checked = set.has(i.value)));
+          } else if (type === 'checkbox') {
+            const i = wrap.querySelector<HTMLInputElement>('input');
+            if (i) i.checked = val === 'Yes';
+          } else {
+            const c = wrap.querySelector<
+              HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+            >('input, select, textarea');
+            if (c && typeof val === 'string') c.value = val;
+          }
+        });
+        if (draftNote) draftNote.hidden = false;
+      } catch {
+        /* ignore corrupt drafts */
+      }
+    };
+    form.querySelector('[data-draft-clear]')?.addEventListener('click', () => {
+      try {
+        localStorage.removeItem(draftKey);
+      } catch {
+        /* ignore */
+      }
+      form.reset();
+      fieldsIn(form).forEach((w) => setError(w, ''));
+      if (draftNote) draftNote.hidden = true;
+      show(0);
+    });
+    restoreDraft();
+
+    /* Query-string prefill (e.g. ?topic=case-studies, ?subject=...) */
+    const params = new URLSearchParams(location.search);
+    const prefill = (id: string, text: string) => {
+      const c = form.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+        `[data-field-id="${id}"] input, [data-field-id="${id}"] textarea`,
+      );
+      if (c && !c.value) c.value = text;
+    };
+    if (params.get('topic') === 'case-studies') {
+      prefill('description', 'Please send case studies for projects similar to: ');
+      prefill('subject', 'Case studies request');
+    }
+    if (params.get('subject')) prefill('subject', params.get('subject')!);
+
+    /* Submit */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const gotcha = form.querySelector<HTMLInputElement>('input[name="_gotcha"]');
+      if (gotcha?.value) return; // bot
+      const errors = validate(form);
+      if (errors.length) {
+        const firstStep = steps.findIndex((s) => s.contains(errors[0].wrap));
+        if (multi && firstStep >= 0 && firstStep !== current) show(firstStep);
+        showSummary(errors);
+        return;
+      }
+      if (Date.now() - started < 2500) {
+        setStatus('error', 'That was quick — please take a moment to review and submit again.');
+        return;
+      }
+      const payload: Record<string, unknown> = {
+        _subject: form.dataset.subject,
+        _form: form.dataset.formId,
+        ...values(),
+      };
+      const emailField = payload.email ?? payload.contactEmail;
+      if (typeof emailField === 'string' && emailField) payload._replyto = emailField;
+
+      if (form.dataset.mode === 'live' && form.dataset.endpoint) {
+        setBusy(true);
+        try {
+          const res = await fetch(form.dataset.endpoint, {
+            method: 'POST',
+            headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) throw new Error(`Request failed (${res.status})`);
+          success();
+        } catch (err) {
+          setStatus(
+            'error',
+            `We couldn't send your message (${err instanceof Error ? err.message : 'network error'}). Please email <a href="mailto:${form.dataset.mailto}">${form.dataset.mailto}</a> or call 919.346.8333.`,
+          );
+        } finally {
+          setBusy(false);
+        }
+        return;
+      }
+
+      // Review mode: hand the composed request to the visitor's email app.
+      const body = Object.entries(payload)
+        .filter(([k]) => !k.startsWith('_'))
+        .map(([k, v]) => `${labelFor(k)}: ${Array.isArray(v) ? v.join(', ') : v || '—'}`)
+        .join('\n');
+      const mailto = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(String(form.dataset.subject))}&body=${encodeURIComponent(body)}`;
+      setStatus(
+        'success',
+        `<strong>Review mode.</strong> This form is not connected to a delivery service yet, so nothing was sent. <a class="btn btn--primary btn--sm" href="${mailto}">Open this ${escapeHtml(String(form.dataset.subject).toLowerCase())} in your email app</a> or email <a href="mailto:${form.dataset.mailto}">${form.dataset.mailto}</a>.`,
+      );
+    });
+
+    function labelFor(id: string): string {
+      return form.querySelector<HTMLElement>(`[data-field-id="${id}"]`)?.dataset.label ?? id;
+    }
+
+    function success() {
+      try {
+        localStorage.removeItem(draftKey);
+      } catch {
+        /* ignore */
+      }
+      steps.forEach((s) => s.classList.remove('is-active'));
+      form.querySelector<HTMLElement>('.form__actions')?.setAttribute('hidden', '');
+      form.querySelector<HTMLElement>('[data-steps]')?.setAttribute('hidden', '');
+      setStatus(
+        'success',
+        `<strong>${escapeHtml(form.dataset.successTitle ?? 'Thank you.')}</strong><br>${escapeHtml(form.dataset.successBody ?? '')}`,
+      );
+      status.focus();
+    }
+
+    function setBusy(busy: boolean) {
+      form.querySelectorAll<HTMLButtonElement>('button').forEach((b) => (b.disabled = busy));
+      form.setAttribute('aria-busy', String(busy));
+    }
+
+    function setStatus(state: 'success' | 'error', html: string) {
+      status.dataset.state = state;
+      status.innerHTML = html;
+      status.setAttribute('tabindex', '-1');
+      status.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }
+
+  function escapeHtml(s: string): string {
+    return s.replace(
+      /[&<>"']/g,
+      (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string,
+    );
+  }
+</script>

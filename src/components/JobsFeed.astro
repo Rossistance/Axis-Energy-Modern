@@ -1,0 +1,97 @@
+---
+import { Icon } from 'astro-icon/components';
+import JobCard from './JobCard.astro';
+import { getJobs } from '@lib/jobs';
+import { company } from '@data/company';
+
+const { jobs, source, warning } = await getJobs();
+const preview = (import.meta.env.PUBLIC_SITE_MODE ?? 'preview') !== 'production';
+const linkedin = import.meta.env.PUBLIC_JOBS_LINKEDIN_URL ?? `${company.linkedin}/jobs/`;
+const indeed = import.meta.env.PUBLIC_JOBS_INDEED_URL ?? '';
+const hasSamples = jobs.some((j) => j.sample);
+---
+
+<div class="jobs" id="openings">
+  {preview && (hasSamples || warning) && (
+    <p class="jobs__notice">
+      <Icon name="lucide:info" />
+      {warning
+        ? `The configured jobs feed (${source}) could not be reached at build time; static listings are shown instead.`
+        : 'Sample listings for review. Live openings will come from the jobs source configured at launch (see docs/HANDOFF.md).'}
+    </p>
+  )}
+
+  {jobs.length > 0 ? (
+    <div class="grid grid--2" data-reveal-group>
+      {jobs.map((job) => (
+        <JobCard job={job} />
+      ))}
+    </div>
+  ) : (
+    <div class="jobs__empty card">
+      <h3>No openings are posted right now.</h3>
+      <p>
+        We are continuously looking for qualified, safety-minded people. If you are interested in
+        employment at Axis Energy, e-mail your résumé and salary history to{' '}
+        <a href={`mailto:${company.careersEmail}`}>{company.careersEmail}</a>.
+      </p>
+    </div>
+  )}
+
+  <div class="jobs__boards">
+    <span>Also posted on</span>
+    {linkedin && (
+      <a class="btn btn--secondary btn--sm" href={linkedin} rel="noopener" target="_blank">
+        <Icon name="lucide:linkedin" class="icon" /> LinkedIn
+      </a>
+    )}
+    {indeed && (
+      <a class="btn btn--secondary btn--sm" href={indeed} rel="noopener" target="_blank">
+        <Icon name="lucide:external-link" class="icon" /> Indeed
+      </a>
+    )}
+    <a class="btn btn--ghost btn--sm" href={`mailto:${company.careersEmail}`}>
+      <Icon name="lucide:mail" class="icon" /> {company.careersEmail}
+    </a>
+  </div>
+</div>
+
+<style>
+  .jobs {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .jobs__notice {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding: 0.85rem 1rem;
+    border-radius: var(--r-md);
+    background: rgba(244, 201, 93, 0.16);
+    border: 1px solid rgba(122, 90, 0, 0.3);
+    color: #5a4300;
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .jobs__notice :global(svg) {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    margin-top: 0.1rem;
+  }
+
+  .jobs__empty h3 {
+    font-size: 1.2rem;
+  }
+
+  .jobs__boards {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+const mode = (import.meta.env.PUBLIC_SITE_MODE ?? 'preview').toLowerCase();
+const show = mode !== 'production';
+---
+
+{show && (
+  <div class="preview-ribbon" data-preview-ribbon role="note">
+    <div class="container preview-ribbon__inner">
+      <span>
+        <strong>Preview build</strong> for Axis Energy review — copy, figures and new forms are
+        pending approval.
+      </span>
+      <button
+        type="button"
+        class="preview-ribbon__close"
+        data-preview-dismiss
+        aria-label="Dismiss preview notice"
+      >
+        Dismiss
+      </button>
+    </div>
+  </div>
+)}
+
+<style>
+  .preview-ribbon {
+    background: var(--sun-400);
+    color: #3b2e00;
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .preview-ribbon__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.45rem 0;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .preview-ribbon__close {
+    border: 1px solid rgba(59, 46, 0, 0.35);
+    background: rgba(255, 255, 255, 0.35);
+    color: inherit;
+    border-radius: var(--r-pill);
+    padding: 0.15rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .preview-ribbon.is-hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  const ribbon = document.querySelector<HTMLElement>('[data-preview-ribbon]');
+  if (ribbon) {
+    try {
+      if (sessionStorage.getItem('axis-preview-dismissed') === '1')
+        ribbon.classList.add('is-hidden');
+    } catch {
+      /* storage unavailable */
+    }
+    ribbon.querySelector('[data-preview-dismiss]')?.addEventListener('click', () => {
+      ribbon.classList.add('is-hidden');
+      try {
+        sessionStorage.setItem('axis-preview-dismissed', '1');
+      } catch {
+        /* ignore */
+      }
+    });
+  }
+</script>

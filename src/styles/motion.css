@@ -1,0 +1,88 @@
+/* Motion is additive: content is fully visible without JS. */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+}
+
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+html.js [data-reveal-group] > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+}
+
+html.js [data-reveal-group].is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+html.js [data-reveal-group].is-visible > :nth-child(2) {
+  transition-delay: 70ms;
+}
+
+html.js [data-reveal-group].is-visible > :nth-child(3) {
+  transition-delay: 140ms;
+}
+
+html.js [data-reveal-group].is-visible > :nth-child(4) {
+  transition-delay: 210ms;
+}
+
+html.js [data-reveal-group].is-visible > :nth-child(5) {
+  transition-delay: 280ms;
+}
+
+html.js [data-reveal-group].is-visible > :nth-child(6) {
+  transition-delay: 350ms;
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-art--drift img {
+    animation: hero-drift 28s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal],
+  html.js [data-reveal-group] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hero-art--drift img {
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

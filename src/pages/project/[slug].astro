@@ -1,0 +1,400 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import heroArt from '@assets/hero/hero-projects.png';
+import { href, absoluteUrl } from '@lib/href';
+import { formatSize, formatStorage, formatCommissioned } from '@lib/format';
+import { getPublishedProjects, projectLocation, TYPE_LABELS } from '@lib/projects';
+import { projectSchema } from '@lib/schema';
+
+export async function getStaticPaths() {
+  const projects = await getPublishedProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      prev: projects[i - 1] ?? null,
+      next: projects[i + 1] ?? null,
+      related: projects.filter((p) => p.id !== project.id).slice(0, 3),
+    },
+  }));
+}
+
+const { project, prev, next, related } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+const location = projectLocation(project);
+const url = absoluteUrl(`/project/${project.id}/`, Astro.site);
+const artPos: Record<string, string> = {
+  utility: 'left center',
+  community: 'left center',
+  microgrid: 'center top',
+  rooftop: 'right center',
+  commercial: 'right center',
+  municipal: 'right center',
+  carport: 'right center',
+};
+const jsonLd = [
+  projectSchema({
+    url,
+    name: data.title,
+    description: data.summary,
+    location,
+    siteUrl: absoluteUrl('/', Astro.site),
+    dateCompleted: data.commissioned,
+  }),
+];
+const ogImage = data.image ? data.image.src : undefined;
+const meta = [
+  { label: 'Location', value: location },
+  { label: 'Size', value: formatSize(data.sizeMwdc) },
+  {
+    label: 'Commissioned',
+    value: formatCommissioned(data.commissioned) || (data.year ? String(data.year) : ''),
+  },
+  { label: 'Role', value: data.role.join(', ') },
+  { label: 'Type', value: TYPE_LABELS[data.type] },
+  { label: 'Mount', value: data.mount ?? '' },
+  { label: 'Sites', value: data.sites ? String(data.sites) : '' },
+  {
+    label: 'Storage',
+    value: formatStorage(data.storageMwh)
+      ? `${formatStorage(data.storageMwh)}${data.storageBrand ? ` (${data.storageBrand})` : ''}`
+      : '',
+  },
+  { label: 'Modules', value: data.modules ?? '' },
+].filter((m) => m.value);
+---
+
+<BaseLayout title={data.title} description={data.summary} {jsonLd} ogImage={ogImage}>
+  <section class="project-hero band-dark">
+    <div
+      class="project-hero__art"
+      aria-hidden="true"
+      style={`--pos: ${artPos[data.type] ?? 'center'}`}
+    >
+      <Image
+        src={heroArt}
+        alt=""
+        format="webp"
+        widths={[800, 1400]}
+        sizes="100vw"
+        loading="eager"
+      />
+    </div>
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: 'Projects', href: '/projects/' },
+          { label: data.title, href: `/project/${project.id}/` },
+        ]}
+      />
+      <p class="eyebrow">Project · {TYPE_LABELS[data.type]}</p>
+      <h1>{data.title}</h1>
+      <p class="lead">{data.summary}</p>
+      <ul class="project-hero__chips" aria-label="Key facts">
+        <li class="chip">
+          <Icon name="lucide:map-pin" /> {location}
+        </li>
+        <li class="chip">
+          <Icon name="lucide:sun" /> {formatSize(data.sizeMwdc)}
+        </li>
+        {data.commissioned && (
+          <li class="chip">
+            <Icon name="lucide:calendar-check" /> Commissioned{' '}
+            {formatCommissioned(data.commissioned)}
+          </li>
+        )}
+        <li class="chip">
+          <Icon name="lucide:briefcase" /> {data.role.join(', ')}
+        </li>
+        {data.sites && (
+          <li class="chip">
+            <Icon name="lucide:layers" /> {data.sites} sites
+          </li>
+        )}
+        {data.storageMwh && (
+          <li class="chip">
+            <Icon name="lucide:battery-charging" /> {formatStorage(data.storageMwh)} storage
+          </li>
+        )}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container project-body">
+      <article>
+        {data.image && (
+          <figure class="project-figure">
+            <Image
+              src={data.image}
+              alt={data.imageAlt ?? data.title}
+              widths={[400, 800]}
+              sizes="(min-width: 900px) 60vw, 100vw"
+              loading="eager"
+            />
+            {data.imageCredit && <figcaption>{data.imageCredit}</figcaption>}
+          </figure>
+        )}
+        <div class="prose">
+          <Content />
+        </div>
+        {data.impact && (
+          <aside class="impact" aria-labelledby="impact-title">
+            <Icon name="lucide:trending-up" />
+            <div>
+              <h2 id="impact-title">Impact</h2>
+              <p>{data.impact}</p>
+            </div>
+          </aside>
+        )}
+      </article>
+
+      <aside class="project-aside" aria-label="Project details">
+        <div class="card">
+          <h2 class="aside-title">Key facts</h2>
+          <dl class="facts facts--stack">
+            {meta.map((m) => (
+              <div>
+                <dt>{m.label}</dt>
+                <dd>{m.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        {data.partners && (
+          <div class="card">
+            <h2 class="aside-title">Partners</h2>
+            <ul class="list-check">
+              {data.partners.map((p) => (
+                <li>{p}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <div class="card card--cta">
+          <h2 class="aside-title">Planning something similar?</h2>
+          <p class="text-muted">
+            Tell us about your site and we will follow up with relevant case studies and a
+            preliminary approach.
+          </p>
+          <a class="btn btn--primary" href={href('/request-a-quote/')}>
+            Request a quote
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="related-title">
+    <div class="container">
+      <div class="section-heading section-heading--row">
+        <div>
+          <p class="eyebrow">Related projects</p>
+          <h2 id="related-title">More from the portfolio</h2>
+        </div>
+        <a class="btn btn--secondary" href={href('/projects/')}>
+          All projects
+        </a>
+      </div>
+      <div class="grid grid--3" data-reveal-group>
+        {related.map((p) => (
+          <ProjectCard project={p} />
+        ))}
+      </div>
+      <nav class="pn" aria-label="Project navigation">
+        {prev ? (
+          <a href={href(`/project/${prev.id}/`)} class="pn__link">
+            <Icon name="lucide:arrow-left" />
+            <span>
+              <small>Previous</small>
+              {prev.data.title}
+            </span>
+          </a>
+        ) : (
+          <span />
+        )}
+        {next ? (
+          <a href={href(`/project/${next.id}/`)} class="pn__link pn__link--next">
+            <span>
+              <small>Next</small>
+              {next.data.title}
+            </span>
+            <Icon name="lucide:arrow-right" />
+          </a>
+        ) : (
+          <span />
+        )}
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .project-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .project-hero__art {
+    position: absolute;
+    inset: 0;
+    opacity: 0.28;
+  }
+
+  .project-hero__art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--pos);
+  }
+
+  .project-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 35, 82, 0.85), rgba(0, 35, 82, 0.35));
+  }
+
+  .project-hero .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin-left: max(var(--gutter), calc((100% - var(--container)) / 2));
+  }
+
+  .project-hero h1 {
+    color: #fff;
+    font-size: var(--h1-sm);
+  }
+
+  .project-hero__chips {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-body {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .project-figure {
+    margin: 0 0 2rem;
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--mist-100);
+  }
+
+  .project-figure img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+  }
+
+  .project-figure figcaption {
+    padding: 0.6rem 1rem;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .impact {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg, rgba(0, 75, 141, 0.07), rgba(0, 135, 82, 0.1));
+  }
+
+  .impact :global(svg) {
+    width: 28px;
+    height: 28px;
+    color: var(--brand-green);
+    flex: none;
+  }
+
+  .impact h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .project-aside {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+
+  .aside-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .facts--stack {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .facts--stack dd {
+    font-size: 1rem;
+  }
+
+  .card--cta p {
+    margin-bottom: 1rem;
+  }
+
+  .pn {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pn__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .pn__link span {
+    display: grid;
+  }
+
+  .pn__link small {
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .pn__link--next {
+    justify-self: end;
+    text-align: right;
+  }
+
+  .pn :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--brand-green);
+    flex: none;
+  }
+
+  @media (min-width: 900px) {
+    .project-body {
+      grid-template-columns: minmax(0, 1fr) 340px;
+    }
+  }
+</style>

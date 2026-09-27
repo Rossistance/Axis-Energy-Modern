@@ -1,0 +1,154 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import FormShell from '@components/FormShell.astro';
+import heroArt from '@assets/hero/hero-home.png';
+import { rfqForm } from '@data/forms';
+import { company } from '@data/company';
+import { href } from '@lib/href';
+
+const description =
+  'Request a quote from Axis Energy for solar EPC, battery storage, microgrid, electrical infrastructure or O&M work. Tell us about your project and we will follow up within one business day.';
+const steps = [
+  {
+    title: 'We review your project',
+    body: 'A member of the Axis team reads every request and matches it with the right project and preconstruction lead.',
+  },
+  {
+    title: 'We talk',
+    body: 'Expect a call or email within one business day to confirm scope, site details and timing.',
+  },
+  {
+    title: 'You get a plan',
+    body: 'A preliminary approach and, where the project is defined, a budgetary or firm proposal.',
+  },
+];
+---
+
+<BaseLayout title="Request a Quote" {description} cta={false}>
+  <PageHero
+    eyebrow="Request a quote"
+    title="Tell us about your project"
+    lead="Solar, storage, microgrids, electrical infrastructure or O&M — share what you know and we will follow up within one business day. Estimates are fine; you can save and finish later."
+    art={heroArt}
+    artPosition="30% 40%"
+    artScale={1.25}
+    ratio="4 / 3"
+    crumbs={[{ label: 'Request a Quote', href: '/request-a-quote/' }]}
+  />
+
+  <section class="section">
+    <div class="container form-layout">
+      <div class="card form-card">
+        <FormShell spec={rfqForm} endpointEnv="PUBLIC_FORM_ENDPOINT_RFQ" />
+      </div>
+      <aside class="form-aside">
+        <div class="card">
+          <h2 class="aside-title">What happens next</h2>
+          <ol class="next-steps">
+            {steps.map((s) => (
+              <li>
+                <strong>{s.title}</strong>
+                <span>{s.body}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div class="card">
+          <h2 class="aside-title">Prefer to talk?</h2>
+          <p>
+            <a class="big-link" href={`tel:${company.phone.tel}`}>
+              <Icon name="lucide:phone" /> {company.phone.display}
+            </a>
+          </p>
+          <p>
+            <a class="big-link" href={`mailto:${company.email}`}>
+              <Icon name="lucide:mail" /> {company.email}
+            </a>
+          </p>
+          <p class="text-muted small">{company.hours}</p>
+        </div>
+        <div class="card">
+          <h2 class="aside-title">Looking to work with us as a subcontractor?</h2>
+          <p class="text-muted">
+            Use the prequalification form instead so our preconstruction team can vet your company
+            for upcoming scopes.
+          </p>
+          <a class="link-arrow" href={href('/subcontractors/')}>
+            Subcontractor prequalification <Icon name="lucide:arrow-right" class="icon" />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .form-layout {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  .form-card {
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  .form-aside {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .aside-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .next-steps {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.9rem;
+    font-size: var(--text-sm);
+  }
+
+  .next-steps li {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .next-steps span {
+    color: var(--text-muted);
+  }
+
+  .big-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.05rem;
+  }
+
+  .big-link svg {
+    width: 18px;
+    height: 18px;
+    color: var(--brand-green);
+  }
+
+  .small {
+    font-size: var(--text-sm);
+  }
+
+  @media (min-width: 1024px) {
+    .form-layout {
+      grid-template-columns: minmax(0, 1fr) 340px;
+    }
+
+    .form-aside {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+    }
+  }
+</style>

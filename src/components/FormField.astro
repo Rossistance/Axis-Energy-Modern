@@ -1,0 +1,159 @@
+---
+import type { Field } from '@data/forms';
+
+interface Props {
+  field: Field;
+  formId: string;
+}
+
+const { field, formId } = Astro.props;
+const id = `${formId}-${field.id}`;
+const helpId = field.help ? `${id}-help` : undefined;
+const errId = `${id}-error`;
+const describedBy = [helpId, errId].filter(Boolean).join(' ');
+const isGroup = field.type === 'radio' || field.type === 'checkboxes';
+const isSingleCheckbox = field.type === 'checkbox';
+type InputType = 'text' | 'email' | 'tel' | 'url' | 'number' | 'date';
+const inputTypes: InputType[] = ['text', 'email', 'tel', 'url', 'number', 'date'];
+const inputType: InputType = (inputTypes as string[]).includes(field.type)
+  ? (field.type as InputType)
+  : 'text';
+const cls = ['field', { 'field--full': field.full || field.type === 'textarea' || isGroup }];
+---
+
+{isGroup ? (
+  <fieldset
+    class:list={cls}
+    data-field-id={field.id}
+    data-label={field.label}
+    data-required={field.required ? 'true' : undefined}
+    data-type={field.type}
+  >
+    <legend>
+      {field.label}
+      {field.required && (
+        <span class="req" aria-hidden="true">
+          *
+        </span>
+      )}
+      {field.required && <span class="sr-only"> (required)</span>}
+    </legend>
+    {field.help && (
+      <p class="field__help" id={helpId}>
+        {field.help}
+      </p>
+    )}
+    <div class:list={['choices', { 'choices--inline': field.type === 'radio' }]}>
+      {field.options?.map((opt, i) => (
+        <label class="choice">
+          <input
+            type={field.type === 'radio' ? 'radio' : 'checkbox'}
+            name={field.id}
+            value={opt.value}
+            required={field.type === 'radio' && field.required && i === 0 ? true : undefined}
+            aria-describedby={describedBy || undefined}
+          />
+          <span>{opt.label}</span>
+        </label>
+      ))}
+    </div>
+    <p class="field__error" id={errId} />
+  </fieldset>
+) : isSingleCheckbox ? (
+  <div
+    class:list={cls}
+    data-field-id={field.id}
+    data-label={field.label}
+    data-required={field.required ? 'true' : undefined}
+    data-type={field.type}
+  >
+    <label class="choice">
+      <input
+        type="checkbox"
+        name={field.id}
+        value="Yes"
+        required={field.required}
+        aria-describedby={describedBy || undefined}
+      />
+      <span>
+        {field.label}
+        {field.required && (
+          <span class="req" aria-hidden="true">
+            *
+          </span>
+        )}
+      </span>
+    </label>
+    {field.help && (
+      <p class="field__help" id={helpId}>
+        {field.help}
+      </p>
+    )}
+    <p class="field__error" id={errId} />
+  </div>
+) : (
+  <div
+    class:list={cls}
+    data-field-id={field.id}
+    data-label={field.label}
+    data-required={field.required ? 'true' : undefined}
+    data-type={field.type}
+  >
+    <label class="field__label" for={id}>
+      {field.label}
+      {field.required && (
+        <span class="req" aria-hidden="true">
+          *
+        </span>
+      )}
+      {field.required && <span class="sr-only"> (required)</span>}
+    </label>
+    {field.help && (
+      <p class="field__help" id={helpId}>
+        {field.help}
+      </p>
+    )}
+    {field.type === 'textarea' ? (
+      <textarea
+        class="textarea"
+        id={id}
+        name={field.id}
+        rows={field.rows ?? 5}
+        required={field.required}
+        maxlength={field.maxlength}
+        placeholder={field.placeholder}
+        aria-describedby={describedBy || undefined}
+      />
+    ) : field.type === 'select' ? (
+      <select
+        class="select"
+        id={id}
+        name={field.id}
+        required={field.required}
+        aria-describedby={describedBy || undefined}
+      >
+        <option value="">Select…</option>
+        {field.options?.map((opt) => (
+          <option value={opt.value}>{opt.label}</option>
+        ))}
+      </select>
+    ) : (
+      <input
+        class="input"
+        id={id}
+        name={field.id}
+        type={inputType}
+        required={field.required}
+        placeholder={field.placeholder}
+        autocomplete={field.autocomplete}
+        inputmode={field.type === 'tel' ? 'tel' : field.type === 'number' ? 'decimal' : undefined}
+        min={field.min}
+        max={field.max}
+        step={field.step}
+        maxlength={field.maxlength}
+        aria-describedby={describedBy || undefined}
+      />
+    )}
+    <p class="field__error" id={errId} />
+  </div>
+)}

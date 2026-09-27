@@ -1,0 +1,204 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import tile from '@assets/hero/hero-projects.png';
+import { href } from '@lib/href';
+import { formatSize, formatStorage } from '@lib/format';
+import { TYPE_LABELS, projectLocation, type Project } from '@lib/projects';
+
+interface Props {
+  project: Project;
+  featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+const { data } = project;
+const url = href(`/project/${project.id}/`);
+const storage = formatStorage(data.storageMwh);
+---
+
+<article
+  class:list={['project-card', 'card', 'card--lift', { 'project-card--featured': featured }]}
+  data-type={data.type}
+  data-state={data.state}
+  data-role={data.role.join('|')}
+  data-size={data.sizeMwdc}
+  data-year={data.year ?? 0}
+  data-storage={data.storageMwh ? '1' : '0'}
+>
+  <a href={url} class="project-card__media" aria-hidden="true" tabindex="-1">
+    {data.image ? (
+      <Image
+        src={data.image}
+        alt=""
+        widths={[400, 640, 900]}
+        sizes="(min-width: 900px) 33vw, 100vw"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <Image
+        src={tile}
+        alt=""
+        format="webp"
+        widths={[400, 640]}
+        sizes="(min-width: 900px) 33vw, 100vw"
+        loading="lazy"
+        decoding="async"
+        class="project-card__tile"
+      />
+    )}
+    <span class="chip project-card__type">{TYPE_LABELS[data.type]}</span>
+  </a>
+  <div class="project-card__body">
+    <h3>
+      <a href={url}>{data.title}</a>
+    </h3>
+    <p class="project-card__loc">
+      <Icon name="lucide:map-pin" />
+      {projectLocation(project)}
+    </p>
+    <p class="project-card__summary">{data.summary}</p>
+    <dl class="project-card__meta">
+      <div>
+        <dt>Size</dt>
+        <dd class="tabular">{formatSize(data.sizeMwdc)}</dd>
+      </div>
+      {storage && (
+        <div>
+          <dt>Storage</dt>
+          <dd class="tabular">{storage}</dd>
+        </div>
+      )}
+      {data.year && (
+        <div>
+          <dt>Completed</dt>
+          <dd class="tabular">{data.year}</dd>
+        </div>
+      )}
+      <div>
+        <dt>Role</dt>
+        <dd>{data.role.join(', ')}</dd>
+      </div>
+    </dl>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    background: var(--navy-deep);
+    overflow: hidden;
+  }
+
+  .project-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+
+  .project-card:hover .project-card__media img {
+    transform: scale(1.04);
+  }
+
+  .project-card[data-type='utility'] .project-card__tile,
+  .project-card[data-type='community'] .project-card__tile {
+    object-position: 10% 40%;
+  }
+
+  .project-card[data-type='microgrid'] .project-card__tile {
+    object-position: 60% 20%;
+  }
+
+  .project-card[data-type='commercial'] .project-card__tile,
+  .project-card[data-type='municipal'] .project-card__tile,
+  .project-card[data-type='carport'] .project-card__tile,
+  .project-card[data-type='rooftop'] .project-card__tile {
+    object-position: 85% 70%;
+  }
+
+  .project-card__type {
+    position: absolute;
+    left: 0.9rem;
+    top: 0.9rem;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--brand-navy);
+  }
+
+  .project-card__body {
+    padding: 1.25rem 1.35rem 1.4rem;
+    display: grid;
+    gap: 0.6rem;
+    flex: 1;
+  }
+
+  .project-card h3 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .project-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .project-card h3 a:hover {
+    color: var(--brand-blue);
+  }
+
+  .project-card__loc {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .project-card__loc :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .project-card__summary {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .project-card__meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.5rem 1rem;
+    margin: 0.5rem 0 0;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--text-sm);
+  }
+
+  .project-card__meta dt {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .project-card__meta dd {
+    margin: 0;
+    font-weight: 600;
+  }
+</style>

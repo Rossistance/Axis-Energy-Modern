@@ -1,0 +1,143 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { ServiceGroup } from '@data/services';
+
+interface Props {
+  group: ServiceGroup;
+  photo?: { src: ImageMetadata; alt: string; caption?: string };
+  flip?: boolean;
+}
+
+const { group, photo, flip = false } = Astro.props;
+---
+
+<section
+  class:list={['service-block', { 'service-block--flip': flip }]}
+  id={group.id}
+  aria-labelledby={`${group.id}-title`}
+>
+  <div class="container">
+    <div class="split split--7-5 service-block__top">
+      <div data-reveal>
+        <p class="eyebrow">{group.eyebrow}</p>
+        <h2 id={`${group.id}-title`}>{group.title}</h2>
+        <p class="lead">{group.intro}</p>
+      </div>
+      {photo && (
+        <figure class="photo photo--duotone service-block__photo" data-reveal>
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 900px) 40vw, 100vw"
+            loading="lazy"
+            decoding="async"
+          />
+          {photo.caption && <figcaption class="photo__caption">{photo.caption}</figcaption>}
+        </figure>
+      )}
+    </div>
+    <div class="grid grid--3 service-block__cols" data-reveal-group>
+      {group.columns.map((col) => (
+        <div class="card service-col">
+          <h3>{col.title}</h3>
+          <ul class="list-check">
+            {col.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          {col.note && <p class="text-muted service-col__note">{col.note}</p>}
+        </div>
+      ))}
+    </div>
+    {group.callout && (
+      <aside class="service-callout" data-reveal>
+        <Icon name={group.icon} />
+        <div>
+          <h3>{group.callout.title}</h3>
+          <p>{group.callout.body}</p>
+        </div>
+      </aside>
+    )}
+  </div>
+</section>
+
+<style>
+  .service-block {
+    padding-block: var(--section-y);
+    scroll-margin-top: calc(var(--header-h) + 60px);
+  }
+
+  .service-block:nth-of-type(even) {
+    background: var(--mist-50);
+  }
+
+  .service-block__top {
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    align-items: center;
+  }
+
+  .service-block--flip .service-block__top > :first-child {
+    order: 2;
+  }
+
+  .service-block__photo {
+    aspect-ratio: 4 / 3;
+    margin: 0;
+  }
+
+  .service-col h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .service-col__note {
+    margin-top: 0.9rem;
+    font-size: var(--text-sm);
+  }
+
+  .service-callout {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin-top: clamp(1.5rem, 3vw, 2rem);
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg, rgba(0, 75, 141, 0.07), rgba(0, 135, 82, 0.09));
+  }
+
+  .service-callout :global(svg) {
+    width: 28px;
+    height: 28px;
+    color: var(--brand-blue);
+    flex: none;
+    margin-top: 0.2rem;
+  }
+
+  .service-callout h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .service-callout p {
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 900px) {
+    .service-block--flip .service-block__top > :first-child {
+      order: 0;
+    }
+
+    .service-block--flip .service-block__top {
+      grid-template-columns: 5fr 7fr;
+    }
+
+    .service-block--flip .service-block__top > :last-child {
+      order: -1;
+    }
+  }
+</style>

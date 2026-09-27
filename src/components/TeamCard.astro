@@ -1,0 +1,143 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import type { CollectionEntry } from 'astro:content';
+import { href } from '@lib/href';
+
+interface Props {
+  person: CollectionEntry<'team'>;
+}
+
+const { person } = Astro.props;
+const { data } = person;
+const url = href(`/team/${person.id}/`);
+---
+
+<article class="team-card card card--lift">
+  <a href={url} class="team-card__photo" aria-hidden="true" tabindex="-1">
+    {data.photo ? (
+      <Image
+        src={data.photo}
+        alt=""
+        width={480}
+        height={480}
+        widths={[240, 480]}
+        sizes="(min-width: 640px) 240px, 100vw"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <span class="team-card__placeholder">
+        <Icon name="lucide:user" />
+      </span>
+    )}
+  </a>
+  <div class="team-card__body">
+    <h3>
+      <a href={url}>{data.name}</a>
+    </h3>
+    <p class="team-card__title">{data.title}</p>
+    <p class="team-card__summary">{data.summary}</p>
+    <div class="team-card__links">
+      {data.email && (
+        <a href={`mailto:${data.email}`}>
+          <Icon name="lucide:mail" /> Email
+        </a>
+      )}
+      {data.linkedin && (
+        <a href={data.linkedin} rel="noopener" target="_blank">
+          <Icon name="lucide:linkedin" /> LinkedIn
+        </a>
+      )}
+      <a href={url} class="link-arrow">
+        Full bio <Icon name="lucide:arrow-right" class="icon" />
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .team-card {
+    padding: 0;
+    overflow: hidden;
+    display: grid;
+  }
+
+  .team-card__photo {
+    display: block;
+    aspect-ratio: 1;
+    background: var(--grad-band);
+    overflow: hidden;
+  }
+
+  .team-card__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .team-card__placeholder {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .team-card__placeholder :global(svg) {
+    width: 64px;
+    height: 64px;
+  }
+
+  .team-card__body {
+    padding: 1.25rem 1.35rem 1.5rem;
+  }
+
+  .team-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .team-card h3 a {
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .team-card__title {
+    color: var(--brand-green-dark);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    margin-bottom: 0.75rem;
+  }
+
+  .team-card__summary {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .team-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    margin-top: 1rem;
+    font-size: var(--text-sm);
+  }
+
+  .team-card__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .team-card__links :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (min-width: 640px) {
+    .team-card {
+      grid-template-columns: 240px 1fr;
+    }
+  }
+</style>

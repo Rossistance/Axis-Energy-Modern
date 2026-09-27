@@ -1,0 +1,152 @@
+/* Axis Energy design tokens. Brand values come from the 2018 brand sheet
+   (PANTONE 288 blue, PANTONE 348 green, PANTONE 289 navy); the teal family
+   comes from the hero-2025 illustration set. */
+:root {
+  color-scheme: light;
+
+  /* Brand */
+  --brand-blue: #004b8d;
+  --brand-blue-bright: #0f5fad;
+  --brand-green: #008752;
+  --brand-green-bright: #5fd39a;
+  --brand-green-dark: #006b40; /* AA on white and mist backgrounds at small sizes */
+  --brand-navy: #003e78;
+  --navy-deep: #002352;
+  --ink: #0b2440;
+  --ink-muted: #4f6075;
+  --grey-brand: #4d4d4f;
+  --teal-900: #072f3f;
+  --teal-800: #0c3e52;
+  --aqua-400: #3fcfc4;
+  --aqua-200: #9eede6;
+  --sun-400: #f4c95d;
+  --white: #ffffff;
+  --mist-50: #f5f8fb;
+  --mist-100: #eaf0f6;
+  --mist-200: #d9e3ec;
+  --danger: #b42318;
+  --danger-bg: #fef3f2;
+  --success: #067647;
+  --success-bg: #ecfdf3;
+
+  --grad-brand: linear-gradient(90deg, var(--brand-blue), var(--brand-green));
+  --grad-band: linear-gradient(135deg, #002352 0%, #0c3e52 100%);
+
+  /* Semantic (light context) */
+  --bg: var(--white);
+  --bg-alt: var(--mist-50);
+  --surface: var(--white);
+  --surface-2: var(--mist-100);
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --line: var(--mist-200);
+  --line-strong: #b9c9d8;
+  --link: var(--brand-blue);
+  --link-hover: var(--brand-blue-bright);
+  --accent: var(--brand-green);
+  --focus: var(--brand-blue-bright);
+  --eyebrow: var(--brand-green-dark);
+  --btn-primary-bg: var(--brand-blue);
+  --btn-primary-fg: #ffffff;
+  --btn-primary-hover: var(--brand-blue-bright);
+  --btn-secondary-fg: var(--brand-navy);
+  --btn-secondary-line: var(--brand-navy);
+  --btn-secondary-hover-bg: rgba(0, 62, 120, 0.06);
+  --chip-bg: var(--mist-100);
+  --chip-fg: var(--brand-navy);
+
+  /* Type */
+  --font-display:
+    'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter Variable', Inter, 'Segoe UI', system-ui, sans-serif;
+  --text-xs: 0.8rem;
+  --text-sm: 0.9rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.2rem;
+  --text-xl: clamp(1.25rem, 1rem + 0.8vw, 1.45rem);
+  --h1: clamp(2.5rem, 1.5rem + 3.4vw, 4.5rem);
+  --h1-sm: clamp(2.1rem, 1.4rem + 2.4vw, 3.4rem);
+  --h2: clamp(1.9rem, 1.3rem + 2vw, 3rem);
+  --h3: clamp(1.3rem, 1.1rem + 0.7vw, 1.6rem);
+  --h4: 1.15rem;
+  --lh-tight: 1.08;
+  --lh-snug: 1.25;
+  --lh-body: 1.65;
+
+  /* Space */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 2.5rem;
+  --s-8: 3rem;
+  --s-9: 4rem;
+  --s-10: 5rem;
+  --s-11: 6rem;
+  --s-12: 7rem;
+  --section-y: clamp(4rem, 8vw, 7rem);
+  --section-y-sm: clamp(2.5rem, 5vw, 4rem);
+  --gutter: clamp(16px, 5vw, 48px);
+  --container: 1200px;
+  --container-narrow: 820px;
+  --container-wide: 1360px;
+
+  /* Shape and elevation */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(11, 36, 64, 0.06), 0 1px 3px rgba(11, 36, 64, 0.08);
+  --shadow-2: 0 6px 20px -8px rgba(11, 36, 64, 0.18), 0 2px 6px rgba(11, 36, 64, 0.06);
+  --shadow-3: 0 24px 60px -24px rgba(0, 35, 82, 0.35), 0 8px 24px -12px rgba(0, 35, 82, 0.2);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-1: 150ms;
+  --dur-2: 250ms;
+  --dur-3: 450ms;
+
+  --header-h: 76px;
+}
+
+/* Dark "illuminated" bands: heroes, CTA band, footer bottom. */
+.band-dark {
+  --bg: var(--navy-deep);
+  --bg-alt: var(--teal-900);
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-2: rgba(255, 255, 255, 0.1);
+  --text: #ffffff;
+  --text-muted: rgba(234, 240, 246, 0.82);
+  --line: rgba(255, 255, 255, 0.16);
+  --line-strong: rgba(255, 255, 255, 0.34);
+  --link: var(--aqua-200);
+  --link-hover: #ffffff;
+  --accent: var(--aqua-400);
+  --focus: var(--aqua-400);
+  --eyebrow: var(--aqua-400);
+  --btn-primary-bg: #ffffff;
+  --btn-primary-fg: var(--navy-deep);
+  --btn-primary-hover: var(--aqua-200);
+  --btn-secondary-fg: #ffffff;
+  --btn-secondary-line: rgba(255, 255, 255, 0.55);
+  --btn-secondary-hover-bg: rgba(255, 255, 255, 0.1);
+  --chip-bg: rgba(255, 255, 255, 0.12);
+  --chip-fg: #ffffff;
+  background: var(--grad-band);
+  color: var(--text);
+  color-scheme: dark;
+}
+
+.band-light {
+  --bg: var(--mist-50);
+  --surface: #ffffff;
+  background: var(--mist-50);
+}
+
+.band-alt {
+  --bg: var(--mist-50);
+  background: var(--mist-50);
+}

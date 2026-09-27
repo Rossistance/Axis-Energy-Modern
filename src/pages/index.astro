@@ -1,0 +1,343 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import StatStrip from '@components/StatStrip.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import Pillars from '@components/Pillars.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import Testimonial from '@components/Testimonial.astro';
+import NewsCard from '@components/NewsCard.astro';
+import PhotoBand from '@components/PhotoBand.astro';
+import heroArt from '@assets/hero/hero-home.png';
+import logo3d from '@assets/logo/logo-3d-lockup.jpg';
+import photoCarport from '@assets/photos/carport-canopy-aerial.jpg';
+import photoRacking from '@assets/photos/racking-under-construction.jpg';
+import photoArray from '@assets/photos/array-aerial-woodland.jpg';
+import photoBess from '@assets/photos/battery-storage-pad.jpg';
+import { stats, rankings } from '@data/stats';
+import { serviceGroups } from '@data/services';
+import { testimonials } from '@data/pillars';
+import { href } from '@lib/href';
+import { getPublishedProjects } from '@lib/projects';
+import { webPageSchema } from '@lib/schema';
+import { absoluteUrl } from '@lib/href';
+
+const projects = (await getPublishedProjects()).filter((p) => p.data.featured).slice(0, 3);
+const posts = (await getCollection('news', ({ data }) => data.published))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+const years = rankings.map((r) => r.year).sort((a, b) => a - b);
+const recognition = `${years[0]}–${years[years.length - 1]}`;
+
+const overview = [
+  {
+    id: 'epc',
+    title: 'EPC',
+    icon: 'lucide:hard-hat',
+    body: 'A full array of EPC services, one point of contact through design and construction, a strong financial position to back large projects, an outstanding culture of safety, and superior quality at a competitive price.',
+  },
+  {
+    id: 'om',
+    title: 'Operations & Maintenance',
+    icon: 'lucide:wrench',
+    body: 'We keep your PV system operating and optimized with 24/7 rapid response, scheduled preventive maintenance, and balance-of-system inspection and analysis from an expert team of technicians.',
+  },
+  {
+    id: 'storage-electrical',
+    title: 'Solar + Storage',
+    icon: 'lucide:battery-charging',
+    body: 'Battery energy storage, microgrids and behind-the-meter systems, engineered and built to work with new or existing arrays.',
+  },
+  {
+    id: 'storage-electrical',
+    title: 'Electrical infrastructure',
+    icon: 'lucide:zap',
+    body: 'Medium-voltage underground and overhead construction, points of interconnection and VLF / Tan Delta testing from a company with electrical roots that go back to 1910.',
+  },
+];
+
+const description =
+  'Axis Energy is an employee-owned solar EPC and O&M contractor delivering solar, battery storage and electrical infrastructure across the Southeast and beyond. A 1910 Legacy Enterprises company headquartered in Holly Springs, NC.';
+const jsonLd = [
+  webPageSchema({
+    url: absoluteUrl('/', Astro.site),
+    name: 'Axis Energy',
+    description,
+    siteUrl: absoluteUrl('/', Astro.site),
+  }),
+];
+---
+
+<BaseLayout
+  title="Axis Energy | EPC and O&M Solutions for Renewable Energy"
+  brandSuffix={false}
+  {description}
+  {jsonLd}
+>
+  <Hero
+    eyebrow="EPC + O&M for commercial, industrial and utility-scale solar"
+    title="The Power of Partnership"
+    lead="Renewable excellence that generates trust and value for our customers."
+    primary={{ label: 'Request a quote', href: '/request-a-quote/' }}
+    secondary={{ label: 'See our work', href: '/projects/' }}
+    art={heroArt}
+    chips={[
+      { icon: 'lucide:sun', label: '150 MW+ solar constructed' },
+      { icon: 'lucide:users', label: '100% employee-owned' },
+      { icon: 'lucide:award', label: `Top Solar Contractor ${recognition}` },
+    ]}
+    trust={[
+      '100% employee-owned through the 1910 Legacy ESOP',
+      'A 1910 Legacy Enterprises company',
+      `Solar Power World Top Solar Contractor, ${recognition}`,
+      'Headquartered in Holly Springs, North Carolina',
+    ]}
+  />
+
+  <section class="section section--sm">
+    <div class="container">
+      <StatStrip stats={stats} />
+    </div>
+  </section>
+
+  <section class="section section--flush-top">
+    <div class="container split split--7-5">
+      <div data-reveal>
+        <p class="eyebrow">One solid, reliable partner</p>
+        <h2>Renewable excellence that generates trust and value</h2>
+        <p class="lead">
+          Axis Energy brings you a direct, one-to-one partnership that provides a total EPC and O&M
+          solution. We’re an established, financially secure company with a strong reputation and
+          track record, and years of renewable energy experience. We deliver superior quality at a
+          competitive price, systems that perform, partnership you can trust.
+        </p>
+        <div class="cluster mt-5">
+          <a class="btn btn--primary" href={href('/why-axis/')}>
+            Why Axis
+          </a>
+          <a class="link-arrow" href={href('/about/')}>
+            Our story <Icon name="lucide:arrow-right" class="icon" />
+          </a>
+        </div>
+      </div>
+      <div class="brand-panel" data-reveal>
+        <Image
+          src={logo3d}
+          alt="Axis Energy logo"
+          widths={[480, 800]}
+          sizes="(min-width: 900px) 40vw, 100vw"
+          loading="lazy"
+          decoding="async"
+        />
+        <p>
+          An employee-owned company. When you work with us, you are working with a company of
+          owners.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="services-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Our services"
+        title="Total project peace of mind"
+        lead="One phone call to Axis Energy and your renewable energy project is executed with excellence — from development and due diligence, through design, construction and commissioning, to decades of operation."
+        align="row"
+        id="services-title"
+      >
+        <a class="btn btn--secondary" href={href('/services/')}>
+          All services
+        </a>
+      </SectionHeading>
+      <div class="grid grid--4" data-reveal-group>
+        {overview.map((s) => (
+          <a class="card card--lift service-tile" href={href(`/services/#${s.id}`)}>
+            <div class="icon-tile">
+              <Icon name={s.icon} />
+            </div>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+            <span class="link-arrow">
+              Learn more <Icon name="lucide:arrow-right" class="icon" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="work-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Project performance"
+        title="Excellence in execution"
+        lead="From a seven-site utility portfolio to rooftop, carport and storage work for manufacturers, utilities and municipalities."
+        align="row"
+        id="work-title"
+      >
+        <a class="btn btn--secondary" href={href('/projects/')}>
+          See more projects
+        </a>
+      </SectionHeading>
+      <PhotoBand
+        photos={[
+          {
+            src: photoArray,
+            alt: 'Aerial view of long rows of ground-mounted solar panels bordered by woodland',
+            caption: 'Utility-scale ground mount',
+            wide: true,
+          },
+          {
+            src: photoBess,
+            alt: 'Battery energy storage enclosures and inverters on a concrete pad beside a solar array',
+            caption: 'Solar + battery storage',
+          },
+          {
+            src: photoCarport,
+            alt: 'Aerial view of a solar carport canopy over a parking lot',
+            caption: 'Carport and canopy',
+          },
+          {
+            src: photoRacking,
+            alt: 'Aerial view of a solar site under construction with racking rows and equipment pads',
+            caption: 'Racking and installation',
+          },
+        ]}
+      />
+      <div class="grid grid--3 mt-5" data-reveal-group>
+        {projects.map((p) => (
+          <ProjectCard project={p} featured />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="why-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Why Axis"
+        title="We give our partners total project peace of mind."
+        align="center"
+        id="why-title"
+      />
+      <Pillars teaser />
+      <p class="center mt-6">
+        <a class="btn btn--primary" href={href('/why-axis/')}>
+          Why partners choose Axis
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="recognition-title">
+    <div class="container split split--5-7">
+      <div data-reveal>
+        <p class="eyebrow">Recognition</p>
+        <h2 id="recognition-title">A Solar Power World Top Solar Contractor, five years running</h2>
+        <p class="lead">
+          Axis has been named to Solar Power World’s national Top Solar Contractors list in{' '}
+          {years.join(', ')} — ranked #{rankings[0].rank} in {rankings[0].year}.
+        </p>
+        <ul class="years" aria-label="Top Solar Contractor years">
+          {years.map((y) => (
+            <li>{y}</li>
+          ))}
+        </ul>
+      </div>
+      <Testimonial
+        quote={testimonials[0].quote}
+        name={testimonials[0].name}
+        title={testimonials[0].title}
+        variant="feature"
+      />
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="news-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="News"
+        title="Insights from the Axis team"
+        align="row"
+        id="news-title"
+      >
+        <a class="btn btn--secondary" href={href('/news/')}>
+          All news
+        </a>
+      </SectionHeading>
+      <div class="grid grid--2" data-reveal-group>
+        {posts.map((post) => (
+          <NewsCard post={post} />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .brand-panel {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--r-xl);
+    background: linear-gradient(160deg, #fff, var(--mist-100));
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-2);
+    text-align: center;
+  }
+
+  .brand-panel img {
+    width: min(100%, 420px);
+    margin-inline: auto;
+  }
+
+  .brand-panel p {
+    margin-top: 1.25rem;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .service-tile {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .service-tile h3 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  .service-tile p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  .service-tile .link-arrow {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--link);
+  }
+
+  .years {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .years li {
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--r-pill);
+    background: var(--grad-brand);
+    color: #fff;
+    font-weight: 700;
+    font-size: var(--text-sm);
+  }
+</style>

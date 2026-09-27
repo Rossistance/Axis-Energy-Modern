@@ -1,0 +1,98 @@
+---
+import { heritage } from '@data/stats';
+---
+
+<ol class="heritage" data-reveal-group>
+  {heritage.map((h) => (
+    <li class="heritage__item">
+      <span class="heritage__year">{h.year}</span>
+      <div class="heritage__body">
+        <h3>{h.title}</h3>
+        <p>{h.body}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .heritage {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: grid;
+    gap: 0;
+  }
+
+  .heritage::before {
+    content: '';
+    position: absolute;
+    left: 5.25rem;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    width: 2px;
+    background: var(--grad-brand);
+    opacity: 0.6;
+  }
+
+  .heritage__item {
+    display: grid;
+    grid-template-columns: 4.25rem 1fr;
+    gap: 2rem;
+    padding: 1rem 0 1.75rem;
+    position: relative;
+  }
+
+  .heritage__item::after {
+    content: '';
+    position: absolute;
+    left: calc(5.25rem - 5px);
+    top: 1.4rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--brand-green);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+
+  .heritage__year {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--brand-blue);
+    text-align: right;
+    padding-top: 0.55rem;
+    white-space: nowrap;
+  }
+
+  .heritage__body h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .heritage__body p {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+  }
+
+  @media (max-width: 480px) {
+    .heritage::before {
+      left: 0.35rem;
+    }
+
+    .heritage__item {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+      padding-left: 1.75rem;
+    }
+
+    .heritage__item::after {
+      left: 0;
+    }
+
+    .heritage__year {
+      text-align: left;
+      padding-top: 0;
+    }
+  }
+</style>
