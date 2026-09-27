@@ -8,9 +8,9 @@ import SectionHeading from '@components/SectionHeading.astro';
 import ProcessTimeline from '@components/ProcessTimeline.astro';
 import MarketsGrid from '@components/MarketsGrid.astro';
 import heroArt from '@assets/hero/hero-services.png';
-import photoRacking from '@assets/photos/racking-under-construction.jpg';
-import photoBess from '@assets/photos/battery-storage-pad.jpg';
-import photoArray from '@assets/photos/array-aerial-woodland.jpg';
+import photoFloydRoad from '@assets/projects/floyd-road-gaston-nc.png';
+import photoGeDurham from '@assets/projects/ge-durham-solar.jpg';
+import photoBoeing from '@assets/projects/boeing-dreamliner-manufacturing-brochure.png';
 import { serviceGroups, process, experienceGroups } from '@data/services';
 import { href } from '@lib/href';
 
@@ -26,19 +26,19 @@ const subnav = [
 ];
 const photos = {
   epc: {
-    src: photoRacking,
-    alt: 'Aerial view of a solar site under construction with racking rows and equipment pads',
-    caption: 'Racking and foundations under construction',
+    src: photoFloydRoad,
+    alt: 'Aerial view of the Floyd Road utility-scale solar farm near Gaston, North Carolina',
+    caption: 'Floyd Road · 6.75 MW · Gaston, NC',
   },
   om: {
-    src: photoArray,
-    alt: 'Aerial view of a completed ground-mounted solar array bordered by woodland',
-    caption: 'Operating utility-scale array',
+    src: photoGeDurham,
+    alt: 'Aerial view of the GE Durham ground-mounted solar array beside the GE Aviation plant',
+    caption: 'GE Durham Solar · 1.2 MWdc · Durham, NC',
   },
   'storage-electrical': {
-    src: photoBess,
-    alt: 'Battery storage enclosures and inverters on a concrete pad beside a solar array',
-    caption: 'Solar + battery energy storage pad',
+    src: photoBoeing,
+    alt: 'Thin-film solar laminates on the roof of the Boeing Dreamliner facility in Charleston',
+    caption: 'Boeing Dreamliner Manufacturing · 2.6 MWdc rooftop · Charleston, SC',
   },
 };
 ---

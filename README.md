@@ -89,7 +89,7 @@ Each form posts JSON to the endpoint in its environment variable (`PUBLIC_FORM_E
 
 Hero illustrations are the 2025 "hero art" set (`src/assets/hero/`). Astro's image service converts them to AVIF/WebP at several widths at build time; never commit resized copies. To generate matching art for a new page, use the same recipe that produced the set: a single focal object or scene, "no people, clean dark blue-green palette, glowing lines and grids, modern minimal background", 1536×1024 or 1024×1024.
 
-Site photos in `src/assets/photos/` were recovered from the 2024 company overview deck (see `scripts/prepare-photos.mjs`). Higher-resolution originals should replace them before launch.
+Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide) and three crops from the 2018 brochure (about 660 px wide). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
 
 Icons and the social sharing image are generated: `npm run icons` and `node scripts/make-og.mjs`.
 

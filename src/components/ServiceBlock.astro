@@ -26,12 +26,12 @@ const { group, photo, flip = false } = Astro.props;
         <p class="lead">{group.intro}</p>
       </div>
       {photo && (
-        <figure class="photo photo--duotone service-block__photo" data-reveal>
+        <figure class="photo service-block__photo" data-reveal>
           <Image
             src={photo.src}
             alt={photo.alt}
-            widths={[480, 800, 1200]}
-            sizes="(min-width: 900px) 40vw, 100vw"
+            widths={[480, 800]}
+            sizes="(min-width: 900px) 480px, 100vw"
             loading="lazy"
             decoding="async"
           />
@@ -84,8 +84,16 @@ const { group, photo, flip = false } = Astro.props;
   }
 
   .service-block__photo {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 10;
     margin: 0;
+    width: 100%;
+    max-width: 480px;
+    justify-self: end;
+    box-shadow: var(--shadow-2);
+  }
+
+  .service-block--flip .service-block__photo {
+    justify-self: start;
   }
 
   .service-col h3 {

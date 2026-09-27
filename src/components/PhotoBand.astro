@@ -4,15 +4,14 @@ import type { ImageMetadata } from 'astro';
 
 interface Props {
   photos: { src: ImageMetadata; alt: string; caption: string; wide?: boolean }[];
-  duotone?: boolean;
 }
 
-const { photos, duotone = true } = Astro.props;
+const { photos } = Astro.props;
 ---
 
 <div class="photo-band" data-reveal-group>
   {photos.map((p) => (
-    <figure class:list={['photo', { 'photo--duotone': duotone, 'photo--wide': p.wide }]}>
+    <figure class:list={['photo', { 'photo--wide': p.wide }]}>
       <Image
         src={p.src}
         alt={p.alt}

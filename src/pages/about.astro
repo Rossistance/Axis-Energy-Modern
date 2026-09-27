@@ -10,9 +10,9 @@ import MarketsGrid from '@components/MarketsGrid.astro';
 import PhotoBand from '@components/PhotoBand.astro';
 import TeamCard from '@components/TeamCard.astro';
 import heroArt from '@assets/hero/hero-about.png';
-import photoCarport from '@assets/photos/carport-canopy-aerial.jpg';
-import photoRacking from '@assets/photos/racking-under-construction.jpg';
-import photoBess from '@assets/photos/battery-storage-pad.jpg';
+import photoConergy from '@assets/projects/conergy-nc1-portfolio.jpg';
+import photoGeFlorence from '@assets/projects/ge-florence-sc.png';
+import photoBoeing from '@assets/projects/boeing-dreamliner-manufacturing.jpg';
 import { company } from '@data/company';
 import { href } from '@lib/href';
 
@@ -110,19 +110,19 @@ const culture = [
       <PhotoBand
         photos={[
           {
-            src: photoRacking,
-            alt: 'Aerial view of a solar construction site with racking rows',
-            caption: 'Construction',
+            src: photoConergy,
+            alt: 'Aerial view of a Conergy NC1 portfolio solar site surrounded by woodland in North Carolina',
+            caption: 'Conergy NC1 Portfolio · 38 MWdc across 7 sites · North Carolina',
           },
           {
-            src: photoBess,
-            alt: 'Battery storage pad beside a solar array',
-            caption: 'Solar + storage',
+            src: photoGeFlorence,
+            alt: 'Aerial view of the GE Florence solar array in Florence, South Carolina',
+            caption: 'GE Florence · 1.71 MW · Florence, SC',
           },
           {
-            src: photoCarport,
-            alt: 'Solar carport canopy over a parking lot',
-            caption: 'Carport and canopy',
+            src: photoBoeing,
+            alt: 'Rooftop solar laminates on the Boeing Dreamliner manufacturing facility in Charleston',
+            caption: 'Boeing Dreamliner Manufacturing · 2.6 MWdc · Charleston, SC',
           },
         ]}
       />

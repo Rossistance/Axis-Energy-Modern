@@ -580,35 +580,6 @@ button {
   object-fit: cover;
 }
 
-.photo--duotone img {
-  filter: grayscale(1) contrast(1.05);
-  opacity: 0.92;
-}
-
-.photo--duotone::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 62, 120, 0.85),
-    rgba(12, 62, 82, 0.75) 60%,
-    rgba(63, 207, 196, 0.55)
-  );
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-
-.photo--duotone::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(160deg, rgba(63, 207, 196, 0.16), transparent 55%);
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
 .photo__caption {
   position: absolute;
   left: 0;

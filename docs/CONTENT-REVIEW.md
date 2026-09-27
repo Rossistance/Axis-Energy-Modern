@@ -18,7 +18,7 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 2. Stats: 150 MW+ · 30 MWh · 28 projects · 9 states · 5 O&M sites [deck]. **Decision:** the deck frames 150 MW as the team's collective experience; Solar Power World lists 99 MW installed since founding. Which basis do you want to publish, and are the counts current?
 3. "One solid, reliable partner" paragraph [live, verbatim] beside the 3D logo.
 4. Services overview: EPC, O&M [live], Solar + Storage, Electrical infrastructure [SPW/deck].
-5. Photo strip + three featured projects [live].
+5. Conergy NC1 spotlight card (photo, key facts, link to the case study) + three featured project cards [live].
 6. Why Axis teaser (six pillars) [live].
 7. Recognition + TJ Murphy testimonial [brochure]. **Decision:** re-approve the 2018 testimonial or replace with a newer one.
 8. Latest news (two 2018 articles). **Decision:** newer news items to add?
@@ -34,7 +34,8 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 ## Projects
 
 - Hero [live]. Filters (type, state, role, sort), project grid, sortable table, states map.
-- Published now: Conergy NC1, Boeing Dreamliner, GE Durham [live]. Both pre-2017 projects carry the note that they were delivered by the White Electrical renewable division.
+- Published now: Conergy NC1, Boeing Dreamliner, GE Durham [live] and Floyd Road (6.75 MW, Gaston NC), GE Florence (1.71 MW, Florence SC) [brochure]. The pre-2017 projects carry the note that they were delivered by the White Electrical renewable division. **Decision:** confirm Floyd Road and GE Florence may stay published and supply their completion years; their photos are brochure crops.
+- Photography: every photo on the site is one of these five projects (the three images from the old website plus three brochure crops). No stock or illustrative photos are used. **Decision:** supply the original high-resolution files, and photos for any project you publish from the hidden list.
 - **Built in but hidden (34 projects from the Solar Power World submissions):** Old Plank Road, Priest, Gamble, Yadkinville, Stuttgart SD, Centerpoint SD, Camden Recycle Center / Detention Center / Highway 7 / Medical Center, Old Cedar, Ludie Brown, Hall, Spencer Meadow, Lowe Country (Tesla storage), Boehringer Ingelheim carports, Central Arkansas Water, White County SD, Fountain Lake SD, Ozark Mountain RPWA, Hertford (13.97 MW), Walnut Grove microgrid (LG Chem), Bolivar, Hattiesburg Expansion, Clarksville I & II, Franklin, Amgen FlexBatch, North Little Rock Wastewater, Enersys, Siemens Wendell Microgrid, Greenville Utilities community solar, Williams Keenesburg (11.97 MW). **Decision per project:** may the client name appear? Which deserve a full case study with photos? Brownwood I & II (TX) appear on the deck map but have no data.
 - States map highlights NC, SC, GA, VA, TN, KY, MS, AR, PA, CO, TX. **Confirm TX.**
 - GE Durham: the live page's "2000 kilowatt-hours per year" looks like a typo (likely MWh). **Confirm the figure**; the preview says "enough to power approximately 100 average-sized homes".

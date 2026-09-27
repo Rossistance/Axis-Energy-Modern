@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import StatStrip from '@components/StatStrip.astro';
@@ -10,22 +10,17 @@ import Pillars from '@components/Pillars.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import Testimonial from '@components/Testimonial.astro';
 import NewsCard from '@components/NewsCard.astro';
-import PhotoBand from '@components/PhotoBand.astro';
 import heroArt from '@assets/hero/hero-home.png';
-import logo3d from '@assets/logo/logo-3d-lockup.jpg';
-import photoCarport from '@assets/photos/carport-canopy-aerial.jpg';
-import photoRacking from '@assets/photos/racking-under-construction.jpg';
-import photoArray from '@assets/photos/array-aerial-woodland.jpg';
-import photoBess from '@assets/photos/battery-storage-pad.jpg';
 import { stats, rankings } from '@data/stats';
-import { serviceGroups } from '@data/services';
 import { testimonials } from '@data/pillars';
-import { href } from '@lib/href';
+import { href, absoluteUrl } from '@lib/href';
+import { formatSize, formatCommissioned } from '@lib/format';
 import { getPublishedProjects } from '@lib/projects';
 import { webPageSchema } from '@lib/schema';
-import { absoluteUrl } from '@lib/href';
 
 const projects = (await getPublishedProjects()).filter((p) => p.data.featured).slice(0, 3);
+/** Real project shown beside the partnership statement. */
+const spotlight = await getEntry('projects', 'conergy-nc1-portfolio');
 const posts = (await getCollection('news', ({ data }) => data.published))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 2);
@@ -123,20 +118,55 @@ const jsonLd = [
           </a>
         </div>
       </div>
-      <div class="brand-panel" data-reveal>
-        <Image
-          src={logo3d}
-          alt="Axis Energy logo"
-          widths={[480, 800]}
-          sizes="(min-width: 900px) 40vw, 100vw"
-          loading="lazy"
-          decoding="async"
-        />
-        <p>
-          An employee-owned company. When you work with us, you are working with a company of
-          owners.
-        </p>
-      </div>
+      {spotlight?.data.published && (
+        <article class="spotlight card" data-reveal>
+          {spotlight.data.image && (
+            <a
+              href={href(`/project/${spotlight.id}/`)}
+              class="spotlight__media"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <Image
+                src={spotlight.data.image}
+                alt=""
+                widths={[400, 640]}
+                sizes="(min-width: 900px) 40vw, 100vw"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+          )}
+          <div class="spotlight__body">
+            <p class="eyebrow eyebrow--plain">Partnership in practice</p>
+            <h3>
+              <a href={href(`/project/${spotlight.id}/`)}>{spotlight.data.title}</a>
+            </h3>
+            <p class="spotlight__summary">{spotlight.data.summary}</p>
+            <dl class="facts facts--compact">
+              <div>
+                <dt>Size</dt>
+                <dd>{formatSize(spotlight.data.sizeMwdc)}</dd>
+              </div>
+              {spotlight.data.sites && (
+                <div>
+                  <dt>Sites</dt>
+                  <dd>{spotlight.data.sites}</dd>
+                </div>
+              )}
+              {spotlight.data.commissioned && (
+                <div>
+                  <dt>Commissioned</dt>
+                  <dd>{formatCommissioned(spotlight.data.commissioned)}</dd>
+                </div>
+              )}
+            </dl>
+            <a class="link-arrow" href={href(`/project/${spotlight.id}/`)}>
+              Read the case study <Icon name="lucide:arrow-right" class="icon" />
+            </a>
+          </div>
+        </article>
+      )}
     </div>
   </section>
 
@@ -183,32 +213,7 @@ const jsonLd = [
           See more projects
         </a>
       </SectionHeading>
-      <PhotoBand
-        photos={[
-          {
-            src: photoArray,
-            alt: 'Aerial view of long rows of ground-mounted solar panels bordered by woodland',
-            caption: 'Utility-scale ground mount',
-            wide: true,
-          },
-          {
-            src: photoBess,
-            alt: 'Battery energy storage enclosures and inverters on a concrete pad beside a solar array',
-            caption: 'Solar + battery storage',
-          },
-          {
-            src: photoCarport,
-            alt: 'Aerial view of a solar carport canopy over a parking lot',
-            caption: 'Carport and canopy',
-          },
-          {
-            src: photoRacking,
-            alt: 'Aerial view of a solar site under construction with racking rows and equipment pads',
-            caption: 'Racking and installation',
-          },
-        ]}
-      />
-      <div class="grid grid--3 mt-5" data-reveal-group>
+      <div class="grid grid--3" data-reveal-group>
         {projects.map((p) => (
           <ProjectCard project={p} featured />
         ))}
@@ -279,24 +284,69 @@ const jsonLd = [
 </BaseLayout>
 
 <style>
-  .brand-panel {
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-    border-radius: var(--r-xl);
-    background: linear-gradient(160deg, #fff, var(--mist-100));
-    border: 1px solid var(--line);
+  .spotlight {
+    padding: 0;
+    overflow: hidden;
+    max-width: 520px;
+    justify-self: end;
+    width: 100%;
     box-shadow: var(--shadow-2);
-    text-align: center;
   }
 
-  .brand-panel img {
-    width: min(100%, 420px);
-    margin-inline: auto;
+  .spotlight__media {
+    display: block;
+    aspect-ratio: 16 / 10;
+    background: var(--navy-deep);
   }
 
-  .brand-panel p {
-    margin-top: 1.25rem;
+  .spotlight__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .spotlight__body {
+    padding: 1.35rem 1.5rem 1.6rem;
+  }
+
+  .spotlight__body .eyebrow {
+    margin-bottom: 0.5rem;
+  }
+
+  .spotlight h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .spotlight h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .spotlight h3 a:hover {
+    color: var(--brand-blue);
+  }
+
+  .spotlight__summary {
     color: var(--text-muted);
-    font-size: var(--text-sm);
+    font-size: 0.98rem;
+  }
+
+  .facts--compact {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 1rem 0 1.1rem;
+  }
+
+  .facts--compact dd {
+    font-size: 1.05rem;
+  }
+
+  @media (max-width: 899px) {
+    .spotlight {
+      justify-self: stretch;
+      max-width: none;
+    }
   }
 
   .service-tile {
