@@ -1,6 +1,11 @@
 /* Form primitives shared by Contact, Request a Quote and Subcontractor forms */
+
+/* Single columns are minmax(0, 1fr), not the implicit `auto`: an auto column grows to
+   the min-content width of its widest child, which pushed fields out of the card and
+   under the sidebar on desktop. */
 .form {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-5);
 }
 
@@ -17,6 +22,9 @@
 .field {
   display: grid;
   gap: 0.4rem;
+  /* Keep label and control at the top when a neighbour in the same row is taller
+     (e.g. it is showing an error), instead of stretching them apart. */
+  align-content: start;
 }
 
 .field__label {
@@ -25,7 +33,7 @@
   color: var(--text);
 }
 
-.field__label .req {
+.field .req {
   color: var(--danger);
   margin-left: 0.15rem;
 }
@@ -162,6 +170,8 @@ fieldset.field legend {
 .steps li {
   flex: 1;
   min-width: 0;
+  /* Query container: the segment's own width decides whether its label fits (below). */
+  container-type: inline-size;
 }
 
 .steps__btn {
@@ -212,7 +222,8 @@ fieldset.field legend {
   cursor: pointer;
 }
 
-/* Visually hidden on narrow screens so the buttons keep an accessible name. */
+/* Visually hidden in narrow segments (phones, or forms with many steps) so the buttons
+   keep an accessible name. */
 .steps__label {
   position: absolute;
   width: 1px;
@@ -222,20 +233,24 @@ fieldset.field legend {
   white-space: nowrap;
 }
 
-@media (min-width: 700px) {
+/* Shown, wrapping onto a second line if needed, once a segment can hold its longest word. */
+@container (min-width: 8.5rem) {
   .steps__label {
     position: static;
     width: auto;
     height: auto;
     clip: auto;
     display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding-right: 0.5rem;
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-wrap: balance;
   }
 }
 
 .step {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-5);
 }
 
@@ -280,8 +295,16 @@ html:not(.js) .step + .step {
 
 .form__actions-right {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--s-3);
   margin-left: auto;
+}
+
+/* Buttons share one row when they fit and stack full width on narrow screens. */
+.form__actions-right .btn {
+  flex: 1 1 auto;
+  white-space: normal;
+  text-align: center;
 }
 
 .form__summary {
@@ -329,6 +352,17 @@ html:not(.js) .step + .step {
   display: none;
 }
 
+/* The review-mode "open in your email app" link is a long button: give it its own line
+   and let its label wrap on phones. */
+.form__status .btn {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  margin-block: 0.75rem;
+  white-space: normal;
+  text-align: center;
+}
+
 .review {
   display: grid;
   gap: var(--s-4);
@@ -360,7 +394,7 @@ html:not(.js) .step + .step {
 
 .review__list {
   display: grid;
-  grid-template-columns: minmax(120px, 35%) 1fr;
+  grid-template-columns: minmax(120px, 35%) minmax(0, 1fr);
   gap: 0.35rem 1rem;
   margin: 0;
   font-size: var(--text-sm);

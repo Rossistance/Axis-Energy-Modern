@@ -15,7 +15,7 @@ npm ci
 npm run dev        # http://localhost:4321/Axis-Energy-Modern/
 npm run build      # static output in dist/
 npm run preview    # serve dist/ locally
-npm test           # Playwright: every route, axe accessibility, keyboard nav, forms
+npm test           # Playwright: every route, axe accessibility, keyboard nav, forms, layout
 ```
 
 Copy `.env.example` to `.env` to change the base path, switch preview/production mode, connect forms or a jobs feed.

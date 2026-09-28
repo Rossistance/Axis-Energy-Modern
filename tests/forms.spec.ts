@@ -32,6 +32,7 @@ test.describe('Request a Quote (multi-step, review mode)', () => {
 
     // Reload restores the draft
     await page.reload();
+    const reloadedAt = Date.now();
     await expect(page.locator('#rfq-company')).toHaveValue('Example Co');
     await expect(page.locator('[data-draft-note]')).toBeVisible();
 
@@ -51,7 +52,10 @@ test.describe('Request a Quote (multi-step, review mode)', () => {
     await expect(f.locator('[data-review]')).toContainText('Example Co');
     await expect(f.locator('.review__mode')).toBeVisible();
 
-    // Submit in review mode composes an email link and never claims delivery
+    // Submit in review mode composes an email link and never claims delivery. The form rejects
+    // submissions made within 2.5 s of page load (spam control), and the steps above can finish
+    // sooner than that after the reload, so wait out the remainder.
+    await page.waitForTimeout(Math.max(0, 2600 - (Date.now() - reloadedAt)));
     await f.locator('[data-submit]').click();
     const status = f.locator('[data-status]');
     await expect(status).toHaveAttribute('data-state', 'success');

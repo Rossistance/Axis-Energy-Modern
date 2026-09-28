@@ -66,14 +66,18 @@ const description = 'News, perspectives and updates from the Axis Energy team.';
 </BaseLayout>
 
 <style>
+  /* minmax(0, 1fr), not the implicit auto column, so wide content such as the rankings
+     table fits its column instead of widening the sidebar and the page. */
   .news-layout {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: clamp(2rem, 5vw, 4rem);
     align-items: start;
   }
 
   .news-aside {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
   }
 

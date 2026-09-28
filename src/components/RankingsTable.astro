@@ -2,7 +2,7 @@
 import { rankings } from '@data/stats';
 ---
 
-<div class="table-wrap" data-reveal>
+<div class="table-wrap rankings-wrap" data-reveal>
   <table class="table rankings">
     <caption class="sr-only">
       Solar Power World Top Solar Contractors rankings for Axis Energy
@@ -10,10 +10,18 @@ import { rankings } from '@data/stats';
     <thead>
       <tr>
         <th scope="col">Year</th>
-        <th scope="col">National rank</th>
+        <th scope="col">
+          <span class="rankings__long">National rank</span>
+          <span class="rankings__short" aria-hidden="true">
+            Rank
+          </span>
+        </th>
         <th scope="col">Category</th>
         <th scope="col" class="num">
-          kW installed (prior year)
+          <span class="rankings__long">kW installed (prior year)</span>
+          <span class="rankings__short" aria-hidden="true">
+            kW
+          </span>
         </th>
       </tr>
     </thead>
@@ -29,9 +37,18 @@ import { rankings } from '@data/stats';
     </tbody>
   </table>
 </div>
-<p class="rankings__source">Source: Solar Power World Top Solar Contractors lists, 2021–2026.</p>
+<p class="rankings__source">
+  Source: Solar Power World Top Solar Contractors lists, 2021–2026. Each list ranks kW installed in
+  the prior year.
+</p>
 
 <style>
+  /* Query container: the table fits whatever column it is placed in (see below), and the
+     wrapper never widens that column to the table's own width. */
+  .rankings-wrap {
+    container-type: inline-size;
+  }
+
   .rankings {
     min-width: 520px;
   }
@@ -40,6 +57,36 @@ import { rankings } from '@data/stats';
     font-family: var(--font-display);
     font-weight: 800;
     color: var(--brand-blue);
+  }
+
+  .rankings__short {
+    display: none;
+  }
+
+  /* Narrow columns (the News sidebar, phones): short headings and tighter cells so all four
+     columns fit without scrolling. Screen readers still get the full headings. */
+  @container (max-width: 519px) {
+    .rankings {
+      min-width: 0;
+    }
+
+    .rankings th,
+    .rankings td {
+      padding: 0.65rem 0.55rem;
+    }
+
+    .rankings__long {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .rankings__short {
+      display: inline;
+    }
   }
 
   .rankings__source {

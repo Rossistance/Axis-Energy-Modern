@@ -135,9 +135,13 @@ const storage = formatStorage(data.storageMwh);
     color: var(--brand-navy);
   }
 
+  /* Title, location and summary keep their natural height; the spare height of an
+     equal-height card goes to the meta row, pinned to the bottom. Stretching every row
+     made the 3-line summary box taller than 3 lines, so a sliver of line 4 showed. */
   .project-card__body {
     padding: 1.25rem 1.35rem 1.4rem;
     display: grid;
+    grid-template-rows: auto auto auto 1fr;
     gap: 0.6rem;
     flex: 1;
   }
@@ -181,6 +185,7 @@ const storage = formatStorage(data.storageMwh);
   }
 
   .project-card__meta {
+    align-self: end;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     gap: 0.5rem 1rem;

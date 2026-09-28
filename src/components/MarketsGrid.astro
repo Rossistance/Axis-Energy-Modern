@@ -22,7 +22,9 @@ import { markets } from '@data/services';
     padding: 0;
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    /* 300px keeps the six markets in full rows (3×2, 2×3 or 1×6); 220px left one card
+       alone on a second row at desktop widths. */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   }
 
   .market {
