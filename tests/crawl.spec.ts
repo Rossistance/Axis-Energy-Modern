@@ -19,7 +19,7 @@ test('sitemap lists every route', () => {
     'request-a-quote/',
     'subcontractors/',
     'team/josh-butler/',
-    'project/conergy-nc1-portfolio/',
+    'project/north-carolina-utility-scale-portfolio/',
   ]) {
     expect(paths).toContain(p);
   }

@@ -73,7 +73,7 @@ export const heritage = [
   {
     year: '2010s',
     title: 'Renewable Division',
-    body: 'White Electrical builds a renewable-energy practice as solar takes hold across the Southeast, delivering projects such as Boeing Charleston (2011) and GE Durham (2015).',
+    body: 'White Electrical builds a renewable-energy practice as solar takes hold across the Southeast, delivering rooftop and ground-mount systems for manufacturers in Charleston (2011) and Durham (2015).',
   },
   {
     year: '2017',

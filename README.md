@@ -54,7 +54,7 @@ type: utility # utility | commercial | municipal | carport | microgrid | communi
 role: ['EPC']
 storageMwh: 5.0 # optional
 storageBrand: 'Tesla' # optional
-partners: ['Client name'] # optional
+partners: ['Client name'] # optional; only with the client's written permission
 summary: 'One sentence used on cards and as the meta description.'
 image: ../../assets/projects/hertford.jpg # optional, 4:3 or wider
 imageAlt: 'Describe the photo'
@@ -79,7 +79,7 @@ Narrative paragraphs in Markdown, written like the other project pages.
 
 Thirty-two completed projects from the Solar Power World submissions are already entered with `published: false`. Flip the flag once a client name may be shown publicly.
 
-The Wendell Campus Microgrid, Walnut Grove Microgrid and Cooperative Solar and Storage Portfolio pages come from the owner's 2026 project abstracts and are published **without client names, at the owner's request**. Keep client names out of their titles, copy, slugs, image files and `partners` until written permission is granted. If a name is added later and the slug changes, add a redirect from the old URL.
+Every published project is shown **without client or partner names, at the owner's request**: the three pages from the owner's 2026 project abstracts (Cooperative Solar and Storage Portfolio, Walnut Grove Microgrid, Wendell Campus Microgrid) and the five earlier case studies (North Carolina Utility-Scale Portfolio, Durham Manufacturing Solar, Charleston Rooftop Solar, Floyd Road, Florence Solar Array). Keep client names out of titles, copy, alt text, captions, slugs, image file names and `partners` until the client grants permission in writing. The three case studies carried over from the old website have new slugs, and their old WordPress URLs are deliberately not redirected: a redirect would put the client's name back in a URL and tie it to the page. If a name is added later and the slug changes, add a redirect from the old URL.
 
 **Team members:** `src/content/team/*.md` (name, title, email, LinkedIn, photo, summary, education, credentials, order). **News:** `src/content/news/*.md` (title, date, author, excerpt, optional sources list). **Jobs (manual listings):** `src/content/jobs/*.md`; entries with `sample: true` only appear in preview builds.
 
@@ -103,7 +103,7 @@ Each form posts JSON to the endpoint in its environment variable (`PUBLIC_FORM_E
 
 Hero illustrations are the 2025 "hero art" set (`src/assets/hero/`). Astro's image service converts them to AVIF/WebP at several widths at build time; never commit resized copies. To generate matching art for a new page, use the same recipe that produced the set: a single focal object or scene, "no people, clean dark blue-green palette, glowing lines and grids, modern minimal background", 1536×1024 or 1024×1024.
 
-Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide), three crops from the 2018 brochure (about 660 px wide; the Boeing crop is no longer used on the site) and three photos from the 2026 project abstracts (1275 px wide, cropped to remove the client names printed on the abstract artwork). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
+Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide), three crops from the 2018 brochure (about 660 px wide; the second Charleston rooftop crop is not used on the site) and three photos from the 2026 project abstracts (1275 px wide, cropped to remove the client names printed on the abstract artwork). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
 
 Icons and the social sharing image are generated: `npm run icons` and `node scripts/make-og.mjs`.
 

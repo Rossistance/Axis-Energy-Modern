@@ -10,9 +10,9 @@ import MarketsGrid from '@components/MarketsGrid.astro';
 import PhotoBand from '@components/PhotoBand.astro';
 import TeamCard from '@components/TeamCard.astro';
 import heroArt from '@assets/hero/hero-about.png';
-import photoConergy from '@assets/projects/conergy-nc1-portfolio.jpg';
-import photoGeFlorence from '@assets/projects/ge-florence-sc.png';
-import photoBoeing from '@assets/projects/boeing-dreamliner-manufacturing.jpg';
+import photoNcPortfolio from '@assets/projects/north-carolina-utility-scale-portfolio.jpg';
+import photoFlorence from '@assets/projects/florence-solar-array.png';
+import photoCharleston from '@assets/projects/charleston-rooftop-solar.jpg';
 import { company } from '@data/company';
 import { href } from '@lib/href';
 
@@ -110,19 +110,19 @@ const culture = [
       <PhotoBand
         photos={[
           {
-            src: photoConergy,
-            alt: 'Aerial view of a Conergy NC1 portfolio solar site surrounded by woodland in North Carolina',
-            caption: 'Conergy NC1 Portfolio · 38 MWdc across 7 sites · North Carolina',
+            src: photoNcPortfolio,
+            alt: 'Aerial view of one of the portfolio’s solar sites surrounded by woodland in North Carolina',
+            caption: 'North Carolina Utility-Scale Portfolio · 38 MWdc across 7 sites',
           },
           {
-            src: photoGeFlorence,
-            alt: 'Aerial view of the GE Florence solar array in Florence, South Carolina',
-            caption: 'GE Florence · 1.71 MW · Florence, SC',
+            src: photoFlorence,
+            alt: 'Aerial view of curved rows of ground-mounted solar panels in Florence, South Carolina',
+            caption: 'Florence Solar Array · 1.71 MW · Florence, SC',
           },
           {
-            src: photoBoeing,
-            alt: 'Rooftop solar laminates on the Boeing Dreamliner manufacturing facility in Charleston',
-            caption: 'Boeing Dreamliner Manufacturing · 2.6 MWdc · Charleston, SC',
+            src: photoCharleston,
+            alt: 'Rooftop solar laminates on a manufacturing facility in Charleston, South Carolina',
+            caption: 'Charleston Rooftop Solar · 2.6 MWdc · Charleston, SC',
           },
         ]}
       />

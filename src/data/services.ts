@@ -210,11 +210,11 @@ export const experienceGroups = [
   {
     title: 'Commercial & industrial',
     detail: 'Rooftop · canopies · carports',
-    example: 'Boeing Manufacturing · 2.6 MW · Charleston, SC',
+    example: 'Charleston Rooftop Solar · 2.6 MW · Charleston, SC',
   },
   {
     title: 'Specialty projects',
     detail: 'Landfills · community solar · energy storage',
-    example: 'GE Florence · 1.71 MW · Florence, SC',
+    example: 'Florence Solar Array · 1.71 MW · Florence, SC',
   },
 ];

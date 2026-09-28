@@ -20,7 +20,7 @@ import { webPageSchema } from '@lib/schema';
 
 const projects = (await getPublishedProjects()).filter((p) => p.data.featured).slice(0, 3);
 /** Real project shown beside the partnership statement. */
-const spotlight = await getEntry('projects', 'conergy-nc1-portfolio');
+const spotlight = await getEntry('projects', 'north-carolina-utility-scale-portfolio');
 const posts = (await getCollection('news', ({ data }) => data.published))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 2);
