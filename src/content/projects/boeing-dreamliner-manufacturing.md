@@ -15,7 +15,7 @@ image: ../../assets/projects/boeing-dreamliner-manufacturing.jpg
 imageAlt: "Thin-film solar laminates on the white roof of the Boeing Dreamliner facility under a clear sky"
 featured: true
 published: true
-order: 3
+order: 6
 source: "axis-energyinc.com/project/boeing-dreamliner-manufacturing (live site narrative); delivered by the White Electrical renewable division that became Axis Energy in 2017 (2024 company overview deck)"
 ---
 

@@ -13,7 +13,7 @@ imageAlt: 'Aerial view of the GE Florence solar array in Florence, South Carolin
 imageCredit: 'Photo: Axis Energy brochure (2018)'
 featured: false
 published: true
-order: 5
+order: 8
 source: '2018 Axis Energy brochure interior (Our Experience: Specialty Projects). Completion year not stated in the brochure.'
 ---
 

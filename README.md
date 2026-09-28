@@ -61,11 +61,25 @@ imageAlt: 'Describe the photo'
 featured: true # show on the home page
 published: true # false keeps it out of the site entirely
 source: 'Where this information came from'
+# Optional case-study detail; each part renders only when present.
+impact: 'The outcome, shown in the Impact callout.'
+challenge: 'What made the project hard.' # "Project delivery" cards,
+approach: 'How Axis solved it.' #          together with challenge
+scope: ['Axis scope item', 'Another item'] # sidebar checklist
+benefits: # "Why it matters to owners" checklist
+  - title: 'Operational proof'
+    body: 'One sentence.'
+gallery: # extra photos in the sidebar
+  - image: ../../assets/projects/hertford-inverters.jpg
+    alt: 'Describe the photo'
+    caption: 'Optional caption'
 ---
-Narrative paragraphs in Markdown.
+Narrative paragraphs in Markdown, written like the other project pages.
 ```
 
-Thirty-four completed projects from the Solar Power World submissions are already entered with `published: false`. Flip the flag once a client name may be shown publicly.
+Thirty-two completed projects from the Solar Power World submissions are already entered with `published: false`. Flip the flag once a client name may be shown publicly.
+
+The Wendell Campus Microgrid, Walnut Grove Microgrid and Cooperative Solar and Storage Portfolio pages come from the owner's 2026 project abstracts and are published **without client names, at the owner's request**. Keep client names out of their titles, copy, slugs, image files and `partners` until written permission is granted. If a name is added later and the slug changes, add a redirect from the old URL.
 
 **Team members:** `src/content/team/*.md` (name, title, email, LinkedIn, photo, summary, education, credentials, order). **News:** `src/content/news/*.md` (title, date, author, excerpt, optional sources list). **Jobs (manual listings):** `src/content/jobs/*.md`; entries with `sample: true` only appear in preview builds.
 
@@ -89,7 +103,7 @@ Each form posts JSON to the endpoint in its environment variable (`PUBLIC_FORM_E
 
 Hero illustrations are the 2025 "hero art" set (`src/assets/hero/`). Astro's image service converts them to AVIF/WebP at several widths at build time; never commit resized copies. To generate matching art for a new page, use the same recipe that produced the set: a single focal object or scene, "no people, clean dark blue-green palette, glowing lines and grids, modern minimal background", 1536×1024 or 1024×1024.
 
-Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide) and three crops from the 2018 brochure (about 660 px wide). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
+Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide), three crops from the 2018 brochure (about 660 px wide; the Boeing crop is no longer used on the site) and three photos from the 2026 project abstracts (1275 px wide, cropped to remove the client names printed on the abstract artwork). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
 
 Icons and the social sharing image are generated: `npm run icons` and `node scripts/make-og.mjs`.
 

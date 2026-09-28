@@ -144,6 +144,31 @@ const meta = [
         <div class="prose">
           <Content />
         </div>
+        {(data.challenge || data.approach) && (
+          <section class="delivery" aria-labelledby="delivery-title">
+            <h2 id="delivery-title" class="block-title">
+              Project delivery
+            </h2>
+            <div class="delivery__grid">
+              {data.challenge && (
+                <div class="card delivery__item">
+                  <h3>
+                    <Icon name="lucide:target" /> Challenge
+                  </h3>
+                  <p>{data.challenge}</p>
+                </div>
+              )}
+              {data.approach && (
+                <div class="card delivery__item">
+                  <h3>
+                    <Icon name="lucide:hard-hat" /> Axis approach
+                  </h3>
+                  <p>{data.approach}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
         {data.impact && (
           <aside class="impact" aria-labelledby="impact-title">
             <Icon name="lucide:trending-up" />
@@ -152,6 +177,22 @@ const meta = [
               <p>{data.impact}</p>
             </div>
           </aside>
+        )}
+        {data.benefits && (
+          <section class="benefits" aria-labelledby="benefits-title">
+            <h2 id="benefits-title" class="block-title">
+              Why it matters to owners
+            </h2>
+            <ul class="list-check benefits__list">
+              {data.benefits.map((b) => (
+                <li>
+                  <span>
+                    <strong>{b.title}.</strong> {b.body}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
       </article>
 
@@ -167,6 +208,29 @@ const meta = [
             ))}
           </dl>
         </div>
+        {data.scope && (
+          <div class="card">
+            <h2 class="aside-title">Axis scope</h2>
+            <ul class="list-check scope-list">
+              {data.scope.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {data.gallery?.map((photo) => (
+          <figure class="card photo-card">
+            <Image
+              src={photo.image}
+              alt={photo.alt}
+              widths={[340, 460]}
+              sizes="(min-width: 900px) 340px, 100vw"
+              loading="lazy"
+              decoding="async"
+            />
+            {photo.caption && <figcaption>{photo.caption}</figcaption>}
+          </figure>
+        ))}
         {data.partners && (
           <div class="card">
             <h2 class="aside-title">Partners</h2>
@@ -285,6 +349,7 @@ const meta = [
 
   .project-body {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: clamp(2rem, 5vw, 4rem);
   }
 
@@ -329,10 +394,69 @@ const meta = [
     margin-bottom: 0.25rem;
   }
 
+  .block-title {
+    font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.7rem);
+    margin: 2.5rem 0 1rem;
+  }
+
+  .delivery__grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+
+  .delivery__item h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .delivery__item :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--brand-green);
+    flex: none;
+  }
+
+  .delivery__item p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .benefits__list {
+    gap: 0.9rem;
+  }
+
   .project-aside {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
     align-content: start;
+  }
+
+  .scope-list {
+    font-size: var(--text-sm);
+  }
+
+  /* Secondary photos are at most 460px wide; never stretch them past that. */
+  .photo-card {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    max-width: 460px;
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .photo-card figcaption {
+    padding: 0.75rem 1rem;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
   }
 
   .aside-title {

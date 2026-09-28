@@ -14,7 +14,7 @@ image: ../../assets/projects/ge-durham-solar.jpg
 imageAlt: "Aerial photograph of ground-mounted solar rows beside the GE Aviation plant in Durham, North Carolina"
 featured: true
 published: true
-order: 2
+order: 5
 source: "axis-energyinc.com/project/ge-durham-solar (live site narrative); delivered by the White Electrical renewable division that became Axis Energy in 2017 (2024 company overview deck)"
 ---
 

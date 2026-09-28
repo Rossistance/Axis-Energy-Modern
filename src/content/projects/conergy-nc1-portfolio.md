@@ -16,7 +16,7 @@ image: ../../assets/projects/conergy-nc1-portfolio.jpg
 imageAlt: "Aerial view of a ground-mounted solar array surrounded by woodland in North Carolina"
 featured: true
 published: true
-order: 1
+order: 4
 source: "axis-energyinc.com/project/conergy-nc1-portfolio (live site narrative, verbatim)"
 ---
 

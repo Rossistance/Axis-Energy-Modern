@@ -12,7 +12,7 @@ imageAlt: 'Aerial view of the Floyd Road solar farm near Gaston, North Carolina'
 imageCredit: 'Photo: Axis Energy brochure (2018)'
 featured: false
 published: true
-order: 4
+order: 7
 source: '2018 Axis Energy brochure interior (Our Experience: Utility Scale, 1–15 MW fixed and tracking). Completion year not stated in the brochure.'
 ---
 

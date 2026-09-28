@@ -34,10 +34,22 @@ const projects = defineCollection({
       storageBrand: z.string().optional(),
       partners: z.array(z.string()).optional(),
       summary: z.string(),
+      /** Outcome, shown in the Impact callout. */
       impact: z.string().optional(),
+      /** Case-study detail (all optional): the problem Axis had to solve and how it was solved. */
+      challenge: z.string().optional(),
+      approach: z.string().optional(),
+      /** Axis Energy's scope of work, one line per item. */
+      scope: z.array(z.string()).optional(),
+      /** Why the project matters to owners: short titled points. */
+      benefits: z.array(z.object({ title: z.string(), body: z.string() })).optional(),
       image: image().optional(),
       imageAlt: z.string().optional(),
       imageCredit: z.string().optional(),
+      /** Additional site photos, shown beside the project details. */
+      gallery: z
+        .array(z.object({ image: image(), alt: z.string(), caption: z.string().optional() }))
+        .optional(),
       featured: z.boolean().default(false),
       /** Unpublished entries are excluded from every page and the sitemap. */
       published: z.boolean().default(false),
