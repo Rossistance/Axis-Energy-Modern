@@ -3,8 +3,8 @@ import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Breadcrumbs from '@components/Breadcrumbs.astro';
-import heroArt from '@assets/hero/hero-about.png';
+import PageHero from '@components/PageHero.astro';
+import { heroes } from '@data/heroes';
 import { href, absoluteUrl } from '@lib/href';
 import { personSchema } from '@lib/schema';
 
@@ -35,69 +35,62 @@ const jsonLd = [
   ogType="profile"
   {jsonLd}
 >
-  <section class="profile-hero band-dark">
-    <div class="profile-hero__bg" aria-hidden="true">
-      <Image
-        src={heroArt}
-        alt=""
-        format="webp"
-        widths={[800, 1400]}
-        sizes="100vw"
-        loading="eager"
-      />
-    </div>
-    <div class="container">
-      <Breadcrumbs
-        items={[
-          { label: 'About', href: '/about/' },
-          { label: 'Leadership', href: '/leadership/' },
-          { label: data.name, href: `/team/${person.id}/` },
-        ]}
-      />
-      <div class="profile-hero__grid">
-        {data.photo && (
-          <div class="profile-hero__photo">
-            <Image
-              src={data.photo}
-              alt={data.photoAlt ?? data.name}
-              width={400}
-              height={400}
-              widths={[240, 400, 600]}
-              sizes="(min-width: 900px) 300px, 60vw"
-              loading="eager"
-              fetchpriority="high"
-            />
-          </div>
-        )}
-        <div>
-          <p class="eyebrow">Leadership</p>
-          <h1>{data.name}</h1>
-          <p class="profile-hero__title">{data.title}, Axis Energy</p>
-          <div class="cluster profile-hero__actions">
+  <PageHero
+    eyebrow="Leadership"
+    title={data.name}
+    lead={`${data.title}, Axis Energy`}
+    photo={heroes.team}
+    crumbs={[
+      { label: 'About', href: '/about/' },
+      { label: 'Leadership', href: '/leadership/' },
+      { label: data.name, href: `/team/${person.id}/` },
+    ]}
+  >
+    {data.photo && (
+      <div class="profile-portrait" slot="media">
+        <Image
+          src={data.photo}
+          alt={data.photoAlt ?? data.name}
+          width={120}
+          height={120}
+          densities={[1, 2]}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    )}
+  </PageHero>
+
+  <section class="section">
+    <div class="container profile-body">
+      {(data.email || data.linkedin || data.phone) && (
+        <div class="card profile-contact">
+          <h2 class="profile-contact__title">Contact {data.name.split(' ')[0]}</h2>
+          <div class="cluster">
             {data.email && (
-              <a class="btn btn--primary" href={`mailto:${data.email}`}>
-                <Icon name="lucide:mail" class="icon" /> Email {data.name.split(' ')[0]}
+              <a class="btn btn--primary btn--sm" href={`mailto:${data.email}`}>
+                <Icon name="lucide:mail" class="icon" /> Email
               </a>
             )}
             {data.linkedin && (
-              <a class="btn btn--secondary" href={data.linkedin} rel="noopener" target="_blank">
+              <a
+                class="btn btn--secondary btn--sm"
+                href={data.linkedin}
+                rel="noopener"
+                target="_blank"
+              >
                 <Icon name="lucide:linkedin" class="icon" /> LinkedIn
               </a>
             )}
             {data.phone && (
-              <a class="btn btn--secondary" href={`tel:+1${data.phone.replace(/\D/g, '')}`}>
+              <a class="btn btn--secondary btn--sm" href={`tel:+1${data.phone.replace(/\D/g, '')}`}>
                 <Icon name="lucide:phone" class="icon" /> {data.phone}
               </a>
             )}
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container profile-body">
-      <article class="prose">
+      )}
+      <article class="prose profile-bio">
         <h2>About {data.name.split(' ')[0]}</h2>
         <Content />
       </article>
@@ -131,69 +124,34 @@ const jsonLd = [
 </BaseLayout>
 
 <style>
-  .profile-hero {
-    position: relative;
-    overflow: hidden;
-    padding-block: var(--page-hero-pad-top) var(--page-hero-pad-bottom);
-  }
-
-  .profile-hero__bg {
-    position: absolute;
-    inset: 0;
-    opacity: 0.22;
-    filter: blur(14px) saturate(1.1);
-    transform: scale(1.1);
-  }
-
-  .profile-hero__bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .profile-hero .container {
-    position: relative;
-  }
-
-  .profile-hero__grid {
-    display: grid;
-    gap: 2rem;
-    align-items: center;
-  }
-
-  .profile-hero__photo {
-    width: min(200px, 44vw);
+  .profile-portrait {
+    flex: none;
+    width: clamp(76px, 9vw, 112px);
     aspect-ratio: 1;
-    border-radius: var(--r-xl);
+    border-radius: var(--r-lg);
     overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.35);
     box-shadow: var(--shadow-3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  .profile-hero__photo img {
+  .profile-portrait img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .profile-hero h1 {
-    color: #fff;
-    font-size: var(--h1-page);
+  .profile-bio > :global(:first-child) {
+    margin-top: 0;
   }
 
-  .profile-hero__title {
-    font-size: var(--text-lg);
-    color: var(--aqua-200);
-    font-weight: 600;
-  }
-
-  .profile-hero__actions {
-    margin-top: 1rem;
+  .profile-contact__title {
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
   }
 
   .profile-body {
     display: grid;
-    gap: clamp(2rem, 5vw, 4rem);
+    gap: clamp(1.5rem, 4vw, 2.5rem);
   }
 
   .profile-aside {
@@ -207,14 +165,29 @@ const jsonLd = [
     margin-bottom: 0.75rem;
   }
 
+  /* Desktop: bio on the left; contact card above the other cards on the right. */
   @media (min-width: 900px) {
-    .profile-hero__grid {
-      grid-template-columns: auto 1fr;
-      gap: 3rem;
-    }
-
     .profile-body {
       grid-template-columns: minmax(0, 1fr) 320px;
+      grid-template-areas:
+        'bio contact'
+        'bio aside';
+      grid-template-rows: auto 1fr;
+      column-gap: clamp(2rem, 5vw, 4rem);
+      row-gap: 1.25rem;
+      align-items: start;
+    }
+
+    .profile-contact {
+      grid-area: contact;
+    }
+
+    .profile-bio {
+      grid-area: bio;
+    }
+
+    .profile-aside {
+      grid-area: aside;
     }
   }
 </style>

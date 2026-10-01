@@ -1,11 +1,10 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Breadcrumbs from '@components/Breadcrumbs.astro';
+import PageHero from '@components/PageHero.astro';
 import NewsCard from '@components/NewsCard.astro';
-import heroArt from '@assets/hero/hero-news.png';
+import { heroes } from '@data/heroes';
 import { href, absoluteUrl } from '@lib/href';
 import { formatDate, readingTime } from '@lib/format';
 import { articleSchema } from '@lib/schema';
@@ -44,32 +43,21 @@ const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
 ---
 
 <BaseLayout title={data.title} description={data.excerpt} ogType="article" {jsonLd}>
-  <section class="article-hero band-dark">
-    <div class="article-hero__art" aria-hidden="true">
-      <Image
-        src={heroArt}
-        alt=""
-        format="webp"
-        widths={[800, 1400]}
-        sizes="100vw"
-        loading="eager"
-      />
-    </div>
-    <div class="container container--narrow">
-      <Breadcrumbs
-        items={[
-          { label: 'News', href: '/news/' },
-          { label: data.title, href: `/news/${post.id}/` },
-        ]}
-      />
-      <p class="eyebrow">{data.category}</p>
-      <h1>{data.title}</h1>
-      <p class="article-hero__meta">
-        By {data.author} · <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time> ·{' '}
-        {minutes} min read
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow={data.category}
+    title={data.title}
+    photo={heroes.article}
+    narrow
+    crumbs={[
+      { label: 'News', href: '/news/' },
+      { label: data.title, href: `/news/${post.id}/` },
+    ]}
+  >
+    <p class="article-meta">
+      By {data.author} · <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time> ·{' '}
+      {minutes} min read
+    </p>
+  </PageHero>
 
   <article class="section">
     <div class="container container--narrow">
@@ -153,34 +141,8 @@ const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
 </BaseLayout>
 
 <style>
-  .article-hero {
-    position: relative;
-    overflow: hidden;
-    padding-block: var(--page-hero-pad-top) var(--page-hero-pad-bottom);
-  }
-
-  .article-hero__art {
-    position: absolute;
-    inset: 0;
-    opacity: 0.2;
-  }
-
-  .article-hero__art img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .article-hero .container {
-    position: relative;
-  }
-
-  .article-hero h1 {
-    color: #fff;
-    font-size: var(--h1-page);
-  }
-
-  .article-hero__meta {
+  .article-meta {
+    margin: 0.6rem 0 0;
     color: var(--text-muted);
   }
 

@@ -7,6 +7,7 @@ sizeMwdc: 1.2
 year: 2015
 commissioned: "2015-12"
 type: commercial
+market: "commercial-industrial"
 role: ["Construction management"]
 mount: "Ground mount, fixed tilt"
 summary: "A 1.2 MWdc ground-mount, fixed-tilt PV system at a manufacturing plant in Durham, generating enough electricity each year to power approximately 100 homes."

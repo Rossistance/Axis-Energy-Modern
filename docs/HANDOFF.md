@@ -104,6 +104,7 @@ All other pages keep their paths (`/services/`, `/projects/`, `/why-axis/`, `/ab
 ## 9. Known limitations and open decisions
 
 - Decisions listed in `docs/CONTENT-REVIEW.md` (statistics basis, portfolio publication, RFQ and subcontractor fields, jobs source) are pending the Axis team review; the preview build ships them as drafts.
+- Page header photos are placeholders (the preview labels them "Placeholder photo"). Before launch, set the final photo for each page in `src/data/heroes.ts` and mark it `placeholder: false`; then re-run `npm run og` so the social sharing image uses the new photography too. A production build (`PUBLIC_SITE_MODE=production`) hides the label but not the placeholder photo itself.
 - Project photos are small: the three from the old site are 392 px wide and the three brochure crops about 660 px. They are shown at native size or smaller, so they look fine but not crisp on high-density screens. Replace them with originals in `src/assets/projects/` (same file names) and the build regenerates every size.
 - The Leadership page has one profile (as on the live site). Additional profiles are a content decision.
 - GitHub Pages cannot serve real 301 redirects or custom headers; the other hosts can.

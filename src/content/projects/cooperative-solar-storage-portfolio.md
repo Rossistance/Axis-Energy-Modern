@@ -5,6 +5,7 @@ state: NC
 sizeMwdc: 11.7
 sites: 5
 type: utility
+market: "co-ops-utilities"
 role: ["EPC", "O&M"]
 storageMwh: 22.6
 storageBrand: "Tesla"

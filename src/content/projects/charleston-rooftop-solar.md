@@ -7,6 +7,7 @@ sizeMwdc: 2.6
 year: 2011
 commissioned: "2011-12"
 type: rooftop
+market: "investor-owned"
 role: ["Construction"]
 mount: "Rooftop"
 modules: "18,000 thin-film laminate modules"

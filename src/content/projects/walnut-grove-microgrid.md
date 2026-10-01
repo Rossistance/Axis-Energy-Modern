@@ -7,6 +7,7 @@ sizeMwdc: 2.751
 year: 2023
 commissioned: "2023"
 type: microgrid
+market: "co-ops-utilities"
 role: ["EPC"]
 mount: "OMCO Origin trackers"
 modules: "Bifacial"

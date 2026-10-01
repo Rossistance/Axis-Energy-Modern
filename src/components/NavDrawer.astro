@@ -71,6 +71,7 @@ const inGroup = (item: NavItem): boolean =>
                   if (!child.children) return <li>{link}</li>;
                   const childId = `${id}-${slugify(child.label)}`;
                   const childOpen = inGroup(child);
+                  const kind = child.href.includes('#') ? 'sections' : 'pages';
                   return (
                     <li>
                       <div class="drawer__row drawer__row--sub">
@@ -80,7 +81,7 @@ const inGroup = (item: NavItem): boolean =>
                           class="drawer__expand drawer__expand--sub"
                           aria-expanded={childOpen ? 'true' : 'false'}
                           aria-controls={childId}
-                          aria-label={`${child.label} pages`}
+                          aria-label={`${child.label} ${kind}`}
                           data-drawer-expand
                         >
                           <Icon name="lucide:chevron-down" />
@@ -97,6 +98,15 @@ const inGroup = (item: NavItem): boolean =>
                             >
                               {grandchild.label}
                             </a>
+                            {grandchild.children && (
+                              <ul class="drawer__deep" aria-label={grandchild.label}>
+                                {grandchild.children.map((item) => (
+                                  <li>
+                                    <a href={href(item.href)}>{item.label}</a>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
                           </li>
                         ))}
                       </ul>
@@ -295,6 +305,18 @@ const inGroup = (item: NavItem): boolean =>
     font-weight: 500;
     font-size: 0.95rem;
     color: var(--ink-muted);
+  }
+
+  .drawer__list .drawer__deep {
+    list-style: none;
+    margin: 0 0 0.2rem 0.35rem;
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--mist-200);
+  }
+
+  .drawer__list .drawer__deep a {
+    padding-block: 0.3rem;
+    font-size: 0.9rem;
   }
 
   .drawer__list :global(svg) {

@@ -4,7 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import JobsFeed from '@components/JobsFeed.astro';
-import heroArt from '@assets/hero/hero-careers.png';
+import { heroes } from '@data/heroes';
 import { company } from '@data/company';
 import { values } from '@data/pillars';
 import { href } from '@lib/href';
@@ -40,21 +40,24 @@ const reasons = [
   <PageHero
     eyebrow="Careers"
     title="Build the future with us"
-    lead="As an employee-owned company, Axis Energy Inc. values its people and understands the importance of their contribution to its success. We are continuously looking for qualified, safety minded individuals with initiative, good communication skills, and a desire to achieve."
-    art={heroArt}
+    lead="As an employee-owned company, Axis Energy Inc. values its people and understands the importance of their contribution to its success."
+    photo={heroes.careers}
     crumbs={[{ label: 'Careers', href: '/careers/' }]}
-  >
-    <div class="cluster page-hero__actions">
-      <a class="btn btn--primary" href="#openings">
-        View openings
-      </a>
-      <a class="btn btn--secondary" href={`mailto:${company.careersEmail}`}>
-        <Icon name="lucide:mail" class="icon" /> Send a résumé
-      </a>
-    </div>
-  </PageHero>
+  />
 
-  <section class="section" aria-labelledby="why-title">
+  <section class="section" aria-labelledby="openings-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Current opportunities"
+        title="Open positions"
+        lead="We are continuously looking for qualified, safety minded individuals with initiative, good communication skills, and a desire to achieve. If you don’t see the right fit, we still want to hear from you."
+        id="openings-title"
+      />
+      <JobsFeed />
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="why-title">
     <div class="container">
       <SectionHeading eyebrow="Why Axis" title="A company of owners" id="why-title" />
       <div class="grid grid--3" data-reveal-group>
@@ -76,18 +79,6 @@ const reasons = [
           </li>
         ))}
       </ul>
-    </div>
-  </section>
-
-  <section class="section band-alt" aria-labelledby="openings-title">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Current opportunities"
-        title="Open positions"
-        lead="Roles are posted here and on our job boards. If you don’t see the right fit, we still want to hear from you."
-        id="openings-title"
-      />
-      <JobsFeed />
     </div>
   </section>
 

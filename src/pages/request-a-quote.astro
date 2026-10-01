@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import FormShell from '@components/FormShell.astro';
-import heroArt from '@assets/hero/hero-home.png';
+import { heroes } from '@data/heroes';
 import { rfqForm } from '@data/forms';
 import { company } from '@data/company';
 import { href } from '@lib/href';
@@ -30,10 +30,8 @@ const steps = [
   <PageHero
     eyebrow="Request a quote"
     title="Tell us about your project"
-    lead="Solar, storage, microgrids, electrical infrastructure or O&M — share what you know and we will follow up within one business day. Estimates are fine; you can save and finish later."
-    art={heroArt}
-    artPosition="30% 40%"
-    artScale={1.25}
+    lead="Solar, storage, microgrids, electrical infrastructure or O&M: share what you know and we will follow up within one business day. Estimates are fine."
+    photo={heroes.requestQuote}
     crumbs={[{ label: 'Request a Quote', href: '/request-a-quote/' }]}
   />
 

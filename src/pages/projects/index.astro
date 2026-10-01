@@ -1,399 +1,235 @@
 ---
+/**
+ * Projects: published projects grouped by type, then the Markets sections. The Projects →
+ * Markets menu links jump to those sections on this page (src/data/project-markets.ts).
+ */
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import ProjectCard from '@components/ProjectCard.astro';
-import heroArt from '@assets/hero/hero-projects.png';
+import MarketProjects from '@components/MarketProjects.astro';
+import { heroes } from '@data/heroes';
+import { projectMarkets, MARKETS_ANCHOR, type ProjectMarket } from '@data/project-markets';
 import { href } from '@lib/href';
-import { formatSize, formatStorage, stateName } from '@lib/format';
-import { getPublishedProjects, portfolioTotals, TYPE_LABELS, projectLocation } from '@lib/projects';
+import { formatSize, formatStorage } from '@lib/format';
+import { getPublishedProjects, groupByType, portfolioTotals, type Project } from '@lib/projects';
 
 const projects = await getPublishedProjects();
-const totals = portfolioTotals(projects);
-const types = [...new Set(projects.map((p) => p.data.type))];
-const states = [...new Set(projects.map((p) => p.data.state))].sort();
-const roles = [...new Set(projects.flatMap((p) => p.data.role))];
+const groups = groupByType(projects).map((g) => ({ ...g, totals: portfolioTotals(g.projects) }));
+const inMarket = (m: ProjectMarket): Project[] => projects.filter((p) => p.data.market === m.id);
+const caseStudies = href('/request-a-quote/?topic=case-studies');
 const description =
-  'Selected Axis Energy projects: utility-scale portfolios, rooftop and carport solar, and solar + storage across the Southeast and beyond.';
+  'Axis Energy projects by type and by market: utility-scale solar, commercial and industrial solar, microgrids and rooftop work for owners, cooperatives and utilities, municipalities and developers.';
 ---
 
 <BaseLayout title="Projects" {description}>
   <PageHero
     eyebrow="Projects"
     title="Excellence in Execution"
-    lead="Axis Energy brings you a direct, one-to-one partnership that provides a total EPC and O&M solution. Explore a selection of the work our team has delivered for utilities, manufacturers, developers and municipalities."
-    art={heroArt}
+    lead="Axis Energy brings you a direct, one-to-one partnership that provides a total EPC and O&M solution."
+    photo={heroes.projects}
     crumbs={[{ label: 'Projects', href: '/projects/' }]}
-  >
-    <ul class="totals" aria-label="Published portfolio totals">
-      <li>
-        <strong class="tabular">{formatSize(totals.mwdc)}</strong>
-        <span>published capacity</span>
-      </li>
-      <li>
-        <strong class="tabular">{totals.sites}</strong>
-        <span>sites</span>
-      </li>
-      <li>
-        <strong class="tabular">{totals.states.length}</strong>
-        <span>{totals.states.length === 1 ? 'state' : 'states'}</span>
-      </li>
-      {totals.mwh > 0 && (
-        <li>
-          <strong class="tabular">{formatStorage(totals.mwh)}</strong>
-          <span>storage</span>
-        </li>
-      )}
-    </ul>
-  </PageHero>
+  />
 
-  <section class="section" aria-labelledby="portfolio-title">
+  <section class="section" aria-labelledby="types-title">
     <div class="container">
-      <SectionHeading
-        eyebrow="Portfolio"
-        title="Selected projects"
-        lead="Filter by project type, state or role. Published case studies appear here; additional completed projects are added as clients approve them."
-        id="portfolio-title"
-      />
-
-      <form class="filters" data-filters aria-label="Filter projects">
-        <div class="filters__group">
-          <label for="f-type">Type</label>
-          <select id="f-type" name="type" class="select">
-            <option value="">All types</option>
-            {types.map((t) => (
-              <option value={t}>{TYPE_LABELS[t]}</option>
+      <h2 id="types-title" class="sr-only">
+        Projects by type
+      </h2>
+      {groups.map((group) => (
+        <div class="type-group" id={`type-${group.type}`}>
+          <div class="type-group__head">
+            <h3>{group.label}</h3>
+            <span class="type-group__rule" aria-hidden="true" />
+            <p class="type-group__meta tabular">
+              {group.totals.count} {group.totals.count === 1 ? 'project' : 'projects'} ·{' '}
+              {formatSize(group.totals.mwdc)}
+              {group.totals.mwh > 0 && ` · ${formatStorage(group.totals.mwh)}`}
+            </p>
+          </div>
+          <div class="grid type-group__grid" data-reveal-group>
+            {group.projects.map((p) => (
+              <ProjectCard project={p} level={4} showType={false} />
             ))}
-          </select>
+          </div>
         </div>
-        <div class="filters__group">
-          <label for="f-state">State</label>
-          <select id="f-state" name="state" class="select">
-            <option value="">All states</option>
-            {states.map((s) => (
-              <option value={s}>{stateName(s)}</option>
-            ))}
-          </select>
-        </div>
-        <div class="filters__group">
-          <label for="f-role">Role</label>
-          <select id="f-role" name="role" class="select">
-            <option value="">All roles</option>
-            {roles.map((r) => (
-              <option value={r}>{r}</option>
-            ))}
-          </select>
-        </div>
-        <div class="filters__group">
-          <label for="f-sort">Sort</label>
-          <select id="f-sort" name="sort" class="select">
-            <option value="featured">Featured</option>
-            <option value="size">Largest first</option>
-            <option value="year">Newest first</option>
-          </select>
-        </div>
-        <div class="filters__actions">
-          <button type="submit" class="btn btn--secondary btn--sm">
-            Apply
-          </button>
-          <button type="button" class="btn btn--ghost btn--sm" data-filters-reset>
-            Reset
-          </button>
-        </div>
-        <p class="filters__count" data-filters-count aria-live="polite">
-          {projects.length} projects
-        </p>
-      </form>
-
-      <div class="grid grid--3" data-project-grid data-reveal-group>
-        {projects.map((p) => (
-          <ProjectCard project={p} />
-        ))}
-      </div>
-      <p class="filters__empty card" data-filters-empty hidden>
-        No projects match those filters.{' '}
-        <button type="button" class="btn btn--ghost btn--sm" data-filters-reset>
-          Show all
-        </button>
-      </p>
+      ))}
     </div>
   </section>
 
-  <section class="section band-alt" aria-labelledby="table-title">
+  <section class="section band-alt markets" id={MARKETS_ANCHOR} aria-labelledby="markets-title">
     <div class="container">
-      <SectionHeading eyebrow="At a glance" title="Project list" id="table-title" align="row">
-        <a class="btn btn--secondary" href={href('/request-a-quote/?topic=case-studies')}>
+      <SectionHeading
+        eyebrow="Markets"
+        title="Markets we serve"
+        lead="The owners we build for, with the published projects delivered for each."
+        id="markets-title"
+        align="row"
+      >
+        <a class="btn btn--secondary" href={caseStudies}>
           Request case studies <Icon name="lucide:arrow-right" class="icon" />
         </a>
       </SectionHeading>
-      <div class="table-wrap" data-reveal>
-        <table class="table" data-sortable>
-          <caption class="sr-only">
-            Published Axis Energy projects with size, location, completion year and role
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">
-                <button type="button" data-sort="text">
-                  Project
-                </button>
-              </th>
-              <th scope="col">
-                <button type="button" data-sort="text">
-                  Type
-                </button>
-              </th>
-              <th scope="col">
-                <button type="button" data-sort="text">
-                  Location
-                </button>
-              </th>
-              <th scope="col" class="num">
-                <button type="button" data-sort="num">
-                  Size (MWdc)
-                </button>
-              </th>
-              <th scope="col" class="num">
-                <button type="button" data-sort="num">
-                  Storage (MWh)
-                </button>
-              </th>
-              <th scope="col" class="num">
-                <button type="button" data-sort="num">
-                  Completed
-                </button>
-              </th>
-              <th scope="col">
-                <button type="button" data-sort="text">
-                  Role
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {projects.map((p) => (
-              <tr>
-                <td>
-                  <a href={href(`/project/${p.id}/`)}>{p.data.title}</a>
-                </td>
-                <td>{TYPE_LABELS[p.data.type]}</td>
-                <td>{projectLocation(p)}</td>
-                <td class="num" data-value={p.data.sizeMwdc}>
-                  {p.data.sizeMwdc.toLocaleString('en-US', { maximumFractionDigits: 2 })}
-                </td>
-                <td class="num" data-value={p.data.storageMwh ?? 0}>
-                  {p.data.storageMwh
-                    ? p.data.storageMwh.toLocaleString('en-US', { maximumFractionDigits: 2 })
-                    : '—'}
-                </td>
-                <td class="num" data-value={p.data.year ?? 0}>
-                  {p.data.year ?? '—'}
-                </td>
-                <td>{p.data.role.join(', ')}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+      <div class="markets__list">
+        {projectMarkets.map((market) => (
+          <section class="market" id={market.id} aria-labelledby={`${market.id}-title`}>
+            <div class="market__intro">
+              <div class="icon-tile">
+                <Icon name={market.icon} />
+              </div>
+              <h3 id={`${market.id}-title`}>{market.title}</h3>
+              <p>{market.summary}</p>
+            </div>
+            <div class="market__work">
+              <MarketProjects projects={inMarket(market)} emptyNote={market.emptyNote} />
+
+              {market.children?.map((sub) => (
+                <section class="market market--sub" id={sub.id} aria-labelledby={`${sub.id}-title`}>
+                  <h4 id={`${sub.id}-title`}>
+                    <Icon name={sub.icon} />
+                    {sub.title}
+                  </h4>
+                  <p>{sub.summary}</p>
+                  <MarketProjects projects={inMarket(sub)} emptyNote={sub.emptyNote} />
+                </section>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .totals {
-    list-style: none;
-    margin: 1.1rem 0 0;
-    padding: 0;
+  /* Type groups */
+  .type-group + .type-group {
+    margin-top: clamp(2.25rem, 4.5vw, 3.25rem);
+  }
+
+  .type-group__head {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem 2.25rem;
-  }
-
-  .totals li {
-    display: grid;
-  }
-
-  .totals strong {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.1;
-  }
-
-  .totals span {
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: end;
-    margin-bottom: 1.75rem;
-    padding: 1rem 1.1rem;
-    border-radius: var(--r-lg);
-    background: var(--mist-50);
-    border: 1px solid var(--line);
-  }
-
-  html:not(.js) .filters {
-    display: none;
-  }
-
-  .filters__group {
-    display: grid;
-    gap: 0.3rem;
-    min-width: 160px;
-    flex: 1;
-  }
-
-  .filters__group label {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-
-  .filters .select {
-    min-height: 42px;
-    padding-block: 0.45rem;
-  }
-
-  .filters__actions {
-    display: flex;
-    gap: 0.5rem;
     align-items: center;
+    gap: 0.35rem 1rem;
+    margin-bottom: 1.1rem;
   }
 
-  .filters__count {
-    margin: 0 0 0.6rem auto;
+  .type-group__head h3 {
+    margin: 0;
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  }
+
+  .type-group__rule {
+    flex: 1;
+    min-width: 2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--mist-200), transparent);
+  }
+
+  /* Same card size in every group: a group of one or two keeps the empty columns rather
+     than stretching its cards (and enlarging small photos) across the row. */
+  .type-group__grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+
+  .type-group__meta {
+    margin: 0;
     font-size: var(--text-sm);
+    font-weight: 600;
     color: var(--text-muted);
-    font-weight: 500;
   }
 
-  .filters__empty {
-    margin-top: 1rem;
-    text-align: center;
+  @media (max-width: 639px) {
+    .type-group__rule {
+      display: none;
+    }
+
+    .type-group__meta {
+      flex-basis: 100%;
+    }
   }
 
-  [data-sortable] th button {
-    border: 0;
-    background: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    letter-spacing: inherit;
-    text-transform: inherit;
-    cursor: pointer;
+  /* Markets */
+  .markets__list {
+    display: grid;
+    gap: 1.25rem;
   }
 
-  [data-sortable] th[aria-sort] button::after {
-    content: ' ↕';
-    opacity: 0.5;
+  .market {
+    border-radius: var(--r-lg);
   }
 
-  [data-sortable] th[aria-sort='ascending'] button::after {
-    content: ' ↑';
-    opacity: 1;
+  .markets__list > .market {
+    display: grid;
+    gap: 1.25rem 2.5rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: var(--surface, #fff);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-1);
   }
 
-  [data-sortable] th[aria-sort='descending'] button::after {
-    content: ' ↓';
-    opacity: 1;
+  .market__intro h3 {
+    margin: 0.85rem 0 0.4rem;
+    font-size: 1.3rem;
+  }
+
+  .market__intro p,
+  .market--sub > p {
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .market__work {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+
+  /* Investor-Owned: a subsection inside Electric Co-ops & Utilities. */
+  .market--sub {
+    display: grid;
+    gap: 0.6rem;
+    padding: 1rem 0 0 1rem;
+    border-left: 3px solid var(--brand-green);
+    border-radius: 0;
+  }
+
+  .market--sub h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .market--sub h4 :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--brand-green);
+  }
+
+  /* Arriving from the Projects → Markets menu: a brief highlight on the section. */
+  @media (prefers-reduced-motion: no-preference) {
+    .market:target {
+      animation: market-arrive 1.8s var(--ease-out);
+    }
+  }
+
+  @keyframes market-arrive {
+    from {
+      box-shadow:
+        0 0 0 3px var(--aqua-400),
+        var(--shadow-2);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .markets__list > .market {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
   }
 </style>
-
-<script>
-  const form = document.querySelector<HTMLFormElement>('[data-filters]');
-  const grid = document.querySelector<HTMLElement>('[data-project-grid]');
-  if (form && grid) {
-    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.project-card'));
-    const count = document.querySelector<HTMLElement>('[data-filters-count]');
-    const empty = document.querySelector<HTMLElement>('[data-filters-empty]');
-    const selects = Array.from(form.querySelectorAll<HTMLSelectElement>('select'));
-    const original = cards.map((c, i) => ({ c, i }));
-
-    const val = (name: string) =>
-      (form.elements.namedItem(name) as HTMLSelectElement | null)?.value ?? '';
-    const apply = () => {
-      const type = val('type');
-      const state = val('state');
-      const role = val('role');
-      const sort = val('sort');
-      let visible = 0;
-      const ordered = [...original].sort((a, b) => {
-        if (sort === 'size') return Number(b.c.dataset.size) - Number(a.c.dataset.size);
-        if (sort === 'year') return Number(b.c.dataset.year) - Number(a.c.dataset.year);
-        return a.i - b.i;
-      });
-      ordered.forEach(({ c }) => grid.appendChild(c));
-      cards.forEach((c) => {
-        const show =
-          (!type || c.dataset.type === type) &&
-          (!state || c.dataset.state === state) &&
-          (!role || (c.dataset.role ?? '').split('|').includes(role));
-        c.hidden = !show;
-        if (show) visible++;
-      });
-      if (count) count.textContent = `${visible} ${visible === 1 ? 'project' : 'projects'}`;
-      if (empty) empty.hidden = visible > 0;
-      const params = new URLSearchParams();
-      selects.forEach((s) => {
-        if (s.value && !(s.name === 'sort' && s.value === 'featured')) params.set(s.name, s.value);
-      });
-      const qs = params.toString();
-      history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
-    };
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      apply();
-    });
-    const initial = new URLSearchParams(location.search);
-    selects.forEach((s) => {
-      const v = initial.get(s.name);
-      if (v && Array.from(s.options).some((o) => o.value === v)) s.value = v;
-      s.addEventListener('change', apply);
-    });
-    document.querySelectorAll('[data-filters-reset]').forEach((b) =>
-      b.addEventListener('click', () => {
-        form.reset();
-        apply();
-      }),
-    );
-    apply();
-  }
-
-  const table = document.querySelector<HTMLTableElement>('[data-sortable]');
-  if (table) {
-    const tbody = table.tBodies[0];
-    table.querySelectorAll<HTMLTableCellElement>('th').forEach((th, index) => {
-      const btn = th.querySelector('button');
-      if (!btn) return;
-      th.setAttribute('aria-sort', 'none');
-      btn.addEventListener('click', () => {
-        const type = btn.dataset.sort;
-        const dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
-        table.querySelectorAll('th').forEach((t) => t.setAttribute('aria-sort', 'none'));
-        th.setAttribute('aria-sort', dir);
-        const rows = Array.from(tbody.rows);
-        rows.sort((a, b) => {
-          const ca = a.cells[index];
-          const cb = b.cells[index];
-          let r: number;
-          if (type === 'num') r = Number(ca.dataset.value ?? 0) - Number(cb.dataset.value ?? 0);
-          else r = (ca.textContent ?? '').localeCompare(cb.textContent ?? '');
-          return dir === 'ascending' ? r : -r;
-        });
-        rows.forEach((row) => tbody.appendChild(row));
-      });
-    });
-  }
-</script>

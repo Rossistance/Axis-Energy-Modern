@@ -7,7 +7,7 @@ import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import SectionHeading from '@components/SectionHeading.astro';
-import heroArt from '@assets/hero/hero-services.png';
+import { heroes } from '@data/heroes';
 import { company } from '@data/company';
 import {
   omOfferings,
@@ -37,7 +37,7 @@ const area = `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
     eyebrow={omPage.title}
     title={offering.title}
     lead={offering.summary}
-    art={heroArt}
+    photo={heroes.omOffering}
     crumbs={[
       { label: 'Services', href: '/services/' },
       { label: omPage.title, href: servicePath(OM_PAGE_SLUG) },

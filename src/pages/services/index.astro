@@ -5,7 +5,7 @@
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
-import heroArt from '@assets/hero/hero-services.png';
+import { heroes } from '@data/heroes';
 import { servicePages, servicePath } from '@data/services';
 import { href } from '@lib/href';
 
@@ -18,7 +18,7 @@ const description =
     eyebrow="Services"
     title="A Total EPC and O&M Solution"
     lead="Our clients enjoy great peace of mind being able to make one phone call to Axis Energy and know their renewable energy project will be executed with excellence."
-    art={heroArt}
+    photo={heroes.services}
     crumbs={[{ label: 'Services', href: '/services/' }]}
   />
 

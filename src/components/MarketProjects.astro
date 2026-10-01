@@ -1,0 +1,140 @@
+---
+/** Compact project links for a market section on the Projects page, or a note when empty. */
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { href } from '@lib/href';
+import { projectMeta, type Project } from '@lib/projects';
+
+interface Props {
+  projects: Project[];
+  /** Shown with a case-study link when no published project belongs to the market. */
+  emptyNote: string;
+}
+
+const { projects, emptyNote } = Astro.props;
+---
+
+{projects.length > 0 ? (
+  <ul class="market-projects">
+    {projects.map((p) => (
+      <li>
+        <a class="market-project" href={href(`/project/${p.id}/`)}>
+          <span class="market-project__thumb">
+            {p.data.image ? (
+              <Image
+                src={p.data.image}
+                alt=""
+                width={176}
+                height={120}
+                densities={[1, 2]}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <Icon name="lucide:image" />
+            )}
+          </span>
+          <span class="market-project__text">
+            <strong>{p.data.title}</strong>
+            <span>{projectMeta(p)}</span>
+          </span>
+          <Icon name="lucide:arrow-right" class="market-project__arrow" />
+        </a>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p class="market-empty">
+    {emptyNote} <a href={href('/request-a-quote/?topic=case-studies')}>Request case studies</a>
+  </p>
+)}
+
+<style>
+  .market-projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .market-project {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: #fff;
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      border-color var(--dur-2) ease,
+      box-shadow var(--dur-2) ease;
+  }
+
+  .market-project:hover {
+    border-color: var(--brand-blue);
+    box-shadow: var(--shadow-2);
+  }
+
+  .market-project__thumb {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--grad-band);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .market-project__thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .market-project__thumb :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .market-project__text {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .market-project__text strong {
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .market-project:hover .market-project__text strong {
+    color: var(--brand-blue);
+  }
+
+  .market-project__text span {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .market-project :global(.market-project__arrow) {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    color: var(--link);
+  }
+
+  .market-empty {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    border: 1px dashed var(--mist-200);
+    border-radius: var(--r-md);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+</style>

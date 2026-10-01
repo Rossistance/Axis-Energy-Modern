@@ -7,7 +7,7 @@ import ServiceBlock from '@components/ServiceBlock.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import ProcessTimeline from '@components/ProcessTimeline.astro';
 import ProjectCard from '@components/ProjectCard.astro';
-import heroArt from '@assets/hero/hero-services.png';
+import { heroes } from '@data/heroes';
 import photoFloydRoad from '@assets/projects/floyd-road-gaston-nc.png';
 import photoWalnutGrove from '@assets/projects/walnut-grove-microgrid.jpg';
 import photoEquipmentYard from '@assets/projects/walnut-grove-microgrid-equipment-yard.jpg';
@@ -70,21 +70,15 @@ const isOm = page.slug === OM_PAGE_SLUG;
   <PageHero
     eyebrow="Services"
     title={page.title}
-    lead={page.lead}
-    art={heroArt}
+    lead={page.summary}
+    photo={heroes[page.slug as keyof typeof heroes] ?? heroes.services}
     crumbs={[
       { label: 'Services', href: '/services/' },
       { label: page.title, href: servicePath(page.slug) },
     ]}
-  >
-    <div class="cluster page-hero__actions">
-      <a class="btn btn--primary" href={href('/request-a-quote/')}>
-        Request a quote
-      </a>
-    </div>
-  </PageHero>
+  />
 
-  <ServiceBlock group={page.block} photo={photos[page.slug]} />
+  <ServiceBlock group={page.block} photo={photos[page.slug]} detail={page.lead} />
 
   {isOm && (
     <section class="section band-alt" aria-labelledby="offerings-title">

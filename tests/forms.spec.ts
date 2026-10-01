@@ -94,15 +94,3 @@ test.describe('Subcontractor prequalification', () => {
     await expect(form.locator('[data-field-id="certify"]')).toHaveCount(1);
   });
 });
-
-test('projects filters narrow the grid and sync the URL', async ({ page }) => {
-  await page.goto('projects/');
-  const cards = page.locator('.project-card');
-  const total = await cards.count();
-  expect(total).toBeGreaterThan(0);
-  await page.locator('#f-state').selectOption('SC');
-  await expect(page.locator('[data-filters-count]')).toContainText('2 projects');
-  await expect(page).toHaveURL(/state=SC/);
-  await page.locator('[data-filters-reset]').first().click();
-  await expect(page.locator('[data-filters-count]')).toContainText(`${total} projects`);
-});

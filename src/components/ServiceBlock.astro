@@ -8,9 +8,11 @@ interface Props {
   group: ServiceGroup;
   photo?: { src: ImageMetadata; alt: string; caption?: string };
   flip?: boolean;
+  /** Extra paragraph under the intro, e.g. the copy that no longer fits the page header. */
+  detail?: string;
 }
 
-const { group, photo, flip = false } = Astro.props;
+const { group, photo, flip = false, detail } = Astro.props;
 ---
 
 <section
@@ -24,6 +26,7 @@ const { group, photo, flip = false } = Astro.props;
         <p class="eyebrow">{group.eyebrow}</p>
         <h2 id={`${group.id}-title`}>{group.title}</h2>
         <p class="lead">{group.intro}</p>
+        {detail && <p class="service-block__detail">{detail}</p>}
       </div>
       {photo && (
         <figure class="photo service-block__photo" data-reveal>
@@ -77,6 +80,11 @@ const { group, photo, flip = false } = Astro.props;
   .service-block__top {
     margin-bottom: clamp(2rem, 4vw, 3rem);
     align-items: center;
+  }
+
+  .service-block__detail {
+    margin-top: 1rem;
+    color: var(--text-muted);
   }
 
   .service-block--flip .service-block__top > :first-child {

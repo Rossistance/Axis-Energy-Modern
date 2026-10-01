@@ -9,7 +9,7 @@ import ValuesGrid from '@components/ValuesGrid.astro';
 import MarketsGrid from '@components/MarketsGrid.astro';
 import PhotoBand from '@components/PhotoBand.astro';
 import TeamCard from '@components/TeamCard.astro';
-import heroArt from '@assets/hero/hero-about.png';
+import { heroes } from '@data/heroes';
 import photoNcPortfolio from '@assets/projects/north-carolina-utility-scale-portfolio.jpg';
 import photoFlorence from '@assets/projects/florence-solar-array.png';
 import photoCharleston from '@assets/projects/charleston-rooftop-solar.jpg';
@@ -44,8 +44,8 @@ const culture = [
   <PageHero
     eyebrow="About Axis"
     title="The Power of Partnership"
-    lead="At Axis Energy, the power of partnership is what drives us – to always perform to our high standards of excellence, and take great care of our customers, vendors and employees. Partnership is the very reason we are here in this business, responding to our customers’ needs for comprehensive, reliable, high quality renewable energy solutions."
-    art={heroArt}
+    lead="At Axis Energy, the power of partnership is what drives us – to always perform to our high standards of excellence, and take great care of our customers, vendors and employees."
+    photo={heroes.about}
     crumbs={[{ label: 'About', href: '/about/' }]}
   />
 
@@ -83,6 +83,7 @@ const culture = [
       <SectionHeading
         eyebrow="Our culture"
         title="Partnership with all of our people"
+        lead="Partnership is the very reason we are here in this business, responding to our customers’ needs for comprehensive, reliable, high quality renewable energy solutions."
         id="culture-title"
       />
       <div class="grid grid--3" data-reveal-group>

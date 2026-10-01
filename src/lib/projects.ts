@@ -14,6 +14,17 @@ export const TYPE_LABELS: Record<Project['data']['type'], string> = {
   rooftop: 'Rooftop',
 };
 
+/** Headings for the type groups on the Projects page. */
+export const TYPE_GROUP_LABELS: Record<Project['data']['type'], string> = {
+  utility: 'Utility-scale solar',
+  commercial: 'Commercial & industrial solar',
+  municipal: 'Municipal & government solar',
+  carport: 'Carports & canopies',
+  microgrid: 'Microgrids',
+  community: 'Community solar',
+  rooftop: 'Rooftop solar',
+};
+
 export async function getPublishedProjects(): Promise<Project[]> {
   const all = await getCollection('projects', ({ data }) => data.published);
   return all.sort((a, b) => {
@@ -27,6 +38,32 @@ export async function getPublishedProjects(): Promise<Project[]> {
 export function projectLocation(p: Project): string {
   if (p.data.location) return p.data.location;
   return [p.data.city, p.data.state].filter(Boolean).join(', ');
+}
+
+/** "11.7 MWdc · 22.6 MWh storage · 5 sites in North Carolina" */
+export function projectMeta(p: Project): string {
+  const storage = formatStorage(p.data.storageMwh);
+  const place =
+    p.data.sites && p.data.sites > 1
+      ? `${p.data.sites} sites in ${stateName(p.data.state)}`
+      : projectLocation(p);
+  return [formatSize(p.data.sizeMwdc), storage && `${storage} storage`, place]
+    .filter(Boolean)
+    .join(' · ');
+}
+
+/**
+ * Projects grouped by type for the Projects page. `projects` arrive in page order, so each
+ * group keeps that order and the groups follow their first project.
+ */
+export function groupByType(projects: Project[]) {
+  const groups = new Map<Project['data']['type'], Project[]>();
+  for (const p of projects) groups.set(p.data.type, [...(groups.get(p.data.type) ?? []), p]);
+  return [...groups].map(([type, items]) => ({
+    type,
+    label: TYPE_GROUP_LABELS[type],
+    projects: items,
+  }));
 }
 
 export function portfolioTotals(projects: Project[]) {
@@ -59,21 +96,12 @@ export function carouselSlides(
 ): CarouselSlide[] {
   const withPhotos = projects.filter((p) => p.data.image);
   const sharp = withPhotos.filter((p) => p.data.image!.width >= minWidth);
-  return (sharp.length > 0 ? sharp : withPhotos).slice(0, max).map((p) => {
-    const storage = formatStorage(p.data.storageMwh);
-    const place =
-      p.data.sites && p.data.sites > 1
-        ? `${p.data.sites} sites in ${stateName(p.data.state)}`
-        : projectLocation(p);
-    return {
-      image: p.data.image!,
-      alt: p.data.imageAlt ?? p.data.title,
-      title: p.data.title,
-      meta: [formatSize(p.data.sizeMwdc), storage && `${storage} storage`, place]
-        .filter(Boolean)
-        .join(' · '),
-      href: `/project/${p.id}/`,
-      focus: p.data.imageFocus,
-    };
-  });
+  return (sharp.length > 0 ? sharp : withPhotos).slice(0, max).map((p) => ({
+    image: p.data.image!,
+    alt: p.data.imageAlt ?? p.data.title,
+    title: p.data.title,
+    meta: projectMeta(p),
+    href: `/project/${p.id}/`,
+    focus: p.data.imageFocus,
+  }));
 }

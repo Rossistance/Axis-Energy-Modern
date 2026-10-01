@@ -5,6 +5,7 @@ state: SC
 coordinates: { lat: 34.1954, lon: -79.7626 }
 sizeMwdc: 1.71
 type: commercial
+market: 'commercial-industrial'
 role: ['EPC']
 mount: 'Ground mount'
 summary: "A 1.71 MW solar array in Florence, South Carolina, featured in Axis Energy's brochure as a specialty-project reference alongside landfill, community solar and energy storage work."

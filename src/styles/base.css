@@ -156,7 +156,7 @@ button {
 }
 
 /* The first section after a page header starts closer to it, so content shows sooner. */
-main :is(.page-hero, .project-hero, .profile-hero, .article-hero) + :is(.section, .service-block) {
+main .page-hero + :is(.section, .service-block) {
   padding-top: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 

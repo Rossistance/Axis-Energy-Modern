@@ -7,6 +7,7 @@ sizeMwdc: 1.519
 year: 2024
 commissioned: "2024"
 type: microgrid
+market: "commercial-industrial"
 role: ["General contractor", "EPC"]
 mount: "Solar carport"
 storageMwh: 3.916

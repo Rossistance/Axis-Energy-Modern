@@ -7,6 +7,7 @@ sites: 7
 year: 2016
 commissioned: "2016-02"
 type: utility
+market: "developers-ipps"
 role: ["EPC"]
 mount: "Ground mount"
 summary: "A seven-site, 38 MWdc solar portfolio spread across a 250-mile footprint in North Carolina, commissioned on time and within budget in February 2016."

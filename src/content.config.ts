@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { MARKET_IDS } from './data/project-markets';
 
 export const PROJECT_TYPES = [
   'utility',
@@ -27,6 +28,8 @@ const projects = defineCollection({
       /** "2016-02", "2021-12-22" or "2024" */
       commissioned: z.string().optional(),
       type: z.enum(PROJECT_TYPES),
+      /** Section of the Projects page Markets area (src/data/project-markets.ts). */
+      market: z.enum(MARKET_IDS).optional(),
       role: z.array(z.string()).default(['EPC']),
       mount: z.string().optional(),
       modules: z.string().optional(),

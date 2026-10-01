@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import heroArt from '@assets/hero/hero-why-axis.png';
+import PageHero from '@components/PageHero.astro';
+import { heroes } from '@data/heroes';
 import { href } from '@lib/href';
 
 const links = [
@@ -18,35 +18,24 @@ const links = [
   noindex
   cta="compact"
 >
-  <section class="section nf">
-    <div class="container split">
-      <div>
-        <p class="eyebrow">404</p>
-        <h1>We couldn’t find that page.</h1>
-        <p class="lead">
-          The link may be out of date, or the page may have moved during our site redesign. Try one
-          of these instead.
-        </p>
-        <ul class="nf__links">
-          {links.map((l) => (
-            <li>
-              <a class="btn btn--secondary" href={href(l.href)}>
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div class="nf__art">
-        <Image
-          src={heroArt}
-          alt=""
-          format="webp"
-          widths={[480, 800]}
-          sizes="(min-width: 900px) 40vw, 100vw"
-          loading="eager"
-        />
-      </div>
+  <PageHero
+    eyebrow="404"
+    title="We couldn’t find that page."
+    lead="The link may be out of date, or the page may have moved during our site redesign. Try one of these instead."
+    photo={heroes.notFound}
+  />
+
+  <section class="section section--sm" aria-label="Suggested pages">
+    <div class="container">
+      <ul class="nf__links">
+        {links.map((l) => (
+          <li>
+            <a class="btn btn--secondary" href={href(l.href)}>
+              {l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 </BaseLayout>
@@ -55,17 +44,9 @@ const links = [
   .nf__links {
     list-style: none;
     padding: 0;
-    margin: 1.5rem 0 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-  }
-
-  .nf__art {
-    border-radius: var(--r-xl);
-    overflow: hidden;
-    filter: saturate(0.4);
-    max-width: 480px;
-    margin-inline: auto;
   }
 </style>

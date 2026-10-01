@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import TeamCard from '@components/TeamCard.astro';
-import heroArt from '@assets/hero/hero-about.png';
+import { heroes } from '@data/heroes';
 import { href } from '@lib/href';
 
 const team = (await getCollection('team', ({ data }) => data.published)).sort(
@@ -17,10 +17,8 @@ const description =
   <PageHero
     eyebrow="Leadership"
     title="Renewable Experience and Expertise"
-    lead="Axis is led by people who have spent their careers building things well: logistics, construction, electrical work and renewable energy. As employee-owners, they have real ownership in every relationship and every system we deliver."
-    art={heroArt}
-    artPosition="right center"
-    artScale={1.35}
+    lead="Axis is led by people who have spent their careers building things well: logistics, construction, electrical work and renewable energy."
+    photo={heroes.leadership}
     crumbs={[
       { label: 'About', href: '/about/' },
       { label: 'Leadership', href: '/leadership/' },

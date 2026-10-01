@@ -7,7 +7,7 @@ import Pillars from '@components/Pillars.astro';
 import StatStrip from '@components/StatStrip.astro';
 import RankingsTable from '@components/RankingsTable.astro';
 import Testimonial from '@components/Testimonial.astro';
-import heroArt from '@assets/hero/hero-why-axis.png';
+import { heroes } from '@data/heroes';
 import { stats } from '@data/stats';
 import { testimonials } from '@data/pillars';
 import { serviceGroups } from '@data/services';
@@ -22,8 +22,8 @@ const description =
   <PageHero
     eyebrow="Why Axis"
     title="We give our partners total project peace of mind."
-    lead="Six commitments, kept on every site: a total solution, a strong financial position, superior quality, bench strength, skin in the game and outstanding safety."
-    art={heroArt}
+    lead="Six commitments we keep on every site, from a total solution to outstanding safety."
+    photo={heroes.whyAxis}
     crumbs={[{ label: 'Why Axis', href: '/why-axis/' }]}
   />
 

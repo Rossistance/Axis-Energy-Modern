@@ -1,10 +1,18 @@
 import { servicePages, omOfferings, servicePath, offeringPath, OM_PAGE_SLUG } from './services';
+import { projectMarkets, marketPath, MARKETS_ANCHOR, type ProjectMarket } from './project-markets';
 
 export interface NavItem {
   label: string;
   href: string;
   children?: NavItem[];
 }
+
+/** Markets are sections of the Projects page, so these links jump within that page. */
+const marketItem = (m: ProjectMarket): NavItem => ({
+  label: m.title,
+  href: marketPath(m.id),
+  children: m.children?.map(marketItem),
+});
 
 export const primaryNav: NavItem[] = [
   {
@@ -21,7 +29,17 @@ export const primaryNav: NavItem[] = [
       })),
     ],
   },
-  { label: 'Projects', href: '/projects/' },
+  {
+    label: 'Projects',
+    href: '/projects/',
+    children: [
+      {
+        label: 'Markets',
+        href: marketPath(MARKETS_ANCHOR),
+        children: projectMarkets.map(marketItem),
+      },
+    ],
+  },
   { label: 'Why Axis', href: '/why-axis/' },
   {
     label: 'About',

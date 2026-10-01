@@ -64,6 +64,8 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                   );
                   if (!child.children) return <li>{link}</li>;
                   const groupId = `${id}-${slugify(child.label)}`;
+                  // Markets jump to sections of the Projects page; O&M offerings are pages.
+                  const kind = child.href.includes('#') ? 'sections' : 'pages';
                   return (
                     <li class="submenu__group" data-subgroup>
                       <div class="submenu__row">
@@ -73,7 +75,7 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                           class="subgroup-toggle"
                           aria-expanded="false"
                           aria-controls={groupId}
-                          aria-label={`${child.label} pages`}
+                          aria-label={`${child.label} ${kind}`}
                         >
                           <Icon name="lucide:chevron-down" />
                         </button>
@@ -90,6 +92,15 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                               >
                                 {grandchild.label}
                               </a>
+                              {grandchild.children && (
+                                <ul class="submenu__deep" aria-label={grandchild.label}>
+                                  {grandchild.children.map((item) => (
+                                    <li>
+                                      <a href={href(item.href)}>{item.label}</a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
                             </li>
                           ))}
                         </ul>
@@ -362,6 +373,27 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     color: var(--brand-blue);
   }
 
+  /* A sub-market under its market (Investor-Owned under Electric Co-ops & Utilities). */
+  .submenu__deep {
+    list-style: none;
+    margin: 0 0 0.15rem 0.75rem;
+    padding: 0 0 0 0.5rem;
+    border-left: 2px solid var(--mist-200);
+  }
+
+  .submenu .submenu__deep a {
+    padding-block: 0.3rem;
+    font-size: 0.85rem;
+  }
+
+  /* After a jump within the page, the menu stays shut until the pointer leaves it. */
+  .has-submenu.is-suppressed .submenu,
+  .has-submenu.is-suppressed:hover .submenu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+  }
+
   .site-header__actions {
     display: flex;
     align-items: center;
@@ -439,6 +471,7 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   submenus.forEach((li) => {
     const toggle = li.querySelector<HTMLButtonElement>('.submenu-toggle');
     toggle?.addEventListener('click', () => {
+      li.classList.remove('is-suppressed');
       const open = li.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', String(open));
       closeAll(li);
@@ -456,5 +489,22 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   });
   document.addEventListener('click', (e) => {
     if (!submenus.some((li) => li.contains(e.target as Node))) closeAll();
+  });
+
+  // Links to a section of the current page (Projects → Markets on the Projects page) don't
+  // load a new page, so close the menu after the jump instead of leaving it open over it.
+  submenus.forEach((li) => {
+    li.querySelectorAll<HTMLAnchorElement>('.submenu a[href*="#"]').forEach((a) => {
+      a.addEventListener('click', () => {
+        if (a.pathname !== location.pathname) return;
+        closeAll();
+        a.blur();
+        if (!li.matches(':hover')) return;
+        li.classList.add('is-suppressed');
+        li.addEventListener('pointerleave', () => li.classList.remove('is-suppressed'), {
+          once: true,
+        });
+      });
+    });
   });
 </script>
