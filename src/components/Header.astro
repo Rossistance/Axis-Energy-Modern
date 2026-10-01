@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import logo from '@assets/logo/logo-flat.png';
-import { primaryNav, headerCta } from '@data/nav';
+import { primaryNav, workWithAxis } from '@data/nav';
 import { href, isActive } from '@lib/href';
 import NavDrawer from './NavDrawer.astro';
 
@@ -116,9 +116,36 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     </nav>
 
     <div class="site-header__actions">
-      <a class="btn btn--primary btn--sm header-cta" href={href(headerCta.href)}>
-        {headerCta.label}
-      </a>
+      <div class="header-cta has-submenu" data-submenu>
+        <a
+          class="header-cta__link"
+          href={href(workWithAxis.href)}
+          aria-current={isActive(workWithAxis.href, current) ? 'page' : undefined}
+        >
+          {workWithAxis.label}
+        </a>
+        <button
+          type="button"
+          class="submenu-toggle header-cta__toggle"
+          aria-expanded="false"
+          aria-controls="submenu-work-with-axis"
+          aria-label={`${workWithAxis.label} menu`}
+        >
+          <Icon name="lucide:chevron-down" />
+        </button>
+        <ul class="submenu submenu--end" id="submenu-work-with-axis">
+          {workWithAxis.children.map((child) => (
+            <li>
+              <a
+                href={href(child.href)}
+                aria-current={isActive(child.href, current, true) ? 'page' : undefined}
+              >
+                {child.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
       <button
         type="button"
         class="nav-toggle"
@@ -300,6 +327,9 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     display: block;
     padding: 0.55rem 0.75rem;
     font-weight: 500;
+    font-size: 0.97rem;
+    color: var(--ink);
+    text-decoration: none;
     border-radius: 8px;
   }
 
@@ -401,8 +431,54 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     margin-left: auto;
   }
 
+  /* "Work with Axis": a primary pill whose two options open beneath it on hover, or with
+     its arrow button for keyboard and touch. The label itself opens the overview page. */
   .header-cta {
     display: none;
+    position: relative;
+    align-items: center;
+    min-height: 40px;
+    border-radius: var(--r-pill);
+    background: var(--btn-primary-bg);
+    box-shadow: var(--shadow-1);
+    transition:
+      background var(--dur-1) ease,
+      box-shadow var(--dur-1) ease;
+  }
+
+  .header-cta:hover,
+  .header-cta:focus-within {
+    background: var(--btn-primary-hover);
+    box-shadow: var(--shadow-2);
+  }
+
+  .header-cta__link {
+    padding: 0.6rem 0.2rem 0.6rem 1.1rem;
+    border-radius: var(--r-pill);
+    color: var(--btn-primary-fg);
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.1;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .header-cta__link:hover {
+    color: var(--btn-primary-fg);
+  }
+
+  .header-cta .header-cta__toggle {
+    margin: 0 0.35rem 0 0;
+    color: var(--btn-primary-fg);
+  }
+
+  .header-cta .header-cta__toggle:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .submenu--end {
+    left: auto;
+    right: 0;
   }
 
   .nav-toggle {

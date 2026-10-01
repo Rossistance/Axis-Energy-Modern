@@ -6,6 +6,7 @@ import SectionHeading from '@components/SectionHeading.astro';
 import JobsFeed from '@components/JobsFeed.astro';
 import { heroes } from '@data/heroes';
 import { company } from '@data/company';
+import { routes } from '@data/routes';
 import { values } from '@data/pillars';
 import { href } from '@lib/href';
 
@@ -117,7 +118,7 @@ const reasons = [
             Trade partners can start our prequalification process to be considered for upcoming
             civil, mechanical and electrical scopes.
           </p>
-          <a class="link-arrow" href={href('/subcontractors/')}>
+          <a class="link-arrow" href={href(routes.subcontractor)}>
             Start prequalification <Icon name="lucide:arrow-right" class="icon" />
           </a>
         </div>

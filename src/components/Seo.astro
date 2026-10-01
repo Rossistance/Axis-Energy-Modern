@@ -54,12 +54,6 @@ const schemas = [organizationSchema(siteUrl, logo), ...jsonLd];
 <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
 <link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
 <link rel="manifest" href={href('/site.webmanifest')} />
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  title={`${company.name} news`}
-  href={href('/rss.xml')}
-/>
 <link rel="sitemap" href={href('/sitemap-index.xml')} />
 {schemas.map((schema) => (
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />

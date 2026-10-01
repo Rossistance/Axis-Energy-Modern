@@ -11,6 +11,7 @@ import ProjectCard from '@components/ProjectCard.astro';
 import MarketProjects from '@components/MarketProjects.astro';
 import { heroes } from '@data/heroes';
 import { projectMarkets, MARKETS_ANCHOR, type ProjectMarket } from '@data/project-markets';
+import { routes } from '@data/routes';
 import { href } from '@lib/href';
 import { formatSize, formatStorage } from '@lib/format';
 import { getPublishedProjects, groupByType, portfolioTotals, type Project } from '@lib/projects';
@@ -18,7 +19,7 @@ import { getPublishedProjects, groupByType, portfolioTotals, type Project } from
 const projects = await getPublishedProjects();
 const groups = groupByType(projects).map((g) => ({ ...g, totals: portfolioTotals(g.projects) }));
 const inMarket = (m: ProjectMarket): Project[] => projects.filter((p) => p.data.market === m.id);
-const caseStudies = href('/request-a-quote/?topic=case-studies');
+const caseStudies = href(routes.caseStudies);
 const description =
   'Axis Energy projects by type and by market: utility-scale solar, commercial and industrial solar, microgrids and rooftop work for owners, cooperatives and utilities, municipalities and developers.';
 ---

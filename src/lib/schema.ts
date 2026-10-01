@@ -68,28 +68,6 @@ export function breadcrumbSchema(items: { name: string; url: string }[]): JsonLd
   };
 }
 
-export function articleSchema(opts: {
-  url: string;
-  title: string;
-  description: string;
-  datePublished: Date;
-  author: string;
-  image?: string;
-  siteUrl: string;
-}): JsonLd {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    mainEntityOfPage: opts.url,
-    headline: opts.title,
-    description: opts.description,
-    datePublished: opts.datePublished.toISOString(),
-    author: { '@type': 'Person', name: opts.author },
-    publisher: { '@id': `${opts.siteUrl}#organization` },
-    ...(opts.image ? { image: [opts.image] } : {}),
-  };
-}
-
 export function personSchema(opts: {
   url: string;
   name: string;

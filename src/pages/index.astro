@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import FootprintMap from '@components/FootprintMap.astro';
 import { rankings } from '@data/stats';
+import { workWithAxis } from '@data/nav';
 import { absoluteUrl } from '@lib/href';
 import { getPublishedProjects, carouselSlides } from '@lib/projects';
 import { webPageSchema } from '@lib/schema';
@@ -34,7 +35,7 @@ const jsonLd = [
     eyebrow="EPC + O&M for commercial, industrial and utility‑scale solar"
     title="The Power of Partnership"
     lead="Solar, battery storage and microgrids built for performance."
-    primary={{ label: 'Request a quote', href: '/request-a-quote/' }}
+    primary={{ label: workWithAxis.label, href: workWithAxis.href }}
     secondary={{ label: 'See our work', href: '/projects/' }}
     slides={heroSlides}
     chips={[

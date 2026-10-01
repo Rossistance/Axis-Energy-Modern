@@ -1,0 +1,114 @@
+---
+/**
+ * Work with Axis: the two ways in, one card each. Opened from "Work with Axis" in the
+ * header, the contact band and the home page.
+ */
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import { heroes } from '@data/heroes';
+import { routes } from '@data/routes';
+import { workWithAxis } from '@data/nav';
+import { href } from '@lib/href';
+
+const options = [
+  {
+    label: 'Developer/Project Owner',
+    href: routes.projectRequest,
+    icon: 'lucide:briefcase',
+    body: 'Tell us about your solar, storage, microgrid, electrical or O&M project. We follow up within one business day.',
+    action: 'Start a project request',
+  },
+  {
+    label: 'Subcontractor',
+    href: routes.subcontractor,
+    icon: 'lucide:hard-hat',
+    body: 'Prequalify your company for upcoming civil, mechanical and electrical scopes on Axis projects.',
+    action: 'Start prequalification',
+  },
+];
+const description =
+  'Work with Axis Energy: developers and project owners can request a proposal, and subcontractors can start prequalification.';
+---
+
+<BaseLayout title={workWithAxis.label} {description}>
+  <PageHero
+    eyebrow={workWithAxis.label}
+    title="Work with Axis"
+    lead="Bring us your next project, or join the trade partners who build it with us."
+    photo={heroes.workWithAxis}
+    crumbs={[{ label: workWithAxis.label, href: routes.workWithAxis }]}
+  />
+
+  <section class="section" aria-labelledby="options-title">
+    <div class="container">
+      <h2 id="options-title" class="sr-only">
+        Ways to work with Axis
+      </h2>
+      <ul class="option-cards" data-reveal-group>
+        {options.map((option) => (
+          <li>
+            <a class="card card--lift option-card" href={href(option.href)}>
+              <div class="icon-tile">
+                <Icon name={option.icon} />
+              </div>
+              <h3>{option.label}</h3>
+              <p>{option.body}</p>
+              <span class="link-arrow option-card__more">
+                {option.action} <Icon name="lucide:arrow-right" class="icon" />
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .option-cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 760px) {
+    .option-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .option-cards li {
+    display: flex;
+  }
+
+  .option-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 100%;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .option-card h3 {
+    font-size: 1.35rem;
+    margin: 0.35rem 0 0;
+  }
+
+  .option-card:hover h3 {
+    color: var(--brand-blue);
+  }
+
+  .option-card p {
+    color: var(--text-muted);
+  }
+
+  .option-card__more {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--link);
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { primaryNav, headerCta, type NavItem } from '@data/nav';
+import { primaryNav, workWithAxis, type NavItem } from '@data/nav';
 import { company } from '@data/company';
 import { href, isActive } from '@lib/href';
 
@@ -120,12 +120,17 @@ const inGroup = (item: NavItem): boolean =>
       </ul>
     </nav>
     <div class="drawer__cta">
-      <a class="btn btn--primary" href={href(headerCta.href)}>
-        {headerCta.label}
+      <a class="drawer__cta-title" href={href(workWithAxis.href)}>
+        {workWithAxis.label}
       </a>
-      <a class="btn btn--secondary" href={href('/subcontractors/')}>
-        Subcontractors
-      </a>
+      {workWithAxis.children.map((child, i) => (
+        <a
+          class:list={['btn', i === 0 ? 'btn--primary' : 'btn--secondary']}
+          href={href(child.href)}
+        >
+          {child.label}
+        </a>
+      ))}
     </div>
     <div class="drawer__contact">
       <a href={`tel:${company.phone.tel}`}>
@@ -328,6 +333,14 @@ const inGroup = (item: NavItem): boolean =>
   .drawer__cta {
     display: grid;
     gap: 0.6rem;
+  }
+
+  .drawer__cta-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
   }
 
   .drawer__contact {

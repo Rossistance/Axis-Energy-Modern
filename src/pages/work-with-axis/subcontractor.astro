@@ -6,6 +6,8 @@ import FormShell from '@components/FormShell.astro';
 import { heroes } from '@data/heroes';
 import { subcontractorForm } from '@data/forms';
 import { company } from '@data/company';
+import { routes } from '@data/routes';
+import { workWithAxis } from '@data/nav';
 import { href } from '@lib/href';
 
 const description =
@@ -53,13 +55,16 @@ const documents = [
 ];
 ---
 
-<BaseLayout title="Subcontractor Prequalification" {description} cta={false}>
+<BaseLayout title="Subcontractor" {description} cta={false}>
   <PageHero
-    eyebrow="Subcontractors"
-    title="Start the vetting process to work with Axis"
+    eyebrow={workWithAxis.label}
+    title="Subcontractor"
     lead="Prequalify below to be considered for upcoming civil, mechanical and electrical scopes on Axis projects."
-    photo={heroes.subcontractors}
-    crumbs={[{ label: 'Subcontractors', href: '/subcontractors/' }]}
+    photo={heroes.subcontractor}
+    crumbs={[
+      { label: workWithAxis.label, href: routes.workWithAxis },
+      { label: 'Subcontractor', href: routes.subcontractor },
+    ]}
   />
 
   <section class="section section--sm" aria-labelledby="lookfor-title">

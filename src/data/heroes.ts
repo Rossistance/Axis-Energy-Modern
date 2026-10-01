@@ -39,8 +39,9 @@ export const heroes = {
   news: carport,
   article: carport,
   careers: microgrid,
-  requestQuote: solarStorage,
-  subcontractors: microgrid,
+  workWithAxis: carport,
+  projectRequest: solarStorage,
+  subcontractor: microgrid,
   contact: carport,
   notFound: solarStorage,
 } satisfies Record<string, HeroPhoto>;

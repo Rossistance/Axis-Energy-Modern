@@ -1,4 +1,4 @@
-/* Form primitives shared by Contact, Request a Quote and Subcontractor forms */
+/* Form primitives shared by the Contact, Developer/Project Owner and Subcontractor forms */
 
 /* Single columns are minmax(0, 1fr), not the implicit `auto`: an auto column grows to
    the min-content width of its widest child, which pushed fields out of the card and

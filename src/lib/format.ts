@@ -49,11 +49,6 @@ export function formatDate(date: Date, opts: Intl.DateTimeFormatOptions = {}): s
   });
 }
 
-export function readingTime(text: string): number {
-  const words = text.trim().split(/\s+/).length;
-  return Math.max(1, Math.round(words / 220));
-}
-
 export const STATE_NAMES: Record<string, string> = {
   AL: 'Alabama',
   AR: 'Arkansas',

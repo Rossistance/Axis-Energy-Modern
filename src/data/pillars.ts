@@ -49,9 +49,6 @@ export const values = [
   },
 ];
 
-export const mission = 'Renewable Solutions | Reliable Partners';
-export const vision = 'The One Source for a Total Solution';
-
 export const testimonials = [
   {
     quote:

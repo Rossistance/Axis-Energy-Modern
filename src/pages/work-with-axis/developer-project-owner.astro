@@ -6,10 +6,12 @@ import FormShell from '@components/FormShell.astro';
 import { heroes } from '@data/heroes';
 import { rfqForm } from '@data/forms';
 import { company } from '@data/company';
+import { routes } from '@data/routes';
+import { workWithAxis } from '@data/nav';
 import { href } from '@lib/href';
 
 const description =
-  'Request a quote from Axis Energy for solar EPC, battery storage, microgrid, electrical infrastructure or O&M work. Tell us about your project and we will follow up within one business day.';
+  'Developers and project owners: tell Axis Energy about your solar EPC, battery storage, microgrid, electrical infrastructure or O&M project and we will follow up within one business day.';
 const steps = [
   {
     title: 'We review your project',
@@ -26,13 +28,16 @@ const steps = [
 ];
 ---
 
-<BaseLayout title="Request a Quote" {description} cta={false}>
+<BaseLayout title="Developer/Project Owner" {description} cta={false}>
   <PageHero
-    eyebrow="Request a quote"
-    title="Tell us about your project"
-    lead="Solar, storage, microgrids, electrical infrastructure or O&M: share what you know and we will follow up within one business day. Estimates are fine."
-    photo={heroes.requestQuote}
-    crumbs={[{ label: 'Request a Quote', href: '/request-a-quote/' }]}
+    eyebrow={workWithAxis.label}
+    title="Developer/Project Owner"
+    lead="Tell us about your solar, storage, microgrid, electrical or O&M project and we will follow up within one business day. Estimates are fine."
+    photo={heroes.projectRequest}
+    crumbs={[
+      { label: workWithAxis.label, href: routes.workWithAxis },
+      { label: 'Developer/Project Owner', href: routes.projectRequest },
+    ]}
   />
 
   <section class="section">
@@ -72,7 +77,7 @@ const steps = [
             Use the prequalification form instead so our preconstruction team can vet your company
             for upcoming scopes.
           </p>
-          <a class="link-arrow" href={href('/subcontractors/')}>
+          <a class="link-arrow" href={href(routes.subcontractor)}>
             Subcontractor prequalification <Icon name="lucide:arrow-right" class="icon" />
           </a>
         </div>

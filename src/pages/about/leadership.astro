@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import TeamCard from '@components/TeamCard.astro';
 import { heroes } from '@data/heroes';
+import { routes } from '@data/routes';
 import { href } from '@lib/href';
 
 const team = (await getCollection('team', ({ data }) => data.published)).sort(
@@ -21,7 +22,7 @@ const description =
     photo={heroes.leadership}
     crumbs={[
       { label: 'About', href: '/about/' },
-      { label: 'Leadership', href: '/leadership/' },
+      { label: 'Leadership', href: routes.leadership },
     ]}
   />
 

@@ -1,5 +1,6 @@
 import { servicePages, omOfferings, servicePath, offeringPath, OM_PAGE_SLUG } from './services';
 import { projectMarkets, marketPath, MARKETS_ANCHOR, type ProjectMarket } from './project-markets';
+import { routes } from './routes';
 
 export interface NavItem {
   label: string;
@@ -44,24 +45,29 @@ export const primaryNav: NavItem[] = [
   {
     label: 'About',
     href: '/about/',
-    children: [
-      { label: 'About Axis', href: '/about/' },
-      { label: 'Leadership', href: '/leadership/' },
-    ],
+    children: [{ label: 'Leadership', href: routes.leadership }],
   },
   { label: 'News', href: '/news/' },
   { label: 'Careers', href: '/careers/' },
   { label: 'Contact', href: '/contact/' },
 ];
 
-export const headerCta: NavItem = { label: 'Request a Quote', href: '/request-a-quote/' };
+/** The header's call to action: opens on hover (or its toggle) to the two ways to work with Axis. */
+export const workWithAxis = {
+  label: 'Work with Axis',
+  href: routes.workWithAxis,
+  children: [
+    { label: 'Developer/Project Owner', href: routes.projectRequest },
+    { label: 'Subcontractor', href: routes.subcontractor },
+  ],
+} satisfies NavItem;
 
 export const footerColumns: { title: string; items: NavItem[] }[] = [
   {
     title: 'Company',
     items: [
       { label: 'About Axis', href: '/about/' },
-      { label: 'Leadership', href: '/leadership/' },
+      { label: 'Leadership', href: routes.leadership },
       { label: 'Why Axis', href: '/why-axis/' },
       { label: 'News', href: '/news/' },
     ],
@@ -74,12 +80,11 @@ export const footerColumns: { title: string; items: NavItem[] }[] = [
     ],
   },
   {
-    title: 'Work with us',
+    title: workWithAxis.label,
     items: [
-      { label: 'Request a Quote', href: '/request-a-quote/' },
-      { label: 'Subcontractors', href: '/subcontractors/' },
+      ...workWithAxis.children,
       { label: 'Careers', href: '/careers/' },
-      { label: 'Contact', href: '/contact/' },
+      { label: 'Contact', href: routes.contact },
     ],
   },
 ];

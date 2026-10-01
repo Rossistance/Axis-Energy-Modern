@@ -6,8 +6,8 @@ import { opts, US_STATES, type FormSpec } from './types';
  */
 export const rfqForm: FormSpec = {
   id: 'rfq',
-  name: 'Request a Quote',
-  subject: 'Request for quote',
+  name: 'Developer/Project Owner',
+  subject: 'Project request',
   submitLabel: 'Submit request',
   successTitle: 'Request received.',
   successBody:

@@ -25,19 +25,29 @@ export default defineConfig({
     }),
     icon(),
   ],
-  // Legacy WordPress URLs. Emitted as meta-refresh pages in the static build;
-  // hosting/ contains true 301 equivalents for each host. Destinations must
-  // carry the base path themselves.
+  // LinkedIn post photos (News page) are downloaded at build time and served from the
+  // site, because LinkedIn's image links expire.
+  image: {
+    remotePatterns: [{ protocol: 'https', hostname: '**.licdn.com' }],
+  },
+  // Legacy WordPress URLs and pages that moved. Emitted as meta-refresh pages in the
+  // static build; hosting/ contains true 301 equivalents for each host. Destinations
+  // must carry the base path themselves.
   redirects: Object.fromEntries(
     Object.entries({
-      '/team/': '/leadership/',
+      '/team/': '/about/leadership/',
+      '/leadership/': '/about/leadership/',
       '/project/': '/projects/',
       '/category/general/': '/news/',
       '/project-category/general/': '/projects/',
-      '/five-takeaways-from-a-nc-energy-policy-panel/':
-        '/news/five-takeaways-from-a-nc-energy-policy-panel/',
-      '/solar-could-provide-25-of-the-worlds-energy-by-2050/':
-        '/news/solar-could-provide-25-of-the-worlds-energy-by-2050/',
+      // The 2018 articles were retired when News became the LinkedIn feed (2026-10-01).
+      '/five-takeaways-from-a-nc-energy-policy-panel/': '/news/',
+      '/solar-could-provide-25-of-the-worlds-energy-by-2050/': '/news/',
+      '/news/five-takeaways-from-a-nc-energy-policy-panel/': '/news/',
+      '/news/solar-could-provide-25-of-the-worlds-energy-by-2050/': '/news/',
+      // Request a Quote and Subcontractors moved under Work with Axis (2026-10-01).
+      '/request-a-quote/': '/work-with-axis/developer-project-owner/',
+      '/subcontractors/': '/work-with-axis/subcontractor/',
     }).map(([from, to]) => [from, base === '/' ? to : `${base}${to}`]),
   ),
   vite: {

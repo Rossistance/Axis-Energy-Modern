@@ -3,7 +3,7 @@ name: Build and deploy
 on:
   push:
     branches: [Main-Backup]
-  # Rebuild every 6 hours so the jobs feed stays fresh once a source is configured.
+  # Rebuild every 6 hours so the jobs and LinkedIn news feeds stay fresh once a source is configured.
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
@@ -33,6 +33,16 @@ jobs:
       JOBS_URL: ${{ vars.JOBS_URL }}
       PUBLIC_JOBS_LINKEDIN_URL: ${{ vars.PUBLIC_JOBS_LINKEDIN_URL }}
       PUBLIC_JOBS_INDEED_URL: ${{ vars.PUBLIC_JOBS_INDEED_URL }}
+      NEWS_SOURCE: ${{ vars.NEWS_SOURCE || 'static' }}
+      NEWS_URL: ${{ vars.NEWS_URL }}
+      NEWS_LIMIT: ${{ vars.NEWS_LIMIT }}
+      LINKEDIN_ORGANIZATION_ID: ${{ vars.LINKEDIN_ORGANIZATION_ID }}
+      LINKEDIN_API_VERSION: ${{ vars.LINKEDIN_API_VERSION }}
+      LINKEDIN_INCLUDE_RESHARES: ${{ vars.LINKEDIN_INCLUDE_RESHARES }}
+      LINKEDIN_CLIENT_ID: ${{ vars.LINKEDIN_CLIENT_ID }}
+      LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+      LINKEDIN_REFRESH_TOKEN: ${{ secrets.LINKEDIN_REFRESH_TOKEN }}
+      LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_CLIENT_SECRET }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,6 +62,16 @@ jobs:
       JOBS_SOURCE: ${{ vars.JOBS_SOURCE || 'static' }}
       JOBS_BOARD: ${{ vars.JOBS_BOARD }}
       JOBS_URL: ${{ vars.JOBS_URL }}
+      NEWS_SOURCE: ${{ vars.NEWS_SOURCE || 'static' }}
+      NEWS_URL: ${{ vars.NEWS_URL }}
+      NEWS_LIMIT: ${{ vars.NEWS_LIMIT }}
+      LINKEDIN_ORGANIZATION_ID: ${{ vars.LINKEDIN_ORGANIZATION_ID }}
+      LINKEDIN_API_VERSION: ${{ vars.LINKEDIN_API_VERSION }}
+      LINKEDIN_INCLUDE_RESHARES: ${{ vars.LINKEDIN_INCLUDE_RESHARES }}
+      LINKEDIN_CLIENT_ID: ${{ vars.LINKEDIN_CLIENT_ID }}
+      LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+      LINKEDIN_REFRESH_TOKEN: ${{ secrets.LINKEDIN_REFRESH_TOKEN }}
+      LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

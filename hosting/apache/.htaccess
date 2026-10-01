@@ -1,11 +1,14 @@
-# Legacy WordPress URLs -> new site (Apache / cPanel). Place in the document root.
+# Legacy WordPress URLs and moved pages -> new site (Apache / cPanel). Place in the document root.
 RewriteEngine On
-RewriteRule ^team/?$ /leadership/ [R=301,L]
+RewriteRule ^team/?$ /about/leadership/ [R=301,L]
+RewriteRule ^leadership/?$ /about/leadership/ [R=301,L]
 RewriteRule ^project/?$ /projects/ [R=301,L]
 RewriteRule ^category/general/?$ /news/ [R=301,L]
 RewriteRule ^project-category/general/?$ /projects/ [R=301,L]
-RewriteRule ^five-takeaways-from-a-nc-energy-policy-panel/?$ /news/five-takeaways-from-a-nc-energy-policy-panel/ [R=301,L]
-RewriteRule ^solar-could-provide-25-of-the-worlds-energy-by-2050/?$ /news/solar-could-provide-25-of-the-worlds-energy-by-2050/ [R=301,L]
+RewriteRule ^(news/)?five-takeaways-from-a-nc-energy-policy-panel/?$ /news/ [R=301,L]
+RewriteRule ^(news/)?solar-could-provide-25-of-the-worlds-energy-by-2050/?$ /news/ [R=301,L]
+RewriteRule ^request-a-quote/?$ /work-with-axis/developer-project-owner/ [R=301,L]
+RewriteRule ^subcontractors/?$ /work-with-axis/subcontractor/ [R=301,L]
 RewriteRule ^sitemap\.xml$ /sitemap-index.xml [R=301,L]
 ErrorDocument 404 /404.html
 

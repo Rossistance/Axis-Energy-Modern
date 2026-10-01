@@ -5,6 +5,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import { heroes } from '@data/heroes';
+import { routes } from '@data/routes';
 import { href, absoluteUrl } from '@lib/href';
 import { personSchema } from '@lib/schema';
 
@@ -42,7 +43,7 @@ const jsonLd = [
     photo={heroes.team}
     crumbs={[
       { label: 'About', href: '/about/' },
-      { label: 'Leadership', href: '/leadership/' },
+      { label: 'Leadership', href: routes.leadership },
       { label: data.name, href: `/team/${person.id}/` },
     ]}
   >
@@ -115,7 +116,7 @@ const jsonLd = [
             </ul>
           </div>
         )}
-        <a class="link-arrow" href={href('/leadership/')}>
+        <a class="link-arrow" href={href(routes.leadership)}>
           <Icon name="lucide:arrow-left" class="icon" /> All leadership
         </a>
       </aside>

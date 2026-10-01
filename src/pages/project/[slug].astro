@@ -6,6 +6,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import { projectHero } from '@data/heroes';
+import { routes } from '@data/routes';
 import { href, absoluteUrl } from '@lib/href';
 import { formatSize, formatStorage, formatCommissioned } from '@lib/format';
 import { getPublishedProjects, projectLocation, TYPE_LABELS } from '@lib/projects';
@@ -210,8 +211,8 @@ const meta = [
             Tell us about your site and we will follow up with relevant case studies and a
             preliminary approach.
           </p>
-          <a class="btn btn--primary" href={href('/request-a-quote/')}>
-            Request a quote
+          <a class="btn btn--primary" href={href(routes.projectRequest)}>
+            Start a project request
           </a>
         </div>
       </aside>

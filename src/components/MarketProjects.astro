@@ -2,6 +2,7 @@
 /** Compact project links for a market section on the Projects page, or a note when empty. */
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
+import { routes } from '@data/routes';
 import { href } from '@lib/href';
 import { projectMeta, type Project } from '@lib/projects';
 
@@ -45,7 +46,7 @@ const { projects, emptyNote } = Astro.props;
   </ul>
 ) : (
   <p class="market-empty">
-    {emptyNote} <a href={href('/request-a-quote/?topic=case-studies')}>Request case studies</a>
+    {emptyNote} <a href={href(routes.caseStudies)}>Request case studies</a>
   </p>
 )}
 

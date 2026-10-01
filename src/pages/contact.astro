@@ -6,6 +6,7 @@ import FormShell from '@components/FormShell.astro';
 import { heroes } from '@data/heroes';
 import { contactForm } from '@data/forms';
 import { company } from '@data/company';
+import { routes } from '@data/routes';
 import { href, absoluteUrl } from '@lib/href';
 import { localBusinessSchema } from '@lib/schema';
 
@@ -98,16 +99,16 @@ const cards = [
         <div class="card quick">
           <h3 class="aside-title">Have a project in mind?</h3>
           <p class="text-muted">
-            Our quote request captures the details our estimators need, so we can respond faster.
+            Our project request captures the details our estimators need, so we can respond faster.
           </p>
-          <a class="btn btn--primary" href={href('/request-a-quote/')}>
-            Request a quote
+          <a class="btn btn--primary" href={href(routes.projectRequest)}>
+            Start a project request
           </a>
         </div>
         <div class="card quick">
           <h3 class="aside-title">Subcontractors</h3>
           <p class="text-muted">Trade partners can start our prequalification process online.</p>
-          <a class="link-arrow" href={href('/subcontractors/')}>
+          <a class="link-arrow" href={href(routes.subcontractor)}>
             Prequalification <Icon name="lucide:arrow-right" class="icon" />
           </a>
         </div>

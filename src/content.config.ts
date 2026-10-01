@@ -84,21 +84,26 @@ const team = defineCollection({
     }),
 });
 
-const news = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/news' }),
+/**
+ * LinkedIn posts for the News page when the live feed is off (NEWS_SOURCE=static, the
+ * default) or fails: one entry per post, linking to it on LinkedIn. With the feed on,
+ * posts come from the Axis Energy page instead (src/lib/news/).
+ */
+const posts = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/posts' }),
   schema: ({ image }) =>
     z.object({
-      title: z.string(),
+      /** The post on LinkedIn, e.g. https://www.linkedin.com/feed/update/urn:li:share:123/ */
+      url: z.url(),
       date: z.coerce.date(),
-      author: z.string(),
-      category: z.string().default('General'),
-      excerpt: z.string(),
-      sources: z.array(z.object({ label: z.string(), url: z.url() })).optional(),
-      cover: image().optional(),
-      coverAlt: z.string().optional(),
-      /** Original WordPress path, kept for redirects. */
-      legacyPath: z.string().optional(),
-      published: z.boolean().default(true),
+      /** Headline, when the post has one (an article or document title). */
+      title: z.string().optional(),
+      /** The opening of the post text. */
+      summary: z.string(),
+      image: image().optional(),
+      imageAlt: z.string().optional(),
+      /** Sample entries only render in preview mode, with a "Sample" badge. */
+      sample: z.boolean().default(false),
     }),
 });
 
@@ -118,4 +123,4 @@ const jobs = defineCollection({
   }),
 });
 
-export const collections = { projects, team, news, jobs };
+export const collections = { projects, team, posts, jobs };

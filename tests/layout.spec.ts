@@ -94,8 +94,8 @@ async function fillRequired(form: Locator) {
 }
 
 const forms = [
-  { path: 'subcontractors/', id: 'subcontractor' },
-  { path: 'request-a-quote/', id: 'rfq' },
+  { path: 'work-with-axis/subcontractor/', id: 'subcontractor' },
+  { path: 'work-with-axis/developer-project-owner/', id: 'rfq' },
   { path: 'contact/', id: 'contact' },
 ];
 

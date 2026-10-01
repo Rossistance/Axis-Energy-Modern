@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Request a Quote (multi-step, review mode)', () => {
+test.describe('Developer/Project Owner request (multi-step, review mode)', () => {
   test('validates each step, saves a draft, reviews and offers an email draft on submit', async ({
     page,
   }) => {
-    await page.goto('request-a-quote/');
+    await page.goto('work-with-axis/developer-project-owner/');
     const form = page.locator('form[data-form-id="rfq"]');
     await expect(form).toHaveAttribute('data-mode', 'review');
 
@@ -66,7 +66,7 @@ test.describe('Request a Quote (multi-step, review mode)', () => {
   });
 
   test('case-studies deep link prefills the description', async ({ page }) => {
-    await page.goto('request-a-quote/?topic=case-studies');
+    await page.goto('work-with-axis/developer-project-owner/?topic=case-studies');
     await expect(page.locator('#rfq-description')).toHaveValue(/case studies/);
   });
 });
@@ -87,7 +87,7 @@ test.describe('Contact form (single step)', () => {
 
 test.describe('Subcontractor prequalification', () => {
   test('has seven steps including review and required safety answers', async ({ page }) => {
-    await page.goto('subcontractors/');
+    await page.goto('work-with-axis/subcontractor/');
     const form = page.locator('form[data-form-id="subcontractor"]');
     await expect(form.locator('[data-steps] li')).toHaveCount(7);
     await expect(form.locator('[data-field-id="emr1"][data-required="true"]')).toHaveCount(1);

@@ -1,6 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { company } from '@data/company';
+import { workWithAxis } from '@data/nav';
+import { routes } from '@data/routes';
 import { href } from '@lib/href';
 
 interface Props {
@@ -27,10 +29,10 @@ const {
       <h2 id="cta-title">{title}</h2>
       {!compact && <p class="lead">{body}</p>}
       <div class="cluster cta-band__actions">
-        <a class="btn btn--primary btn--lg" href={href('/request-a-quote/')}>
-          Request a quote
+        <a class="btn btn--primary btn--lg" href={href(workWithAxis.href)}>
+          {workWithAxis.label}
         </a>
-        <a class="btn btn--secondary btn--lg" href={href('/contact/')}>
+        <a class="btn btn--secondary btn--lg" href={href(routes.contact)}>
           Talk to us
         </a>
       </div>

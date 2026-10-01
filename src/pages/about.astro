@@ -1,43 +1,13 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
-import SectionHeading from '@components/SectionHeading.astro';
 import HeritageTimeline from '@components/HeritageTimeline.astro';
-import ValuesGrid from '@components/ValuesGrid.astro';
-import MarketsGrid from '@components/MarketsGrid.astro';
-import PhotoBand from '@components/PhotoBand.astro';
-import TeamCard from '@components/TeamCard.astro';
 import { heroes } from '@data/heroes';
-import photoNcPortfolio from '@assets/projects/north-carolina-utility-scale-portfolio.jpg';
-import photoFlorence from '@assets/projects/florence-solar-array.png';
-import photoCharleston from '@assets/projects/charleston-rooftop-solar.jpg';
 import { company } from '@data/company';
-import { href } from '@lib/href';
 
-const team = (await getCollection('team', ({ data }) => data.published)).sort(
-  (a, b) => a.data.order - b.data.order,
-);
 const description =
   'At Axis Energy, the power of partnership is what drives us. An employee-owned 1910 Legacy Enterprises company with more than a century of heritage bringing power to the Southeast.';
-const culture = [
-  {
-    title: 'Partnership with our customers',
-    icon: 'lucide:handshake',
-    body: 'We take care of our renewable energy customers by giving them total project peace of mind – a comprehensive solution, one point of contact, and the highest quality at a competitive price.',
-  },
-  {
-    title: 'Partnership with our employees',
-    icon: 'lucide:users',
-    body: 'Axis Energy is an employee-owned company. Each and every Axis employee is directly vested in our customers’ success and uniquely driven to perform, which benefits our customers in the quality and safety of our work.',
-  },
-  {
-    title: 'Partnership with our vendors',
-    icon: 'lucide:link',
-    body: 'At Axis, we see our vendors as the silent partners that our customers never meet. We have developed strong, strategic partnerships with complementary companies that have similar values, which benefits us and our customers in our ability to meet our high standards of excellence.',
-  },
-];
 ---
 
 <BaseLayout title="About Axis" {description}>
@@ -69,87 +39,6 @@ const culture = [
         </p>
       </div>
       <HeritageTimeline />
-    </div>
-  </section>
-
-  <section class="section band-alt" aria-labelledby="values-title">
-    <div class="container">
-      <ValuesGrid />
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="culture-title">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Our culture"
-        title="Partnership with all of our people"
-        lead="Partnership is the very reason we are here in this business, responding to our customers’ needs for comprehensive, reliable, high quality renewable energy solutions."
-        id="culture-title"
-      />
-      <div class="grid grid--3" data-reveal-group>
-        {culture.map((c) => (
-          <article class="card">
-            <div class="icon-tile">
-              <Icon name={c.icon} />
-            </div>
-            <h3 class="culture-title">{c.title}</h3>
-            <p class="text-muted">{c.body}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section band-alt" aria-labelledby="footprint-title">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Where we work"
-        title="From the Carolinas across the Southeast and beyond"
-        lead="Axis serves its customers from its office in Holly Springs, North Carolina. Our footprint has expanded beyond the Carolinas, collaborating with customers and strategic partners on projects in Arkansas, Mississippi, Tennessee, Kentucky, Virginia, Pennsylvania and Colorado."
-        id="footprint-title"
-      />
-      <PhotoBand
-        photos={[
-          {
-            src: photoNcPortfolio,
-            alt: 'Aerial view of one of the portfolio’s solar sites surrounded by woodland in North Carolina',
-            caption: 'North Carolina Utility-Scale Portfolio · 38 MWdc across 7 sites',
-          },
-          {
-            src: photoFlorence,
-            alt: 'Aerial view of curved rows of ground-mounted solar panels in Florence, South Carolina',
-            caption: 'Florence Solar Array · 1.71 MW · Florence, SC',
-          },
-          {
-            src: photoCharleston,
-            alt: 'Rooftop solar laminates on a manufacturing facility in Charleston, South Carolina',
-            caption: 'Charleston Rooftop Solar · 2.6 MWdc · Charleston, SC',
-          },
-        ]}
-      />
-      <div class="mt-6">
-        <MarketsGrid />
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="leadership-title">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Our leadership"
-        title="Renewable experience and expertise"
-        align="row"
-        id="leadership-title"
-      >
-        <a class="btn btn--secondary" href={href('/leadership/')}>
-          Meet the team
-        </a>
-      </SectionHeading>
-      <div class="grid" data-reveal-group>
-        {team.slice(0, 1).map((person) => (
-          <TeamCard person={person} />
-        ))}
-      </div>
     </div>
   </section>
 
@@ -189,10 +78,6 @@ const culture = [
 </BaseLayout>
 
 <style>
-  .culture-title {
-    font-size: 1.15rem;
-  }
-
   .family {
     display: grid;
     gap: 0.5rem;

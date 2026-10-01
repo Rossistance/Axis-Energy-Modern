@@ -1,101 +1,129 @@
 ---
+/**
+ * News: the latest posts from the Axis Energy LinkedIn page, each linking to the post on
+ * LinkedIn. Posts are read at build time (src/lib/news/); see docs/HANDOFF.md to connect
+ * the feed.
+ */
 import { Icon } from 'astro-icon/components';
-import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
-import NewsCard from '@components/NewsCard.astro';
-import RankingsTable from '@components/RankingsTable.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import PostCard from '@components/PostCard.astro';
 import { heroes } from '@data/heroes';
 import { company } from '@data/company';
-import { href } from '@lib/href';
+import { getPosts } from '@lib/news';
 
-const posts = (await getCollection('news', ({ data }) => data.published)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
-const [latest, ...rest] = posts;
-const description = 'News, perspectives and updates from the Axis Energy team.';
+const { posts, source, warning } = await getPosts();
+const preview = (import.meta.env.PUBLIC_SITE_MODE ?? 'preview') !== 'production';
+const description =
+  'News from Axis Energy: project milestones, team news and company updates from the Axis Energy LinkedIn page.';
 ---
 
 <BaseLayout title="News" {description}>
   <PageHero
     eyebrow="News"
-    title="Insights and updates from Axis"
-    lead="Perspectives on solar policy, markets and project delivery from the Axis Energy team, plus company announcements."
+    title="News from Axis"
+    lead="Project milestones, team news and company updates, straight from the Axis Energy LinkedIn page."
     photo={heroes.news}
     crumbs={[{ label: 'News', href: '/news/' }]}
   />
 
-  <section class="section">
-    <div class="container news-layout">
-      <div class="stack">
-        {latest && <NewsCard post={latest} featured />}
-        <div class="grid grid--2" data-reveal-group>
-          {rest.map((post) => (
-            <NewsCard post={post} />
+  <section class="section" aria-labelledby="posts-title">
+    <div class="container">
+      <SectionHeading eyebrow="On LinkedIn" title="Latest posts" id="posts-title" align="row">
+        <a class="btn btn--secondary" href={company.linkedin} rel="noopener" target="_blank">
+          <Icon name="lucide:linkedin" class="icon" /> Follow Axis on LinkedIn
+        </a>
+      </SectionHeading>
+
+      {preview && source === 'static' && (
+        <p class="feed-note" role="note">
+          <Icon name="lucide:info" />
+          <span>
+            {warning ? (
+              <>
+                <strong>The LinkedIn feed could not be read at build time</strong> ({warning}).
+              </>
+            ) : (
+              <strong>LinkedIn feed not connected yet.</strong>
+            )}{' '}
+            The sample cards show the layout. Once the feed is connected (docs/HANDOFF.md), the
+            latest posts Axis Energy publishes on its LinkedIn page appear here automatically;
+            reposts and posts that only tag Axis are left out.
+          </span>
+        </p>
+      )}
+
+      {posts.length > 0 ? (
+        <div class="grid grid--3 posts" data-reveal-group>
+          {posts.map((post) => (
+            <PostCard post={post} />
           ))}
         </div>
-      </div>
-      <aside class="news-aside">
-        <div class="card">
-          <h2 class="aside-title">Follow Axis</h2>
-          <div class="cluster">
-            <a
-              class="btn btn--secondary btn--sm"
-              href={company.linkedin}
-              rel="noopener"
-              target="_blank"
-            >
-              <Icon name="lucide:linkedin" class="icon" /> LinkedIn
-            </a>
-            <a class="btn btn--ghost btn--sm" href={href('/rss.xml')}>
-              <Icon name="lucide:rss" class="icon" /> RSS feed
-            </a>
-          </div>
-        </div>
-        <div class="card">
-          <h2 class="aside-title">Recognition</h2>
-          <p class="text-muted">
-            Axis Energy has been named a Solar Power World Top Solar Contractor every year since
-            2021.
+      ) : (
+        <div class="card posts-empty">
+          <Icon name="lucide:linkedin" />
+          <p>
+            Follow Axis Energy on LinkedIn for project milestones, team news and company updates.
           </p>
-          <RankingsTable />
+          <a class="btn btn--primary" href={company.linkedin} rel="noopener" target="_blank">
+            Follow Axis on LinkedIn
+          </a>
         </div>
-        <div class="card">
-          <h2 class="aside-title">Media inquiries</h2>
-          <p class="text-muted">
-            For press and speaking requests, contact{' '}
-            <a href={`mailto:${company.email}`}>{company.email}</a> or call {company.phone.display}.
-          </p>
-        </div>
-      </aside>
+      )}
+
+      <p class="media-note">
+        Media inquiries: <a href={`mailto:${company.email}`}>{company.email}</a> ·{' '}
+        <a href={`tel:${company.phone.tel}`}>{company.phone.display}</a>
+      </p>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  /* minmax(0, 1fr), not the implicit auto column, so wide content such as the rankings
-     table fits its column instead of widening the sidebar and the page. */
-  .news-layout {
+  .feed-note {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    margin: 0 0 1.5rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid #f0d58a;
+    border-radius: var(--r-md);
+    background: #fff8e6;
+    font-size: var(--text-sm);
+    color: var(--ink);
+  }
+
+  .feed-note :global(svg) {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 0.1rem;
+    color: #8a6100;
+  }
+
+  .posts-empty {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
+    justify-items: center;
+    gap: 0.9rem;
+    padding: clamp(2rem, 5vw, 3rem);
+    text-align: center;
   }
 
-  .news-aside {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.25rem;
+  .posts-empty :global(svg) {
+    width: 36px;
+    height: 36px;
+    color: var(--brand-blue);
   }
 
-  .aside-title {
-    font-size: 1.05rem;
-    margin-bottom: 0.5rem;
+  .posts-empty p {
+    max-width: 46ch;
+    color: var(--text-muted);
   }
 
-  @media (min-width: 1024px) {
-    .news-layout {
-      grid-template-columns: minmax(0, 1fr) 360px;
-    }
+  .media-note {
+    margin: 2rem 0 0;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
   }
 </style>

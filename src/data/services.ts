@@ -367,40 +367,6 @@ export const process = [
   },
 ];
 
-/** Six market segments from the 2024 deck plus the brochure's three experience groups. */
-export const markets = [
-  {
-    title: 'Municipal & government',
-    icon: 'lucide:landmark',
-    body: 'Schools, water authorities, counties and federal facilities.',
-  },
-  {
-    title: 'Microgrids',
-    icon: 'lucide:network',
-    body: 'Resilient solar + storage systems with islanding capability.',
-  },
-  {
-    title: 'Behind the meter',
-    icon: 'lucide:building-2',
-    body: 'On-site generation that lowers commercial and industrial energy costs.',
-  },
-  {
-    title: 'Private development',
-    icon: 'lucide:briefcase',
-    body: 'Utility-scale and distributed projects for developers and IPPs.',
-  },
-  {
-    title: 'Solar + storage',
-    icon: 'lucide:battery-charging',
-    body: 'Battery energy storage paired with new or existing arrays.',
-  },
-  {
-    title: 'Carport & canopy',
-    icon: 'lucide:car',
-    body: 'Elevated structures that turn parking into production.',
-  },
-];
-
 export const experienceGroups = [
   {
     title: 'Utility scale',

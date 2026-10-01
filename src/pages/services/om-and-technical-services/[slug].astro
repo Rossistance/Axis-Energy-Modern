@@ -9,6 +9,7 @@ import PageHero from '@components/PageHero.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import { heroes } from '@data/heroes';
 import { company } from '@data/company';
+import { routes } from '@data/routes';
 import {
   omOfferings,
   servicePages,
@@ -71,7 +72,7 @@ const area = `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
           </div>
           <h2 id="area-title">Service area</h2>
           <p>Our O&M and technical services teams support owners in {area}.</p>
-          <a class="btn btn--primary" href={href('/request-a-quote/')}>
+          <a class="btn btn--primary" href={href(routes.projectRequest)}>
             Request service
           </a>
           <a class="link-arrow" href={href(servicePath(OM_PAGE_SLUG))}>

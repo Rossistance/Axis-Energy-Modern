@@ -12,12 +12,13 @@ test('sitemap lists every route', () => {
     'projects/',
     'why-axis/',
     'about/',
-    'leadership/',
+    'about/leadership/',
     'news/',
     'careers/',
     'contact/',
-    'request-a-quote/',
-    'subcontractors/',
+    'work-with-axis/',
+    'work-with-axis/developer-project-owner/',
+    'work-with-axis/subcontractor/',
     'team/josh-butler/',
     'project/north-carolina-utility-scale-portfolio/',
     'services/solar-epc/',
@@ -67,5 +68,5 @@ test('404 page and legacy redirects exist in the build', async ({ page }) => {
   await expect(page.locator('main h1')).toContainText('couldn’t find');
   const redirect = await page.goto('team/');
   expect(redirect?.status()).toBeLessThan(400);
-  await page.waitForURL(/leadership\/$/);
+  await page.waitForURL(/about\/leadership\/$/);
 });

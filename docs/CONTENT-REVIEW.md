@@ -6,8 +6,8 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 
 ## Global
 
-- **Navigation:** Services (dropdown: four service pages; O&M offerings expand beneath O&M & Technical Services on hover) · Projects (dropdown: Markets, which expands to the four markets and jumps to them on the Projects page) · Why Axis · About (About, Leadership) · News · Careers · Contact, plus a **Request a Quote** button. Footer adds Subcontractors and links each service page.
-- **Page headers** (2026-09-30 review): every page and subpage uses the same compact header as Services, so content shows without scrolling. On desktop every header is the same height (290 px at 1280 px wide, from 309 px for Services before); on phones they run 240–300 px, a little more for a long news title. Each header holds breadcrumbs, a title and one short lead. Longer copy, buttons and facts that used to sit in some headers moved into the page: the second half of the About and Careers intros, the long service-page intros (now under each service's heading), the News follow links (sidebar), the profile contact buttons (a Contact card beside the bio), and the project summary (the project facts stay in the header as chips). On Careers, Open positions now comes first.
+- **Navigation:** Services (dropdown: four service pages; O&M offerings expand beneath O&M & Technical Services on hover) · Projects (dropdown: Markets, which expands to the four markets and jumps to them on the Projects page) · Why Axis · About (dropdown: Leadership) · News · Careers · Contact, plus a **Work with Axis** button that opens on hover to **Developer/Project Owner** and **Subcontractor** [owner, 2026-10-01]; clicking the button itself opens a Work with Axis page with the same two options. "Request a Quote" no longer appears anywhere: the contact band and home page buttons read "Work with Axis", and the buttons on project, contact and O&M pages read "Start a project request" or "Request service". Footer: a Work with Axis column (Developer/Project Owner, Subcontractor, Careers, Contact) and links to each service page.
+- **Page headers** (2026-09-30 review): every page and subpage uses the same compact header as Services, so content shows without scrolling. On desktop every header is the same height (290 px at 1280 px wide, from 309 px for Services before); on phones they run 240–300 px. Each header holds breadcrumbs, a title and one short lead. Longer copy, buttons and facts that used to sit in some headers moved into the page: the second half of the About and Careers intros, the long service-page intros (now under each service's heading), the News follow link (now beside the posts heading), the profile contact buttons (a Contact card beside the bio), and the project summary (the project facts stay in the header as chips). On Careers, Open positions now comes first.
 - **Header photos [placeholder]:** the hero illustrations are gone. Every inner page shows a project photo behind its header, labeled "Placeholder photo" in the preview, until Axis chooses the full-size hero photography. For now three 2026 abstract photos rotate across the pages; a project page uses its own photo. The social sharing image is rebuilt from a project photo too. **Decision:** choose a hero photo per page (2400 px wide or more, landscape, room on the left for the title); the list of pages is in `src/data/heroes.ts`.
 - **CTA band on every page** [live wording]: "Let's talk about your next successful renewable energy project." with phone (Josh Butler), email, address, hours.
 - **Tagline** in footer: "Renewable Solutions | Reliable Partners" [deck].
@@ -25,14 +25,14 @@ Changed after the 2026-09-30 team review: the page is now the hero and the footp
 
 Restructured after the 2026-09-30 team review and adjusted the same evening. Clicking Services in the menu opens a single page of four cards, one per service page. The dropdown lists the four services in one column, O&M & Technical Services last, beneath Electrical Infrastructure & Commissioning; hovering it (or its arrow button, for keyboard and touch) expands its six offering pages beneath it.
 
-- **Services page** (`/services/`): header [live] and four cards that each open a service page. The markets, how-we-work, safety and subcontractor sections that used to sit here were removed from this page: markets remain on About, how we work and the experience groups moved to Solar EPC, safety remains on Why Axis, and the subcontractor link remains on Careers and in the footer.
+- **Services page** (`/services/`): header [live] and four cards that each open a service page. The markets, how-we-work, safety and subcontractor sections that used to sit here were removed from this page: how we work and the experience groups moved to Solar EPC, safety remains on Why Axis, and the subcontractor link remains on Careers and in the footer.
 - **Solar EPC:** EPC intro and engineering / procurement / construction lists [live + brochure], superintendent callout [live], experience groups with brochure examples, how we work (6 steps) [new, edit freely], related projects.
 - **Battery Storage & Microgrids:** storage, microgrid and distributed-energy lists from the SPW profile, deck and the 2026 project abstracts; related projects are the three storage and microgrid projects. **Confirm wording** and any manufacturer partnerships to name (Tesla, LG Chem appear today).
 - **Electrical Infrastructure & Commissioning:** medium-voltage construction, testing and commissioning, storage and microgrid integration [live + abstracts], with the 1910 White Electrical heritage. **Confirm wording.**
 - **O&M & Technical Services:** O&M intro and lists [live]; service area North Carolina, South Carolina, Georgia and Virginia [owner, 2026-09-30]; six offering pages.
 - **O&M offerings, placeholder pages** (marked "Placeholder page" in the preview): Preventive Maintenance, Corrective Maintenance & 24/7 Response, Performance Monitoring & Optimization, Repowering & Rebuilds, Storm Damage Assessment & Repair, Decommissioning. Each shows a one-line summary and a short list drawn from the live site, the O&M memo and the project abstracts. **Decisions:** which offerings to keep or add, and the full copy, photos and examples for each.
 - O&M "scope chips" (vegetation management, module washing, monitoring, inspections, corrective maintenance) come from an internal memo: **confirm these are offered today**.
-- Markets: six segments [deck] + three experience groups with brochure examples (Floyd Road, Charleston Rooftop Solar, Florence Solar Array; client names withheld). **Confirm** these examples may be shown.
+- Experience groups on Solar EPC with brochure examples (Floyd Road, Charleston Rooftop Solar, Florence Solar Array; client names withheld). **Confirm** these examples may be shown. The six market segments from the deck left the site with About's "Where we work" section (2026-10-01); the Projects page carries the four markets.
 
 ## Projects
 
@@ -57,25 +57,36 @@ Changed after the 2026-09-30 review: the filters and the project list table are 
 
 ## About
 
-- Header: the first sentence of the live intro [live]; its second sentence now introduces the culture section. History [live] + timeline (1910 → renewable division → 2017 Axis → 2021 first ranking → 2024 → 2026) [deck/SPW]. Values [deck]. Culture: partnership with customers / employees / vendors [live]. Markets, photos, leadership teaser, family of companies (1910 Legacy, White Electrical).
-- Decisions: confirm timeline milestones; add a company photo or team photo?
+Trimmed on 2026-10-01 [owner]: the mission and vision (with the four values), "Our culture", "Where we work" (photos and market segments) and the leadership teaser are gone. The page is now:
+
+- Header: the first sentence of the live intro [live]. (Its second sentence, "Partnership is the very reason we are here in this business…", introduced the culture section and left with it.)
+- History [live] + timeline (1910 → renewable division → 2017 Axis → 2021 first ranking → 2024 → 2026) [deck/SPW].
+- Family of companies (1910 Legacy Enterprises, White Electrical).
+- Decisions: confirm timeline milestones; add a company photo or team photo? The values still appear as a strip on Careers; keep them there?
 
 ## Leadership and profile
 
+- Leadership is its own page under About (`/about/leadership/`, the only item in the About dropdown) [owner, 2026-10-01]; the old `/leadership/` address redirects there.
 - One profile, Josh Butler, President [live bio verbatim]. Contact buttons (email, LinkedIn, phone).
 - **Decision:** expand the page? The December 2024 org chart in the deck lists a General Manager, Preconstruction Manager, Director of Projects, Quality Manager, Construction Manager, O&M Technician and two Project Managers. Adding people needs their consent, current titles and headshots. Also: a new headshot for Josh (the current one is 500 px from 2017).
 
 ## News
 
-- Both 2018 articles republished in full with their source links [live]. The author's personal email paragraph at the end of the policy-panel article was dropped. RSS feed added.
-- Decisions: keep 2018 articles? New posts (project announcements, Top Solar Contractor news, safety milestones)?
+Rebuilt on 2026-10-01 [owner]: the Top Solar Contractor rankings column and the two 2018 articles are gone (their old addresses lead to News), and so is the RSS feed.
+
+- **LinkedIn feed [draft]:** News shows the latest posts from the Axis Energy LinkedIn page: each card has the post's photo, its headline or opening lines and the date, and opens the post on LinkedIn. Only posts Axis publishes itself appear; posts that tag Axis and reposts are left out. Until the feed is connected the preview shows three cards marked "Sample" and a note; a production build shows a "Follow Axis on LinkedIn" panel instead.
+- **To connect it** (docs/HANDOFF.md, "LinkedIn news feed"): a page admin creates a LinkedIn developer app for the Axis Energy page, requests the Community Management API, and authorizes it; the token goes into the repository secrets. Tokens last 60 days unless LinkedIn also issues a refresh token.
+- **Decisions:** who at Axis is a page admin and can set up the LinkedIn app? Include reposts (off by default)? How many posts to show (9)?
+- The home page bubble "Top Solar Contractor 2021–2026" still opens News, as asked on 2026-09-30, but News no longer lists the rankings; they remain on Why Axis. **Decision:** keep the bubble on News or point it at Why Axis?
 
 ## Careers
 
 - Intro [live verbatim], split: the first sentence in the header, the second introducing Open positions, which now comes first on the page. "Important things to note", EEO and recruiter policy [live verbatim]. Why-Axis cards (ownership, safety, growth) [new]. Values row [deck].
 - **Jobs feed [draft]:** shows three _sample_ roles in the preview. LinkedIn and Indeed have no public feed; real listings come from your ATS (Greenhouse, Lever, Workable, BambooHR or any JSON feed). **Decisions:** which system does 1910 Legacy Talent Acquisition use? What are the LinkedIn jobs and Indeed company page URLs? Should the résumé email stay careers@axis-energyinc.com?
 
-## Request a Quote [draft]
+## Work with Axis: Developer/Project Owner [draft]
+
+The project request form, formerly Request a Quote (`/work-with-axis/developer-project-owner/`; the old address redirects).
 
 Three steps + review:
 
@@ -85,7 +96,9 @@ Three steps + review:
 
 **Decisions:** fields to add/remove (e.g., utility territory, interconnection queue position, NDA needed); who receives submissions; which form service to use; response-time promise.
 
-## Subcontractor prequalification [draft]
+## Work with Axis: Subcontractor [draft]
+
+The prequalification form (`/work-with-axis/subcontractor/`; the old `/subcontractors/` address redirects).
 
 Six steps + review: Company · Primary contact · Capabilities (trades, states, crew size, self-perform %, union status, MW completed) · Licensing & insurance (licences, GL, umbrella, auto, workers' comp, bonding) · Safety (EMR 3 yrs, TRIR, DART, fatalities, written program, drug testing, OSHA 10/30 %, NFPA 70E) · Experience & references + certification checkbox.
 
