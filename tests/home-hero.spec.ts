@@ -55,7 +55,9 @@ test('carousel shows project photos with captions linking to each project', asyn
   await expect(carousel(page).locator('[data-controls]')).toBeVisible();
 });
 
-test('previous, next and dot buttons change the photo and stop the slideshow', async ({ page }) => {
+test('previous, next and dot buttons change the photo and the slideshow keeps playing', async ({
+  page,
+}) => {
   await page.goto('');
   const count = await carousel(page).locator('[data-slide]').count();
   await expect(activeSlide(page)).toHaveAttribute('aria-label', /^1 of /);
@@ -63,11 +65,10 @@ test('previous, next and dot buttons change the photo and stop the slideshow', a
   await carousel(page).locator('[data-next]').click();
   await expect(activeSlide(page)).toHaveAttribute('aria-label', /^2 of /);
   await expect(carousel(page).locator('[data-slide]').first()).toHaveAttribute('inert', '');
-  await expect(carousel(page)).toHaveAttribute('data-state', 'stopped');
-  await expect(carousel(page).locator('[data-toggle]')).toHaveAttribute(
-    'aria-label',
-    'Play slideshow',
-  );
+  // Paused only while the pointer is over the carousel; it plays again once it leaves.
+  await expect(carousel(page)).toHaveAttribute('data-state', 'paused');
+  await page.mouse.move(0, 0);
+  await expect(carousel(page)).toHaveAttribute('data-state', 'playing');
 
   await carousel(page).locator('[data-prev]').click();
   await expect(activeSlide(page)).toHaveAttribute('aria-label', /^1 of /);
@@ -75,9 +76,25 @@ test('previous, next and dot buttons change the photo and stop the slideshow', a
   await carousel(page).locator('[data-dot]').last().click();
   await expect(activeSlide(page)).toHaveAttribute('aria-label', new RegExp(`^${count} of `));
   await expect(carousel(page).locator('[data-dot]').last()).toHaveAttribute('aria-current', 'true');
+  await page.mouse.move(0, 0);
+  await expect(carousel(page)).toHaveAttribute('data-state', 'playing');
 });
 
-test('slideshow advances on its own, and the pause button stops it', async ({ page }) => {
+test('there is no visible pause button, only the arrows and dots', async ({ page }) => {
+  await page.goto('');
+  const controls = carousel(page).locator('[data-controls]');
+  await expect(controls.locator('button')).toHaveCount(
+    (await carousel(page).locator('[data-slide]').count()) + 2,
+  );
+  await expect(controls.locator('[data-toggle]')).toHaveCount(0);
+  // The keyboard-only Pause button takes no space until it is focused.
+  const box = (await carousel(page).locator('[data-toggle]').boundingBox())!;
+  expect(box.width).toBeLessThanOrEqual(1);
+});
+
+test('slideshow advances on its own; hovering pauses it and leaving resumes it', async ({
+  page,
+}) => {
   await page.clock.install();
   await page.goto('');
   await expect(carousel(page)).toHaveAttribute('data-state', 'playing');
@@ -85,36 +102,72 @@ test('slideshow advances on its own, and the pause button stops it', async ({ pa
   await page.clock.runFor(6500);
   await expect(activeSlide(page)).toHaveAttribute('aria-label', /^2 of /);
 
-  const toggle = carousel(page).locator('[data-toggle]');
-  await toggle.click();
-  await expect(carousel(page)).toHaveAttribute('data-state', 'stopped');
-  await expect(toggle).toHaveAttribute('aria-label', 'Play slideshow');
+  await carousel(page).locator('[data-viewport]').hover();
+  await expect(carousel(page)).toHaveAttribute('data-state', 'paused');
   await page.clock.runFor(13000);
   await expect(activeSlide(page)).toHaveAttribute('aria-label', /^2 of /);
 
-  await toggle.click();
-  await expect(toggle).toHaveAttribute('aria-label', 'Pause slideshow');
-  await page.mouse.move(0, 0); // hovering pauses; moving away resumes
+  await page.mouse.move(0, 0);
   await expect(carousel(page)).toHaveAttribute('data-state', 'playing');
   await page.clock.runFor(6500);
   await expect(activeSlide(page)).not.toHaveAttribute('aria-label', /^2 of /);
 });
 
-test('keyboard focus inside the carousel stops the slideshow', async ({ page }) => {
+test('keyboard focus pauses the slideshow, and a keyboard-only Pause button stops it', async ({
+  page,
+}) => {
   await page.goto('');
   await expect(carousel(page)).toHaveAttribute('data-state', 'playing');
-  await activeSlide(page).locator('a').focus();
+  await page.locator('.hero__chips a').last().focus();
+  await page.keyboard.press('Tab');
+  const toggle = carousel(page).locator('[data-toggle]');
+  await expect(toggle).toBeFocused();
+  await expect(toggle).toHaveText('Pause slideshow');
+  expect((await toggle.boundingBox())!.width).toBeGreaterThan(60);
+  await expect(carousel(page)).toHaveAttribute('data-state', 'paused');
+
+  await page.keyboard.press('Enter');
   await expect(carousel(page)).toHaveAttribute('data-state', 'stopped');
+  await expect(toggle).toHaveText('Play slideshow');
+  await page.keyboard.press('Enter');
+  await expect(toggle).toHaveText('Pause slideshow');
+
+  // Focus leaving the carousel lets it play again.
+  await page.locator('.hero__chips a').last().focus();
+  await expect(carousel(page)).toHaveAttribute('data-state', 'playing');
+});
+
+test('each photo pans and zooms, alternating direction, and captions never overlap', async ({
+  page,
+}) => {
+  await page.goto('');
+  const animation = (i: number) =>
+    carousel(page)
+      .locator('[data-slide] img')
+      .nth(i)
+      .evaluate((img) => getComputedStyle(img).animationName);
+  expect(await animation(0)).toBe('kb-1');
+  await carousel(page).locator('[data-next]').click();
+  await expect(activeSlide(page)).toHaveAttribute('aria-label', /^2 of /);
+  expect(await animation(1)).toBe('kb-2');
+  // The caption of the photo that is fading out is already hidden.
+  const firstCaption = carousel(page).locator('[data-slide]').first().locator('.carousel__caption');
+  await expect.poll(() => firstCaption.evaluate((el) => getComputedStyle(el).opacity)).toBe('0');
 });
 
 test.describe('with reduced motion', () => {
-  test('the slideshow does not rotate on its own', async ({ page }) => {
+  test('the slideshow does not rotate on its own and the photos stay still', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.clock.install();
     await page.goto('');
     await expect(carousel(page)).toHaveAttribute('data-state', 'stopped');
     await page.clock.runFor(13000);
     await expect(activeSlide(page)).toHaveAttribute('aria-label', /^1 of /);
+    expect(
+      await activeSlide(page)
+        .locator('img')
+        .evaluate((img) => getComputedStyle(img).animationName),
+    ).toBe('none');
   });
 });
 
@@ -127,6 +180,7 @@ test.describe('without JavaScript', () => {
     await expect(slides.first()).toBeVisible();
     await expect(slides.nth(1)).toBeHidden();
     await expect(page.locator('[data-carousel] [data-controls]')).toBeHidden();
+    await expect(page.locator('[data-carousel] [data-toggle]')).toBeHidden();
     await expect(page.locator('.hero__chips a')).toHaveCount(3);
   });
 });

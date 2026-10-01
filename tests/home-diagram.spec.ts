@@ -116,11 +116,29 @@ test('the cards are small and every card has a curved branch ending in a chevron
   expect(chevrons).toEqual(['""', '""', '""', '""']);
 });
 
-test('on phones the trunk branches into all four cards', async ({ page }) => {
+test('on phones the top pair hangs from the curves and each bottom card from the card above', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('');
   const d = diagram(page);
   await expect(d.locator('.partnership__fan--grid')).toBeVisible();
-  await expect(d.locator('.partnership__fan--grid path')).toHaveCount(4);
+  // No trunk down the middle: two curves, one into each top card.
+  await expect(d.locator('.partnership__fan--grid path')).toHaveCount(2);
   await expect(d.locator('.partnership__fan--row')).toBeHidden();
+  const items = d.locator('.partnership__markets li');
+  const shafts = await items.evaluateAll((els) =>
+    els.map((el) => {
+      const after = getComputedStyle(el, '::after');
+      return after.content === 'none' ? 0 : parseFloat(after.height);
+    }),
+  );
+  // An arrow shaft under each top card, none under the bottom pair.
+  expect(shafts[0]).toBeGreaterThan(8);
+  expect(shafts[1]).toBeGreaterThan(8);
+  expect(shafts[2]).toBe(0);
+  expect(shafts[3]).toBe(0);
+  // The shaft sits in the gap, between a top card and the card below it.
+  const b = await boxes(page);
+  expect(b[2].y - (b[0].y + b[0].height)).toBeGreaterThanOrEqual(20);
 });

@@ -6,10 +6,11 @@
  * page.
  *
  * The branches are SVG curves fanning out from one node under "for" to a chevron above each
- * card; when the column is narrow the cards sit two by two, the top pair fed from above and
- * the bottom pair by a trunk that bends into their inner edges. The SVGs stretch to the
- * width of the cards (x in percent, y in rem), so every size below is shared with the CSS.
- * Four across needs a column of 420 px or more; narrower columns use the two-by-two grid.
+ * card; when the column is narrow the cards sit two by two, the top pair fed by the curves
+ * and each bottom card by a short arrow from the card above it (owner, 2026-10-01). The SVGs
+ * stretch to the width of the cards (x in percent, y in rem), so every size below is shared
+ * with the CSS. Four across needs a column of 420 px or more; narrower columns use the
+ * two-by-two grid.
  */
 import { projectMarkets, marketPath } from '@data/project-markets';
 import { servicePath } from '@data/services';
@@ -31,7 +32,7 @@ const markets = projectMarkets.map((m) => ({
 const FAN = 2.6; // height of the fan above the row of four
 const FAN_NARROW = 2.3; // height of the fan above the two-by-two grid
 const CARD = 3.6; // card height
-const ROW_GAP = 0.75; // gap between the two rows
+const ROW_GAP = 1.5; // gap between the two rows, room for the arrow joining them
 const TIP = 0.36; // the curves stop this far above a card, inside its chevron
 
 // Four across with a 4 % gap: the cards' centres sit at 11, 37, 63 and 89 % of the width.
@@ -39,17 +40,11 @@ const rowPaths = [11, 37, 63, 89].map(
   (x) => `M50 0 C50 ${FAN * 0.62} ${x} ${FAN * 0.3} ${x} ${FAN - TIP}`,
 );
 
-// Two by two with a 14 % corridor: top centres at 21.5 and 78.5 %, inner edges at 43 and
-// 57 %. The trunk runs down the corridor and bends into the bottom cards' inner edges.
-const bottom = FAN_NARROW + CARD + ROW_GAP + CARD / 2;
-const bend = 1.1;
-const gridHeight = FAN_NARROW + 2 * CARD + ROW_GAP;
-const gridPaths = [
-  `M50 0 C50 ${FAN_NARROW * 0.62} 21.5 ${FAN_NARROW * 0.3} 21.5 ${FAN_NARROW - TIP}`,
-  `M50 0 C50 ${FAN_NARROW * 0.62} 78.5 ${FAN_NARROW * 0.3} 78.5 ${FAN_NARROW - TIP}`,
-  `M50 0 L50 ${bottom - bend} C50 ${bottom - bend * 0.35} 48.4 ${bottom} 44.4 ${bottom}`,
-  `M50 ${bottom - bend} C50 ${bottom - bend * 0.35} 51.6 ${bottom} 55.6 ${bottom}`,
-];
+// Two by two with a 14 % gap: the top cards' centres sit at 21.5 and 78.5 %. The bottom
+// cards hang from the cards above them (CSS arrows), so only the top pair needs curves.
+const gridPaths = [21.5, 78.5].map(
+  (x) => `M50 0 C50 ${FAN_NARROW * 0.62} ${x} ${FAN_NARROW * 0.3} ${x} ${FAN_NARROW - TIP}`,
+);
 const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD}rem; --row-gap: ${ROW_GAP}rem; --tip: ${TIP}rem`;
 ---
 
@@ -96,7 +91,7 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
     </svg>
     <svg
       class="partnership__fan partnership__fan--grid"
-      viewBox={`0 0 100 ${gridHeight}`}
+      viewBox={`0 0 100 ${FAN_NARROW}`}
       preserveAspectRatio="none"
       aria-hidden="true"
       focusable="false"
@@ -108,7 +103,7 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
           x1="0"
           y1="0"
           x2="0"
-          y2={gridHeight}
+          y2={FAN_NARROW}
         >
           <stop offset="0" stop-color="#9eede6" />
           <stop offset="1" stop-color="#5fd39a" />
@@ -261,7 +256,7 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
 
   .partnership__fan--grid {
     display: none;
-    height: calc(var(--fan-narrow) + 2 * var(--card-h) + var(--row-gap));
+    height: var(--fan-narrow);
   }
 
   .partnership__fan path {
@@ -339,7 +334,7 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
   }
 
   /* Narrow column (phones, and desktops where the photos take most of the width): two by
-     two, the bottom pair fed by the trunk through the 14 % corridor. */
+     two; each bottom card is joined to the card above it by a short arrow. */
   @container (max-width: 419px) {
     .partnership__branch {
       width: min(100%, 22rem);
@@ -364,24 +359,19 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
       font-size: 0.8rem;
     }
 
-    .partnership__markets li:nth-child(n + 3)::before {
-      top: calc(50% - 3.5px);
-      border: 0;
-      transform: rotate(45deg);
-    }
-
-    /* Bottom left: chevron on its inner (right) edge, pointing in. */
-    .partnership__markets li:nth-child(3)::before {
-      left: calc(100% + 2px);
-      border-left: 1.6px solid var(--chevron);
-      border-bottom: 1.6px solid var(--chevron);
-    }
-
-    /* Bottom right: chevron on its inner (left) edge, pointing in. */
-    .partnership__markets li:nth-child(4)::before {
-      left: -9px;
-      border-right: 1.6px solid var(--chevron);
-      border-top: 1.6px solid var(--chevron);
+    /* The arrow's shaft, from the bottom of a top card down to the chevron above the card
+       below it (the chevrons are the same as the ones the curves end in). */
+    .partnership__markets li:nth-child(-n + 2)::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 3px);
+      width: 1.6px;
+      height: calc(var(--row-gap) - 9px);
+      border-radius: 1px;
+      background: linear-gradient(var(--aqua-200), var(--chevron));
+      box-shadow: 0 0 4px rgba(63, 207, 196, 0.35);
+      transform: translateX(-50%);
     }
   }
 
@@ -403,7 +393,8 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
       animation: fan-grow 0.8s var(--ease-out) 0.15s both;
     }
 
-    :global(html.js) .partnership__markets li::before {
+    :global(html.js) .partnership__markets li::before,
+    :global(html.js) .partnership__markets li::after {
       animation: fan-tip 0.35s ease 0.75s both;
     }
   }

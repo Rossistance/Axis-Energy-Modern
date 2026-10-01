@@ -1,11 +1,14 @@
 ---
 /**
- * Home page photo carousel: real project photos with a caption that links to each project.
+ * Home page photo carousel: real project photos with a caption that links to each project,
+ * each photo slowly panning and zooming (a light Ken Burns effect) while it shows.
  *
- * Accessibility follows the WAI-ARIA carousel pattern: a play/pause control, previous/next
- * and per-slide buttons, rotation that pauses on hover and stops when keyboard focus enters,
- * no automatic rotation for visitors who prefer reduced motion, and inactive slides removed
- * from the tab order. Without JavaScript the first photo shows on its own.
+ * The slideshow plays on its own and pauses only while the pointer is over it or keyboard
+ * focus is inside it; the previous/next arrows, the dots and a swipe change the photo
+ * without stopping it (owner, 2026-10-01: no visible pause button). Moving content must
+ * still be stoppable, so a "Pause slideshow" button appears for keyboard users when they
+ * tab to it. Visitors who prefer reduced motion get no rotation and no pan or zoom.
+ * Inactive slides are out of the tab order; without JavaScript the first photo shows alone.
  */
 import { Picture } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
@@ -38,6 +41,11 @@ const titleParts = (title: string) => {
     aria-label={label}
     style={`--carousel-interval: ${interval}ms`}
   >
+    {count > 1 && (
+      <button type="button" class="carousel__stop" data-toggle hidden>
+        Pause slideshow
+      </button>
+    )}
     <div class="carousel__viewport" data-viewport>
       <div class="carousel__slides" aria-live="off" data-slides>
         {slides.map((slide, i) => (
@@ -83,15 +91,6 @@ const titleParts = (title: string) => {
 
     {count > 1 && (
       <div class="carousel__controls" data-controls hidden>
-        <button
-          type="button"
-          class="carousel__btn carousel__toggle"
-          data-toggle
-          aria-label="Pause slideshow"
-        >
-          <Icon name="lucide:pause" class="carousel__icon-pause" />
-          <Icon name="lucide:play" class="carousel__icon-play" />
-        </button>
         <div class="carousel__dots">
           {slides.map((slide, i) => (
             <button
@@ -124,25 +123,28 @@ const titleParts = (title: string) => {
   function initCarousel(root: HTMLElement) {
     const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
     const controls = root.querySelector<HTMLElement>('[data-controls]');
-    if (slides.length < 2 || !controls) return;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-toggle]');
+    if (slides.length < 2 || !controls || !toggle) return;
 
     const viewport = root.querySelector<HTMLElement>('[data-viewport]')!;
     const live = root.querySelector<HTMLElement>('[data-slides]')!;
-    const toggle = root.querySelector<HTMLButtonElement>('[data-toggle]')!;
     const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-dot]'));
     const interval = Number(root.dataset.interval) || 6000;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let index = 0;
-    /** Set by the play/pause button, by keyboard focus, or by a reduced-motion preference. */
+    /** Stopped until restarted: a reduced-motion preference or the keyboard Pause button. */
     let stopped = reduceMotion;
+    /** Paused for as long as the pointer is over the carousel or keyboard focus is in it. */
     let hovering = false;
+    let focused = false;
     let inView = true;
     let timer: number | undefined;
     let startedAt = 0;
     let remaining = interval;
 
     controls.hidden = false;
+    toggle.hidden = false;
 
     /** Unhide a slide so its lazy image loads; forces a style flush so the fade runs. */
     const reveal = (i: number) => {
@@ -167,12 +169,14 @@ const titleParts = (title: string) => {
     };
 
     const syncState = () => {
-      root.dataset.state = stopped ? 'stopped' : timer !== undefined ? 'playing' : 'paused';
-      live.setAttribute('aria-live', stopped ? 'polite' : 'off');
-      toggle.setAttribute('aria-label', stopped ? 'Play slideshow' : 'Pause slideshow');
+      const playing = timer !== undefined;
+      root.dataset.state = stopped ? 'stopped' : playing ? 'playing' : 'paused';
+      // Announce slide changes only while the slideshow is not rotating on its own.
+      live.setAttribute('aria-live', playing ? 'off' : 'polite');
+      toggle.textContent = stopped ? 'Play slideshow' : 'Pause slideshow';
     };
 
-    const canRun = () => !stopped && !hovering && inView && !document.hidden;
+    const canRun = () => !stopped && !hovering && !focused && inView && !document.hidden;
 
     const pause = () => {
       if (timer !== undefined) {
@@ -194,6 +198,7 @@ const titleParts = (title: string) => {
       syncState();
     };
 
+    /** Show a slide and start its full interval; the slideshow keeps playing. */
     const show = (target: number) => {
       const n = slides.length;
       const next = ((target % n) + n) % n;
@@ -212,27 +217,27 @@ const titleParts = (title: string) => {
       run();
     };
 
-    const stop = () => {
-      stopped = true;
-      pause();
-    };
-
     toggle.addEventListener('click', () => {
-      if (stopped) {
-        stopped = false;
-        remaining = interval;
-        run();
-      } else {
-        stop();
-      }
+      stopped = !stopped;
+      remaining = interval;
+      if (stopped) pause();
+      else run();
     });
     root.querySelector('[data-prev]')!.addEventListener('click', () => show(index - 1));
     root.querySelector('[data-next]')!.addEventListener('click', () => show(index + 1));
     dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
 
-    // Keyboard focus anywhere except the play/pause button stops rotation for good.
+    // Keyboard focus inside pauses rotation until focus leaves. A mouse click also focuses
+    // the button it lands on, but only keyboard focus is :focus-visible.
     root.addEventListener('focusin', (event) => {
-      if (event.target !== toggle) stop();
+      if (!(event.target as HTMLElement).matches(':focus-visible')) return;
+      focused = true;
+      pause();
+    });
+    root.addEventListener('focusout', (event) => {
+      if (root.contains(event.relatedTarget as Node | null)) return;
+      focused = false;
+      run();
     });
 
     root.addEventListener('pointerenter', (event) => {
@@ -262,7 +267,6 @@ const titleParts = (title: string) => {
       const dx = event.clientX - startX;
       const dy = event.clientY - startY;
       if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
-      stop();
       show(dx < 0 ? index + 1 : index - 1);
     });
 
@@ -350,11 +354,30 @@ const titleParts = (title: string) => {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    will-change: transform;
   }
 
+  /* Ken Burns: each photo drifts and zooms slowly while it shows, in one of four directions
+     so consecutive photos move differently. The photo is always at least 4 % larger than
+     the frame, so a drift never reveals its edge. */
   .carousel__slide.is-active :global(img),
   .carousel__slide.is-leaving :global(img) {
-    animation: carousel-zoom calc(var(--carousel-interval) + 900ms) ease-out both;
+    animation: kb-1 calc(var(--carousel-interval) + 900ms) linear both;
+  }
+
+  .carousel__slide:nth-child(4n + 2).is-active :global(img),
+  .carousel__slide:nth-child(4n + 2).is-leaving :global(img) {
+    animation-name: kb-2;
+  }
+
+  .carousel__slide:nth-child(4n + 3).is-active :global(img),
+  .carousel__slide:nth-child(4n + 3).is-leaving :global(img) {
+    animation-name: kb-3;
+  }
+
+  .carousel__slide:nth-child(4n + 4).is-active :global(img),
+  .carousel__slide:nth-child(4n + 4).is-leaving :global(img) {
+    animation-name: kb-4;
   }
 
   .carousel[data-state='paused'] .carousel__slide :global(img),
@@ -362,14 +385,55 @@ const titleParts = (title: string) => {
     animation-play-state: paused;
   }
 
-  @keyframes carousel-zoom {
+  @keyframes kb-1 {
     from {
-      transform: scale(1);
+      transform: scale(1.04) translate(-1.5%, 1%);
     }
 
     to {
-      transform: scale(1.06);
+      transform: scale(1.15) translate(2%, -2%);
     }
+  }
+
+  @keyframes kb-2 {
+    from {
+      transform: scale(1.15) translate(2%, 1.5%);
+    }
+
+    to {
+      transform: scale(1.05) translate(-1.5%, -1%);
+    }
+  }
+
+  @keyframes kb-3 {
+    from {
+      transform: scale(1.05) translate(1.5%, -1%);
+    }
+
+    to {
+      transform: scale(1.15) translate(-2%, 2%);
+    }
+  }
+
+  @keyframes kb-4 {
+    from {
+      transform: scale(1.15) translate(-2%, -2%);
+    }
+
+    to {
+      transform: scale(1.04) translate(1.5%, 1%);
+    }
+  }
+
+  /* The outgoing caption leaves at once and the incoming one arrives once its photo has
+     mostly faded in, so two captions never show on top of each other. */
+  .carousel__caption {
+    transition: opacity 450ms ease 400ms;
+  }
+
+  .carousel__slide:not(.is-active) .carousel__caption {
+    opacity: 0;
+    transition: opacity 150ms ease;
   }
 
   .carousel__caption {
@@ -472,16 +536,31 @@ const titleParts = (title: string) => {
     height: 18px;
   }
 
-  .carousel__icon-play {
-    display: none;
+  /* Keyboard-only Pause/Play: hidden until focused with the keyboard, then shown over the
+     photo's top-left corner. */
+  .carousel__stop {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 6;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: var(--r-pill);
+    background: rgba(0, 24, 54, 0.92);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
   }
 
-  .carousel[data-state='stopped'] .carousel__icon-pause {
-    display: none;
-  }
-
-  .carousel[data-state='stopped'] .carousel__icon-play {
-    display: block;
+  .carousel__stop:not(:focus-visible) {
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .carousel__dot {
