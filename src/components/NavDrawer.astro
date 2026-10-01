@@ -40,27 +40,53 @@ const inGroup = (item: NavItem): boolean =>
           const open = inGroup(item);
           return (
             <li class="drawer__group">
-              <button
-                type="button"
-                class="drawer__expand"
-                aria-expanded={open ? 'true' : 'false'}
-                aria-controls={id}
-                data-drawer-expand
-              >
-                {item.label}
-                <Icon name="lucide:chevron-down" />
-              </button>
+              <div class="drawer__row">
+                <a
+                  href={href(item.href)}
+                  aria-current={isActive(item.href, current, true) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+                <button
+                  type="button"
+                  class="drawer__expand"
+                  aria-expanded={open ? 'true' : 'false'}
+                  aria-controls={id}
+                  aria-label={`${item.label} pages`}
+                  data-drawer-expand
+                >
+                  <Icon name="lucide:chevron-down" />
+                </button>
+              </div>
               <ul class="drawer__sublist" id={id} hidden={!open}>
-                {item.children.map((child) => (
-                  <li>
+                {item.children.map((child) => {
+                  const link = (
                     <a
                       href={href(child.href)}
                       aria-current={isActive(child.href, current, true) ? 'page' : undefined}
                     >
                       {child.label}
                     </a>
-                    {child.children && (
-                      <ul class="drawer__nested" aria-label={child.label}>
+                  );
+                  if (!child.children) return <li>{link}</li>;
+                  const childId = `${id}-${slugify(child.label)}`;
+                  const childOpen = inGroup(child);
+                  return (
+                    <li>
+                      <div class="drawer__row drawer__row--sub">
+                        {link}
+                        <button
+                          type="button"
+                          class="drawer__expand drawer__expand--sub"
+                          aria-expanded={childOpen ? 'true' : 'false'}
+                          aria-controls={childId}
+                          aria-label={`${child.label} pages`}
+                          data-drawer-expand
+                        >
+                          <Icon name="lucide:chevron-down" />
+                        </button>
+                      </div>
+                      <ul class="drawer__nested" id={childId} hidden={!childOpen}>
                         {child.children.map((grandchild) => (
                           <li>
                             <a
@@ -74,9 +100,9 @@ const inGroup = (item: NavItem): boolean =>
                           </li>
                         ))}
                       </ul>
-                    )}
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
             </li>
           );
@@ -199,20 +225,25 @@ const inGroup = (item: NavItem): boolean =>
     color: var(--brand-blue);
   }
 
-  .drawer__expand {
+  .drawer__row {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0.9rem 0.25rem;
-    border: 0;
+    align-items: stretch;
     border-bottom: 1px solid var(--line);
+  }
+
+  .drawer__list .drawer__row > a {
+    flex: 1;
+    border-bottom: 0;
+  }
+
+  .drawer__expand {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 48px;
+    border: 0;
     background: none;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: var(--ink);
-    text-align: left;
+    color: var(--brand-green);
     cursor: pointer;
   }
 
@@ -222,6 +253,15 @@ const inGroup = (item: NavItem): boolean =>
 
   .drawer__expand[aria-expanded='true'] :global(svg) {
     transform: rotate(180deg);
+  }
+
+  .drawer__row--sub {
+    border-bottom: 0;
+  }
+
+  .drawer__expand--sub {
+    width: 40px;
+    color: var(--ink-muted);
   }
 
   .drawer__sublist,

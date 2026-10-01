@@ -16,6 +16,7 @@ import {
   servicePages,
   omOfferings,
   process,
+  experienceGroups,
   servicePath,
   offeringPath,
   OM_PAGE_SLUG,
@@ -109,6 +110,27 @@ const isOm = page.slug === OM_PAGE_SLUG;
   )}
 
   {page.slug === 'solar-epc' && (
+    <section class="section" aria-labelledby="experience-title">
+      <div class="container">
+        <SectionHeading
+          eyebrow="Our experience"
+          title="Utility-scale, commercial and specialty solar"
+          id="experience-title"
+        />
+        <div class="grid grid--3" data-reveal-group>
+          {experienceGroups.map((g) => (
+            <div class="experience__item">
+              <h3>{g.title}</h3>
+              <p class="experience__detail">{g.detail}</p>
+              <p class="experience__example">Example: {g.example}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {page.slug === 'solar-epc' && (
     <section class="section band-alt" aria-labelledby="process-title">
       <div class="container">
         <SectionHeading
@@ -166,6 +188,29 @@ const isOm = page.slug === OM_PAGE_SLUG;
 </BaseLayout>
 
 <style>
+  .experience__item {
+    padding: 1.35rem;
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg, rgba(0, 75, 141, 0.06), rgba(0, 135, 82, 0.08));
+  }
+
+  .experience__item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .experience__detail {
+    font-weight: 600;
+    color: var(--brand-blue);
+    font-size: var(--text-sm);
+  }
+
+  .experience__example {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin-top: 0.4rem;
+  }
+
   .offering-card {
     display: flex;
     flex-direction: column;

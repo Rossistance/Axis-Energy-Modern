@@ -11,7 +11,6 @@ export const primaryNav: NavItem[] = [
     label: 'Services',
     href: '/services/',
     children: [
-      { label: 'Services Overview', href: '/services/' },
       ...servicePages.map((page) => ({
         label: page.title,
         href: servicePath(page.slug),

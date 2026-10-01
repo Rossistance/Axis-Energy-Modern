@@ -52,36 +52,51 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
               >
                 <Icon name="lucide:chevron-down" />
               </button>
-              <ul
-                class:list={['submenu', { 'submenu--mega': item.children.some((c) => c.children) }]}
-                id={id}
-              >
-                {item.children.map((child) => (
-                  <li class:list={{ submenu__group: !!child.children }}>
+              <ul class="submenu" id={id}>
+                {item.children.map((child) => {
+                  const link = (
                     <a
                       href={href(child.href)}
                       aria-current={isActive(child.href, current, true) ? 'page' : undefined}
                     >
                       {child.label}
                     </a>
-                    {child.children && (
-                      <ul class="submenu__nested" aria-label={child.label}>
-                        {child.children.map((grandchild) => (
-                          <li>
-                            <a
-                              href={href(grandchild.href)}
-                              aria-current={
-                                isActive(grandchild.href, current, true) ? 'page' : undefined
-                              }
-                            >
-                              {grandchild.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
+                  );
+                  if (!child.children) return <li>{link}</li>;
+                  const groupId = `${id}-${slugify(child.label)}`;
+                  return (
+                    <li class="submenu__group" data-subgroup>
+                      <div class="submenu__row">
+                        {link}
+                        <button
+                          type="button"
+                          class="subgroup-toggle"
+                          aria-expanded="false"
+                          aria-controls={groupId}
+                          aria-label={`${child.label} pages`}
+                        >
+                          <Icon name="lucide:chevron-down" />
+                        </button>
+                      </div>
+                      {child.children && (
+                        <ul class="submenu__nested" id={groupId} aria-label={child.label}>
+                          {child.children.map((grandchild) => (
+                            <li>
+                              <a
+                                href={href(grandchild.href)}
+                                aria-current={
+                                  isActive(grandchild.href, current, true) ? 'page' : undefined
+                                }
+                              >
+                                {grandchild.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </li>
           );
@@ -234,6 +249,8 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     top: calc(100% + 6px);
     left: 0;
     min-width: 220px;
+    width: max-content;
+    max-width: min(360px, calc(100vw - 2rem));
     margin: 0;
     padding: 0.5rem;
     list-style: none;
@@ -281,38 +298,61 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     color: var(--brand-blue);
   }
 
-  /* Services: the four service pages on the left, O&M offerings in their own column. */
-  .submenu--mega {
-    display: grid;
-    grid-template-columns: minmax(230px, 1fr) minmax(270px, 1fr);
-    column-gap: 0.5rem;
-    width: max-content;
-    max-width: min(620px, calc(100vw - 2rem));
+  /* A menu item with pages of its own (O&M & Technical Services): the pages expand beneath
+     it on hover, or with its toggle button for keyboard and touch. */
+  .submenu__row {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
-  .submenu--mega > li {
-    grid-column: 1;
+  .submenu__row > a {
+    flex: 1;
   }
 
-  .submenu--mega > li.submenu__group {
-    grid-column: 2;
-    grid-row: 1 / span 6;
-    padding-left: 0.5rem;
-    border-left: 1px solid var(--line);
+  .subgroup-toggle {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ink-muted);
   }
 
-  .submenu__group > a {
-    font-weight: 600;
+  .subgroup-toggle:hover {
+    background: var(--mist-100);
+    color: var(--brand-blue);
+  }
+
+  .subgroup-toggle :global(svg) {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--dur-2) var(--ease-out);
   }
 
   .submenu__nested {
+    display: none;
     list-style: none;
-    margin: 0.1rem 0 0;
-    padding: 0;
+    margin: 0 0 0.25rem 0.85rem;
+    padding: 0 0 0 0.5rem;
+    border-left: 2px solid var(--mist-200);
+  }
+
+  .submenu__group:hover > .submenu__nested,
+  .submenu__group.is-open > .submenu__nested {
+    display: block;
+  }
+
+  .submenu__group:hover .subgroup-toggle :global(svg),
+  .submenu__group.is-open .subgroup-toggle :global(svg) {
+    transform: rotate(180deg);
   }
 
   .submenu .submenu__nested a {
-    padding: 0.4rem 0.75rem 0.4rem 1.35rem;
+    padding: 0.4rem 0.75rem;
     font-size: 0.9rem;
     color: var(--ink-muted);
   }
@@ -377,11 +417,23 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   window.addEventListener('scroll', onScroll, { passive: true });
 
   const submenus = Array.from(document.querySelectorAll<HTMLElement>('[data-submenu]'));
+  const subgroups = Array.from(document.querySelectorAll<HTMLElement>('[data-subgroup]'));
+  const setGroup = (group: HTMLElement, open: boolean) => {
+    group.classList.toggle('is-open', open);
+    group.querySelector('.subgroup-toggle')?.setAttribute('aria-expanded', String(open));
+  };
+  subgroups.forEach((group) => {
+    group.querySelector('.subgroup-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setGroup(group, !group.classList.contains('is-open'));
+    });
+  });
   const closeAll = (except?: HTMLElement) => {
     submenus.forEach((li) => {
       if (li === except) return;
       li.classList.remove('is-open');
       li.querySelector('.submenu-toggle')?.setAttribute('aria-expanded', 'false');
+      li.querySelectorAll<HTMLElement>('[data-subgroup]').forEach((g) => setGroup(g, false));
     });
   };
   submenus.forEach((li) => {

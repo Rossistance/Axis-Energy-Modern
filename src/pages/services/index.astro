@@ -1,20 +1,12 @@
 ---
+/**
+ * Services: one card per service page. Opened from "Services" in the main menu.
+ */
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
-import SectionHeading from '@components/SectionHeading.astro';
-import ProcessTimeline from '@components/ProcessTimeline.astro';
-import MarketsGrid from '@components/MarketsGrid.astro';
 import heroArt from '@assets/hero/hero-services.png';
-import {
-  servicePages,
-  omOfferings,
-  process,
-  experienceGroups,
-  servicePath,
-  offeringPath,
-  OM_PAGE_SLUG,
-} from '@data/services';
+import { servicePages, servicePath } from '@data/services';
 import { href } from '@lib/href';
 
 const description =
@@ -28,111 +20,38 @@ const description =
     lead="Our clients enjoy great peace of mind being able to make one phone call to Axis Energy and know their renewable energy project will be executed with excellence."
     art={heroArt}
     crumbs={[{ label: 'Services', href: '/services/' }]}
-  >
-    <div class="cluster page-hero__actions">
-      <a class="btn btn--primary" href={href('/request-a-quote/')}>
-        Request a quote
-      </a>
-    </div>
-  </PageHero>
+  />
 
-  <section class="section section--sm" aria-labelledby="services-list-title">
+  <section class="section" aria-labelledby="services-list-title">
     <div class="container">
       <h2 id="services-list-title" class="sr-only">
         Our services
       </h2>
-      <div class="service-cards" data-reveal-group>
+      <ul class="service-cards" data-reveal-group>
         {servicePages.map((page) => (
-          <article class="card card--lift service-card">
-            <div class="icon-tile">
-              <Icon name={page.icon} />
-            </div>
-            <h3>
-              <a href={href(servicePath(page.slug))}>{page.title}</a>
-            </h3>
-            <p>{page.summary}</p>
-            {page.slug === OM_PAGE_SLUG && (
-              <ul class="service-card__offerings" aria-label="O&M and technical services">
-                {omOfferings.map((o) => (
-                  <li>
-                    <a href={href(offeringPath(o.slug))}>{o.title}</a>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <a class="link-arrow service-card__more" href={href(servicePath(page.slug))}>
-              Explore {page.title} <Icon name="lucide:arrow-right" class="icon" />
+          <li>
+            <a class="card card--lift service-card" href={href(servicePath(page.slug))}>
+              <div class="icon-tile">
+                <Icon name={page.icon} />
+              </div>
+              <h3>{page.title}</h3>
+              <p>{page.summary}</p>
+              <span class="link-arrow service-card__more">
+                Learn more <Icon name="lucide:arrow-right" class="icon" />
+              </span>
             </a>
-          </article>
+          </li>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section band-alt" id="markets" aria-labelledby="markets-title">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Markets we serve"
-        title="Commercial and industrial distributed energy, utility-scale solar and everything in between"
-        lead="Axis provides turnkey engineering, procurement, construction and operations & maintenance of commercial and industrial distributed energy resources for utilities, independent power producers, government agencies, and private developers and owners."
-        id="markets-title"
-      />
-      <MarketsGrid />
-      <div class="grid grid--3 experience" data-reveal-group>
-        {experienceGroups.map((g) => (
-          <div class="experience__item">
-            <h3>{g.title}</h3>
-            <p class="experience__detail">{g.detail}</p>
-            <p class="experience__example">Example: {g.example}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="process" aria-labelledby="process-title">
-    <div class="container">
-      <SectionHeading
-        eyebrow="How we work"
-        title="One point of contact from first call to final commissioning"
-        lead="Every project runs through the same disciplined sequence, led by an Axis project manager and an experienced superintendent on site."
-        id="process-title"
-      />
-      <ProcessTimeline steps={process} />
-    </div>
-  </section>
-
-  <section class="section band-alt" aria-labelledby="safety-title">
-    <div class="container split">
-      <div data-reveal>
-        <p class="eyebrow">Safety and quality</p>
-        <h2 id="safety-title">We see safety as our moral obligation.</h2>
-        <p class="lead">
-          As a partnership-based, employee-owned company, we employ and enforce rigorous,
-          industry-best safety practices to ensure that our people go home at the end of the day,
-          and shield our customers from the negative impact of safety-related accidents.
-        </p>
-      </div>
-      <div class="card sub-card" data-reveal>
-        <div class="icon-tile">
-          <Icon name="lucide:handshake" />
-        </div>
-        <h3>Work with Axis as a subcontractor</h3>
-        <p>
-          We build with a network of trusted trade partners across the Southeast. Start the
-          prequalification process to be considered for upcoming civil, mechanical and electrical
-          scopes.
-        </p>
-        <a class="btn btn--secondary" href={href('/subcontractors/')}>
-          Start prequalification <Icon name="lucide:arrow-right" class="icon" />
-        </a>
-      </div>
+      </ul>
     </div>
   </section>
 </BaseLayout>
 
 <style>
   .service-cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
     gap: 1.25rem;
   }
@@ -143,23 +62,25 @@ const description =
     }
   }
 
+  .service-cards li {
+    display: flex;
+  }
+
   .service-card {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-  }
-
-  .service-card h3 {
-    font-size: 1.3rem;
-    margin: 0.35rem 0 0;
-  }
-
-  .service-card h3 a {
+    width: 100%;
     color: var(--text);
     text-decoration: none;
   }
 
-  .service-card h3 a:hover {
+  .service-card h3 {
+    font-size: 1.35rem;
+    margin: 0.35rem 0 0;
+  }
+
+  .service-card:hover h3 {
     color: var(--brand-blue);
   }
 
@@ -167,68 +88,9 @@ const description =
     color: var(--text-muted);
   }
 
-  .service-card__offerings {
-    list-style: none;
-    margin: 0.25rem 0 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .service-card__offerings a {
-    display: inline-block;
-    padding: 0.3rem 0.7rem;
-    border-radius: var(--r-pill);
-    background: var(--mist-100);
-    color: var(--brand-navy);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .service-card__offerings a:hover {
-    background: var(--mist-200);
-  }
-
   .service-card__more {
     margin-top: auto;
     padding-top: 0.5rem;
-  }
-
-  .experience {
-    margin-top: 2rem;
-  }
-
-  .experience__item {
-    padding: 1.35rem;
-    border-radius: var(--r-lg);
-    background: linear-gradient(135deg, rgba(0, 75, 141, 0.06), rgba(0, 135, 82, 0.08));
-  }
-
-  .experience__item h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .experience__detail {
-    font-weight: 600;
-    color: var(--brand-blue);
-    font-size: var(--text-sm);
-  }
-
-  .experience__example {
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    margin-top: 0.4rem;
-  }
-
-  .sub-card h3 {
-    font-size: 1.25rem;
-  }
-
-  .sub-card p {
-    color: var(--text-muted);
-    margin-bottom: 1.25rem;
+    color: var(--link);
   }
 </style>

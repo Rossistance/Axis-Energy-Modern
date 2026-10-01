@@ -6,7 +6,7 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 
 ## Global
 
-- **Navigation:** Services (dropdown: overview, four service pages, O&M offerings) · Projects · Why Axis · About (About, Leadership) · News · Careers · Contact, plus a **Request a Quote** button. Footer adds Subcontractors and links each service page.
+- **Navigation:** Services (dropdown: four service pages; O&M offerings expand beneath O&M & Technical Services on hover) · Projects · Why Axis · About (About, Leadership) · News · Careers · Contact, plus a **Request a Quote** button. Footer adds Subcontractors and links each service page.
 - **Page headers** were made compact after the 2026-09-30 review so content shows without scrolling: smaller titles, less padding, a slim illustration panel on desktop and no illustration on phones.
 - **CTA band on every page** [live wording]: "Let's talk about your next successful renewable energy project." with phone (Josh Butler), email, address, hours.
 - **Tagline** in footer: "Renewable Solutions | Reliable Partners" [deck].
@@ -22,10 +22,10 @@ Changed after the 2026-09-30 team review: the page is now the hero and the footp
 
 ## Services
 
-Restructured after the 2026-09-30 team review. The Services menu is a dropdown: Services Overview, then four service pages, with the O&M offerings listed under O&M & Technical Services.
+Restructured after the 2026-09-30 team review and adjusted the same evening. Clicking Services in the menu opens a single page of four cards, one per service page. The dropdown lists the four services in one column, O&M & Technical Services last, beneath Electrical Infrastructure & Commissioning; hovering it (or its arrow button, for keyboard and touch) expands its six offering pages beneath it.
 
-- **Overview** (`/services/`): hero [live], a card per service, markets, how we work, safety and the subcontractor card.
-- **Solar EPC:** EPC intro and engineering / procurement / construction lists [live + brochure], superintendent callout [live], how we work (6 steps) [new, edit freely], related projects.
+- **Services page** (`/services/`): header [live] and four cards that each open a service page. The markets, how-we-work, safety and subcontractor sections that used to sit here were removed from this page: markets remain on About, how we work and the experience groups moved to Solar EPC, safety remains on Why Axis, and the subcontractor link remains on Careers and in the footer.
+- **Solar EPC:** EPC intro and engineering / procurement / construction lists [live + brochure], superintendent callout [live], experience groups with brochure examples, how we work (6 steps) [new, edit freely], related projects.
 - **Battery Storage & Microgrids:** storage, microgrid and distributed-energy lists from the SPW profile, deck and the 2026 project abstracts; related projects are the three storage and microgrid projects. **Confirm wording** and any manufacturer partnerships to name (Tesla, LG Chem appear today).
 - **Electrical Infrastructure & Commissioning:** medium-voltage construction, testing and commissioning, storage and microgrid integration [live + abstracts], with the 1910 White Electrical heritage. **Confirm wording.**
 - **O&M & Technical Services:** O&M intro and lists [live]; service area North Carolina, South Carolina, Georgia and Virginia [owner, 2026-09-30]; six offering pages.

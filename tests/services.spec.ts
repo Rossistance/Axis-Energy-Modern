@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-/** Services: overview hub, four service pages and the O&M offering placeholders. */
+/** Services: card page, four service pages and the O&M offering placeholders. */
 
 const pages = [
   ['services/solar-epc/', 'Solar EPC'],
@@ -12,13 +12,13 @@ const pages = [
   ['services/om-and-technical-services/', 'O&M & Technical Services'],
 ] as const;
 
-test('the overview links to every service page', async ({ page }) => {
+test('Services is a single page of four cards, one per service page', async ({ page }) => {
   await page.goto('services/');
+  await expect(page.locator('main > section')).toHaveCount(2);
+  const cards = page.locator('a.service-card');
+  await expect(cards).toHaveCount(4);
   for (const [path, title] of pages) {
-    await expect(page.locator('.service-card h3 a', { hasText: title })).toHaveAttribute(
-      'href',
-      new RegExp(`/${path}$`),
-    );
+    await expect(cards.filter({ hasText: title })).toHaveAttribute('href', new RegExp(`/${path}$`));
   }
 });
 
