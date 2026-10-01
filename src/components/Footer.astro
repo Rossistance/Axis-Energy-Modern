@@ -45,8 +45,6 @@ const year = new Date().getFullYear();
           {company.address.city}, {company.address.state} {company.address.zip}
         </p>
         <p>
-          <span>Office</span> <a href={`tel:${company.phone.tel}`}>{company.phone.display}</a>
-          <br />
           <span>Fax</span> {company.fax.display}
           <br />
           <span>Email</span> <a href={`mailto:${company.email}`}>{company.email}</a>

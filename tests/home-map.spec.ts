@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-/** Home page: hero line, footprint map directly below the hero, no teaser sections. */
+/**
+ * Home page: hero line, footprint map directly below the hero, employee ownership below the
+ * map (moved from Why Axis, 2026-10-01), no teaser sections.
+ */
 
 test('hero line reads "Solar, battery storage and microgrids built for performance."', async ({
   page,
@@ -14,9 +17,10 @@ test('hero line reads "Solar, battery storage and microgrids built for performan
 test('the footprint map follows the hero and the teaser sections are gone', async ({ page }) => {
   await page.goto('');
   const sections = page.locator('main > section');
-  await expect(sections).toHaveCount(2);
+  await expect(sections).toHaveCount(3);
   await expect(sections.nth(0)).toHaveClass(/hero/);
   await expect(sections.nth(1)).toHaveClass(/footprint/);
+  await expect(sections.nth(2)).toHaveAttribute('id', 'employee-owned');
   for (const id of [
     'services-title',
     'work-title',
@@ -55,4 +59,14 @@ test('headquarters pin and project pins are shown, and nothing on the map is cli
   expect(await map.locator('.footprint__pins use').count()).toBeGreaterThanOrEqual(20);
   await expect(map.locator('a, button, [tabindex]')).toHaveCount(0);
   await expect(page.locator('.footprint__legend li')).toHaveCount(4);
+});
+
+test('the employee-owned section sits under the map with Josh Butler’s quote', async ({ page }) => {
+  await page.goto('');
+  const owners = page.locator('#employee-owned');
+  await expect(owners.locator('h2')).toHaveText('A company of owners');
+  await expect(owners.locator('blockquote')).toContainText('a company of owners');
+  await expect(owners.locator('figcaption')).toContainText('Josh Butler, President, Axis Energy');
+  await expect(owners.locator('.owners__card')).toContainText('100% employee-owned');
+  await expect(owners.locator('.owners__card')).toContainText('1910 Legacy Enterprises');
 });

@@ -1,161 +1,83 @@
 ---
-import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import Pillars from '@components/Pillars.astro';
 import StatStrip from '@components/StatStrip.astro';
-import RankingsTable from '@components/RankingsTable.astro';
-import Testimonial from '@components/Testimonial.astro';
+import SafetyPartners from '@components/SafetyPartners.astro';
 import { heroes } from '@data/heroes';
 import { stats } from '@data/stats';
-import { testimonials } from '@data/pillars';
-import { serviceGroups } from '@data/services';
-import { href } from '@lib/href';
+import { pillars, hasCopy } from '@data/pillars';
 
-const om = serviceGroups.find((g) => g.id === 'om')!;
+const preview = (import.meta.env.PUBLIC_SITE_MODE ?? 'preview') !== 'production';
+// Preview builds show every card, placeholders included. Production builds leave out cards
+// that have no copy yet (and the section, if none has), and say so in the build log.
+const cards = preview ? pillars : pillars.filter(hasCopy);
+if (cards.length < pillars.length) {
+  console.warn(
+    `[why-axis] ${pillars.length - cards.length} of ${pillars.length} "Total project peace of mind" cards have no copy yet and are left out of this production build (src/data/pillars.ts).`,
+  );
+}
+
 const description =
-  'Total solution, strong financial position, superior quality, bench strength, employee ownership and outstanding safety — six reasons partners choose Axis Energy.';
+  'Why owners and developers choose Axis Energy: total project peace of mind, a proven track record, and a safety program graded by Avetta, Veriforce and ISNetworld.';
 ---
 
 <BaseLayout title="Why Axis" {description}>
   <PageHero
     eyebrow="Why Axis"
     title="We give our partners total project peace of mind."
-    lead="Six commitments we keep on every site, from a total solution to outstanding safety."
+    lead="Six commitments we keep on every site."
     photo={heroes.whyAxis}
     crumbs={[{ label: 'Why Axis', href: '/why-axis/' }]}
   />
 
-  <section class="section" aria-labelledby="pillars-title">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Total project peace of mind"
-        title="What sets Axis apart"
-        id="pillars-title"
-      />
-      <Pillars />
-    </div>
-  </section>
-
-  <section class="section band-dark owners" aria-labelledby="owners-title">
-    <div class="container split split--7-5">
-      <div data-reveal>
-        <p class="eyebrow">A company of owners</p>
-        <h2 id="owners-title">{testimonials[1].quote}</h2>
-        <p class="owners__cite">
-          — {testimonials[1].name}, {testimonials[1].title}
-        </p>
+  {cards.length > 0 && (
+    <section class="section" aria-labelledby="pillars-title">
+      <div class="container">
+        <SectionHeading
+          eyebrow="Total project peace of mind"
+          title="What sets Axis apart"
+          id="pillars-title"
+        />
+        <Pillars {cards} />
       </div>
-      <div class="card owners__card" data-reveal>
-        <Icon name="lucide:users" />
-        <p>
-          <strong>100% employee-owned</strong> through the 1910 Legacy Enterprises Employee Stock
-          Ownership Plan. Each and every Axis employee is directly vested in your success.
-        </p>
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <section class="section" aria-labelledby="numbers-title">
+  <section class="section band-alt" id="by-the-numbers" aria-labelledby="numbers-title">
     <div class="container">
       <SectionHeading
         eyebrow="By the numbers"
         title="A track record you can underwrite"
-        lead="Recognized nationally by Solar Power World every year we have submitted since 2021."
+        lead="Recognized nationally by Solar Power World as a Top Solar Contractor every year we have submitted since 2021."
         id="numbers-title"
       />
       <StatStrip stats={stats} />
-      <div class="mt-7">
-        <RankingsTable />
-      </div>
     </div>
   </section>
 
-  <section class="section band-alt" id="om" aria-labelledby="om-title">
+  <section class="section" id="safety" aria-labelledby="safety-title">
     <div class="container">
-      <SectionHeading
-        eyebrow="O&M excellence"
-        title="We help you operate and optimize your system."
-        lead="Our expert team of technicians is well-versed in an assortment of PV technologies."
-        id="om-title"
-      />
-      <div class="grid grid--4" data-reveal-group>
-        {[
-          ...om.columns,
-          {
-            title: 'Added Value Services',
-            items: [
-              'Medium voltage underground and overhead construction, VLF / Tan Delta testing, PV system decommissioning',
-            ],
-          },
-        ].map((col) => (
-          <div class="card">
-            <h3 class="om-title">{col.title}</h3>
-            <ul class="list-check">
-              {col.items.map((i) => (
-                <li>{i}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      <div class="split split--5-7">
+        <div data-reveal>
+          <p class="eyebrow">Outstanding safety</p>
+          <h2 id="safety-title">Our people go home at the end of the day.</h2>
+        </div>
+        <div data-reveal>
+          <p class="lead">
+            As a partnership-based, employee-owned company, we see safety as our moral obligation,
+            and therefore employ and enforce rigorous, industry-best safety practices to ensure that
+            our people go home at the end of the day, and shield our customers from the negative
+            impact of safety-related accidents.
+          </p>
+          <p>
+            An experienced Axis superintendent is on every site, and every subcontractor is
+            prequalified on safety record, licensing and insurance before work begins.
+          </p>
+        </div>
       </div>
-      <p class="mt-5">
-        <a class="link-arrow" href={href('/services/om-and-technical-services/')}>
-          All O&M services <Icon name="lucide:arrow-right" class="icon" />
-        </a>
-      </p>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="safety-title">
-    <div class="container split split--5-7">
-      <Testimonial
-        quote={testimonials[0].quote}
-        name={testimonials[0].name}
-        title={testimonials[0].title}
-        variant="feature"
-      />
-      <div data-reveal>
-        <p class="eyebrow">Outstanding safety</p>
-        <h2 id="safety-title">Our people go home at the end of the day.</h2>
-        <p class="lead">
-          As a partnership-based, employee-owned company, we see safety as our moral obligation, and
-          therefore employ and enforce rigorous, industry-best safety practices to ensure that our
-          people go home at the end of the day, and shield our customers from the negative impact of
-          safety-related accidents.
-        </p>
-        <p>
-          An experienced Axis superintendent is on every site, and every subcontractor is
-          prequalified on safety record, licensing and insurance before work begins.
-        </p>
-      </div>
+      <SafetyPartners />
     </div>
   </section>
 </BaseLayout>
-
-<style>
-  .owners h2 {
-    color: #fff;
-    font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem);
-    font-weight: 600;
-    line-height: 1.35;
-  }
-
-  .owners__cite {
-    color: var(--aqua-200);
-    font-weight: 600;
-  }
-
-  .owners__card :global(svg) {
-    width: 36px;
-    height: 36px;
-    color: var(--aqua-400);
-    margin-bottom: 1rem;
-  }
-
-  .om-title {
-    font-size: 1.1rem;
-    margin-bottom: 0.9rem;
-  }
-</style>

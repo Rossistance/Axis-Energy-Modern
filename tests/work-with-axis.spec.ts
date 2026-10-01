@@ -3,12 +3,13 @@ import { sitemapPaths } from './routes';
 
 /**
  * "Request a Quote" became "Work with Axis" (2026-10-01): a header menu with two options,
- * Developer/Project Owner and Subcontractor, and an overview page with one card each.
+ * Subcontractor first and Developer/Project Owner second (owner, 2026-10-01), and an
+ * overview page with one card each in the same order.
  */
 
 const options = [
-  ['Developer/Project Owner', /\/work-with-axis\/developer-project-owner\/$/],
   ['Subcontractor', /\/work-with-axis\/subcontractor\/$/],
+  ['Developer/Project Owner', /\/work-with-axis\/developer-project-owner\/$/],
 ] as const;
 
 test('header "Work with Axis" opens on hover to the two options', async ({ page }) => {
@@ -86,4 +87,14 @@ test('the old Request a Quote and Subcontractors addresses redirect', async ({ p
   await page.waitForURL(/\/work-with-axis\/developer-project-owner\/$/);
   await page.goto('subcontractors/');
   await page.waitForURL(/\/work-with-axis\/subcontractor\/$/);
+});
+
+test('the footer lists Subcontractor before Developer/Project Owner', async ({ page }) => {
+  await page.goto('');
+  const column = page.locator('footer .footer__col', {
+    has: page.locator('.footer__heading', { hasText: 'Work with Axis' }),
+  });
+  const links = column.locator('a');
+  await expect(links.nth(0)).toHaveText('Subcontractor');
+  await expect(links.nth(1)).toHaveText('Developer/Project Owner');
 });

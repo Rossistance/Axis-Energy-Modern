@@ -25,7 +25,6 @@ export function organizationSchema(siteUrl: string, logoUrl: string): JsonLd {
       postalCode: company.address.zip,
       addressCountry: 'US',
     },
-    telephone: company.phone.tel,
     email: company.email,
     sameAs: [company.linkedin],
     areaServed: company.statesServed.map((s) => ({ '@type': 'State', name: s })),

@@ -57,8 +57,8 @@ export const workWithAxis = {
   label: 'Work with Axis',
   href: routes.workWithAxis,
   children: [
-    { label: 'Developer/Project Owner', href: routes.projectRequest },
     { label: 'Subcontractor', href: routes.subcontractor },
+    { label: 'Developer/Project Owner', href: routes.projectRequest },
   ],
 } satisfies NavItem;
 

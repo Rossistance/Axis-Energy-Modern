@@ -5,7 +5,7 @@ import { test, expect, type Page } from '@playwright/test';
 const carousel = (page: Page) => page.locator('[data-carousel]');
 const activeSlide = (page: Page) => page.locator('[data-carousel] [data-slide].is-active');
 
-test('highlight bubbles link to Projects, About and News', async ({ page }) => {
+test('highlight bubbles link to Projects, About and Why Axis', async ({ page }) => {
   await page.goto('');
   const chips = page.locator('.hero__chips a');
   await expect(chips).toHaveCount(3);
@@ -14,7 +14,21 @@ test('highlight bubbles link to Projects, About and News', async ({ page }) => {
   await expect(chips.nth(1)).toContainText('employee-owned');
   await expect(chips.nth(1)).toHaveAttribute('href', /\/about\/$/);
   await expect(chips.nth(2)).toContainText('Top Solar Contractor');
-  await expect(chips.nth(2)).toHaveAttribute('href', /\/news\/$/);
+  await expect(chips.nth(2)).toHaveAttribute('href', /\/why-axis\/#by-the-numbers$/);
+});
+
+test('the Top Solar Contractor bubble opens Why Axis at the recognition', async ({ page }) => {
+  await page.goto('');
+  await page.locator('.hero__chips a', { hasText: 'Top Solar Contractor' }).click();
+  await expect(page).toHaveURL(/\/why-axis\/#by-the-numbers$/);
+  const heading = page.locator('#numbers-title');
+  await expect(heading).toBeInViewport();
+  // The sticky header must not cover the section heading.
+  const headerBottom = await page
+    .locator('.site-header')
+    .evaluate((el) => el.getBoundingClientRect().bottom);
+  const headingTop = await heading.evaluate((el) => el.getBoundingClientRect().top);
+  expect(headingTop).toBeGreaterThanOrEqual(headerBottom);
 });
 
 for (const width of [390, 1280]) {

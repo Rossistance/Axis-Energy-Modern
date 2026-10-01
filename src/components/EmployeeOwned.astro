@@ -1,0 +1,81 @@
+---
+/**
+ * "A company of owners": employee ownership, on the home page under the footprint map
+ * (moved from Why Axis, 2026-10-01).
+ */
+import { Icon } from 'astro-icon/components';
+import { ownershipQuote } from '@data/pillars';
+---
+
+<section class="section band-alt owners" id="employee-owned" aria-labelledby="owners-title">
+  <div class="container split split--7-5">
+    <div data-reveal>
+      <h2 id="owners-title" class="eyebrow">
+        A company of owners
+      </h2>
+      <figure class="owners__figure">
+        <blockquote class="owners__quote">
+          <p>{ownershipQuote.quote}</p>
+        </blockquote>
+        <figcaption class="owners__cite">
+          — {ownershipQuote.name}, {ownershipQuote.title}
+        </figcaption>
+      </figure>
+    </div>
+    <div class="card owners__card" data-reveal>
+      <Icon name="lucide:users" />
+      <p>
+        <strong>100% employee-owned</strong> through the 1910 Legacy Enterprises Employee Stock
+        Ownership Plan. Each and every Axis employee is directly vested in your success.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* The section heading is the eyebrow; the quote is the visual headline. */
+  .owners h2 {
+    line-height: inherit;
+  }
+
+  .owners__figure {
+    margin: 0;
+  }
+
+  .owners__quote p {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 1.1rem + 1.1vw, 2rem);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-wrap: pretty;
+  }
+
+  .owners__cite {
+    margin-top: 1rem;
+    color: var(--brand-green);
+    font-weight: 600;
+  }
+
+  .owners__card {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-top: 4px solid var(--brand-green);
+  }
+
+  .owners__card :global(svg) {
+    width: 36px;
+    height: 36px;
+    color: var(--brand-green);
+    margin-bottom: 1rem;
+  }
+
+  .owners__card p {
+    font-size: 1.05rem;
+  }
+
+  .owners__card strong {
+    color: var(--brand-blue);
+  }
+</style>

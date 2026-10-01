@@ -1,0 +1,196 @@
+---
+/**
+ * Safety partners (Why Axis): the three contractor safety-grading platforms Axis works
+ * with, over an Axis project photo blended into the brand navy. The logos are each
+ * company's own reversed versions for dark backgrounds, taken from avetta.com,
+ * veriforce.com and isnetworld.com on 2026-10-01, and are shown at full opacity and their
+ * own colors; only the photo is toned down. Confirm logo usage with each partner.
+ */
+import { Picture, Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import photo from '@assets/projects/walnut-grove-microgrid.jpg';
+import avetta from '@assets/partners/avetta-reversed.svg';
+import veriforce from '@assets/partners/veriforce-reversed.svg';
+import isn from '@assets/partners/isn.png';
+
+interface Partner {
+  name: string;
+  logo: ImageMetadata;
+  /** Display height in px, set by eye so the three marks carry equal visual weight. */
+  height: number;
+}
+
+const partners: Partner[] = [
+  { name: 'Avetta', logo: avetta, height: 30 },
+  { name: 'Veriforce', logo: veriforce, height: 34 },
+  { name: 'ISNetworld', logo: isn, height: 62 },
+];
+const width = (p: Partner) => Math.round((p.logo.width / p.logo.height) * p.height);
+---
+
+<div class="safety-partners band-dark" role="group" aria-labelledby="safety-partners-title">
+  <div class="safety-partners__photo" aria-hidden="true">
+    <Picture
+      src={photo}
+      alt=""
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      widths={[640, 960, 1275]}
+      sizes="(min-width: 1240px) 1200px, 100vw"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <p class="eyebrow">Safety partners</p>
+  <h3 id="safety-partners-title">
+    Our safety program is graded by the industry’s contractor platforms
+  </h3>
+  <ul class="safety-partners__logos">
+    {partners.map((p) => (
+      <li>
+        {p.logo.format === 'svg' ? (
+          <img
+            src={p.logo.src}
+            alt={p.name}
+            width={width(p)}
+            height={p.height}
+            style={`--h: ${p.height}px`}
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <Image
+            src={p.logo}
+            alt={p.name}
+            height={p.height}
+            width={width(p)}
+            densities={[1, 2]}
+            style={`--h: ${p.height}px`}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
+      </li>
+    ))}
+  </ul>
+  <p class="safety-partners__note">
+    Owners use Avetta, Veriforce and ISNetworld to verify a contractor’s safety record, insurance
+    and training before work begins.
+  </p>
+</div>
+
+<style>
+  .safety-partners {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding: clamp(2.25rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+    border-radius: var(--r-xl);
+    text-align: center;
+    box-shadow: var(--shadow-3);
+  }
+
+  .safety-partners__photo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .safety-partners__photo :global(picture),
+  .safety-partners__photo :global(img) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* The photo is texture, not subject: desaturated and slightly enlarged so its edges
+     never show, under the navy blend below. */
+  .safety-partners__photo :global(img) {
+    object-fit: cover;
+    object-position: 50% 62%;
+    filter: grayscale(0.5) contrast(1.05);
+    transform: scale(1.04);
+  }
+
+  /* Navy blend: lightest behind the logos so the site still reads, darkest at the edges
+     to frame the card; a teal wash at the foot ties it to the brand gradient. */
+  .safety-partners::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(0deg, rgba(12, 62, 82, 0.5), transparent 55%),
+      radial-gradient(
+        120% 95% at 50% 50%,
+        rgba(0, 35, 82, 0.74) 0%,
+        rgba(0, 35, 82, 0.86) 55%,
+        rgba(0, 26, 61, 0.95) 100%
+      );
+  }
+
+  .safety-partners .eyebrow {
+    justify-content: center;
+  }
+
+  .safety-partners h3 {
+    max-width: 32ch;
+    margin: 0.5rem auto 0;
+    color: #fff;
+    font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.75rem);
+    text-wrap: balance;
+  }
+
+  .safety-partners__logos {
+    list-style: none;
+    margin: clamp(1.75rem, 4vw, 2.5rem) 0 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .safety-partners__logos li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 84px;
+    padding: 0.5rem clamp(1.5rem, 4.5vw, 3.25rem);
+  }
+
+  .safety-partners__logos li + li {
+    border-left: 1px solid rgba(255, 255, 255, 0.24);
+  }
+
+  .safety-partners__logos :global(img) {
+    height: var(--h);
+    width: auto;
+    max-width: 100%;
+    filter: drop-shadow(0 2px 10px rgba(0, 15, 40, 0.35));
+  }
+
+  .safety-partners__note {
+    max-width: 58ch;
+    margin: clamp(1.5rem, 3vw, 2rem) auto 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--text-sm);
+  }
+
+  /* Phones: the logos stack, divided by hairlines instead of side by side. */
+  @media (max-width: 639px) {
+    .safety-partners__logos {
+      flex-direction: column;
+    }
+
+    .safety-partners__logos li {
+      width: min(100%, 240px);
+      min-height: 76px;
+      padding: 0.75rem 0;
+    }
+
+    .safety-partners__logos li + li {
+      border-left: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.24);
+    }
+  }
+</style>

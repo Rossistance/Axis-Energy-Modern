@@ -1,25 +1,41 @@
 ---
+/**
+ * "Total Project Peace of Mind" cards. A card with a title and body renders normally; an
+ * empty one is a numbered placeholder until Axis supplies its copy (src/data/pillars.ts).
+ */
 import { Icon } from 'astro-icon/components';
-import { pillars } from '@data/pillars';
+import { hasCopy, type Pillar } from '@data/pillars';
 
 interface Props {
-  teaser?: boolean;
+  cards: Pillar[];
 }
 
-const { teaser = false } = Astro.props;
-const firstSentence = (s: string) => s.split(/(?<=\.)\s/)[0];
+const { cards } = Astro.props;
 ---
 
-<div class:list={['grid', teaser ? 'grid--3' : 'grid--3', 'pillars']} data-reveal-group>
-  {pillars.map((p) => (
-    <article class="card card--lift pillar">
-      <div class="icon-tile">
-        <Icon name={p.icon} />
-      </div>
-      <h3>{p.title}</h3>
-      <p>{teaser ? firstSentence(p.body) : p.body}</p>
-    </article>
-  ))}
+<div class="grid grid--3 pillars" data-reveal-group>
+  {cards.map((p, i) =>
+    hasCopy(p) ? (
+      <article class="card card--lift pillar">
+        <div class="icon-tile">
+          <Icon name={p.icon ?? 'lucide:check'} />
+        </div>
+        <h3>{p.title}</h3>
+        <p>{p.body}</p>
+      </article>
+    ) : (
+      <article class="card pillar pillar--placeholder">
+        <span class="pillar__number" aria-hidden="true">
+          {String(i + 1).padStart(2, '0')}
+        </span>
+        <span class="pillar__line pillar__line--title" aria-hidden="true" />
+        <span class="pillar__line" aria-hidden="true" />
+        <span class="pillar__line" aria-hidden="true" />
+        <span class="pillar__line pillar__line--short" aria-hidden="true" />
+        <p class="pillar__note">Card {i + 1}: title and description to come</p>
+      </article>
+    ),
+  )}
 </div>
 
 <style>
@@ -31,5 +47,58 @@ const firstSentence = (s: string) => s.split(/(?<=\.)\s/)[0];
   .pillar p {
     color: var(--text-muted);
     font-size: 0.98rem;
+  }
+
+  /* Placeholder: the card's outline with skeleton lines where the copy will go. */
+  .pillar--placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-height: 220px;
+    border: 1.5px dashed var(--mist-200);
+    background: var(--mist-50);
+    box-shadow: none;
+  }
+
+  .pillar__number {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.6rem;
+    border-radius: var(--r-md);
+    background: #fff;
+    border: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--brand-blue);
+    letter-spacing: 0.04em;
+  }
+
+  .pillar__line {
+    display: block;
+    height: 0.7rem;
+    width: 100%;
+    border-radius: 999px;
+    background: var(--mist-200);
+  }
+
+  .pillar__line--title {
+    height: 1.1rem;
+    width: 62%;
+    margin-bottom: 0.35rem;
+    background: #cdd8e3;
+  }
+
+  .pillar__line--short {
+    width: 70%;
+  }
+
+  .pillar .pillar__note {
+    margin-top: auto;
+    padding-top: 0.6rem;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-muted);
   }
 </style>

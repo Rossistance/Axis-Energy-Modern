@@ -418,7 +418,7 @@ const action = endpoint || `mailto:${company.email}?subject=${encodeURIComponent
         } catch (err) {
           setStatus(
             'error',
-            `We couldn't send your message (${err instanceof Error ? err.message : 'network error'}). Please email <a href="mailto:${form.dataset.mailto}">${form.dataset.mailto}</a> or call 919.346.8333.`,
+            `We couldn't send your message (${err instanceof Error ? err.message : 'network error'}). Please email <a href="mailto:${form.dataset.mailto}">${form.dataset.mailto}</a>.`,
           );
         } finally {
           setBusy(false);

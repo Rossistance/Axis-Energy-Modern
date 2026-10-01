@@ -6,20 +6,22 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 
 ## Global
 
-- **Navigation:** Services (dropdown: four service pages; O&M offerings expand beneath O&M & Technical Services on hover) · Projects (dropdown: Markets, which expands to the four markets and jumps to them on the Projects page) · Why Axis · About (dropdown: Leadership) · News · Careers · Contact, plus a **Work with Axis** button that opens on hover to **Developer/Project Owner** and **Subcontractor** [owner, 2026-10-01]; clicking the button itself opens a Work with Axis page with the same two options. "Request a Quote" no longer appears anywhere: the contact band and home page buttons read "Work with Axis", and the buttons on project, contact and O&M pages read "Start a project request" or "Request service". Footer: a Work with Axis column (Developer/Project Owner, Subcontractor, Careers, Contact) and links to each service page.
+- **Navigation:** Services (dropdown: four service pages; O&M offerings expand beneath O&M & Technical Services on hover) · Projects (dropdown: Markets, which expands to the four markets and jumps to them on the Projects page) · Why Axis · About (dropdown: Leadership) · News · Careers · Contact, plus a **Work with Axis** button that opens on hover to **Subcontractor** and **Developer/Project Owner**, in that order [owner, 2026-10-01]; clicking the button itself opens a Work with Axis page with the same two options. "Request a Quote" no longer appears anywhere: the contact band and home page buttons read "Work with Axis", and the buttons on project, contact and O&M pages read "Start a project request" or "Request service". Footer: a Work with Axis column (Subcontractor, Developer/Project Owner, Careers, Contact) and links to each service page.
 - **Page headers** (2026-09-30 review): every page and subpage uses the same compact header as Services, so content shows without scrolling. On desktop every header is the same height (290 px at 1280 px wide, from 309 px for Services before); on phones they run 240–300 px. Each header holds breadcrumbs, a title and one short lead. Longer copy, buttons and facts that used to sit in some headers moved into the page: the second half of the About and Careers intros, the long service-page intros (now under each service's heading), the News follow link (now beside the posts heading), the profile contact buttons (a Contact card beside the bio), and the project summary (the project facts stay in the header as chips). On Careers, Open positions now comes first.
 - **Header photos [placeholder]:** the hero illustrations are gone. Every inner page shows a project photo behind its header, labeled "Placeholder photo" in the preview, until Axis chooses the full-size hero photography. For now three 2026 abstract photos rotate across the pages; a project page uses its own photo. The social sharing image is rebuilt from a project photo too. **Decision:** choose a hero photo per page (2400 px wide or more, landscape, room on the left for the title); the list of pages is in `src/data/heroes.ts`.
-- **CTA band on every page** [live wording]: "Let's talk about your next successful renewable energy project." with phone (Josh Butler), email, address, hours.
+- **CTA band on every page** [live wording]: "Let's talk about your next successful renewable energy project." with email, address and hours.
+- **No phone number** [owner, 2026-10-01]: the number the old website listed, 919.346.8333, is Josh Butler's cell, so it was removed from every page: the contact band, Contact (the Call card), the footer, the phone menu, Josh's profile, the Work with Axis pages, News, form error messages and the search-engine data. Email, address, hours and fax remain.
 - **Tagline** in footer: "Renewable Solutions | Reliable Partners" [deck].
 - **Recognition line:** "Solar Power World Top Solar Contractor 2021–2026" [SPW].
-- Decisions: keep Josh Butler as the named phone contact? · Keep the fax number? · Response-time promise "within one business day" [new] — OK?
+- Decisions: list a main office phone line (none is shown now)? · Keep the fax number? · Response-time promise "within one business day" [new] — OK?
 
 ## Home
 
-Changed after the 2026-09-30 team review: the page is now the hero and the footprint map, followed by the contact band. The teaser sections (stats strip, partnership statement with the spotlight card, services overview, featured projects, Why Axis teaser, recognition and testimonial, latest news) were removed; their content still lives on Services, Projects, Why Axis, About and News.
+Changed after the 2026-09-30 team review: the page is now the hero and the footprint map, then (since 2026-10-01) the employee-ownership section, followed by the contact band. The teaser sections (stats strip, partnership statement with the spotlight card, services overview, featured projects, Why Axis teaser, recognition and testimonial, latest news) were removed; their content still lives on Services, Projects, Why Axis, About and News.
 
-1. Hero: "The Power of Partnership" [live] / "Solar, battery storage and microgrids built for performance." [owner, 2026-09-30]; buttons Request a quote · See our work; a carousel of real project photos, each captioned with the project name and linking to its page; three highlight bubbles that link to Projects (150 MW+ solar constructed), About (100% employee-owned) and News (Top Solar Contractor 2021–2026); trust strip (employee-owned, 1910 Legacy, Top Solar Contractor, Holly Springs), hidden on phones because the bubbles carry the same facts. The carousel shows the photos sharp enough for its size, today the three 2026 abstract photos; the others join automatically when their originals are supplied. **Decision:** the 150 MW+ basis (see Why Axis stats).
+1. Hero: "The Power of Partnership" [live] / "Solar, battery storage and microgrids built for performance." [owner, 2026-09-30]; buttons Work with Axis · See our work; a carousel of real project photos, each captioned with the project name and linking to its page; three highlight bubbles that link to Projects (150 MW+ solar constructed), About (100% employee-owned) and Why Axis (Top Solar Contractor 2021–2026, opening at By the numbers, where the recognition is stated) [owner, 2026-10-01]; trust strip (employee-owned, 1910 Legacy, Top Solar Contractor, Holly Springs), hidden on phones because the bubbles carry the same facts. The carousel shows the photos sharp enough for its size, today the three 2026 abstract photos; the others join automatically when their originals are supplied. **Decision:** the 150 MW+ basis (see Why Axis stats).
 2. Footprint map "Projects nationwide. O&M close to home." [owner, 2026-09-30]: headquarters pin in Holly Springs; North Carolina, South Carolina, Georgia and Virginia in green as the O&M and technical services footprint; every other state in the lower 48 in blue as the project footprint; Alaska and Hawaii in grey; a white push pin at every town with a completed project (no names, links or details; unpublished projects included as unlabelled pins). **Decisions:** confirm the two footprints and the wording; confirm unpublished projects may appear as unlabelled pins.
+3. A company of owners [moved from Why Axis, owner 2026-10-01]: Josh Butler's employee-ownership quote [brochure] beside the "100% employee-owned through the 1910 Legacy Enterprises Employee Stock Ownership Plan" card [deck], under the map.
 
 ## Services
 
@@ -52,8 +54,12 @@ Changed after the 2026-09-30 review: the filters and the project list table are 
 
 ## Why Axis
 
-- Six pillars [live, verbatim]; Josh Butler ownership quote [brochure]; stats + Solar Power World rankings table; O&M excellence block [live]; safety statement [live]; testimonial.
-- Decisions: any pillar wording to refresh (e.g., "throughout the Southeast" now understates the footprint)?
+Reworked on 2026-10-01 [owner]. The page is now:
+
+- **Total project peace of mind [placeholder]:** six numbered, blank cards. Axis is writing a new title and description for each; they go in `src/data/pillars.ts` (`title`, `body` and an optional icon), one entry per card. The preview shows the blank cards; a production build leaves out any card without copy, and the whole section if none has any, and warns in the build log. The six previous cards [live] were Total Solution · Strong Financial Position · Superior Quality · Bench Strength · Skin in the Game · Outstanding Safety; their full wording is in the git history (`src/data/pillars.ts` before 2026-10-01). **Decision:** the six new titles and descriptions.
+- **By the numbers:** the five stat cards with their count-up (150 MW+ · 30 MWh · 28 projects · 9 states · 5 O&M sites) [deck] and the line "Recognized nationally by Solar Power World as a Top Solar Contractor every year we have submitted since 2021." [SPW]. The year-by-year rankings list was removed. **Decision:** the 150 MW+ basis (see `docs/FACTS.md`).
+- **Outstanding safety:** the safety statement and superintendent line [live], then a **safety partners graphic** in place of the TJ Murphy testimonial: the Avetta, Veriforce and ISNetworld logos over an Axis project photo (the Walnut Grove microgrid site) blended into the brand navy, headed "Our safety program is graded by the industry's contractor platforms", with the line "Owners use Avetta, Veriforce and ISNetworld to verify a contractor's safety record, insurance and training before work begins." [new]. Each logo is that company's own version for dark backgrounds, taken from its website on 2026-10-01 and shown at full strength; only the photo is toned down. **Decisions:** confirm Axis's current standing with all three platforms and the "graded by" wording; check each platform's logo usage terms (ask the account contacts).
+- Removed: the O&M excellence section and the testimonial. The employee-ownership section moved to the home page.
 
 ## About
 
@@ -67,7 +73,7 @@ Trimmed on 2026-10-01 [owner]: the mission and vision (with the four values), "O
 ## Leadership and profile
 
 - Leadership is its own page under About (`/about/leadership/`, the only item in the About dropdown) [owner, 2026-10-01]; the old `/leadership/` address redirects there.
-- One profile, Josh Butler, President [live bio verbatim]. Contact buttons (email, LinkedIn, phone).
+- One profile, Josh Butler, President [live bio verbatim]. Contact buttons: email and LinkedIn (the phone button left with his cell number, 2026-10-01).
 - **Decision:** expand the page? The December 2024 org chart in the deck lists a General Manager, Preconstruction Manager, Director of Projects, Quality Manager, Construction Manager, O&M Technician and two Project Managers. Adding people needs their consent, current titles and headshots. Also: a new headshot for Josh (the current one is 500 px from 2017).
 
 ## News
@@ -77,12 +83,22 @@ Rebuilt on 2026-10-01 [owner]: the Top Solar Contractor rankings column and the 
 - **LinkedIn feed [draft]:** News shows the latest posts from the Axis Energy LinkedIn page: each card has the post's photo, its headline or opening lines and the date, and opens the post on LinkedIn. Only posts Axis publishes itself appear; posts that tag Axis and reposts are left out. Until the feed is connected the preview shows three cards marked "Sample" and a note; a production build shows a "Follow Axis on LinkedIn" panel instead.
 - **To connect it** (docs/HANDOFF.md, "LinkedIn news feed"): a page admin creates a LinkedIn developer app for the Axis Energy page, requests the Community Management API, and authorizes it; the token goes into the repository secrets. Tokens last 60 days unless LinkedIn also issues a refresh token.
 - **Decisions:** who at Axis is a page admin and can set up the LinkedIn app? Include reposts (off by default)? How many posts to show (9)?
-- The home page bubble "Top Solar Contractor 2021–2026" still opens News, as asked on 2026-09-30, but News no longer lists the rankings; they remain on Why Axis. **Decision:** keep the bubble on News or point it at Why Axis?
+- The home page bubble "Top Solar Contractor 2021–2026" now opens Why Axis [owner, 2026-10-01].
 
 ## Careers
 
 - Intro [live verbatim], split: the first sentence in the header, the second introducing Open positions, which now comes first on the page. "Important things to note", EEO and recruiter policy [live verbatim]. Why-Axis cards (ownership, safety, growth) [new]. Values row [deck].
 - **Jobs feed [draft]:** shows three _sample_ roles in the preview. LinkedIn and Indeed have no public feed; real listings come from your ATS (Greenhouse, Lever, Workable, BambooHR or any JSON feed). **Decisions:** which system does 1910 Legacy Talent Acquisition use? What are the LinkedIn jobs and Indeed company page URLs? Should the résumé email stay careers@axis-energyinc.com?
+
+## Work with Axis: Subcontractor [draft]
+
+The prequalification form (`/work-with-axis/subcontractor/`; the old `/subcontractors/` address redirects).
+
+Six steps + review: Company · Primary contact · Capabilities (trades, states, crew size, self-perform %, union status, MW completed) · Licensing & insurance (licences, GL, umbrella, auto, workers' comp, bonding) · Safety (EMR 3 yrs, TRIR, DART, fatalities, written program, drug testing, OSHA 10/30 %, NFPA 70E) · Experience & references + certification checkbox.
+
+Documents are **requested by secure email after review** (COI, W-9, safety program, EMR letter, OSHA 300A logs, licences, references) rather than uploaded through the form.
+
+**Decisions:** does this match the vetting process the team runs today? Minimum thresholds (EMR ≤ 1.0?) to state up front? Should documents be uploaded in-form (needs a paid form plan)? Who owns the intake?
 
 ## Work with Axis: Developer/Project Owner [draft]
 
@@ -96,19 +112,9 @@ Three steps + review:
 
 **Decisions:** fields to add/remove (e.g., utility territory, interconnection queue position, NDA needed); who receives submissions; which form service to use; response-time promise.
 
-## Work with Axis: Subcontractor [draft]
-
-The prequalification form (`/work-with-axis/subcontractor/`; the old `/subcontractors/` address redirects).
-
-Six steps + review: Company · Primary contact · Capabilities (trades, states, crew size, self-perform %, union status, MW completed) · Licensing & insurance (licences, GL, umbrella, auto, workers' comp, bonding) · Safety (EMR 3 yrs, TRIR, DART, fatalities, written program, drug testing, OSHA 10/30 %, NFPA 70E) · Experience & references + certification checkbox.
-
-Documents are **requested by secure email after review** (COI, W-9, safety program, EMR letter, OSHA 300A logs, licences, references) rather than uploaded through the form.
-
-**Decisions:** does this match the vetting process the team runs today? Minimum thresholds (EMR ≤ 1.0?) to state up front? Should documents be uploaded in-form (needs a paid form plan)? Who owns the intake?
-
 ## Contact
 
-- Cards (visit, call, email, hours) [live]; the form mirrors the live fields (Name*, Email*, Phone, Subject*, Message*). Google Maps link instead of an embed.
+- Cards (visit, email, hours) [live]; the Call card left with the phone number (2026-10-01); the form mirrors the live fields (Name*, Email*, Phone, Subject*, Message*). Google Maps link instead of an embed.
 - Decision: add an embedded map?
 
 ## Not yet on the site (ideas parked for the meeting)

@@ -23,12 +23,12 @@ export const company = {
       'https://www.google.com/maps/search/?api=1&query=100+Newspaper+Way+Suite+105+Holly+Springs+NC+27540',
     geo: { lat: 35.6513, lng: -78.8336 }, // Holly Springs, NC (town centre; refine with exact pin)
   },
-  phone: { display: '919.346.8333', tel: '+19193468333' },
+  // No phone number is published: the number on the old site was Josh Butler's cell
+  // (owner, 2026-10-01). Add a main office line here if Axis wants one listed.
   fax: { display: '919.285.2581' },
   email: 'info@axis-energyinc.com',
   careersEmail: 'careers@axis-energyinc.com',
   hours: '7:30 am – 4:30 pm, Monday to Friday', // live site lists 7:30 am – 4:30 pm
-  primaryContact: { name: 'Josh Butler', title: 'President' },
   linkedin: 'https://www.linkedin.com/company/axis-energy-inc',
   statesServed: ['NC', 'SC', 'GA', 'VA', 'TN', 'KY', 'MS', 'AR', 'PA', 'CO', 'TX'], // deck + SPW submissions
   /** O&M and technical services footprint (owner, 2026-09-30 team review). */

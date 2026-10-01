@@ -13,29 +13,29 @@ import { href } from '@lib/href';
 
 const options = [
   {
-    label: 'Developer/Project Owner',
-    href: routes.projectRequest,
-    icon: 'lucide:briefcase',
-    body: 'Tell us about your solar, storage, microgrid, electrical or O&M project. We follow up within one business day.',
-    action: 'Start a project request',
-  },
-  {
     label: 'Subcontractor',
     href: routes.subcontractor,
     icon: 'lucide:hard-hat',
     body: 'Prequalify your company for upcoming civil, mechanical and electrical scopes on Axis projects.',
     action: 'Start prequalification',
   },
+  {
+    label: 'Developer/Project Owner',
+    href: routes.projectRequest,
+    icon: 'lucide:briefcase',
+    body: 'Tell us about your solar, storage, microgrid, electrical or O&M project. We follow up within one business day.',
+    action: 'Start a project request',
+  },
 ];
 const description =
-  'Work with Axis Energy: developers and project owners can request a proposal, and subcontractors can start prequalification.';
+  'Work with Axis Energy: subcontractors can start prequalification, and developers and project owners can request a proposal.';
 ---
 
 <BaseLayout title={workWithAxis.label} {description}>
   <PageHero
     eyebrow={workWithAxis.label}
     title="Work with Axis"
-    lead="Bring us your next project, or join the trade partners who build it with us."
+    lead="Join the trade partners who build with us, or bring us your next project."
     photo={heroes.workWithAxis}
     crumbs={[{ label: workWithAxis.label, href: routes.workWithAxis }]}
   />

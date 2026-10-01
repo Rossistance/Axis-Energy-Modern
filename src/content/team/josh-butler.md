@@ -3,7 +3,6 @@ name: "Josh Butler"
 title: "President"
 email: "jbutler@axis-energyinc.com"
 linkedin: "https://www.linkedin.com/in/joshuawbutler/"
-phone: "919.346.8333"
 photo: ../../assets/team/josh-butler.webp
 photoAlt: "Portrait of Josh Butler, President of Axis Energy"
 summary: "Josh Butler is the President of Axis Energy, Inc. A former Commissioned Officer in the United States Coast Guard and a Project Management Professional since 2014, he led the launch of Axis Energy as the newest subsidiary of 1910 Legacy Enterprises in 2017."
