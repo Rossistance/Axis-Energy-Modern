@@ -19,17 +19,14 @@ test('the diagram reads top to bottom like the owner’s example', async ({ page
   await page.goto('');
   const d = diagram(page);
   await expect(d.locator('h1')).toHaveText('The Power of Partnership');
-  const services = d.locator('.partnership__services a');
-  await expect(services).toHaveText(['Solar', 'Battery Storage', 'Microgrids']);
-  await expect(services.nth(0)).toHaveAttribute('href', /\/services\/solar-epc\/$/);
-  await expect(services.nth(1)).toHaveAttribute(
-    'href',
-    /\/services\/battery-storage-and-microgrids\/$/,
-  );
-  await expect(services.nth(2)).toHaveAttribute(
-    'href',
-    /\/services\/battery-storage-and-microgrids\/$/,
-  );
+  // Four services, as plain labels for now (owner, 2026-10-01).
+  await expect(d.locator('.partnership__services li')).toHaveText([
+    'Solar',
+    'Battery Storage',
+    'Microgrids',
+    'Asset Management',
+  ]);
+  await expect(d.locator('.partnership__services a')).toHaveCount(0);
   await expect(d.locator('.partnership__built')).toHaveText('Performance built');
   await expect(d.locator('.partnership__for')).toHaveText('for');
 
@@ -86,7 +83,7 @@ for (const width of [390, 1024]) {
     const services = await diagram(page)
       .locator('.partnership__services li')
       .evaluateAll((els) => els.map((el) => Math.round(el.getBoundingClientRect().top)));
-    expect(new Set(services).size, 'Solar | Battery Storage | Microgrids on one line').toBe(1);
+    expect(new Set(services).size, 'the four services sit two by two').toBe(2);
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     expect(scrollWidth).toBeLessThanOrEqual(width);
   });
@@ -142,3 +139,14 @@ test('on phones the top pair hangs from the curves and each bottom card from the
   const b = await boxes(page);
   expect(b[2].y - (b[0].y + b[0].height)).toBeGreaterThanOrEqual(20);
 });
+
+for (const width of [768, 1280, 1440]) {
+  test(`at ${width}px the four services fit on one line`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('');
+    const tops = await diagram(page)
+      .locator('.partnership__services li')
+      .evaluateAll((els) => els.map((el) => Math.round(el.getBoundingClientRect().top)));
+    expect(new Set(tops).size).toBe(1);
+  });
+}

@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 
 /**
  * About and News after the 2026-10-01 review: About keeps its history and family of
- * companies, Leadership is its own page under About, and News is the LinkedIn post feed.
+ * companies, with employee ownership after the history; Leadership is its own page under
+ * About, and News is the LinkedIn post feed.
  */
 
 test('About keeps history and the family of companies, and drops the other sections', async ({
@@ -24,6 +25,30 @@ test('About keeps history and the family of companies, and drops the other secti
   ]) {
     await expect(main.getByText(text, { exact: true }), text).toHaveCount(0);
   }
+});
+
+test('A company of owners follows the history on About', async ({ page }) => {
+  await page.goto('about/');
+  const ids = await page
+    .locator('main > section')
+    .evaluateAll((els) => els.map((el) => el.id || el.getAttribute('aria-labelledby')));
+  expect(ids.slice(1)).toEqual(['history-title', 'employee-owned', 'family-title']);
+  const owners = page.locator('#employee-owned');
+  await expect(owners.locator('h2')).toHaveText('A company of owners');
+  await expect(owners.locator('blockquote')).toContainText('a company of owners');
+  await expect(owners.locator('figcaption')).toContainText('Josh Butler, President, Axis Energy');
+  await expect(owners.locator('.owners__card')).toContainText('100% employee-owned');
+});
+
+test('each family company links to its own website', async ({ page }) => {
+  await page.goto('about/');
+  const cards = page.locator('a.family');
+  await expect(
+    cards.filter({ has: page.locator('h3', { hasText: '1910 Legacy' }) }),
+  ).toHaveAttribute('href', 'https://www.1910legacy.com');
+  await expect(
+    cards.filter({ has: page.locator('h3', { hasText: 'White Electrical' }) }),
+  ).toHaveAttribute('href', 'https://www.white-electrical.com');
 });
 
 test('Leadership is its own page under About us', async ({ page }) => {

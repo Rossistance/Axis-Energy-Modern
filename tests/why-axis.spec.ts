@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 /**
  * Why Axis (2026-10-01): six placeholder cards awaiting new copy, the stat cards without the
  * rankings list, no O&M excellence section, and the safety partners graphic in place of the
- * testimonial. Employee ownership moved to the home page.
+ * testimonial. Employee ownership moved to About.
  */
 
 test('the six "Total project peace of mind" cards are placeholders', async ({ page }) => {
@@ -40,7 +40,7 @@ test('the O&M excellence section and the testimonials are gone', async ({ page }
   expect(text).not.toMatch(/O&M excellence/i);
   expect(text).not.toContain('TJ Murphy');
   expect(text).not.toContain('Environomics');
-  // Employee ownership now lives on the home page.
+  // Employee ownership now lives on About.
   await expect(page.locator('#employee-owned, .owners')).toHaveCount(0);
 });
 

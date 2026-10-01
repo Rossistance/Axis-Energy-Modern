@@ -2,7 +2,6 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import FootprintMap from '@components/FootprintMap.astro';
-import EmployeeOwned from '@components/EmployeeOwned.astro';
 import PartnershipDiagram from '@components/PartnershipDiagram.astro';
 import { rankings } from '@data/stats';
 import { absoluteUrl } from '@lib/href';
@@ -54,6 +53,4 @@ const jsonLd = [
   </Hero>
 
   <FootprintMap />
-
-  <EmployeeOwned />
 </BaseLayout>

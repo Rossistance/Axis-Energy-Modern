@@ -3,6 +3,7 @@ import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import HeritageTimeline from '@components/HeritageTimeline.astro';
+import EmployeeOwned from '@components/EmployeeOwned.astro';
 import { heroes } from '@data/heroes';
 import { company } from '@data/company';
 
@@ -42,7 +43,9 @@ const description =
     </div>
   </section>
 
-  <section class="section band-alt" aria-labelledby="family-title">
+  <EmployeeOwned />
+
+  <section class="section" aria-labelledby="family-title">
     <div class="container split">
       <div data-reveal>
         <p class="eyebrow">Family of companies</p>

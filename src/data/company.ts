@@ -12,7 +12,8 @@ export const company = {
   },
   sister: {
     name: 'White Electrical Construction Company',
-    url: 'https://www.1910legacy.com',
+    // White Electrical's own site, as linked from 1910legacy.com (checked 2026-10-01).
+    url: 'https://www.white-electrical.com',
   },
   address: {
     street: '100 Newspaper Way, Suite 105',

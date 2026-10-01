@@ -109,6 +109,8 @@ test('each service view shows the projects that fit the service', async ({ page 
 
 test('project cards are compact: four to a row, no summary paragraph', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
+  // Measure the settled layout: the cards' reveal animation shifts them while it runs.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('projects/');
   const cards = page.locator('.type-group .project-card');
   await expect(cards.first().locator('.project-card__summary')).toHaveCount(0);

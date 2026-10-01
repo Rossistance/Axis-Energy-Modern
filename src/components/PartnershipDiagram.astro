@@ -1,8 +1,8 @@
 ---
 /**
- * Home page headline as the owner's diagram (2026-10-01): "The Power of Partnership", the
- * three things Axis builds, "Performance built for" and the four markets it serves. The
- * services link to their service pages and each market card to its section of the Markets
+ * Home page headline as the owner's diagram (2026-10-01): "The Power of Partnership", what
+ * Axis does, "Performance built for" and the four markets it serves. The services are plain
+ * labels for now (owner, 2026-10-01); each market card opens its section of the Markets
  * page.
  *
  * The branches are SVG curves fanning out from one node under "for" to a chevron above each
@@ -13,14 +13,10 @@
  * two-by-two grid.
  */
 import { projectMarkets, marketPath } from '@data/project-markets';
-import { servicePath } from '@data/services';
 import { href } from '@lib/href';
 
-const services = [
-  { label: 'Solar', href: servicePath('solar-epc') },
-  { label: 'Battery Storage', href: servicePath('battery-storage-and-microgrids') },
-  { label: 'Microgrids', href: servicePath('battery-storage-and-microgrids') },
-];
+/** Labels, not links, for now: four across when they fit, two by two when not. */
+const services = ['Solar', 'Battery Storage', 'Microgrids', 'Asset Management'];
 
 /** "Electric Co-ops & Utilities" → ["Electric Co-ops", "Utilities"], set on separate lines. */
 const markets = projectMarkets.map((m) => ({
@@ -53,11 +49,9 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
     The Power of Partnership
   </h1>
 
-  <ul class="partnership__services" aria-label="What we build">
-    {services.map((s) => (
-      <li>
-        <a href={href(s.href)}>{s.label}</a>
-      </li>
+  <ul class="partnership__services" aria-label="What we do">
+    {services.map((label) => (
+      <li>{label}</li>
     ))}
   </ul>
 
@@ -146,45 +140,31 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
     line-height: 1.05;
   }
 
-  /* SOLAR | BATTERY STORAGE | MICROGRIDS */
+  /* SOLAR | BATTERY STORAGE | MICROGRIDS | ASSET MANAGEMENT, between thin rules. */
   .partnership__services {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
     justify-content: center;
+    row-gap: 0.4rem;
     margin: clamp(1rem, 2.4vw, 1.4rem) 0 0;
     padding: 0;
   }
 
   .partnership__services li {
-    padding: 0.15rem clamp(0.7rem, 2.2cqi, 1.3rem);
+    padding: 0.45rem clamp(0.55rem, 1.8cqi, 1rem);
     border-left: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    font-size: clamp(0.7rem, 2.25cqi, 0.86rem);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .partnership__services li:last-child {
     border-right: 1px solid rgba(255, 255, 255, 0.35);
-  }
-
-  .partnership__services a {
-    display: inline-block;
-    padding-block: 0.3rem;
-    color: #fff;
-    font-size: clamp(0.78rem, 0.7rem + 0.35vw, 0.92rem);
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-decoration: underline;
-    text-decoration-color: rgba(158, 237, 230, 0.55);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.35em;
-    transition:
-      color var(--dur-1, 150ms) ease,
-      text-decoration-color var(--dur-1, 150ms) ease;
-  }
-
-  .partnership__services a:hover {
-    color: var(--aqua-200);
-    text-decoration-color: var(--aqua-400);
   }
 
   /* PERFORMANCE BUILT, between two rules that fade at the ends. */
@@ -375,15 +355,14 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
     }
   }
 
-  /* Phones: keep SOLAR | BATTERY STORAGE | MICROGRIDS on one line. */
-  @container (max-width: 419px) {
-    .partnership__services li {
-      padding-inline: 0.55rem;
+  /* Narrow column: the four services sit two by two, their rules lined up. */
+  @container (max-width: 499px) {
+    .partnership__services {
+      grid-template-columns: repeat(2, auto);
     }
 
-    .partnership__services a {
-      font-size: 0.74rem;
-      letter-spacing: 0.08em;
+    .partnership__services li:nth-child(2n) {
+      border-right: 1px solid rgba(255, 255, 255, 0.35);
     }
   }
 
