@@ -134,7 +134,7 @@ const jsonLd = [
   .profile-hero {
     position: relative;
     overflow: hidden;
-    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
+    padding-block: var(--page-hero-pad-top) var(--page-hero-pad-bottom);
   }
 
   .profile-hero__bg {
@@ -162,7 +162,7 @@ const jsonLd = [
   }
 
   .profile-hero__photo {
-    width: min(300px, 60vw);
+    width: min(200px, 44vw);
     aspect-ratio: 1;
     border-radius: var(--r-xl);
     overflow: hidden;
@@ -178,7 +178,7 @@ const jsonLd = [
 
   .profile-hero h1 {
     color: #fff;
-    font-size: var(--h1-sm);
+    font-size: var(--h1-page);
   }
 
   .profile-hero__title {
@@ -188,7 +188,7 @@ const jsonLd = [
   }
 
   .profile-hero__actions {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
 
   .profile-body {

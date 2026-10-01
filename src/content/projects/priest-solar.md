@@ -2,6 +2,7 @@
 title: "Priest Solar"
 city: "Council"
 state: NC
+coordinates: { lat: 34.431, lon: -78.4461 }
 sizeMwdc: 2.68
 year: 2020
 commissioned: "2020-03-30"

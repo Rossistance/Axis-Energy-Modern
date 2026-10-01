@@ -2,6 +2,7 @@
 title: "Enersys Solar"
 city: "Reading"
 state: PA
+coordinates: { lat: 40.3356, lon: -75.9269 }
 sizeMwdc: 5.215
 year: 2024
 commissioned: "2024"

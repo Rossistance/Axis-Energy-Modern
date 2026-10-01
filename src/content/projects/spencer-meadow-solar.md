@@ -2,6 +2,7 @@
 title: "Spencer Meadow Solar"
 city: "Asheboro"
 state: NC
+coordinates: { lat: 35.7079, lon: -79.8136 }
 sizeMwdc: 2.651
 year: 2020
 commissioned: "2020-12-31"

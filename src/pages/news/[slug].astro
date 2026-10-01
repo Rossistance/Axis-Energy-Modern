@@ -156,7 +156,7 @@ const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
   .article-hero {
     position: relative;
     overflow: hidden;
-    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
+    padding-block: var(--page-hero-pad-top) var(--page-hero-pad-bottom);
   }
 
   .article-hero__art {
@@ -177,7 +177,7 @@ const linkedinShare = `https://www.linkedin.com/sharing/share-offsite/?url=${enc
 
   .article-hero h1 {
     color: #fff;
-    font-size: clamp(2rem, 1.4rem + 2.2vw, 3.2rem);
+    font-size: var(--h1-page);
   }
 
   .article-hero__meta {

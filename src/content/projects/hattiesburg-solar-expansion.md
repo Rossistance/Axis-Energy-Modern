@@ -2,6 +2,7 @@
 title: "Hattiesburg Solar Expansion"
 city: "Hattiesburg"
 state: MS
+coordinates: { lat: 31.3271, lon: -89.2903 }
 sizeMwdc: 3.974
 year: 2023
 commissioned: "2023-12-15"

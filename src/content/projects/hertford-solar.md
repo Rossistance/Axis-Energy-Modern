@@ -2,6 +2,7 @@
 title: "Hertford Solar"
 city: "Ahoskie"
 state: NC
+coordinates: { lat: 36.2868, lon: -76.9847 }
 sizeMwdc: 13.974
 year: 2021
 commissioned: "2021-12-22"

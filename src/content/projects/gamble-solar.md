@@ -2,6 +2,7 @@
 title: "Gamble Solar"
 city: "Bostic"
 state: NC
+coordinates: { lat: 35.3618, lon: -81.8362 }
 sizeMwdc: 4.766
 year: 2020
 commissioned: "2020-04-01"

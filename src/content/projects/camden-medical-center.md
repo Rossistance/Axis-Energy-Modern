@@ -2,6 +2,7 @@
 title: "Camden Medical Center"
 city: "Camden"
 state: AR
+coordinates: { lat: 33.5845, lon: -92.8343 }
 sizeMwdc: 1.299
 year: 2021
 commissioned: "2021-12-23"

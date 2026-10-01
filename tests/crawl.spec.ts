@@ -20,6 +20,11 @@ test('sitemap lists every route', () => {
     'subcontractors/',
     'team/josh-butler/',
     'project/north-carolina-utility-scale-portfolio/',
+    'services/solar-epc/',
+    'services/battery-storage-and-microgrids/',
+    'services/electrical-infrastructure-and-commissioning/',
+    'services/om-and-technical-services/',
+    'services/om-and-technical-services/repowering/',
   ]) {
     expect(paths).toContain(p);
   }

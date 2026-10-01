@@ -2,6 +2,7 @@
 title: "Centerpoint School District"
 city: "Amity"
 state: AR
+coordinates: { lat: 34.2662, lon: -93.4646 }
 sizeMwdc: 1.008
 year: 2020
 commissioned: "2020-12-28"

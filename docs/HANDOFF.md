@@ -84,7 +84,7 @@ Old WordPress paths and their new homes:
 | `/solar-could-provide-25-of-the-worlds-energy-by-2050/` | `/news/solar-could-provide-25-of-the-worlds-energy-by-2050/` |
 | `/sitemap.xml`                                          | `/sitemap-index.xml`                                         |
 
-All other pages keep their paths (`/services/`, `/projects/`, `/why-axis/`, `/about/`, `/leadership/`, `/news/`, `/careers/`, `/contact/`, `/project/<slug>/`, `/team/josh-butler/`).
+All other pages keep their paths (`/services/`, `/projects/`, `/why-axis/`, `/about/`, `/leadership/`, `/news/`, `/careers/`, `/contact/`, `/project/<slug>/`, `/team/josh-butler/`). New pages: `/request-a-quote/`, `/subcontractors/`, the four service pages `/services/solar-epc/`, `/services/battery-storage-and-microgrids/`, `/services/electrical-infrastructure-and-commissioning/`, `/services/om-and-technical-services/`, and the O&M offering pages under `/services/om-and-technical-services/<offering>/`.
 
 ## 7. Cut-over checklist
 

@@ -1,0 +1,178 @@
+---
+/**
+ * O&M and technical services offerings. Placeholder pages for now: the preview build marks
+ * them as drafts until Axis supplies the full description, photos and examples.
+ */
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import heroArt from '@assets/hero/hero-services.png';
+import { company } from '@data/company';
+import {
+  omOfferings,
+  servicePages,
+  servicePath,
+  offeringPath,
+  OM_PAGE_SLUG,
+  type ServiceOffering,
+} from '@data/services';
+import { stateName } from '@lib/format';
+import { href } from '@lib/href';
+
+export function getStaticPaths() {
+  return omOfferings.map((offering) => ({ params: { slug: offering.slug }, props: { offering } }));
+}
+
+const { offering } = Astro.props as { offering: ServiceOffering };
+const omPage = servicePages.find((p) => p.slug === OM_PAGE_SLUG)!;
+const others = omOfferings.filter((o) => o.slug !== offering.slug);
+const preview = (import.meta.env.PUBLIC_SITE_MODE ?? 'preview') !== 'production';
+const names = company.omStates.map(stateName);
+const area = `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+---
+
+<BaseLayout title={offering.title} description={offering.summary}>
+  <PageHero
+    eyebrow={omPage.title}
+    title={offering.title}
+    lead={offering.summary}
+    art={heroArt}
+    crumbs={[
+      { label: 'Services', href: '/services/' },
+      { label: omPage.title, href: servicePath(OM_PAGE_SLUG) },
+      { label: offering.title, href: offeringPath(offering.slug) },
+    ]}
+  />
+
+  <section class="section section--sm" aria-labelledby="included-title">
+    <div class="container">
+      {preview && (
+        <p class="draft-note" role="note">
+          <Icon name="lucide:file-pen-line" />
+          <span>
+            <strong>Placeholder page.</strong> Axis will supply the full description, photos and
+            examples for this service before launch.
+          </span>
+        </p>
+      )}
+      <div class="offering">
+        <div class="card offering__main" data-reveal>
+          <h2 id="included-title">What’s included</h2>
+          <ul class="list-check">
+            {offering.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+        <aside class="card offering__aside" data-reveal aria-labelledby="area-title">
+          <div class="icon-tile">
+            <Icon name="lucide:map-pin" />
+          </div>
+          <h2 id="area-title">Service area</h2>
+          <p>Our O&M and technical services teams support owners in {area}.</p>
+          <a class="btn btn--primary" href={href('/request-a-quote/')}>
+            Request service
+          </a>
+          <a class="link-arrow" href={href(servicePath(OM_PAGE_SLUG))}>
+            All O&M and technical services <Icon name="lucide:arrow-right" class="icon" />
+          </a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="others-title">
+    <div class="container">
+      <SectionHeading eyebrow={omPage.title} title="Other services" id="others-title" />
+      <div class="grid grid--3" data-reveal-group>
+        {others.map((o) => (
+          <a class="card card--lift offering-card" href={href(offeringPath(o.slug))}>
+            <h3>{o.title}</h3>
+            <p>{o.summary}</p>
+            <span class="link-arrow">
+              Learn more <Icon name="lucide:arrow-right" class="icon" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .draft-note {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    margin: 0 0 1.5rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px dashed #c7a447;
+    border-radius: var(--r-md);
+    background: #fff8e1;
+    color: #5c4a12;
+    font-size: var(--text-sm);
+  }
+
+  .draft-note :global(svg) {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 0.1rem;
+  }
+
+  .offering {
+    display: grid;
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .offering {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+  }
+
+  .offering h2 {
+    font-size: 1.35rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .offering__aside {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: start;
+  }
+
+  .offering__aside h2 {
+    margin: 0.25rem 0 0;
+  }
+
+  .offering__aside p {
+    color: var(--text-muted);
+  }
+
+  .offering-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .offering-card h3 {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .offering-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .offering-card .link-arrow {
+    margin-top: auto;
+    padding-top: 0.25rem;
+    color: var(--link);
+  }
+</style>

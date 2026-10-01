@@ -2,6 +2,7 @@
 title: "Ozark Mountain Regional Public Water Authority"
 city: "Harrison"
 state: AR
+coordinates: { lat: 36.2298, lon: -93.1077 }
 sizeMwdc: 1.099
 year: 2021
 commissioned: "2021-12-23"

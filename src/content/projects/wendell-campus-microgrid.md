@@ -2,6 +2,7 @@
 title: "Wendell Campus Microgrid"
 city: "Wendell"
 state: NC
+coordinates: { lat: 35.781, lon: -78.3697 }
 sizeMwdc: 1.519
 year: 2024
 commissioned: "2024"

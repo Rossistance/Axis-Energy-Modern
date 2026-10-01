@@ -6,7 +6,8 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 
 ## Global
 
-- **Navigation:** Services · Projects · Why Axis · About (About, Leadership) · News · Careers · Contact, plus a **Request a Quote** button. Footer adds Subcontractors.
+- **Navigation:** Services (dropdown: overview, four service pages, O&M offerings) · Projects · Why Axis · About (About, Leadership) · News · Careers · Contact, plus a **Request a Quote** button. Footer adds Subcontractors and links each service page.
+- **Page headers** were made compact after the 2026-09-30 review so content shows without scrolling: smaller titles, less padding, a slim illustration panel on desktop and no illustration on phones.
 - **CTA band on every page** [live wording]: "Let's talk about your next successful renewable energy project." with phone (Josh Butler), email, address, hours.
 - **Tagline** in footer: "Renewable Solutions | Reliable Partners" [deck].
 - **Recognition line:** "Solar Power World Top Solar Contractor 2021–2026" [SPW].
@@ -14,22 +15,23 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 
 ## Home
 
-1. Hero: "The Power of Partnership" / "Renewable excellence that generates trust and value for our customers." [live]; buttons Request a quote · See our work; a carousel of real project photos (changed 2026-09-30 after the team review; replaces the illustration), each captioned with the project name and linking to its page; three highlight bubbles over the photos that link to Projects (150 MW+ solar constructed), About (100% employee-owned) and News (Top Solar Contractor 2021–2026); trust strip (employee-owned, 1910 Legacy, Top Solar Contractor, Holly Springs). The carousel shows the photos sharp enough for its size, today the three 2026 abstract photos; the others join automatically when their originals are supplied.
-2. Stats: 150 MW+ · 30 MWh · 28 projects · 9 states · 5 O&M sites [deck]. **Decision:** the deck frames 150 MW as the team's collective experience; Solar Power World lists 99 MW installed since founding. Which basis do you want to publish, and are the counts current?
-3. "One solid, reliable partner" paragraph [live, verbatim] beside the 3D logo.
-4. Services overview: EPC, O&M [live], Solar + Storage, Electrical infrastructure [SPW/deck].
-5. North Carolina Utility-Scale Portfolio spotlight card (photo, key facts, link to the case study) [live, client name withheld] + three featured project cards.
-6. Why Axis teaser (six pillars) [live].
-7. Recognition + TJ Murphy testimonial [brochure]. **Decision:** re-approve the 2018 testimonial or replace with a newer one.
-8. Latest news (two 2018 articles). **Decision:** newer news items to add?
+Changed after the 2026-09-30 team review: the page is now the hero and the footprint map, followed by the contact band. The teaser sections (stats strip, partnership statement with the spotlight card, services overview, featured projects, Why Axis teaser, recognition and testimonial, latest news) were removed; their content still lives on Services, Projects, Why Axis, About and News.
+
+1. Hero: "The Power of Partnership" [live] / "Solar, battery storage and microgrids built for performance." [owner, 2026-09-30]; buttons Request a quote · See our work; a carousel of real project photos, each captioned with the project name and linking to its page; three highlight bubbles that link to Projects (150 MW+ solar constructed), About (100% employee-owned) and News (Top Solar Contractor 2021–2026); trust strip (employee-owned, 1910 Legacy, Top Solar Contractor, Holly Springs), hidden on phones because the bubbles carry the same facts. The carousel shows the photos sharp enough for its size, today the three 2026 abstract photos; the others join automatically when their originals are supplied. **Decision:** the 150 MW+ basis (see Why Axis stats).
+2. Footprint map "Projects nationwide. O&M close to home." [owner, 2026-09-30]: headquarters pin in Holly Springs; North Carolina, South Carolina, Georgia and Virginia in green as the O&M and technical services footprint; every other state in the lower 48 in blue as the project footprint; Alaska and Hawaii in grey; a white push pin at every town with a completed project (no names, links or details; unpublished projects included as unlabelled pins). **Decisions:** confirm the two footprints and the wording; confirm unpublished projects may appear as unlabelled pins.
 
 ## Services
 
-- Hero copy [live]. Sections: EPC · O&M · Storage & electrical · Added value · Markets · How we work · Safety.
-- EPC and O&M lists merge the live site and brochure wording. O&M "scope chips" (vegetation management, module washing, monitoring, inspections, corrective maintenance) come from an internal memo — **confirm these are offered today**.
-- Storage & electrical: written from the SPW profile and deck (Tesla and LG Chem systems on completed projects). **Confirm wording** and add any manufacturer partnerships you want named.
+Restructured after the 2026-09-30 team review. The Services menu is a dropdown: Services Overview, then four service pages, with the O&M offerings listed under O&M & Technical Services.
+
+- **Overview** (`/services/`): hero [live], a card per service, markets, how we work, safety and the subcontractor card.
+- **Solar EPC:** EPC intro and engineering / procurement / construction lists [live + brochure], superintendent callout [live], how we work (6 steps) [new, edit freely], related projects.
+- **Battery Storage & Microgrids:** storage, microgrid and distributed-energy lists from the SPW profile, deck and the 2026 project abstracts; related projects are the three storage and microgrid projects. **Confirm wording** and any manufacturer partnerships to name (Tesla, LG Chem appear today).
+- **Electrical Infrastructure & Commissioning:** medium-voltage construction, testing and commissioning, storage and microgrid integration [live + abstracts], with the 1910 White Electrical heritage. **Confirm wording.**
+- **O&M & Technical Services:** O&M intro and lists [live]; service area North Carolina, South Carolina, Georgia and Virginia [owner, 2026-09-30]; six offering pages.
+- **O&M offerings, placeholder pages** (marked "Placeholder page" in the preview): Preventive Maintenance, Corrective Maintenance & 24/7 Response, Performance Monitoring & Optimization, Repowering & Rebuilds, Storm Damage Assessment & Repair, Decommissioning. Each shows a one-line summary and a short list drawn from the live site, the O&M memo and the project abstracts. **Decisions:** which offerings to keep or add, and the full copy, photos and examples for each.
+- O&M "scope chips" (vegetation management, module washing, monitoring, inspections, corrective maintenance) come from an internal memo: **confirm these are offered today**.
 - Markets: six segments [deck] + three experience groups with brochure examples (Floyd Road, Charleston Rooftop Solar, Florence Solar Array; client names withheld). **Confirm** these examples may be shown.
-- Process timeline (6 steps) [new, derived from live intro]. **Edit freely.**
 
 ## Projects
 
@@ -38,7 +40,7 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 - Published and featured first (added 2026-09-28 from the owner's updated project abstracts): Cooperative Solar and Storage Portfolio (5 NC sites, 11.7 MWdc, 22.6 MWh Tesla storage, EPC and continuous O&M), Walnut Grove Microgrid (2.751 MWdc bifacial, 5.014 MWh, islanded operation, 2023) and Wendell Campus Microgrid (1.519 MWdc solar carport, 3.916 MWh Tesla, 2024). **Client names are withheld at the owner's request** — keep them off these pages until permission is granted in writing. They lead the home page project grid and the Projects page; the Walnut Grove photo also illustrates the storage section on Services. **Decision:** completion year for the cooperative portfolio (the five 2020 NC Tesla-storage entries below appear to be its sites).
 - Photography: every photo on the site shows a named Axis project: the three images from the old website, brochure crops of Floyd Road and the Florence array, and the three abstract photos (cropped to remove the client names printed on the abstract artwork). No stock or illustrative photos are used. **Decision:** supply the original high-resolution files, and photos for any project you publish from the hidden list.
 - **Built in but hidden (32 projects from the Solar Power World submissions):** Old Plank Road, Priest, Gamble, Yadkinville, Stuttgart SD, Centerpoint SD, Camden Recycle Center / Detention Center / Highway 7 / Medical Center, Old Cedar, Ludie Brown, Hall, Spencer Meadow, Lowe Country (Tesla storage; these five appear to be the cooperative portfolio's sites, so keep them hidden), Boehringer Ingelheim carports, Central Arkansas Water, White County SD, Fountain Lake SD, Ozark Mountain RPWA, Hertford (13.97 MW), Bolivar, Hattiesburg Expansion, Clarksville I & II, Franklin, Amgen FlexBatch, North Little Rock Wastewater, Enersys, Greenville Utilities community solar, Williams Keenesburg (11.97 MW). **Decision per project:** may the client name appear? Which deserve a full case study with photos? Brownwood I & II (TX) appear on the deck map but have no data.
-- States map highlights NC, SC, GA, VA, TN, KY, MS, AR, PA, CO, TX. **Confirm TX.**
+- The states map moved to the home page as the footprint map (2026-09-30); the Request case studies button now sits beside the project list.
 - Durham Manufacturing Solar: the live page's "2000 kilowatt-hours per year" looks like a typo (likely MWh). **Confirm the figure**; the preview says "enough to power approximately 100 average-sized homes".
 
 ## Why Axis

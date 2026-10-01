@@ -2,6 +2,7 @@
 title: "Franklin Solar"
 city: "Franklin"
 state: KY
+coordinates: { lat: 36.7223, lon: -86.5772 }
 sizeMwdc: 3.5
 year: 2023
 commissioned: "2023-11-03"

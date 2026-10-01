@@ -2,6 +2,7 @@
 title: "Charleston Rooftop Solar"
 city: "Charleston"
 state: SC
+coordinates: { lat: 32.7765, lon: -79.9311 }
 sizeMwdc: 2.6
 year: 2011
 commissioned: "2011-12"

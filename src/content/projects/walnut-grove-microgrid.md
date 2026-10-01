@@ -2,6 +2,7 @@
 title: "Walnut Grove Microgrid"
 city: "Walnut Grove"
 state: MS
+coordinates: { lat: 32.5918, lon: -89.4581 }
 sizeMwdc: 2.751
 year: 2023
 commissioned: "2023"

@@ -1,0 +1,192 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { ImageMetadata } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import ServiceBlock from '@components/ServiceBlock.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ProcessTimeline from '@components/ProcessTimeline.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import heroArt from '@assets/hero/hero-services.png';
+import photoFloydRoad from '@assets/projects/floyd-road-gaston-nc.png';
+import photoWalnutGrove from '@assets/projects/walnut-grove-microgrid.jpg';
+import photoEquipmentYard from '@assets/projects/walnut-grove-microgrid-equipment-yard.jpg';
+import photoCooperative from '@assets/projects/cooperative-solar-storage-portfolio.jpg';
+import {
+  servicePages,
+  omOfferings,
+  process,
+  servicePath,
+  offeringPath,
+  OM_PAGE_SLUG,
+  type ServicePage,
+} from '@data/services';
+import { getPublishedProjects, type Project } from '@lib/projects';
+import { href } from '@lib/href';
+
+export function getStaticPaths() {
+  return servicePages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: ServicePage };
+
+const photos: Record<string, { src: ImageMetadata; alt: string; caption: string }> = {
+  'solar-epc': {
+    src: photoFloydRoad,
+    alt: 'Aerial view of the Floyd Road utility-scale solar farm near Gaston, North Carolina',
+    caption: 'Floyd Road · 6.75 MW · Gaston, NC',
+  },
+  'battery-storage-and-microgrids': {
+    src: photoWalnutGrove,
+    alt: 'Aerial view of a microgrid battery storage and medium-voltage equipment yard beside rows of tracking solar panels',
+    caption: 'Walnut Grove Microgrid · 2.751 MWdc + 5.014 MWh · Walnut Grove, MS',
+  },
+  'electrical-infrastructure-and-commissioning': {
+    src: photoEquipmentYard,
+    alt: "Overhead view of the microgrid's battery containers, inverters and medium-voltage equipment on a gravel pad",
+    caption: 'Walnut Grove Microgrid equipment yard · Walnut Grove, MS',
+  },
+  'om-and-technical-services': {
+    src: photoCooperative,
+    alt: 'Aerial view of a ground-mounted solar array and its battery storage and inverter pad in rural North Carolina',
+    caption: 'Cooperative Solar and Storage Portfolio · maintained by Axis since operations began',
+  },
+};
+
+/** Which published projects illustrate each service. */
+const related: Record<string, (p: Project) => boolean> = {
+  'solar-epc': (p) => !p.data.storageMwh && p.data.type !== 'microgrid',
+  'battery-storage-and-microgrids': (p) => !!p.data.storageMwh || p.data.type === 'microgrid',
+  'electrical-infrastructure-and-commissioning': (p) => !!p.data.scope?.length,
+  'om-and-technical-services': (p) => p.data.role.includes('O&M'),
+};
+const projects = (await getPublishedProjects()).filter(related[page.slug]).slice(0, 3);
+const others = servicePages.filter((p) => p.slug !== page.slug);
+const isOm = page.slug === OM_PAGE_SLUG;
+---
+
+<BaseLayout title={page.title} description={page.summary}>
+  <PageHero
+    eyebrow="Services"
+    title={page.title}
+    lead={page.lead}
+    art={heroArt}
+    crumbs={[
+      { label: 'Services', href: '/services/' },
+      { label: page.title, href: servicePath(page.slug) },
+    ]}
+  >
+    <div class="cluster page-hero__actions">
+      <a class="btn btn--primary" href={href('/request-a-quote/')}>
+        Request a quote
+      </a>
+    </div>
+  </PageHero>
+
+  <ServiceBlock group={page.block} photo={photos[page.slug]} />
+
+  {isOm && (
+    <section class="section band-alt" aria-labelledby="offerings-title">
+      <div class="container">
+        <SectionHeading
+          eyebrow="Technical services"
+          title="O&M and technical services offerings"
+          id="offerings-title"
+        />
+        <div class="grid grid--3" data-reveal-group>
+          {omOfferings.map((o) => (
+            <a class="card card--lift offering-card" href={href(offeringPath(o.slug))}>
+              <h3>{o.title}</h3>
+              <p>{o.summary}</p>
+              <span class="link-arrow">
+                Learn more <Icon name="lucide:arrow-right" class="icon" />
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {page.slug === 'solar-epc' && (
+    <section class="section band-alt" aria-labelledby="process-title">
+      <div class="container">
+        <SectionHeading
+          eyebrow="How we work"
+          title="One point of contact from first call to final commissioning"
+          lead="Every project runs through the same disciplined sequence, led by an Axis project manager and an experienced superintendent on site."
+          id="process-title"
+        />
+        <ProcessTimeline steps={process} />
+      </div>
+    </section>
+  )}
+
+  {projects.length > 0 && (
+    <section class="section" aria-labelledby="related-title">
+      <div class="container">
+        <SectionHeading
+          eyebrow="In the field"
+          title="Related projects"
+          id="related-title"
+          align="row"
+        >
+          <a class="btn btn--secondary" href={href('/projects/')}>
+            All projects
+          </a>
+        </SectionHeading>
+        <div class="grid grid--3" data-reveal-group>
+          {projects.map((p) => (
+            <ProjectCard project={p} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section band-alt" aria-labelledby="more-title">
+    <div class="container">
+      <SectionHeading eyebrow="Services" title="More from Axis" id="more-title" />
+      <div class="grid grid--3" data-reveal-group>
+        {others.map((o) => (
+          <a class="card card--lift offering-card" href={href(servicePath(o.slug))}>
+            <div class="icon-tile">
+              <Icon name={o.icon} />
+            </div>
+            <h3>{o.title}</h3>
+            <p>{o.summary}</p>
+            <span class="link-arrow">
+              Learn more <Icon name="lucide:arrow-right" class="icon" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .offering-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .offering-card h3 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  .offering-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .offering-card .link-arrow {
+    margin-top: auto;
+    padding-top: 0.25rem;
+    color: var(--link);
+  }
+</style>

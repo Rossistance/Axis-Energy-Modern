@@ -2,6 +2,7 @@
 title: "Williams Keenesburg"
 city: "Keenesburg"
 state: CO
+coordinates: { lat: 40.1083, lon: -104.5197 }
 sizeMwdc: 11.973
 year: 2024
 commissioned: "2024"

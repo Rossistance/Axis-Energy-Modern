@@ -4,9 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import ProjectCard from '@components/ProjectCard.astro';
-import StatesMap from '@components/StatesMap.astro';
 import heroArt from '@assets/hero/hero-projects.png';
-import { company } from '@data/company';
 import { href } from '@lib/href';
 import { formatSize, formatStorage, stateName } from '@lib/format';
 import { getPublishedProjects, portfolioTotals, TYPE_LABELS, projectLocation } from '@lib/projects';
@@ -16,8 +14,6 @@ const totals = portfolioTotals(projects);
 const types = [...new Set(projects.map((p) => p.data.type))];
 const states = [...new Set(projects.map((p) => p.data.state))].sort();
 const roles = [...new Set(projects.flatMap((p) => p.data.role))];
-const counts: Record<string, number> = {};
-projects.forEach((p) => (counts[p.data.state] = (counts[p.data.state] ?? 0) + 1));
 const description =
   'Selected Axis Energy projects: utility-scale portfolios, rooftop and carport solar, and solar + storage across the Southeast and beyond.';
 ---
@@ -28,7 +24,6 @@ const description =
     title="Excellence in Execution"
     lead="Axis Energy brings you a direct, one-to-one partnership that provides a total EPC and O&M solution. Explore a selection of the work our team has delivered for utilities, manufacturers, developers and municipalities."
     art={heroArt}
-    ratio="3 / 2"
     crumbs={[{ label: 'Projects', href: '/projects/' }]}
   >
     <ul class="totals" aria-label="Published portfolio totals">
@@ -127,7 +122,11 @@ const description =
 
   <section class="section band-alt" aria-labelledby="table-title">
     <div class="container">
-      <SectionHeading eyebrow="At a glance" title="Project list" id="table-title" />
+      <SectionHeading eyebrow="At a glance" title="Project list" id="table-title" align="row">
+        <a class="btn btn--secondary" href={href('/request-a-quote/?topic=case-studies')}>
+          Request case studies <Icon name="lucide:arrow-right" class="icon" />
+        </a>
+      </SectionHeading>
       <div class="table-wrap" data-reveal>
         <table class="table" data-sortable>
           <caption class="sr-only">
@@ -199,30 +198,12 @@ const description =
       </div>
     </div>
   </section>
-
-  <section class="section" aria-labelledby="map-title">
-    <div class="container split split--5-7">
-      <div data-reveal>
-        <p class="eyebrow">Where we build</p>
-        <h2 id="map-title">Boots on the ground across {company.statesServed.length} states</h2>
-        <p class="lead">
-          From our office in Holly Springs, North Carolina, Axis has constructed projects throughout
-          the Southeast and into the Mid-Atlantic and Mountain West —{' '}
-          {company.statesServed.map((s) => stateName(s)).join(', ')}.
-        </p>
-        <a class="btn btn--primary" href={href('/request-a-quote/?topic=case-studies')}>
-          Request case studies <Icon name="lucide:arrow-right" class="icon" />
-        </a>
-      </div>
-      <StatesMap served={company.statesServed} counts={counts} />
-    </div>
-  </section>
 </BaseLayout>
 
 <style>
   .totals {
     list-style: none;
-    margin: 1.75rem 0 0;
+    margin: 1.1rem 0 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;

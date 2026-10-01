@@ -44,6 +44,27 @@ for (const width of [390, 1280]) {
   });
 }
 
+/**
+ * Page headers stay compact so real content shows without scrolling (2026-09-30 review).
+ * Inner pages only; the home page hero holds the photo carousel.
+ */
+const HEADER_MAX: Record<number, number> = { 1280: 420, 390: 560 };
+for (const width of [1280, 390]) {
+  test(`inner page headers are no taller than ${HEADER_MAX[width]}px at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of paths.filter((p) => p !== '')) {
+      await page.goto(path);
+      const height = await page.evaluate(() => {
+        const hero = document.querySelector('main > section');
+        return hero ? hero.getBoundingClientRect().height : 0;
+      });
+      expect.soft(height, `${path} header height`).toBeLessThanOrEqual(HEADER_MAX[width]);
+    }
+  });
+}
+
 /** Visible elements inside the form that extend past the form card's edges. */
 async function escapingCard(form: Locator): Promise<string[]> {
   return form.evaluate((f) => {

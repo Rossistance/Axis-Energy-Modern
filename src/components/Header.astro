@@ -52,15 +52,34 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
               >
                 <Icon name="lucide:chevron-down" />
               </button>
-              <ul class="submenu" id={id}>
+              <ul
+                class:list={['submenu', { 'submenu--mega': item.children.some((c) => c.children) }]}
+                id={id}
+              >
                 {item.children.map((child) => (
-                  <li>
+                  <li class:list={{ submenu__group: !!child.children }}>
                     <a
                       href={href(child.href)}
                       aria-current={isActive(child.href, current, true) ? 'page' : undefined}
                     >
                       {child.label}
                     </a>
+                    {child.children && (
+                      <ul class="submenu__nested" aria-label={child.label}>
+                        {child.children.map((grandchild) => (
+                          <li>
+                            <a
+                              href={href(grandchild.href)}
+                              aria-current={
+                                isActive(grandchild.href, current, true) ? 'page' : undefined
+                              }
+                            >
+                              {grandchild.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -259,6 +278,47 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   .submenu a:hover,
   .submenu a[aria-current='page'] {
     background: var(--mist-100);
+    color: var(--brand-blue);
+  }
+
+  /* Services: the four service pages on the left, O&M offerings in their own column. */
+  .submenu--mega {
+    display: grid;
+    grid-template-columns: minmax(230px, 1fr) minmax(270px, 1fr);
+    column-gap: 0.5rem;
+    width: max-content;
+    max-width: min(620px, calc(100vw - 2rem));
+  }
+
+  .submenu--mega > li {
+    grid-column: 1;
+  }
+
+  .submenu--mega > li.submenu__group {
+    grid-column: 2;
+    grid-row: 1 / span 6;
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--line);
+  }
+
+  .submenu__group > a {
+    font-weight: 600;
+  }
+
+  .submenu__nested {
+    list-style: none;
+    margin: 0.1rem 0 0;
+    padding: 0;
+  }
+
+  .submenu .submenu__nested a {
+    padding: 0.4rem 0.75rem 0.4rem 1.35rem;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+  }
+
+  .submenu .submenu__nested a:hover,
+  .submenu .submenu__nested a[aria-current='page'] {
     color: var(--brand-blue);
   }
 

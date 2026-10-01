@@ -2,74 +2,72 @@
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
-import SubNav from '@components/SubNav.astro';
-import ServiceBlock from '@components/ServiceBlock.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import ProcessTimeline from '@components/ProcessTimeline.astro';
 import MarketsGrid from '@components/MarketsGrid.astro';
 import heroArt from '@assets/hero/hero-services.png';
-import photoFloydRoad from '@assets/projects/floyd-road-gaston-nc.png';
-import photoDurham from '@assets/projects/durham-manufacturing-solar.jpg';
-import photoWalnutGrove from '@assets/projects/walnut-grove-microgrid.jpg';
-import { serviceGroups, process, experienceGroups } from '@data/services';
+import {
+  servicePages,
+  omOfferings,
+  process,
+  experienceGroups,
+  servicePath,
+  offeringPath,
+  OM_PAGE_SLUG,
+} from '@data/services';
 import { href } from '@lib/href';
 
 const description =
-  'A total EPC and O&M solution: engineering, procurement and construction for solar and battery storage, plus 24/7 rapid response, scheduled maintenance and performance optimization.';
-const subnav = [
-  { label: 'EPC', href: '#epc' },
-  { label: 'O&M', href: '#om' },
-  { label: 'Storage & electrical', href: '#storage-electrical' },
-  { label: 'Added value', href: '#added-value' },
-  { label: 'Markets', href: '#markets' },
-  { label: 'How we work', href: '#process' },
-];
-const photos = {
-  epc: {
-    src: photoFloydRoad,
-    alt: 'Aerial view of the Floyd Road utility-scale solar farm near Gaston, North Carolina',
-    caption: 'Floyd Road · 6.75 MW · Gaston, NC',
-  },
-  om: {
-    src: photoDurham,
-    alt: 'Aerial view of a ground-mounted solar array beside a manufacturing plant in Durham, North Carolina',
-    caption: 'Durham Manufacturing Solar · 1.2 MWdc · Durham, NC',
-  },
-  'storage-electrical': {
-    src: photoWalnutGrove,
-    alt: 'Aerial view of a microgrid battery storage and medium-voltage equipment yard beside rows of tracking solar panels',
-    caption: 'Walnut Grove Microgrid · 2.751 MWdc + 5.014 MWh · Walnut Grove, MS',
-  },
-};
+  'A total EPC and O&M solution: solar EPC, battery storage and microgrids, electrical infrastructure and commissioning, and O&M and technical services.';
 ---
 
 <BaseLayout title="Services" {description}>
   <PageHero
     eyebrow="Services"
     title="A Total EPC and O&M Solution"
-    lead="Our clients enjoy great peace of mind being able to make one phone call to Axis Energy and know their renewable energy project will be executed with excellence. We take care of it all, from development and due diligence, to pre-construction and full design, through construction and commissioning."
+    lead="Our clients enjoy great peace of mind being able to make one phone call to Axis Energy and know their renewable energy project will be executed with excellence."
     art={heroArt}
     crumbs={[{ label: 'Services', href: '/services/' }]}
   >
-    <div class="cluster mt-5">
-      <a class="btn btn--primary btn--lg" href={href('/request-a-quote/')}>
+    <div class="cluster page-hero__actions">
+      <a class="btn btn--primary" href={href('/request-a-quote/')}>
         Request a quote
-      </a>
-      <a class="btn btn--secondary btn--lg" href="#epc">
-        Explore capabilities
       </a>
     </div>
   </PageHero>
 
-  <SubNav items={subnav} />
-
-  {serviceGroups.map((group, i) => (
-    <ServiceBlock
-      group={group}
-      photo={photos[group.id as keyof typeof photos]}
-      flip={i % 2 === 1}
-    />
-  ))}
+  <section class="section section--sm" aria-labelledby="services-list-title">
+    <div class="container">
+      <h2 id="services-list-title" class="sr-only">
+        Our services
+      </h2>
+      <div class="service-cards" data-reveal-group>
+        {servicePages.map((page) => (
+          <article class="card card--lift service-card">
+            <div class="icon-tile">
+              <Icon name={page.icon} />
+            </div>
+            <h3>
+              <a href={href(servicePath(page.slug))}>{page.title}</a>
+            </h3>
+            <p>{page.summary}</p>
+            {page.slug === OM_PAGE_SLUG && (
+              <ul class="service-card__offerings" aria-label="O&M and technical services">
+                {omOfferings.map((o) => (
+                  <li>
+                    <a href={href(offeringPath(o.slug))}>{o.title}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <a class="link-arrow service-card__more" href={href(servicePath(page.slug))}>
+              Explore {page.title} <Icon name="lucide:arrow-right" class="icon" />
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <section class="section band-alt" id="markets" aria-labelledby="markets-title">
     <div class="container">
@@ -134,6 +132,70 @@ const photos = {
 </BaseLayout>
 
 <style>
+  .service-cards {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 760px) {
+    .service-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .service-card h3 {
+    font-size: 1.3rem;
+    margin: 0.35rem 0 0;
+  }
+
+  .service-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .service-card h3 a:hover {
+    color: var(--brand-blue);
+  }
+
+  .service-card p {
+    color: var(--text-muted);
+  }
+
+  .service-card__offerings {
+    list-style: none;
+    margin: 0.25rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .service-card__offerings a {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--r-pill);
+    background: var(--mist-100);
+    color: var(--brand-navy);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .service-card__offerings a:hover {
+    background: var(--mist-200);
+  }
+
+  .service-card__more {
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+
   .experience {
     margin-top: 2rem;
   }

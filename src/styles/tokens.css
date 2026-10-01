@@ -66,6 +66,10 @@
   --text-xl: clamp(1.25rem, 1rem + 0.8vw, 1.45rem);
   --h1: clamp(2.5rem, 1.5rem + 3.4vw, 4.5rem);
   --h1-sm: clamp(2.1rem, 1.4rem + 2.4vw, 3.4rem);
+  /* Inner-page headers: compact so real content shows without scrolling. */
+  --h1-page: clamp(1.85rem, 1.3rem + 1.6vw, 2.6rem);
+  --page-hero-pad-top: clamp(1rem, 2vw, 1.5rem);
+  --page-hero-pad-bottom: clamp(1.4rem, 2.8vw, 2.1rem);
   --h2: clamp(1.9rem, 1.3rem + 2vw, 3rem);
   --h3: clamp(1.3rem, 1.1rem + 0.7vw, 1.6rem);
   --h4: 1.15rem;

@@ -2,6 +2,7 @@
 title: "Yadkinville Solar"
 city: "Yadkinville"
 state: NC
+coordinates: { lat: 36.1346, lon: -80.6595 }
 sizeMwdc: 4.862
 year: 2020
 commissioned: "2020-04-01"

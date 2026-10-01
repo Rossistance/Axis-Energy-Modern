@@ -2,6 +2,7 @@
 title: "Stuttgart School District"
 city: "Stuttgart"
 state: AR
+coordinates: { lat: 34.5004, lon: -91.5526 }
 sizeMwdc: 1.328
 year: 2020
 commissioned: "2020-09-01"

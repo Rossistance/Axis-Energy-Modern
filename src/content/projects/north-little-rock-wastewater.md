@@ -2,6 +2,7 @@
 title: "North Little Rock Wastewater"
 city: "North Little Rock"
 state: AR
+coordinates: { lat: 34.7695, lon: -92.2671 }
 sizeMwdc: 0.851
 year: 2023
 commissioned: "2023-01-01"

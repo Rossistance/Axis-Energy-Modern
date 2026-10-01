@@ -2,6 +2,7 @@
 title: "Hall Solar"
 city: "Teachey"
 state: NC
+coordinates: { lat: 34.766, lon: -78.0158 }
 sizeMwdc: 2.61
 year: 2020
 commissioned: "2020-12-31"

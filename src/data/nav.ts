@@ -1,3 +1,5 @@
+import { servicePages, omOfferings, servicePath, offeringPath, OM_PAGE_SLUG } from './services';
+
 export interface NavItem {
   label: string;
   href: string;
@@ -5,7 +7,21 @@ export interface NavItem {
 }
 
 export const primaryNav: NavItem[] = [
-  { label: 'Services', href: '/services/' },
+  {
+    label: 'Services',
+    href: '/services/',
+    children: [
+      { label: 'Services Overview', href: '/services/' },
+      ...servicePages.map((page) => ({
+        label: page.title,
+        href: servicePath(page.slug),
+        children:
+          page.slug === OM_PAGE_SLUG
+            ? omOfferings.map((o) => ({ label: o.title, href: offeringPath(o.slug) }))
+            : undefined,
+      })),
+    ],
+  },
   { label: 'Projects', href: '/projects/' },
   { label: 'Why Axis', href: '/why-axis/' },
   {
@@ -36,9 +52,7 @@ export const footerColumns: { title: string; items: NavItem[] }[] = [
   {
     title: 'Services',
     items: [
-      { label: 'EPC', href: '/services/#epc' },
-      { label: 'Operations & Maintenance', href: '/services/#om' },
-      { label: 'Storage & Electrical', href: '/services/#storage-electrical' },
+      ...servicePages.map((page) => ({ label: page.title, href: servicePath(page.slug) })),
       { label: 'Projects', href: '/projects/' },
     ],
   },

@@ -2,6 +2,7 @@
 title: "Detention Center Solar"
 city: "Camden"
 state: AR
+coordinates: { lat: 33.5845, lon: -92.8343 }
 sizeMwdc: 0.615
 year: 2020
 commissioned: "2020-12-23"

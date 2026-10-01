@@ -303,7 +303,7 @@ const meta = [
   .project-hero {
     position: relative;
     overflow: hidden;
-    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
+    padding-block: var(--page-hero-pad-top) var(--page-hero-pad-bottom);
   }
 
   .project-hero__art {
@@ -335,12 +335,12 @@ const meta = [
 
   .project-hero h1 {
     color: #fff;
-    font-size: var(--h1-sm);
+    font-size: var(--h1-page);
   }
 
   .project-hero__chips {
     list-style: none;
-    margin: 1.5rem 0 0;
+    margin: 1rem 0 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;

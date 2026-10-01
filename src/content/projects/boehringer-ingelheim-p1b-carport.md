@@ -2,6 +2,7 @@
 title: "Boehringer Ingelheim P1B Carport"
 city: "Gainesville"
 state: GA
+coordinates: { lat: 34.2979, lon: -83.8241 }
 sizeMwdc: 0.36
 year: 2020
 commissioned: "2020-12-27"

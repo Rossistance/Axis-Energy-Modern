@@ -2,6 +2,7 @@
 title: "Central Arkansas Water"
 city: "Cabot"
 state: AR
+coordinates: { lat: 34.9745, lon: -92.0165 }
 sizeMwdc: 4.81
 year: 2021
 commissioned: "2021-12-28"

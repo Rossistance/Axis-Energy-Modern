@@ -2,6 +2,7 @@
 title: "White County School District"
 city: "Judsonia"
 state: AR
+coordinates: { lat: 35.27, lon: -91.639 }
 sizeMwdc: 0.702
 year: 2021
 commissioned: "2021-12-23"

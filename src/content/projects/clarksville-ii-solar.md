@@ -2,6 +2,7 @@
 title: "Clarksville II Solar"
 city: "Clarksville"
 state: TN
+coordinates: { lat: 36.5298, lon: -87.3595 }
 sizeMwdc: 6.72
 year: 2023
 commissioned: "2023-12-21"

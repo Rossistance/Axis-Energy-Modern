@@ -2,6 +2,7 @@
 title: "Amgen FlexBatch"
 city: "Holly Springs"
 state: NC
+coordinates: { lat: 35.6513, lon: -78.8336 }
 sizeMwdc: 1.693
 year: 2023
 commissioned: "2023-12-05"

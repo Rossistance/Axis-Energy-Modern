@@ -2,6 +2,7 @@
 title: 'Florence Solar Array'
 city: 'Florence'
 state: SC
+coordinates: { lat: 34.1954, lon: -79.7626 }
 sizeMwdc: 1.71
 type: commercial
 role: ['EPC']

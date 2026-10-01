@@ -31,6 +31,10 @@ export const company = {
   primaryContact: { name: 'Josh Butler', title: 'President' },
   linkedin: 'https://www.linkedin.com/company/axis-energy-inc',
   statesServed: ['NC', 'SC', 'GA', 'VA', 'TN', 'KY', 'MS', 'AR', 'PA', 'CO', 'TX'], // deck + SPW submissions
+  /** O&M and technical services footprint (owner, 2026-09-30 team review). */
+  omStates: ['NC', 'SC', 'GA', 'VA'],
+  /** Projects: available in every state of the lower 48 (owner, 2026-09-30 team review). */
+  projectFootprint: 'lower 48 states',
   recognition: 'Solar Power World Top Solar Contractor 2021–2026',
 } as const;
 

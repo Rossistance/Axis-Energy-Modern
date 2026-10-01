@@ -2,6 +2,7 @@
 title: "Bolivar Solar"
 city: "Bolivar"
 state: TN
+coordinates: { lat: 35.2562, lon: -88.9878 }
 sizeMwdc: 4.74
 year: 2022
 commissioned: "2022-12-08"

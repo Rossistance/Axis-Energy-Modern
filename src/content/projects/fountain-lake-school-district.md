@@ -2,6 +2,7 @@
 title: "Fountain Lake School District"
 city: "Hot Springs"
 state: AR
+coordinates: { lat: 34.5037, lon: -93.0552 }
 sizeMwdc: 1.049
 year: 2021
 commissioned: "2021-12-28"

@@ -2,6 +2,7 @@
 title: "Ludie Brown Solar"
 city: "Chinquapin"
 state: NC
+coordinates: { lat: 34.8293, lon: -77.8189 }
 sizeMwdc: 2.61
 year: 2020
 commissioned: "2020-12-31"

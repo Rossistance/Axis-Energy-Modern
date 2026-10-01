@@ -2,6 +2,7 @@
 title: "Greenville Utilities Commission Community Solar"
 city: "Greenville"
 state: NC
+coordinates: { lat: 35.6127, lon: -77.3664 }
 sizeMwdc: 0.654
 year: 2024
 commissioned: "2024"

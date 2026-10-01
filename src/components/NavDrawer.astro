@@ -1,11 +1,14 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { primaryNav, headerCta } from '@data/nav';
+import { primaryNav, headerCta, type NavItem } from '@data/nav';
 import { company } from '@data/company';
 import { href, isActive } from '@lib/href';
 
 const current = Astro.url.pathname;
-const flat = primaryNav.flatMap((item) => (item.children ? item.children : [item]));
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+/** A group starts open when the current page is inside it. */
+const inGroup = (item: NavItem): boolean =>
+  isActive(item.href, current) || !!item.children?.some((c) => inGroup(c));
 ---
 
 <dialog id="site-drawer" class="drawer" aria-label="Site menu" data-drawer>
@@ -19,17 +22,65 @@ const flat = primaryNav.flatMap((item) => (item.children ? item.children : [item
     </div>
     <nav aria-label="Mobile">
       <ul class="drawer__list">
-        {flat.map((item) => (
-          <li>
-            <a
-              href={href(item.href)}
-              aria-current={isActive(item.href, current, true) ? 'page' : undefined}
-            >
-              {item.label}
-              <Icon name="lucide:arrow-right" />
-            </a>
-          </li>
-        ))}
+        {primaryNav.map((item) => {
+          if (!item.children) {
+            return (
+              <li>
+                <a
+                  href={href(item.href)}
+                  aria-current={isActive(item.href, current, true) ? 'page' : undefined}
+                >
+                  {item.label}
+                  <Icon name="lucide:arrow-right" />
+                </a>
+              </li>
+            );
+          }
+          const id = `drawer-${slugify(item.label)}`;
+          const open = inGroup(item);
+          return (
+            <li class="drawer__group">
+              <button
+                type="button"
+                class="drawer__expand"
+                aria-expanded={open ? 'true' : 'false'}
+                aria-controls={id}
+                data-drawer-expand
+              >
+                {item.label}
+                <Icon name="lucide:chevron-down" />
+              </button>
+              <ul class="drawer__sublist" id={id} hidden={!open}>
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={href(child.href)}
+                      aria-current={isActive(child.href, current, true) ? 'page' : undefined}
+                    >
+                      {child.label}
+                    </a>
+                    {child.children && (
+                      <ul class="drawer__nested" aria-label={child.label}>
+                        {child.children.map((grandchild) => (
+                          <li>
+                            <a
+                              href={href(grandchild.href)}
+                              aria-current={
+                                isActive(grandchild.href, current, true) ? 'page' : undefined
+                              }
+                            >
+                              {grandchild.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          );
+        })}
       </ul>
     </nav>
     <div class="drawer__cta">
@@ -148,6 +199,64 @@ const flat = primaryNav.flatMap((item) => (item.children ? item.children : [item
     color: var(--brand-blue);
   }
 
+  .drawer__expand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.9rem 0.25rem;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .drawer__expand :global(svg) {
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .drawer__expand[aria-expanded='true'] :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .drawer__sublist,
+  .drawer__nested {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .drawer__sublist {
+    padding: 0.25rem 0 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .drawer__list .drawer__sublist a {
+    padding: 0.55rem 0.25rem;
+    border-bottom: 0;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .drawer__list .drawer__nested {
+    margin: 0 0 0.35rem 0.35rem;
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--mist-200);
+  }
+
+  .drawer__list .drawer__nested a {
+    padding: 0.4rem 0.25rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+  }
+
   .drawer__list :global(svg) {
     width: 18px;
     height: 18px;
@@ -207,5 +316,13 @@ const flat = primaryNav.flatMap((item) => (item.children ? item.children : [item
       openBtn.focus();
     });
     drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => drawer.close()));
+    drawer.querySelectorAll<HTMLButtonElement>('[data-drawer-expand]').forEach((button) => {
+      const list = document.getElementById(button.getAttribute('aria-controls') ?? '');
+      button.addEventListener('click', () => {
+        const open = button.getAttribute('aria-expanded') !== 'true';
+        button.setAttribute('aria-expanded', String(open));
+        if (list) list.hidden = !open;
+      });
+    });
   }
 </script>

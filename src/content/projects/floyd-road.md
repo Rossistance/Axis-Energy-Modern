@@ -2,6 +2,7 @@
 title: 'Floyd Road'
 city: 'Gaston'
 state: NC
+coordinates: { lat: 36.4998, lon: -77.6458 }
 sizeMwdc: 6.75
 type: utility
 role: ['EPC']

@@ -2,6 +2,7 @@
 title: "Durham Manufacturing Solar"
 city: "Durham"
 state: NC
+coordinates: { lat: 35.994, lon: -78.8986 }
 sizeMwdc: 1.2
 year: 2015
 commissioned: "2015-12"

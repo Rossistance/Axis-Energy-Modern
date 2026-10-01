@@ -2,6 +2,7 @@
 title: "Old Plank Road"
 city: "Jacksonville"
 state: FL
+coordinates: { lat: 30.3322, lon: -81.6557 }
 sizeMwdc: 4.8
 year: 2020
 commissioned: "2020-01-01"
