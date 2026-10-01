@@ -6,7 +6,6 @@ import PageHero from '@components/PageHero.astro';
 import ServiceBlock from '@components/ServiceBlock.astro';
 import SectionHeading from '@components/SectionHeading.astro';
 import ProcessTimeline from '@components/ProcessTimeline.astro';
-import ProjectCard from '@components/ProjectCard.astro';
 import { heroes } from '@data/heroes';
 import photoFloydRoad from '@assets/projects/floyd-road-gaston-nc.png';
 import photoWalnutGrove from '@assets/projects/walnut-grove-microgrid.jpg';
@@ -19,10 +18,10 @@ import {
   experienceGroups,
   servicePath,
   offeringPath,
+  serviceProjectsPath,
   OM_PAGE_SLUG,
   type ServicePage,
 } from '@data/services';
-import { getPublishedProjects, type Project } from '@lib/projects';
 import { href } from '@lib/href';
 
 export function getStaticPaths() {
@@ -54,14 +53,6 @@ const photos: Record<string, { src: ImageMetadata; alt: string; caption: string 
   },
 };
 
-/** Which published projects illustrate each service. */
-const related: Record<string, (p: Project) => boolean> = {
-  'solar-epc': (p) => !p.data.storageMwh && p.data.type !== 'microgrid',
-  'battery-storage-and-microgrids': (p) => !!p.data.storageMwh || p.data.type === 'microgrid',
-  'electrical-infrastructure-and-commissioning': (p) => !!p.data.scope?.length,
-  'om-and-technical-services': (p) => p.data.role.includes('O&M'),
-};
-const projects = (await getPublishedProjects()).filter(related[page.slug]).slice(0, 3);
 const others = servicePages.filter((p) => p.slug !== page.slug);
 const isOm = page.slug === OM_PAGE_SLUG;
 ---
@@ -78,7 +69,15 @@ const isOm = page.slug === OM_PAGE_SLUG;
     ]}
   />
 
-  <ServiceBlock group={page.block} photo={photos[page.slug]} detail={page.lead} />
+  <ServiceBlock group={page.block} photo={photos[page.slug]} detail={page.lead}>
+    <a slot="footer" class="see-projects" href={href(serviceProjectsPath(page.slug))}>
+      <Icon name="lucide:layout-grid" class="see-projects__icon" />
+      <span>
+        See projects<span class="sr-only"> for {page.title}</span>
+      </span>
+      <Icon name="lucide:arrow-right" class="see-projects__arrow" />
+    </a>
+  </ServiceBlock>
 
   {isOm && (
     <section class="section band-alt" aria-labelledby="offerings-title">
@@ -108,7 +107,7 @@ const isOm = page.slug === OM_PAGE_SLUG;
       <div class="container">
         <SectionHeading
           eyebrow="Our experience"
-          title="Utility-scale, commercial and specialty solar"
+          title="Community, commercial and specialty solar"
           id="experience-title"
         />
         <div class="grid grid--3" data-reveal-group>
@@ -138,28 +137,6 @@ const isOm = page.slug === OM_PAGE_SLUG;
     </section>
   )}
 
-  {projects.length > 0 && (
-    <section class="section" aria-labelledby="related-title">
-      <div class="container">
-        <SectionHeading
-          eyebrow="In the field"
-          title="Related projects"
-          id="related-title"
-          align="row"
-        >
-          <a class="btn btn--secondary" href={href('/projects/')}>
-            All projects
-          </a>
-        </SectionHeading>
-        <div class="grid grid--3" data-reveal-group>
-          {projects.map((p) => (
-            <ProjectCard project={p} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
   <section class="section band-alt" aria-labelledby="more-title">
     <div class="container">
       <SectionHeading eyebrow="Services" title="More from Axis" id="more-title" />
@@ -182,6 +159,49 @@ const isOm = page.slug === OM_PAGE_SLUG;
 </BaseLayout>
 
 <style>
+  /* "See projects": a pill under What we deliver, styled like the home page highlights. */
+  .see-projects {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 44px;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: #fff;
+    color: var(--brand-navy);
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: var(--shadow-1);
+    transition:
+      transform var(--dur-1, 150ms) ease,
+      box-shadow var(--dur-1, 150ms) ease,
+      border-color var(--dur-1, 150ms) ease;
+  }
+
+  .see-projects:hover {
+    border-color: var(--brand-blue);
+    box-shadow: var(--shadow-2);
+    transform: translateY(-2px);
+  }
+
+  .see-projects :global(.see-projects__icon) {
+    width: 18px;
+    height: 18px;
+    color: var(--brand-green);
+  }
+
+  .see-projects :global(.see-projects__arrow) {
+    width: 16px;
+    height: 16px;
+    color: var(--link);
+    transition: transform var(--dur-1, 150ms) ease;
+  }
+
+  .see-projects:hover :global(.see-projects__arrow) {
+    transform: translateX(2px);
+  }
+
   .experience__item {
     padding: 1.35rem;
     border-radius: var(--r-lg);

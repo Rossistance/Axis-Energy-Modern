@@ -1,5 +1,5 @@
 import { servicePages, omOfferings, servicePath, offeringPath, OM_PAGE_SLUG } from './services';
-import { projectMarkets, marketPath, MARKETS_ANCHOR, type ProjectMarket } from './project-markets';
+import { projectMarkets, marketPath, type ProjectMarket } from './project-markets';
 import { routes } from './routes';
 
 export interface NavItem {
@@ -8,7 +8,7 @@ export interface NavItem {
   children?: NavItem[];
 }
 
-/** Markets are sections of the Projects page, so these links jump within that page. */
+/** Markets are sections of the Markets page, so these links jump within that page. */
 const marketItem = (m: ProjectMarket): NavItem => ({
   label: m.title,
   href: marketPath(m.id),
@@ -31,19 +31,14 @@ export const primaryNav: NavItem[] = [
     ],
   },
   {
-    label: 'Projects',
-    href: '/projects/',
-    children: [
-      {
-        label: 'Markets',
-        href: marketPath(MARKETS_ANCHOR),
-        children: projectMarkets.map(marketItem),
-      },
-    ],
+    label: 'Markets',
+    href: routes.markets,
+    children: projectMarkets.map(marketItem),
   },
+  { label: 'Projects', href: routes.projects },
   { label: 'Why Axis', href: '/why-axis/' },
   {
-    label: 'About',
+    label: 'About us',
     href: '/about/',
     children: [{ label: 'Leadership', href: routes.leadership }],
   },
@@ -66,7 +61,7 @@ export const footerColumns: { title: string; items: NavItem[] }[] = [
   {
     title: 'Company',
     items: [
-      { label: 'About Axis', href: '/about/' },
+      { label: 'About us', href: '/about/' },
       { label: 'Leadership', href: routes.leadership },
       { label: 'Why Axis', href: '/why-axis/' },
       { label: 'News', href: '/news/' },
@@ -76,7 +71,8 @@ export const footerColumns: { title: string; items: NavItem[] }[] = [
     title: 'Services',
     items: [
       ...servicePages.map((page) => ({ label: page.title, href: servicePath(page.slug) })),
-      { label: 'Projects', href: '/projects/' },
+      { label: 'Markets', href: routes.markets },
+      { label: 'Projects', href: routes.projects },
     ],
   },
   {

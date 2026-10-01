@@ -1,6 +1,8 @@
+import { routes } from './routes';
+
 /**
- * Markets on the Projects page, in page order. Each market is a section of /projects/
- * (the Projects → Markets menu jumps to it); a project joins a section through the
+ * Markets, in page order. Each market is a section of the Markets page (/markets/); the
+ * Markets menu and the home page diagram jump to it. A project joins a section through the
  * `market` field in its Markdown front matter.
  *
  * Summaries are drafted from the 2024 company deck's market segments and the published
@@ -19,6 +21,8 @@ export type MarketId = (typeof MARKET_IDS)[number];
 export interface ProjectMarket {
   id: MarketId;
   title: string;
+  /** Shorter name for the home page diagram, when it differs from the title. */
+  shortTitle?: string;
   icon: string;
   summary: string;
   /** Shown when no published project is assigned to the market yet. */
@@ -27,13 +31,11 @@ export interface ProjectMarket {
   children?: ProjectMarket[];
 }
 
-/** Id of the Markets section that holds the market sections. */
-export const MARKETS_ANCHOR = 'markets';
-
 export const projectMarkets: ProjectMarket[] = [
   {
     id: 'commercial-industrial',
     title: 'Commercial & Industrial Owners',
+    shortTitle: 'Commercial & Industrial',
     icon: 'lucide:factory',
     summary:
       'On-site solar, carports, battery storage and microgrids for manufacturers, campuses and commercial facilities, phased around operations that keep running.',
@@ -75,4 +77,4 @@ export const projectMarkets: ProjectMarket[] = [
   },
 ];
 
-export const marketPath = (id: string) => `/projects/#${id}`;
+export const marketPath = (id: string) => `${routes.markets}#${id}`;

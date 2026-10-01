@@ -26,14 +26,14 @@ test('About keeps history and the family of companies, and drops the other secti
   }
 });
 
-test('Leadership is its own page under About', async ({ page }) => {
+test('Leadership is its own page under About us', async ({ page }) => {
   await page.goto('about/leadership/');
   await expect(page.locator('h1')).toHaveText('Renewable Experience and Expertise');
-  await expect(page.locator('.crumbs li')).toHaveText(['Home', 'About', 'Leadership']);
+  await expect(page.locator('.crumbs li')).toHaveText(['Home', 'About us', 'Leadership']);
 
   await page.goto('');
-  await page.locator('[aria-controls="submenu-about"]').click();
-  const items = page.locator('#submenu-about a');
+  await page.locator('[aria-controls="submenu-about-us"]').click();
+  const items = page.locator('#submenu-about-us a');
   await expect(items).toHaveText(['Leadership']);
   await expect(items).toHaveAttribute('href', /\/about\/leadership\/$/);
 

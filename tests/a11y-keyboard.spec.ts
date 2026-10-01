@@ -8,13 +8,13 @@ test('skip link is the first focusable element and targets main', async ({ page 
   await expect(skip).toHaveAttribute('href', '#main');
 });
 
-test('About dropdown opens with the keyboard and closes on Escape', async ({ page }) => {
+test('About us dropdown opens with the keyboard and closes on Escape', async ({ page }) => {
   await page.goto('');
-  const toggle = page.locator('[aria-controls="submenu-about"]');
+  const toggle = page.locator('[aria-controls="submenu-about-us"]');
   await toggle.focus();
   await page.keyboard.press('Enter');
   await expect(toggle).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.locator('#submenu-about a').first()).toBeFocused();
+  await expect(page.locator('#submenu-about-us a').first()).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await expect(toggle).toBeFocused();

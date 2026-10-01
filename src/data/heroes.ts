@@ -32,6 +32,7 @@ export const heroes = {
   'om-and-technical-services': microgrid,
   omOffering: solarStorage,
   projects: microgrid,
+  markets: solarStorage,
   whyAxis: solarStorage,
   about: carport,
   leadership: microgrid,

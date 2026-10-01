@@ -1,27 +1,23 @@
 ---
 /**
- * Projects: published projects grouped by type, then the Markets sections. The Projects →
- * Markets menu links jump to those sections on this page (src/data/project-markets.ts).
+ * Projects: published projects grouped by type. Each service page's "See projects" link
+ * opens a view of this page focused on that service (projects/[service].astro). The
+ * markets moved to their own page (/markets/) on 2026-10-01; old links to a market section
+ * of this page are forwarded there.
  */
-import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
-import SectionHeading from '@components/SectionHeading.astro';
-import ProjectCard from '@components/ProjectCard.astro';
-import MarketProjects from '@components/MarketProjects.astro';
+import ProjectTypeGroups from '@components/ProjectTypeGroups.astro';
 import { heroes } from '@data/heroes';
-import { projectMarkets, MARKETS_ANCHOR, type ProjectMarket } from '@data/project-markets';
+import { MARKET_IDS } from '@data/project-markets';
 import { routes } from '@data/routes';
 import { href } from '@lib/href';
-import { formatSize, formatStorage } from '@lib/format';
-import { getPublishedProjects, groupByType, portfolioTotals, type Project } from '@lib/projects';
+import { getPublishedProjects } from '@lib/projects';
 
 const projects = await getPublishedProjects();
-const groups = groupByType(projects).map((g) => ({ ...g, totals: portfolioTotals(g.projects) }));
-const inMarket = (m: ProjectMarket): Project[] => projects.filter((p) => p.data.market === m.id);
-const caseStudies = href(routes.caseStudies);
 const description =
-  'Axis Energy projects by type and by market: utility-scale solar, commercial and industrial solar, microgrids and rooftop work for owners, cooperatives and utilities, municipalities and developers.';
+  'Axis Energy projects by type: solar, solar + storage, microgrids and rooftop work for commercial and industrial owners, cooperatives and utilities, municipalities and developers.';
+const forward = { ids: ['markets', ...MARKET_IDS], markets: href(routes.markets) };
 ---
 
 <BaseLayout title="Projects" {description}>
@@ -30,7 +26,7 @@ const description =
     title="Excellence in Execution"
     lead="Axis Energy brings you a direct, one-to-one partnership that provides a total EPC and O&M solution."
     photo={heroes.projects}
-    crumbs={[{ label: 'Projects', href: '/projects/' }]}
+    crumbs={[{ label: 'Projects', href: routes.projects }]}
   />
 
   <section class="section" aria-labelledby="types-title">
@@ -38,199 +34,15 @@ const description =
       <h2 id="types-title" class="sr-only">
         Projects by type
       </h2>
-      {groups.map((group) => (
-        <div class="type-group" id={`type-${group.type}`}>
-          <div class="type-group__head">
-            <h3>{group.label}</h3>
-            <span class="type-group__rule" aria-hidden="true" />
-            <p class="type-group__meta tabular">
-              {group.totals.count} {group.totals.count === 1 ? 'project' : 'projects'} ·{' '}
-              {formatSize(group.totals.mwdc)}
-              {group.totals.mwh > 0 && ` · ${formatStorage(group.totals.mwh)}`}
-            </p>
-          </div>
-          <div class="grid type-group__grid" data-reveal-group>
-            {group.projects.map((p) => (
-              <ProjectCard project={p} level={4} showType={false} />
-            ))}
-          </div>
-        </div>
-      ))}
+      <ProjectTypeGroups {projects} />
     </div>
   </section>
 
-  <section class="section band-alt markets" id={MARKETS_ANCHOR} aria-labelledby="markets-title">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Markets"
-        title="Markets we serve"
-        lead="The owners we build for, with the published projects delivered for each."
-        id="markets-title"
-        align="row"
-      >
-        <a class="btn btn--secondary" href={caseStudies}>
-          Request case studies <Icon name="lucide:arrow-right" class="icon" />
-        </a>
-      </SectionHeading>
-
-      <div class="markets__list">
-        {projectMarkets.map((market) => (
-          <section class="market" id={market.id} aria-labelledby={`${market.id}-title`}>
-            <div class="market__intro">
-              <div class="icon-tile">
-                <Icon name={market.icon} />
-              </div>
-              <h3 id={`${market.id}-title`}>{market.title}</h3>
-              <p>{market.summary}</p>
-            </div>
-            <div class="market__work">
-              <MarketProjects projects={inMarket(market)} emptyNote={market.emptyNote} />
-
-              {market.children?.map((sub) => (
-                <section class="market market--sub" id={sub.id} aria-labelledby={`${sub.id}-title`}>
-                  <h4 id={`${sub.id}-title`}>
-                    <Icon name={sub.icon} />
-                    {sub.title}
-                  </h4>
-                  <p>{sub.summary}</p>
-                  <MarketProjects projects={inMarket(sub)} emptyNote={sub.emptyNote} />
-                </section>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
-    </div>
-  </section>
+  <script is:inline define:vars={{ forward }}>
+    // /projects/#co-ops-utilities and the like: the markets now live on /markets/.
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (forward.ids.includes(id)) {
+      location.replace(forward.markets + (id === 'markets' ? '' : `#${id}`));
+    }
+  </script>
 </BaseLayout>
-
-<style>
-  /* Type groups */
-  .type-group + .type-group {
-    margin-top: clamp(2.25rem, 4.5vw, 3.25rem);
-  }
-
-  .type-group__head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem 1rem;
-    margin-bottom: 1.1rem;
-  }
-
-  .type-group__head h3 {
-    margin: 0;
-    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
-  }
-
-  .type-group__rule {
-    flex: 1;
-    min-width: 2rem;
-    height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, var(--mist-200), transparent);
-  }
-
-  /* Same card size in every group: a group of one or two keeps the empty columns rather
-     than stretching its cards (and enlarging small photos) across the row. */
-  .type-group__grid {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-  }
-
-  .type-group__meta {
-    margin: 0;
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--text-muted);
-  }
-
-  @media (max-width: 639px) {
-    .type-group__rule {
-      display: none;
-    }
-
-    .type-group__meta {
-      flex-basis: 100%;
-    }
-  }
-
-  /* Markets */
-  .markets__list {
-    display: grid;
-    gap: 1.25rem;
-  }
-
-  .market {
-    border-radius: var(--r-lg);
-  }
-
-  .markets__list > .market {
-    display: grid;
-    gap: 1.25rem 2.5rem;
-    padding: clamp(1.25rem, 3vw, 2rem);
-    background: var(--surface, #fff);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow-1);
-  }
-
-  .market__intro h3 {
-    margin: 0.85rem 0 0.4rem;
-    font-size: 1.3rem;
-  }
-
-  .market__intro p,
-  .market--sub > p {
-    color: var(--text-muted);
-    margin: 0;
-  }
-
-  .market__work {
-    display: grid;
-    gap: 1.25rem;
-    align-content: start;
-  }
-
-  /* Investor-Owned: a subsection inside Electric Co-ops & Utilities. */
-  .market--sub {
-    display: grid;
-    gap: 0.6rem;
-    padding: 1rem 0 0 1rem;
-    border-left: 3px solid var(--brand-green);
-    border-radius: 0;
-  }
-
-  .market--sub h4 {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin: 0;
-    font-size: 1.1rem;
-  }
-
-  .market--sub h4 :global(svg) {
-    width: 18px;
-    height: 18px;
-    color: var(--brand-green);
-  }
-
-  /* Arriving from the Projects → Markets menu: a brief highlight on the section. */
-  @media (prefers-reduced-motion: no-preference) {
-    .market:target {
-      animation: market-arrive 1.8s var(--ease-out);
-    }
-  }
-
-  @keyframes market-arrive {
-    from {
-      box-shadow:
-        0 0 0 3px var(--aqua-400),
-        var(--shadow-2);
-    }
-  }
-
-  @media (min-width: 900px) {
-    .markets__list > .market {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    }
-  }
-</style>

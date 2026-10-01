@@ -3,6 +3,9 @@
  * for links. Old paths that moved are redirected in astro.config.mjs and hosting/.
  */
 export const routes = {
+  projects: '/projects/',
+  /** Markets we serve (was a section of the Projects page until 2026-10-01). */
+  markets: '/markets/',
   workWithAxis: '/work-with-axis/',
   /** Project request form for developers and project owners (was /request-a-quote/). */
   projectRequest: '/work-with-axis/developer-project-owner/',

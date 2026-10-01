@@ -1,17 +1,13 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Home page: hero line, footprint map directly below the hero, employee ownership below the
- * map (moved from Why Axis, 2026-10-01), no teaser sections.
+ * Home page: hero headline, footprint map directly below the hero, employee ownership below
+ * the map (moved from Why Axis, 2026-10-01), no teaser sections.
  */
 
-test('hero line reads "Solar, battery storage and microgrids built for performance."', async ({
-  page,
-}) => {
+test('the hero headline is "The Power of Partnership"', async ({ page }) => {
   await page.goto('');
-  await expect(page.locator('.hero .lead')).toHaveText(
-    'Solar, battery storage and microgrids built for performance.',
-  );
+  await expect(page.locator('.hero h1')).toHaveText('The Power of Partnership');
 });
 
 test('the footprint map follows the hero and the teaser sections are gone', async ({ page }) => {

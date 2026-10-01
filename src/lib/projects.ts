@@ -66,6 +66,25 @@ export function groupByType(projects: Project[]) {
   }));
 }
 
+/**
+ * Which published projects belong to each service page (by service slug). A service page's
+ * "See projects" link opens /projects/<slug>/, which shows these projects first.
+ */
+const SERVICE_PROJECTS: Record<string, (p: Project) => boolean> = {
+  /** Solar without storage; solar + storage and microgrids sit under the next service. */
+  'solar-epc': (p) => !p.data.storageMwh && p.data.type !== 'microgrid',
+  'battery-storage-and-microgrids': (p) => !!p.data.storageMwh || p.data.type === 'microgrid',
+  /** Projects whose published scope includes interconnection, medium-voltage or commissioning work. */
+  'electrical-infrastructure-and-commissioning': (p) =>
+    !!p.data.scope?.some((line) => /interconnection|medium-voltage|commissioning/i.test(line)),
+  'om-and-technical-services': (p) => p.data.role.includes('O&M'),
+};
+
+export function projectsForService(projects: Project[], slug: string): Project[] {
+  const match = SERVICE_PROJECTS[slug];
+  return match ? projects.filter(match) : [];
+}
+
 export function portfolioTotals(projects: Project[]) {
   const mwdc = projects.reduce((s, p) => s + p.data.sizeMwdc, 0);
   const mwh = projects.reduce((s, p) => s + (p.data.storageMwh ?? 0), 0);

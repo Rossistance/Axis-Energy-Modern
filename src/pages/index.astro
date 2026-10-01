@@ -3,8 +3,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import FootprintMap from '@components/FootprintMap.astro';
 import EmployeeOwned from '@components/EmployeeOwned.astro';
+import PartnershipDiagram from '@components/PartnershipDiagram.astro';
 import { rankings } from '@data/stats';
-import { workWithAxis } from '@data/nav';
 import { absoluteUrl } from '@lib/href';
 import { getPublishedProjects, carouselSlides } from '@lib/projects';
 import { webPageSchema } from '@lib/schema';
@@ -33,11 +33,6 @@ const jsonLd = [
   {jsonLd}
 >
   <Hero
-    eyebrow="EPC + O&M for commercial, industrial and utility‑scale solar"
-    title="The Power of Partnership"
-    lead="Solar, battery storage and microgrids built for performance."
-    primary={{ label: workWithAxis.label, href: workWithAxis.href }}
-    secondary={{ label: 'See our work', href: '/projects/' }}
     slides={heroSlides}
     chips={[
       { icon: 'lucide:sun', label: '150 MW+ solar constructed', href: '/projects/' },
@@ -54,7 +49,9 @@ const jsonLd = [
       `Solar Power World Top Solar Contractor, ${recognition}`,
       'Headquartered in Holly Springs, North Carolina',
     ]}
-  />
+  >
+    <PartnershipDiagram />
+  </Hero>
 
   <FootprintMap />
 

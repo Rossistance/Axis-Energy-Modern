@@ -51,7 +51,7 @@ sizeMwdc: 13.974
 year: 2021
 commissioned: '2021-12-22' # or "2021-12" or "2021"
 type: utility # utility | commercial | municipal | carport | microgrid | community | rooftop
-market: 'co-ops-utilities' # optional; Markets section of the Projects page: commercial-industrial | co-ops-utilities | investor-owned | municipal-institutional | developers-ipps
+market: 'co-ops-utilities' # optional; section of the Markets page: commercial-industrial | co-ops-utilities | investor-owned | municipal-institutional | developers-ipps
 role: ['EPC']
 storageMwh: 5.0 # optional
 storageBrand: 'Tesla' # optional
@@ -110,11 +110,13 @@ Each form posts JSON to the endpoint in its environment variable (`PUBLIC_FORM_E
 
 ## Images
 
-The home page hero is a carousel of project photos rather than an illustration. It takes the photo of every published project in project order (`order`), up to six, but only photos at least 1000 px wide, so the large frame never shows a soft, enlarged image; when the original of a smaller photo replaces it (same file name), that project joins the carousel automatically. Each slide links to its project page. Set `imageFocus` on a project to choose which part of a wide photo stays in the 3:2 crop.
+The home page headline is the owner's diagram (`src/components/PartnershipDiagram.astro`, 2026-10-01): The Power of Partnership, Solar | Battery Storage | Microgrids linking to their service pages, Performance built for, and the four markets linking to their sections of the Markets page; its connector lines are CSS, so the boxes can be renamed in `src/data/project-markets.ts` (`shortTitle`) without redrawing anything. Beside it, the hero is a carousel of project photos rather than an illustration. It takes the photo of every published project in project order (`order`), up to six, but only photos at least 1000 px wide, so the large frame never shows a soft, enlarged image; when the original of a smaller photo replaces it (same file name), that project joins the carousel automatically. Each slide links to its project page. Set `imageFocus` on a project to choose which part of a wide photo stays in the 3:2 crop.
 
 Every other page has the same compact header (`src/components/PageHero.astro`): breadcrumbs, title and one short lead over a full-width photo, the same height on every page. Keep header leads to a sentence or two; longer copy, buttons and facts go in the page body. The header photos are listed per page in `src/data/heroes.ts`. Today they are placeholders (three 2026 project photos, and each project page's own photo), which the preview labels "Placeholder photo". To set a page's final photo, add it under `src/assets/heroes/` (2400 px wide or more, landscape, with the left side calm enough for the title), point that page's entry at it and set `placeholder: false`. The 2025 hero illustrations were retired on 2026-10-01 at the owner's request; they remain in the git history (`c4bf369`, `src/assets/hero/`). Astro's image service converts every photo to AVIF/WebP at several widths at build time; never commit resized copies.
 
-**Projects page:** published projects are grouped by `type`, in `order`. The Markets sections below them, and the Projects → Markets menu that jumps to them, come from `src/data/project-markets.ts`; a project appears in a market through its `market` field.
+**Projects page:** published projects are grouped by `type`, in `order`. Each service page's "See projects" button opens `/projects/<service>/`, the same page focused on that service's projects (the rules are `projectsForService` in `src/lib/projects.ts`).
+
+**Markets page** (`/markets/`): one section per market, from `src/data/project-markets.ts`; the Markets menu and the home page diagram jump to them, and a project appears in a market through its `market` field. Old links to a market on the Projects page forward to the Markets page.
 
 Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide), three crops from the 2018 brochure (about 660 px wide; the second Charleston rooftop crop is not used on the site) and three photos from the 2026 project abstracts (1275 px wide, cropped to remove the client names printed on the abstract artwork). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
 

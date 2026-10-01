@@ -1,0 +1,85 @@
+---
+/**
+ * Published projects grouped under type headings, each with its project count and size.
+ * Used on the Projects page and, for the remaining projects, on its service views.
+ */
+import ProjectCard from '@components/ProjectCard.astro';
+import { formatSize, formatStorage } from '@lib/format';
+import { groupByType, portfolioTotals, type Project } from '@lib/projects';
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+const groups = groupByType(projects).map((g) => ({ ...g, totals: portfolioTotals(g.projects) }));
+---
+
+{groups.map((group) => (
+  <div class="type-group" id={`type-${group.type}`}>
+    <div class="type-group__head">
+      <h3>{group.label}</h3>
+      <span class="type-group__rule" aria-hidden="true" />
+      <p class="type-group__meta tabular">
+        {group.totals.count} {group.totals.count === 1 ? 'project' : 'projects'} ·{' '}
+        {formatSize(group.totals.mwdc)}
+        {group.totals.mwh > 0 && ` · ${formatStorage(group.totals.mwh)}`}
+      </p>
+    </div>
+    <div class="grid type-group__grid" data-reveal-group>
+      {group.projects.map((p) => (
+        <ProjectCard project={p} level={4} showType={false} />
+      ))}
+    </div>
+  </div>
+))}
+
+<style>
+  .type-group + .type-group {
+    margin-top: clamp(2.25rem, 4.5vw, 3.25rem);
+  }
+
+  .type-group__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 1rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .type-group__head h3 {
+    margin: 0;
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  }
+
+  .type-group__rule {
+    flex: 1;
+    min-width: 2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--mist-200), transparent);
+  }
+
+  /* Same card size in every group: a group of one or two keeps the empty columns rather
+     than stretching its cards (and enlarging small photos) across the row. */
+  .type-group__grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+
+  .type-group__meta {
+    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 639px) {
+    .type-group__rule {
+      display: none;
+    }
+
+    .type-group__meta {
+      flex-basis: 100%;
+    }
+  }
+</style>

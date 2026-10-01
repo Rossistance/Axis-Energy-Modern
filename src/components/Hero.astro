@@ -4,12 +4,11 @@ import HeroCarousel from '@components/HeroCarousel.astro';
 import type { CarouselSlide } from '@lib/projects';
 import { href } from '@lib/href';
 
+/**
+ * Home page hero: the headline (the default slot, which must contain the h1 with
+ * id="hero-title") beside the project photo carousel, with highlight links and a trust strip.
+ */
 interface Props {
-  eyebrow: string;
-  title: string;
-  lead: string;
-  primary: { label: string; href: string };
-  secondary?: { label: string; href: string };
   /** Project photos shown in the carousel beside the headline. */
   slides: CarouselSlide[];
   /** Highlight links that float over the photos on desktop and sit above them on phones. */
@@ -17,27 +16,14 @@ interface Props {
   trust?: string[];
 }
 
-const { eyebrow, title, lead, primary, secondary, slides, chips = [], trust = [] } = Astro.props;
+const { slides, chips = [], trust = [] } = Astro.props;
 ---
 
 <section class="hero band-dark" aria-labelledby="hero-title">
   <div class="hero__glow" aria-hidden="true"></div>
   <div class="container hero__grid">
     <div class="hero__copy">
-      <p class="eyebrow">{eyebrow}</p>
-      <h1 id="hero-title">{title}</h1>
-      <p class="lead">{lead}</p>
-      <div class="cluster hero__actions">
-        <a class="btn btn--primary btn--lg" href={href(primary.href)}>
-          {primary.label}
-        </a>
-        {secondary && (
-          <a class="btn btn--secondary btn--lg" href={href(secondary.href)}>
-            {secondary.label}
-            <Icon name="lucide:arrow-right" class="icon" />
-          </a>
-        )}
-      </div>
+      <slot />
     </div>
 
     <div class="hero__media">
@@ -95,20 +81,6 @@ const { eyebrow, title, lead, primary, secondary, slides, chips = [], trust = []
     display: grid;
     gap: clamp(2.5rem, 6vw, 4rem);
     align-items: center;
-  }
-
-  .hero__copy h1 {
-    color: #fff;
-    max-width: 14ch;
-  }
-
-  .hero__copy .lead {
-    max-width: 48ch;
-    font-size: clamp(1.15rem, 1rem + 0.7vw, 1.4rem);
-  }
-
-  .hero__actions {
-    margin-top: 1.5rem;
   }
 
   .hero__media {

@@ -1,0 +1,156 @@
+---
+/**
+ * Markets: the owners Axis builds for, one section per market with the published projects
+ * delivered for each (Investor-Owned sits inside Electric Co-ops & Utilities). The Markets
+ * menu and the home page diagram jump to these sections (src/data/project-markets.ts).
+ * Moved here from the Projects page on 2026-10-01.
+ */
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import MarketProjects from '@components/MarketProjects.astro';
+import { heroes } from '@data/heroes';
+import { projectMarkets, type ProjectMarket } from '@data/project-markets';
+import { routes } from '@data/routes';
+import { href } from '@lib/href';
+import { getPublishedProjects, type Project } from '@lib/projects';
+
+const projects = await getPublishedProjects();
+const inMarket = (m: ProjectMarket): Project[] => projects.filter((p) => p.data.market === m.id);
+const description =
+  'The markets Axis Energy serves: commercial and industrial owners, electric cooperatives and utilities, municipal and institutional owners, and developers and independent power producers.';
+---
+
+<BaseLayout title="Markets" {description}>
+  <PageHero
+    eyebrow="Markets"
+    title="Markets we serve"
+    lead="The owners we build for, with the published projects delivered for each."
+    photo={heroes.markets}
+    crumbs={[{ label: 'Markets', href: routes.markets }]}
+  />
+
+  <section class="section markets" aria-label="Markets">
+    <div class="container">
+      <div class="markets__list">
+        {projectMarkets.map((market) => (
+          <section class="market" id={market.id} aria-labelledby={`${market.id}-title`}>
+            <div class="market__intro">
+              <div class="icon-tile">
+                <Icon name={market.icon} />
+              </div>
+              <h2 id={`${market.id}-title`}>{market.title}</h2>
+              <p>{market.summary}</p>
+            </div>
+            <div class="market__work">
+              <MarketProjects projects={inMarket(market)} emptyNote={market.emptyNote} />
+
+              {market.children?.map((sub) => (
+                <section class="market market--sub" id={sub.id} aria-labelledby={`${sub.id}-title`}>
+                  <h3 id={`${sub.id}-title`}>
+                    <Icon name={sub.icon} />
+                    {sub.title}
+                  </h3>
+                  <p>{sub.summary}</p>
+                  <MarketProjects projects={inMarket(sub)} emptyNote={sub.emptyNote} />
+                </section>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <p class="markets__more">
+        <a class="btn btn--secondary" href={href(routes.caseStudies)}>
+          Request case studies <Icon name="lucide:arrow-right" class="icon" />
+        </a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .markets__list {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .market {
+    border-radius: var(--r-lg);
+  }
+
+  .markets__list > .market {
+    display: grid;
+    gap: 1.25rem 2.5rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: var(--surface, #fff);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-1);
+  }
+
+  .market__intro h2 {
+    margin: 0.85rem 0 0.4rem;
+    font-size: 1.3rem;
+  }
+
+  .market__intro p,
+  .market--sub > p {
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .market__work {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+
+  /* Investor-Owned: a subsection inside Electric Co-ops & Utilities. */
+  .market--sub {
+    display: grid;
+    gap: 0.6rem;
+    padding: 1rem 0 0 1rem;
+    border-left: 3px solid var(--brand-green);
+    border-radius: 0;
+  }
+
+  .market--sub h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .market--sub h3 :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--brand-green);
+  }
+
+  .markets__more {
+    margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+    text-align: center;
+  }
+
+  /* Arriving from the Markets menu or the home page: a brief highlight on the section. */
+  @media (prefers-reduced-motion: no-preference) {
+    .market:target {
+      animation: market-arrive 1.8s var(--ease-out);
+    }
+  }
+
+  @keyframes market-arrive {
+    from {
+      box-shadow:
+        0 0 0 3px var(--aqua-400),
+        var(--shadow-2);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .markets__list > .market {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+  }
+</style>

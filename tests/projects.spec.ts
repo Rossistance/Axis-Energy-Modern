@@ -1,16 +1,16 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 /**
- * Projects page after the 2026-09-30 review: projects grouped by type (no filters, no
- * project list table) and a Markets area whose sections the Projects → Markets menu
- * jumps to.
+ * Projects page: projects grouped by type (no filters, no project list table; the markets
+ * moved to their own page on 2026-10-01), and one view per service that the service pages'
+ * "See projects" link opens, with that service's projects first.
  */
 
-const markets = [
-  ['commercial-industrial', 'Commercial & Industrial Owners'],
-  ['co-ops-utilities', 'Electric Co-ops & Utilities'],
-  ['municipal-institutional', 'Municipal & Institutional'],
-  ['developers-ipps', 'Developers & IPPs'],
+const services = [
+  ['solar-epc', 'Solar EPC'],
+  ['battery-storage-and-microgrids', 'Battery Storage & Microgrids'],
+  ['electrical-infrastructure-and-commissioning', 'Electrical Infrastructure & Commissioning'],
+  ['om-and-technical-services', 'O&M & Technical Services'],
 ] as const;
 
 test('projects are grouped under type headings, with no filters or project table', async ({
@@ -36,108 +36,73 @@ test('projects are grouped under type headings, with no filters or project table
   }
 });
 
-test('markets are sections of the Projects page, in order, with Investor-Owned inside Co-ops & Utilities', async ({
-  page,
-}) => {
+test('the Projects page no longer holds the markets', async ({ page }) => {
   await page.goto('projects/');
-  const area = page.locator('#markets');
-  await expect(area.locator('h2')).toHaveText('Markets we serve');
-  const ids = await area
-    .locator('.markets__list > .market')
-    .evaluateAll((els) => els.map((e) => e.id));
-  expect(ids).toEqual(markets.map(([id]) => id));
-  for (const [id, title] of markets) {
-    await expect(page.locator(`#${id} h3`)).toHaveText(title);
-  }
-  const investor = page.locator('#co-ops-utilities #investor-owned');
-  await expect(investor).toHaveCount(1);
-  await expect(investor.locator('h4')).toHaveText('Investor-Owned');
-
-  // Each market lists its projects, or offers references on request.
-  for (const [id] of markets) {
-    const section = page.locator(`#${id}`);
-    const listed = await section.locator('.market-project').count();
-    const empty = await section.locator('.market-empty').count();
-    expect(listed + empty, `${id} shows projects or a note`).toBeGreaterThan(0);
-  }
+  await expect(page.locator('#markets, .market, .markets__list')).toHaveCount(0);
+  await expect(page.locator('main')).not.toContainText('Markets we serve');
 });
 
-async function openProjectsMenu(page: Page) {
-  const toggle = page.locator('[aria-controls="submenu-projects"]');
-  await toggle.click();
-  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
-  return page.locator('#submenu-projects');
+test('old links to a market on the Projects page forward to the Markets page', async ({ page }) => {
+  await page.goto('projects/#co-ops-utilities');
+  await page.waitForURL(/\/markets\/#co-ops-utilities$/);
+  await expect(page.locator('#co-ops-utilities')).toBeInViewport();
+  await page.goto('projects/#markets');
+  await page.waitForURL(/\/markets\/$/);
+});
+
+for (const [slug, title] of services) {
+  test(`"See projects" on ${title} opens the Projects page focused on its projects`, async ({
+    page,
+  }) => {
+    await page.goto(`services/${slug}/`);
+    // The link sits at the foot of the What we deliver section.
+    const block = page.locator('.service-block');
+    const link = block.locator('.service-block__footer a.see-projects');
+    await expect(link).toHaveText(`See projects for ${title}`);
+    await link.click();
+    await expect(page).toHaveURL(new RegExp(`/projects/${slug}/$`));
+
+    await expect(page.locator('h1')).toHaveText(`${title} projects`);
+    await expect(page.locator('.crumbs li')).toHaveText(['Home', 'Projects', title]);
+    const bar = page.locator('.focus-bar');
+    await expect(bar).toContainText(`Showing ${title}`);
+    await expect(bar.getByRole('link', { name: 'See all projects' })).toHaveAttribute(
+      'href',
+      /\/projects\/$/,
+    );
+    await expect(bar.getByRole('link', { name: title })).toHaveAttribute(
+      'href',
+      new RegExp(`/services/${slug}/$`),
+    );
+
+    // The focused projects come first; every other project is still listed once below.
+    const focused = await page.locator('.focus__grid .project-card__title').allTextContents();
+    expect(focused.length, `${title} has projects`).toBeGreaterThan(0);
+    await expect(bar).toContainText(new RegExp(`${focused.length} of \\d+ projects`));
+    const others = await page.locator('.type-group .project-card__title').allTextContents();
+    expect(others.filter((t) => focused.includes(t))).toEqual([]);
+    await page.goto('projects/');
+    const all = await page.locator('.project-card__title').allTextContents();
+    expect([...focused, ...others].sort()).toEqual([...all].sort());
+  });
 }
 
-test('Projects menu has Markets, which expands to the four markets and Investor-Owned', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto('');
-  const menu = await openProjectsMenu(page);
-  await expect(menu.locator(':scope > li > .submenu__row > a')).toHaveText(['Markets']);
-  await expect(menu.getByRole('link', { name: 'Markets', exact: true })).toHaveAttribute(
-    'href',
-    /\/projects\/#markets$/,
-  );
-  const items = menu.locator('.submenu__nested > li > a');
-  await expect(items).toHaveText(markets.map(([, title]) => title));
-  for (const [i, [id]] of markets.entries()) {
-    await expect(items.nth(i)).toHaveAttribute('href', new RegExp(`/projects/#${id}$`));
+test('each service view shows the projects that fit the service', async ({ page }) => {
+  const expectations: Record<string, { has: string[]; not: string[] }> = {
+    'battery-storage-and-microgrids': {
+      has: ['Walnut Grove Microgrid', 'Wendell Campus Microgrid'],
+      not: ['Floyd Road'],
+    },
+    'om-and-technical-services': {
+      has: ['Cooperative Solar and Storage Portfolio'],
+      not: ['Floyd Road'],
+    },
+    'solar-epc': { has: ['Floyd Road'], not: ['Walnut Grove Microgrid'] },
+  };
+  for (const [slug, { has, not }] of Object.entries(expectations)) {
+    await page.goto(`projects/${slug}/`);
+    const focused = await page.locator('.focus__grid .project-card__title').allTextContents();
+    for (const title of has) expect(focused, slug).toContain(title);
+    for (const title of not) expect(focused, slug).not.toContain(title);
   }
-  const investor = menu.locator('.submenu__deep a');
-  await expect(investor).toHaveText(['Investor-Owned']);
-  await expect(investor).toHaveAttribute('href', /\/projects\/#investor-owned$/);
-  // Investor-Owned is listed under Electric Co-ops & Utilities.
-  await expect(
-    menu.locator('.submenu__nested > li', { hasText: 'Electric Co-ops & Utilities' }),
-  ).toContainText('Investor-Owned');
-});
-
-test('on the Projects page a market link jumps to its section and closes the menu', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('projects/');
-  const menu = await openProjectsMenu(page);
-  await menu.locator('.submenu__group').hover();
-  await menu.getByRole('link', { name: 'Municipal & Institutional' }).click();
-  await expect(page).toHaveURL(/\/projects\/#municipal-institutional$/);
-  await expect(page.locator('#municipal-institutional')).toBeInViewport();
-  await expect(menu).toBeHidden();
-  // Same page: no navigation, the menu reopens normally once the pointer has left it.
-  await page.mouse.move(640, 700);
-  await expect(page.locator('[data-submenu].is-suppressed')).toHaveCount(0);
-});
-
-test('from another page, a market link opens the Projects page at that market', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('about/');
-  const menu = await openProjectsMenu(page);
-  await menu.locator('.submenu__group').hover();
-  await menu.getByRole('link', { name: 'Investor-Owned' }).click();
-  await expect(page).toHaveURL(/\/projects\/#investor-owned$/);
-  await expect(page.locator('#investor-owned')).toBeInViewport();
-});
-
-test('mobile drawer lists Markets under Projects and jumps to a market', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('contact/');
-  await page.locator('[data-drawer-open]').click();
-  await page.locator('[aria-controls="drawer-projects"]').click();
-  const group = page.locator('#drawer-projects');
-  await group.locator('.drawer__expand--sub').click();
-  await expect(group.locator('.drawer__nested > li > a')).toHaveText(
-    markets.map(([, title]) => title),
-  );
-  await expect(group.locator('.drawer__deep a')).toHaveText(['Investor-Owned']);
-  await group.getByRole('link', { name: 'Developers & IPPs' }).click();
-  await expect(page).toHaveURL(/\/projects\/#developers-ipps$/);
-  await expect(page.locator('#site-drawer')).toHaveJSProperty('open', false);
-  await expect(page.locator('#developers-ipps')).toBeInViewport();
 });

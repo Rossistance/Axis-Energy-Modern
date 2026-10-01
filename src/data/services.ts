@@ -339,6 +339,8 @@ export const servicePages: ServicePage[] = [
 export const OM_PAGE_SLUG = 'om-and-technical-services';
 export const servicePath = (slug: string) => `/services/${slug}/`;
 export const offeringPath = (slug: string) => `/services/${OM_PAGE_SLUG}/${slug}/`;
+/** The Projects page focused on one service's projects (see projectsForService). */
+export const serviceProjectsPath = (slug: string) => `/projects/${slug}/`;
 
 export const process = [
   {
@@ -369,7 +371,7 @@ export const process = [
 
 export const experienceGroups = [
   {
-    title: 'Utility scale',
+    title: 'Community and Distributed Generation',
     detail: '1–15 MW · fixed tilt · tracking',
     example: 'Floyd Road · 6.75 MW · Gaston, NC',
   },

@@ -64,6 +64,11 @@ const { group, photo, flip = false, detail } = Astro.props;
         </div>
       </aside>
     )}
+    {Astro.slots.has('footer') && (
+      <div class="service-block__footer">
+        <slot name="footer" />
+      </div>
+    )}
   </div>
 </section>
 
@@ -141,6 +146,12 @@ const { group, photo, flip = false, detail } = Astro.props;
 
   .service-callout p {
     color: var(--text-muted);
+  }
+
+  .service-block__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
   }
 
   @media (min-width: 900px) {

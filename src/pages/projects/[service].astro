@@ -1,0 +1,166 @@
+---
+/**
+ * The Projects page focused on one service: each service page's "See projects" link opens
+ * this view, which puts that service's projects first (projectsForService in
+ * src/lib/projects.ts) and lists the rest below, grouped by type as on the Projects page.
+ */
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import ProjectTypeGroups from '@components/ProjectTypeGroups.astro';
+import { heroes } from '@data/heroes';
+import { routes } from '@data/routes';
+import { servicePages, servicePath, serviceProjectsPath, type ServicePage } from '@data/services';
+import { href } from '@lib/href';
+import { formatSize, formatStorage } from '@lib/format';
+import { getPublishedProjects, portfolioTotals, projectsForService } from '@lib/projects';
+
+export function getStaticPaths() {
+  return servicePages.map((page) => ({ params: { service: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: ServicePage };
+const all = await getPublishedProjects();
+const focus = projectsForService(all, page.slug);
+const others = all.filter((p) => !focus.includes(p));
+const totals = portfolioTotals(focus);
+const title = `${page.title} projects`;
+const summary = [
+  `${focus.length} of ${all.length} projects`,
+  focus.length > 0 && formatSize(totals.mwdc),
+  totals.mwh > 0 && `${formatStorage(totals.mwh)} storage`,
+]
+  .filter(Boolean)
+  .join(' · ');
+---
+
+<BaseLayout {title} description={`Axis Energy ${page.title} projects: ${page.summary}`}>
+  <PageHero
+    eyebrow="Projects"
+    {title}
+    lead={page.summary}
+    photo={heroes.projects}
+    crumbs={[
+      { label: 'Projects', href: routes.projects },
+      { label: page.title, href: serviceProjectsPath(page.slug) },
+    ]}
+  />
+
+  <section class="section focus" aria-labelledby="focus-title">
+    <div class="container">
+      <h2 id="focus-title" class="sr-only">
+        Projects for {page.title}
+      </h2>
+      <div class="focus-bar" data-reveal>
+        <div class="focus-bar__what">
+          <span class="icon-tile">
+            <Icon name={page.icon} />
+          </span>
+          <p>
+            <strong>Showing {page.title}</strong>
+            <span class="tabular">{summary}</span>
+          </p>
+        </div>
+        <div class="focus-bar__actions">
+          <a class="btn btn--secondary btn--sm" href={href(servicePath(page.slug))}>
+            <Icon name="lucide:arrow-left" class="icon" /> {page.title}
+          </a>
+          <a class="btn btn--primary btn--sm" href={href(routes.projects)}>
+            See all projects
+          </a>
+        </div>
+      </div>
+
+      {focus.length > 0 ? (
+        <div class="grid focus__grid" data-reveal-group>
+          {focus.map((p) => (
+            <ProjectCard project={p} />
+          ))}
+        </div>
+      ) : (
+        <p class="focus__empty">
+          No {page.title} project is published yet.{' '}
+          <a href={href(routes.caseStudies)}>Request case studies</a>
+        </p>
+      )}
+    </div>
+  </section>
+
+  {others.length > 0 && (
+    <section class="section band-alt" aria-labelledby="others-title">
+      <div class="container">
+        <SectionHeading eyebrow="More projects" title="Other Axis projects" id="others-title" />
+        <ProjectTypeGroups projects={others} />
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .focus-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+    padding: 1rem clamp(1rem, 2.5vw, 1.5rem);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--brand-green);
+    border-radius: var(--r-lg);
+    background: linear-gradient(135deg, rgba(0, 75, 141, 0.05), rgba(0, 135, 82, 0.07));
+  }
+
+  .focus-bar__what {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .focus-bar__what .icon-tile {
+    flex: none;
+  }
+
+  .focus-bar__what p {
+    display: grid;
+    gap: 0.1rem;
+    margin: 0;
+  }
+
+  .focus-bar__what strong {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+
+  .focus-bar__what span.tabular {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .focus-bar__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  /* A long service name wraps inside its button on phones instead of widening the page. */
+  .focus-bar__actions .btn {
+    white-space: normal;
+    text-align: left;
+  }
+
+  .focus__grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+
+  .focus__empty {
+    padding: 1rem 1.1rem;
+    border: 1px dashed var(--mist-200);
+    border-radius: var(--r-md);
+    color: var(--text-muted);
+  }
+</style>

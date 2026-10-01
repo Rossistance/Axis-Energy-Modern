@@ -31,6 +31,38 @@ for (const [path, title] of pages) {
   });
 }
 
+for (const [path, title] of pages) {
+  test(`${title} ends What we deliver with See projects instead of an In the field section`, async ({
+    page,
+  }) => {
+    await page.goto(path);
+    await expect(page.locator('#related-title')).toHaveCount(0);
+    await expect(page.locator('main')).not.toContainText('In the field');
+    await expect(page.locator('main .project-card')).toHaveCount(0);
+    const block = page.locator('.service-block');
+    await expect(block.locator('.eyebrow').first()).toHaveText('What we deliver');
+    // The pill is the last thing in the section.
+    const last = block.locator('.container > :last-child');
+    await expect(last).toHaveClass(/service-block__footer/);
+    await expect(last.locator('a')).toHaveText(`See projects for ${title}`);
+    await expect(last.locator('a')).toBeVisible();
+  });
+}
+
+test('Solar EPC experience says Community and Distributed Generation, not utility scale', async ({
+  page,
+}) => {
+  await page.goto('services/solar-epc/');
+  const experience = page.locator('section[aria-labelledby="experience-title"]');
+  await expect(experience.locator('h2')).toHaveText('Community, commercial and specialty solar');
+  await expect(experience.locator('h3')).toHaveText([
+    'Community and Distributed Generation',
+    'Commercial & industrial',
+    'Specialty projects',
+  ]);
+  await expect(experience).not.toContainText(/utility/i);
+});
+
 test('O&M page links to six offering pages, each a marked placeholder', async ({ page }) => {
   await page.goto('services/om-and-technical-services/');
   const links = page.locator('.offering-card[href*="/om-and-technical-services/"]');
