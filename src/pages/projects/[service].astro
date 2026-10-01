@@ -48,7 +48,7 @@ const summary = [
     ]}
   />
 
-  <section class="section focus" aria-labelledby="focus-title">
+  <section class="section section--sm focus" aria-labelledby="focus-title">
     <div class="container">
       <h2 id="focus-title" class="sr-only">
         Projects for {page.title}
@@ -89,7 +89,7 @@ const summary = [
   </section>
 
   {others.length > 0 && (
-    <section class="section band-alt" aria-labelledby="others-title">
+    <section class="section section--sm band-alt" aria-labelledby="others-title">
       <div class="container">
         <SectionHeading eyebrow="More projects" title="Other Axis projects" id="others-title" />
         <ProjectTypeGroups projects={others} />
@@ -154,7 +154,8 @@ const summary = [
   }
 
   .focus__grid {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 1rem;
   }
 
   .focus__empty {

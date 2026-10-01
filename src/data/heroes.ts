@@ -46,8 +46,3 @@ export const heroes = {
   contact: carport,
   notFound: solarStorage,
 } satisfies Record<string, HeroPhoto>;
-
-/** A project page's header uses that project's own photo when it has one. */
-export function projectHero(image: ImageMetadata | undefined, position?: string): HeroPhoto {
-  return image ? { src: image, position, placeholder: true } : heroes.projects;
-}

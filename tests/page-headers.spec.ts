@@ -7,7 +7,9 @@ import { sitemapPaths } from './routes';
  * by photos that the preview labels as placeholders.
  */
 
-const inner = [...sitemapPaths().filter((p) => p !== ''), '404/'];
+// Project pages open on a compact title band without a photo (2026-10-01, see
+// project-page.spec.ts); every other inner page shares the photo header.
+const inner = [...sitemapPaths().filter((p) => p !== '' && !p.startsWith('project/')), '404/'];
 
 async function headerHeight(page: Page): Promise<number> {
   return page.evaluate(() => {

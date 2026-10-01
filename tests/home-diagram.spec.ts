@@ -59,7 +59,7 @@ async function boxes(page: Page) {
   return out;
 }
 
-for (const width of [1280, 1440, 768]) {
+for (const width of [1100, 1280, 1440, 768]) {
   test(`at ${width}px the four boxes sit in one row under the branch`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('');
@@ -73,7 +73,7 @@ for (const width of [1280, 1440, 768]) {
   });
 }
 
-for (const width of [390, 1100]) {
+for (const width of [390, 1024]) {
   test(`at ${width}px the boxes form two rows of two around a centre spine`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('');
@@ -91,3 +91,36 @@ for (const width of [390, 1100]) {
     expect(scrollWidth).toBeLessThanOrEqual(width);
   });
 }
+
+test('the cards are small and every card has a curved branch ending in a chevron', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('');
+  const d = diagram(page);
+  for (const box of await boxes(page)) {
+    expect(box.width).toBeLessThanOrEqual(120);
+    expect(box.height).toBeLessThanOrEqual(64);
+  }
+  // Four curves (cubic Béziers) fan out from one node to the four cards.
+  const curves = d.locator('.partnership__fan--row path');
+  await expect(curves).toHaveCount(4);
+  for (const path of await curves.all()) {
+    await expect(path).toHaveAttribute('d', /^M50 0 C/);
+  }
+  await expect(d.locator('.partnership__fan--row')).toBeVisible();
+  await expect(d.locator('.partnership__fan--grid')).toBeHidden();
+  const chevrons = await d
+    .locator('.partnership__markets li')
+    .evaluateAll((els) => els.map((el) => getComputedStyle(el, '::before').content));
+  expect(chevrons).toEqual(['""', '""', '""', '""']);
+});
+
+test('on phones the trunk branches into all four cards', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('');
+  const d = diagram(page);
+  await expect(d.locator('.partnership__fan--grid')).toBeVisible();
+  await expect(d.locator('.partnership__fan--grid path')).toHaveCount(4);
+  await expect(d.locator('.partnership__fan--row')).toBeHidden();
+});

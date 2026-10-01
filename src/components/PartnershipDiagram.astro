@@ -2,9 +2,14 @@
 /**
  * Home page headline as the owner's diagram (2026-10-01): "The Power of Partnership", the
  * three things Axis builds, "Performance built for" and the four markets it serves. The
- * services link to their service pages and each market box to its section of the Markets
- * page. The connector lines are drawn in CSS: one stem branching to four boxes in a row,
- * or, when the column is narrow, a centre spine feeding a two-by-two grid.
+ * services link to their service pages and each market card to its section of the Markets
+ * page.
+ *
+ * The branches are SVG curves fanning out from one node under "for" to a chevron above each
+ * card; when the column is narrow the cards sit two by two, the top pair fed from above and
+ * the bottom pair by a trunk that bends into their inner edges. The SVGs stretch to the
+ * width of the cards (x in percent, y in rem), so every size below is shared with the CSS.
+ * Four across needs a column of 420 px or more; narrower columns use the two-by-two grid.
  */
 import { projectMarkets, marketPath } from '@data/project-markets';
 import { servicePath } from '@data/services';
@@ -21,9 +26,34 @@ const markets = projectMarkets.map((m) => ({
   parts: (m.shortTitle ?? m.title).split(' & '),
   href: marketPath(m.id),
 }));
+
+// Sizes in rem, shared by the CSS (custom properties) and the SVG coordinates.
+const FAN = 2.6; // height of the fan above the row of four
+const FAN_NARROW = 2.3; // height of the fan above the two-by-two grid
+const CARD = 3.6; // card height
+const ROW_GAP = 0.75; // gap between the two rows
+const TIP = 0.36; // the curves stop this far above a card, inside its chevron
+
+// Four across with a 4 % gap: the cards' centres sit at 11, 37, 63 and 89 % of the width.
+const rowPaths = [11, 37, 63, 89].map(
+  (x) => `M50 0 C50 ${FAN * 0.62} ${x} ${FAN * 0.3} ${x} ${FAN - TIP}`,
+);
+
+// Two by two with a 14 % corridor: top centres at 21.5 and 78.5 %, inner edges at 43 and
+// 57 %. The trunk runs down the corridor and bends into the bottom cards' inner edges.
+const bottom = FAN_NARROW + CARD + ROW_GAP + CARD / 2;
+const bend = 1.1;
+const gridHeight = FAN_NARROW + 2 * CARD + ROW_GAP;
+const gridPaths = [
+  `M50 0 C50 ${FAN_NARROW * 0.62} 21.5 ${FAN_NARROW * 0.3} 21.5 ${FAN_NARROW - TIP}`,
+  `M50 0 C50 ${FAN_NARROW * 0.62} 78.5 ${FAN_NARROW * 0.3} 78.5 ${FAN_NARROW - TIP}`,
+  `M50 0 L50 ${bottom - bend} C50 ${bottom - bend * 0.35} 48.4 ${bottom} 44.4 ${bottom}`,
+  `M50 ${bottom - bend} C50 ${bottom - bend * 0.35} 51.6 ${bottom} 55.6 ${bottom}`,
+];
+const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD}rem; --row-gap: ${ROW_GAP}rem; --tip: ${TIP}rem`;
 ---
 
-<div class="partnership">
+<div class="partnership" style={vars}>
   <h1 id="hero-title" class="partnership__title">
     The Power of Partnership
   </h1>
@@ -39,30 +69,76 @@ const markets = projectMarkets.map((m) => ({
   <p class="partnership__built">Performance built</p>
   <p class="partnership__for">for</p>
 
-  <ul class="partnership__markets" aria-label="Markets we serve">
-    {markets.map((m) => (
-      <li>
-        <a href={href(m.href)}>
-          {m.parts.map((part, i) => (
-            <>
-              {i > 0 && <span class="partnership__amp"> & </span>}
-              <span class="partnership__part">{part}</span>
-            </>
-          ))}
-        </a>
-      </li>
-    ))}
-  </ul>
+  <div class="partnership__branch">
+    <svg
+      class="partnership__fan partnership__fan--row"
+      viewBox={`0 0 100 ${FAN}`}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <linearGradient
+          id="fan-row-stroke"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2={FAN}
+        >
+          <stop offset="0" stop-color="#9eede6" />
+          <stop offset="1" stop-color="#5fd39a" />
+        </linearGradient>
+      </defs>
+      {rowPaths.map((d) => (
+        <path d={d} stroke="url(#fan-row-stroke)" />
+      ))}
+    </svg>
+    <svg
+      class="partnership__fan partnership__fan--grid"
+      viewBox={`0 0 100 ${gridHeight}`}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <linearGradient
+          id="fan-grid-stroke"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2={gridHeight}
+        >
+          <stop offset="0" stop-color="#9eede6" />
+          <stop offset="1" stop-color="#5fd39a" />
+        </linearGradient>
+      </defs>
+      {gridPaths.map((d) => (
+        <path d={d} stroke="url(#fan-grid-stroke)" />
+      ))}
+    </svg>
+
+    <ul class="partnership__markets" aria-label="Markets we serve">
+      {markets.map((m) => (
+        <li>
+          <a href={href(m.href)}>
+            {m.parts.map((part, i) => (
+              <>
+                {i > 0 && <span class="partnership__amp"> & </span>}
+                <span class="partnership__part">{part}</span>
+              </>
+            ))}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
 </div>
 
 <style>
   .partnership {
-    --line-color: rgba(158, 237, 230, 0.55);
-    --line-w: 1.5px;
-    --drop: 30px;
-    --gap: 0.75rem;
-    /* Two-by-two layout: room between the columns for the spine and its arrows. */
-    --spine-gap: 2.75rem;
+    --chevron: var(--brand-green-bright);
     container-type: inline-size;
     text-align: center;
   }
@@ -138,11 +214,8 @@ const markets = projectMarkets.map((m) => ({
     text-transform: uppercase;
   }
 
-  /* FOR, with the stem that feeds the market boxes. */
   .partnership__for {
-    position: relative;
-    margin: 0.85rem 0 0;
-    padding-bottom: 16px;
+    margin: 0.8rem 0 0;
     color: var(--aqua-200);
     font-size: 0.8rem;
     font-weight: 600;
@@ -150,36 +223,64 @@ const markets = projectMarkets.map((m) => ({
     text-transform: uppercase;
   }
 
-  .partnership__for::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: var(--line-w);
-    height: 12px;
-    background: var(--line-color);
-    transform: translateX(-50%);
+  /* The fan and the cards, centred and narrower than the column. */
+  .partnership__branch {
+    position: relative;
+    width: min(100%, 30rem);
+    margin: 0.55rem auto 0;
   }
 
-  /* Four boxes in a row: a bar across their centres and a drop with an arrow into each. */
+  /* The node the branches leave from. */
+  .partnership__branch::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--aqua-200);
+    box-shadow: 0 0 0 4px rgba(63, 207, 196, 0.18);
+    transform: translate(-50%, -50%);
+  }
+
+  .partnership__fan {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    overflow: visible;
+    pointer-events: none;
+    filter: drop-shadow(0 0 3px rgba(63, 207, 196, 0.35));
+  }
+
+  .partnership__fan--row {
+    height: var(--fan);
+  }
+
+  .partnership__fan--grid {
+    display: none;
+    height: calc(var(--fan-narrow) + 2 * var(--card-h) + var(--row-gap));
+  }
+
+  .partnership__fan path {
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Four across: cards at 22 % with 4 % gaps, so their centres match the curves. */
   .partnership__markets {
     position: relative;
     list-style: none;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--gap);
+    grid-auto-rows: var(--card-h);
+    column-gap: 4%;
     margin: 0;
-    padding: var(--drop) 0 0;
-  }
-
-  .partnership__markets::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: calc((100% - 3 * var(--gap)) / 8);
-    right: calc((100% - 3 * var(--gap)) / 8);
-    height: var(--line-w);
-    background: var(--line-color);
+    padding: var(--fan) 0 0;
   }
 
   .partnership__markets li {
@@ -187,25 +288,17 @@ const markets = projectMarkets.map((m) => ({
     display: flex;
   }
 
-  .partnership__markets li::before,
-  .partnership__markets li::after {
+  /* Chevron above each card, where its curve ends. */
+  .partnership__markets li::before {
     content: '';
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .partnership__markets li::before {
-    top: calc(-1 * var(--drop));
-    width: var(--line-w);
-    height: calc(var(--drop) - 7px);
-    background: var(--line-color);
-  }
-
-  .partnership__markets li::after {
-    top: -7px;
-    border-inline: 5px solid transparent;
-    border-top: 7px solid var(--aqua-400);
+    top: -9.5px;
+    width: 7px;
+    height: 7px;
+    border-right: 1.6px solid var(--chevron);
+    border-bottom: 1.6px solid var(--chevron);
+    transform: translateX(-50%) rotate(45deg);
   }
 
   .partnership__markets a {
@@ -214,18 +307,19 @@ const markets = projectMarkets.map((m) => ({
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.1rem;
-    min-height: 88px;
-    padding: 0.75rem 0.45rem;
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    border-radius: var(--r-md);
-    background: rgba(255, 255, 255, 0.06);
+    min-width: 0;
+    padding: 0.35rem 0.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 8px 18px -12px rgba(0, 0, 0, 0.55);
     color: #fff;
-    font-size: clamp(0.8rem, 2.6cqi, 0.95rem);
+    font-size: clamp(0.7rem, 2.65cqi, 0.78rem);
     font-weight: 600;
-    line-height: 1.25;
+    line-height: 1.15;
     text-decoration: none;
-    text-wrap: balance;
     transition:
       transform var(--dur-1, 150ms) ease,
       background-color var(--dur-1, 150ms) ease,
@@ -233,7 +327,7 @@ const markets = projectMarkets.map((m) => ({
   }
 
   .partnership__markets a:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.13);
     border-color: var(--aqua-400);
     transform: translateY(-2px);
   }
@@ -244,60 +338,50 @@ const markets = projectMarkets.map((m) => ({
     font-weight: 700;
   }
 
-  /* Narrow column (phones, and desktops where the photos take most of the width): a centre
-     spine feeds two boxes on each side, with an arrow into each. */
-  @container (max-width: 499px) {
+  /* Narrow column (phones, and desktops where the photos take most of the width): two by
+     two, the bottom pair fed by the trunk through the 14 % corridor. */
+  @container (max-width: 419px) {
+    .partnership__branch {
+      width: min(100%, 22rem);
+    }
+
+    .partnership__fan--row {
+      display: none;
+    }
+
+    .partnership__fan--grid {
+      display: block;
+    }
+
     .partnership__markets {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-auto-rows: 1fr;
-      column-gap: var(--spine-gap);
-      row-gap: var(--gap);
-      padding-top: 0;
-    }
-
-    .partnership__markets::before {
-      top: 0;
-      bottom: calc((100% - var(--gap)) / 4);
-      left: 50%;
-      right: auto;
-      width: var(--line-w);
-      height: auto;
-      transform: translateX(-50%);
-    }
-
-    .partnership__markets li::before {
-      top: 50%;
-      left: 100%;
-      width: calc(var(--spine-gap) / 2 - 7px);
-      height: var(--line-w);
-      transform: translate(7px, -50%);
-    }
-
-    .partnership__markets li::after {
-      top: 50%;
-      left: 100%;
-      border-inline: 0;
-      border-block: 5px solid transparent;
-      border-right: 7px solid var(--aqua-400);
-      transform: translate(0, -50%);
-    }
-
-    .partnership__markets li:nth-child(even)::before {
-      left: auto;
-      right: 100%;
-      transform: translate(-7px, -50%);
-    }
-
-    .partnership__markets li:nth-child(even)::after {
-      left: auto;
-      right: 100%;
-      border-right: 0;
-      border-left: 7px solid var(--aqua-400);
+      column-gap: 14%;
+      row-gap: var(--row-gap);
+      padding-top: var(--fan-narrow);
     }
 
     .partnership__markets a {
-      min-height: 72px;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+    }
+
+    .partnership__markets li:nth-child(n + 3)::before {
+      top: calc(50% - 3.5px);
+      border: 0;
+      transform: rotate(45deg);
+    }
+
+    /* Bottom left: chevron on its inner (right) edge, pointing in. */
+    .partnership__markets li:nth-child(3)::before {
+      left: calc(100% + 2px);
+      border-left: 1.6px solid var(--chevron);
+      border-bottom: 1.6px solid var(--chevron);
+    }
+
+    /* Bottom right: chevron on its inner (left) edge, pointing in. */
+    .partnership__markets li:nth-child(4)::before {
+      left: -9px;
+      border-right: 1.6px solid var(--chevron);
+      border-top: 1.6px solid var(--chevron);
     }
   }
 
@@ -310,6 +394,37 @@ const markets = projectMarkets.map((m) => ({
     .partnership__services a {
       font-size: 0.74rem;
       letter-spacing: 0.08em;
+    }
+  }
+
+  /* The branches grow down from the node when the page opens. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .partnership__fan {
+      animation: fan-grow 0.8s var(--ease-out) 0.15s both;
+    }
+
+    :global(html.js) .partnership__markets li::before {
+      animation: fan-tip 0.35s ease 0.75s both;
+    }
+  }
+
+  @keyframes fan-grow {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+
+    to {
+      clip-path: inset(0);
+    }
+  }
+
+  @keyframes fan-tip {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
     }
   }
 </style>

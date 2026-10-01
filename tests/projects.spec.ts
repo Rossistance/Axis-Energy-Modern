@@ -106,3 +106,40 @@ test('each service view shows the projects that fit the service', async ({ page 
     for (const title of not) expect(focused, slug).not.toContain(title);
   }
 });
+
+test('project cards are compact: four to a row, no summary paragraph', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('projects/');
+  const cards = page.locator('.type-group .project-card');
+  await expect(cards.first().locator('.project-card__summary')).toHaveCount(0);
+  const boxes = await cards.evaluateAll((els) =>
+    els.map((el) => {
+      const r = el.getBoundingClientRect();
+      return { top: Math.round(r.top), width: r.width, height: r.height };
+    }),
+  );
+  for (const box of boxes) {
+    expect(box.width).toBeLessThanOrEqual(300);
+    expect(box.height).toBeLessThanOrEqual(300);
+  }
+  // Small type groups share rows: the eight published projects fit on two rows.
+  const rows = new Set(boxes.map((b) => b.top));
+  expect(rows.size).toBeLessThanOrEqual(Math.ceil(boxes.length / 4));
+  // Cards in the same row line up.
+  for (const top of rows) {
+    const heights = boxes.filter((b) => b.top === top).map((b) => Math.round(b.height));
+    expect(new Set(heights).size, `row at ${top}px`).toBe(1);
+  }
+});
+
+test('on phones each project card is a compact row with the photo beside the text', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('projects/');
+  const card = page.locator('.project-card').first();
+  const media = (await card.locator('.project-card__media').boundingBox())!;
+  const body = (await card.locator('.project-card__body').boundingBox())!;
+  expect(body.x).toBeGreaterThanOrEqual(media.x + media.width - 1);
+  expect((await card.boundingBox())!.height).toBeLessThanOrEqual(140);
+});
