@@ -1,7 +1,7 @@
 ---
-import { Picture } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
 import { Icon } from 'astro-icon/components';
+import HeroCarousel from '@components/HeroCarousel.astro';
+import type { CarouselSlide } from '@lib/projects';
 import { href } from '@lib/href';
 
 interface Props {
@@ -10,12 +10,14 @@ interface Props {
   lead: string;
   primary: { label: string; href: string };
   secondary?: { label: string; href: string };
-  art: ImageMetadata;
-  chips?: { icon: string; label: string }[];
+  /** Project photos shown in the carousel beside the headline. */
+  slides: CarouselSlide[];
+  /** Highlight links that float over the photos on desktop and sit above them on phones. */
+  chips?: { icon: string; label: string; href: string }[];
   trust?: string[];
 }
 
-const { eyebrow, title, lead, primary, secondary, art, chips = [], trust = [] } = Astro.props;
+const { eyebrow, title, lead, primary, secondary, slides, chips = [], trust = [] } = Astro.props;
 ---
 
 <section class="hero band-dark" aria-labelledby="hero-title">
@@ -38,27 +40,21 @@ const { eyebrow, title, lead, primary, secondary, art, chips = [], trust = [] } 
       </div>
     </div>
 
-    <div class="hero__art-wrap">
-      <div class="hero__art hero-art--drift">
-        <Picture
-          src={art}
-          alt=""
-          formats={['avif', 'webp']}
-          fallbackFormat="jpg"
-          widths={[480, 720, 960, 1200]}
-          sizes="(min-width: 1024px) 42vw, 100vw"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          pictureAttributes={{ class: 'hero__picture' }}
-        />
-      </div>
-      {chips.map((chip, i) => (
-        <span class:list={['hero__chip', `hero__chip--${i + 1}`]} aria-hidden="true">
-          <Icon name={chip.icon} />
-          {chip.label}
-        </span>
-      ))}
+    <div class="hero__media">
+      {chips.length > 0 && (
+        <ul class="hero__chips" aria-label="Highlights">
+          {chips.map((chip, i) => (
+            <li class:list={['hero__chip-item', `hero__chip-item--${i + 1}`]}>
+              <a class="hero__chip" href={href(chip.href)}>
+                <Icon name={chip.icon} class="hero__chip-icon" />
+                <span>{chip.label}</span>
+                <Icon name="lucide:arrow-right" class="hero__chip-arrow" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      <HeroCarousel slides={slides} />
     </div>
   </div>
 
@@ -115,80 +111,65 @@ const { eyebrow, title, lead, primary, secondary, art, chips = [], trust = [] } 
     margin-top: 2rem;
   }
 
-  .hero__art-wrap {
+  .hero__media {
     position: relative;
-    max-width: 640px;
-    margin-inline: auto;
     width: 100%;
   }
 
-  .hero__art {
-    position: relative;
-    border-radius: var(--r-xl);
-    overflow: hidden;
-    aspect-ratio: 1 / 1;
-    box-shadow: var(--shadow-3);
-    isolation: isolate;
-  }
-
-  .hero__art::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-    background: linear-gradient(160deg, transparent 55%, rgba(0, 35, 82, 0.55));
-    pointer-events: none;
-  }
-
-  .hero__art :global(picture) {
-    position: absolute;
-    inset: 0;
-  }
-
-  .hero__art :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform-origin: center;
+  /* Phones and tablets: the highlights sit in a row above the photos. */
+  .hero__chips {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .hero__chip {
-    position: absolute;
-    display: none;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.55rem 0.9rem;
+    min-height: 36px;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: var(--r-pill);
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--brand-navy);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
     font-weight: 600;
     font-size: 0.85rem;
-    box-shadow: var(--shadow-2);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      transform var(--dur-1, 150ms) ease,
+      box-shadow var(--dur-1, 150ms) ease,
+      background-color var(--dur-1, 150ms) ease;
   }
 
-  .hero__chip :global(svg) {
+  .hero__chip:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .hero__chip :global(.hero__chip-icon) {
     width: 16px;
     height: 16px;
-    color: var(--brand-green);
+    flex: none;
+    color: var(--aqua-400);
   }
 
-  .hero__chip--1 {
-    top: 8%;
-    left: -6%;
+  .hero__chip :global(.hero__chip-arrow) {
+    width: 14px;
+    height: 14px;
+    flex: none;
+    opacity: 0.6;
+    transition:
+      transform var(--dur-1, 150ms) ease,
+      opacity var(--dur-1, 150ms) ease;
   }
 
-  .hero__chip--2 {
-    top: 46%;
-    right: -7%;
-  }
-
-  .hero__chip--3 {
-    bottom: 9%;
-    left: 6%;
+  .hero__chip:hover :global(.hero__chip-arrow) {
+    opacity: 1;
+    transform: translateX(2px);
   }
 
   .hero__trust {
@@ -217,11 +198,57 @@ const { eyebrow, title, lead, primary, secondary, art, chips = [], trust = [] } 
 
   @media (min-width: 1024px) {
     .hero__grid {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    }
+
+    /* Desktop: the highlights float over the edges of the photo frame (same 3:2 box). */
+    .hero__chips {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 4;
+      aspect-ratio: 3 / 2;
+      display: block;
+      margin: 0;
+      pointer-events: none;
+    }
+
+    .hero__chip-item {
+      position: absolute;
+      pointer-events: auto;
+    }
+
+    .hero__chip-item--1 {
+      top: 7%;
+      left: -5%;
+    }
+
+    .hero__chip-item--2 {
+      top: 33%;
+      right: -6%;
+    }
+
+    .hero__chip-item--3 {
+      top: 58%;
+      left: -4%;
     }
 
     .hero__chip {
-      display: inline-flex;
+      border-color: transparent;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--brand-navy);
+      box-shadow: var(--shadow-2);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero__chip:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-3);
+    }
+
+    .hero__chip :global(.hero__chip-icon) {
+      color: var(--brand-green);
     }
   }
 </style>

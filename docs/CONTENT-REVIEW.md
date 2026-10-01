@@ -14,7 +14,7 @@ Source tags: **[live]** current axis-energyinc.com · **[brochure]** 2018 brochu
 
 ## Home
 
-1. Hero: "The Power of Partnership" / "Renewable excellence that generates trust and value for our customers." [live]; buttons Request a quote · See our work; trust strip (employee-owned, 1910 Legacy, Top Solar Contractor, Holly Springs).
+1. Hero: "The Power of Partnership" / "Renewable excellence that generates trust and value for our customers." [live]; buttons Request a quote · See our work; a carousel of real project photos (changed 2026-09-30 after the team review; replaces the illustration), each captioned with the project name and linking to its page; three highlight bubbles over the photos that link to Projects (150 MW+ solar constructed), About (100% employee-owned) and News (Top Solar Contractor 2021–2026); trust strip (employee-owned, 1910 Legacy, Top Solar Contractor, Holly Springs). The carousel shows the photos sharp enough for its size, today the three 2026 abstract photos; the others join automatically when their originals are supplied.
 2. Stats: 150 MW+ · 30 MWh · 28 projects · 9 states · 5 O&M sites [deck]. **Decision:** the deck frames 150 MW as the team's collective experience; Solar Power World lists 99 MW installed since founding. Which basis do you want to publish, and are the counts current?
 3. "One solid, reliable partner" paragraph [live, verbatim] beside the 3D logo.
 4. Services overview: EPC, O&M [live], Solar + Storage, Electrical infrastructure [SPW/deck].

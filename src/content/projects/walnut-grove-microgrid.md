@@ -29,6 +29,7 @@ benefits:
     body: "A practical reference for utilities, cooperatives, industrial campuses and critical facilities evaluating microgrid investments."
 image: ../../assets/projects/walnut-grove-microgrid.jpg
 imageAlt: "Aerial view of the microgrid's battery storage and medium-voltage equipment yard beside rows of tracking solar panels"
+imageFocus: "35% 50%"
 gallery:
   - image: ../../assets/projects/walnut-grove-microgrid-equipment-yard.jpg
     alt: "Overhead view of the microgrid's battery containers, inverters and medium-voltage equipment on a gravel pad"

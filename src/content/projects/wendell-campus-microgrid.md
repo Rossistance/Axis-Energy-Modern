@@ -29,6 +29,7 @@ benefits:
     body: "A working example for manufacturers weighing solar, storage, controls integration and resilient campus infrastructure."
 image: ../../assets/projects/wendell-campus-microgrid.jpg
 imageAlt: "Aerial view of solar carport canopies beside a manufacturing plant and its employee parking"
+imageFocus: "20% 50%"
 gallery:
   - image: ../../assets/projects/wendell-campus-microgrid-carport.jpg
     alt: "Aerial view of the solar carport rows with a construction laydown area and site trailers alongside"

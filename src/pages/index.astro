@@ -10,15 +10,17 @@ import Pillars from '@components/Pillars.astro';
 import ProjectCard from '@components/ProjectCard.astro';
 import Testimonial from '@components/Testimonial.astro';
 import NewsCard from '@components/NewsCard.astro';
-import heroArt from '@assets/hero/hero-home.png';
 import { stats, rankings } from '@data/stats';
 import { testimonials } from '@data/pillars';
 import { href, absoluteUrl } from '@lib/href';
 import { formatSize, formatCommissioned } from '@lib/format';
-import { getPublishedProjects } from '@lib/projects';
+import { getPublishedProjects, carouselSlides } from '@lib/projects';
 import { webPageSchema } from '@lib/schema';
 
-const projects = (await getPublishedProjects()).filter((p) => p.data.featured).slice(0, 3);
+const published = await getPublishedProjects();
+const projects = published.filter((p) => p.data.featured).slice(0, 3);
+/** Hero carousel: real project photos, in project order. */
+const heroSlides = carouselSlides(published);
 /** Real project shown beside the partnership statement. */
 const spotlight = await getEntry('projects', 'north-carolina-utility-scale-portfolio');
 const posts = (await getCollection('news', ({ data }) => data.published))
@@ -73,16 +75,16 @@ const jsonLd = [
   {jsonLd}
 >
   <Hero
-    eyebrow="EPC + O&M for commercial, industrial and utility-scale solar"
+    eyebrow="EPC + O&M for commercial, industrial and utility‑scale solar"
     title="The Power of Partnership"
     lead="Renewable excellence that generates trust and value for our customers."
     primary={{ label: 'Request a quote', href: '/request-a-quote/' }}
     secondary={{ label: 'See our work', href: '/projects/' }}
-    art={heroArt}
+    slides={heroSlides}
     chips={[
-      { icon: 'lucide:sun', label: '150 MW+ solar constructed' },
-      { icon: 'lucide:users', label: '100% employee-owned' },
-      { icon: 'lucide:award', label: `Top Solar Contractor ${recognition}` },
+      { icon: 'lucide:sun', label: '150 MW+ solar constructed', href: '/projects/' },
+      { icon: 'lucide:users', label: '100% employee-owned', href: '/about/' },
+      { icon: 'lucide:award', label: `Top Solar Contractor ${recognition}`, href: '/news/' },
     ]}
     trust={[
       '100% employee-owned through the 1910 Legacy ESOP',

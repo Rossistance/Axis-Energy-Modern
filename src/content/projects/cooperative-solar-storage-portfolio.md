@@ -27,6 +27,7 @@ benefits:
     body: "Knowledge from construction and commissioning now informs diagnostics, maintenance, warranty coordination and reporting."
 image: ../../assets/projects/cooperative-solar-storage-portfolio.jpg
 imageAlt: "Aerial view of a ground-mounted solar array and its battery storage and inverter pad in rural North Carolina"
+imageFocus: "100% 50%"
 gallery:
   - image: ../../assets/projects/cooperative-solar-storage-portfolio-battery-pad.jpg
     alt: "Close view of a battery storage enclosure, transformer and switchgear on a concrete pad at one of the sites"

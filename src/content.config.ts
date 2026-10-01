@@ -46,6 +46,8 @@ const projects = defineCollection({
       image: image().optional(),
       imageAlt: z.string().optional(),
       imageCredit: z.string().optional(),
+      /** Focal point when the photo is cropped (home carousel), as a CSS object-position such as "35% 50%". */
+      imageFocus: z.string().optional(),
       /** Additional site photos, shown beside the project details. */
       gallery: z
         .array(z.object({ image: image(), alt: z.string(), caption: z.string().optional() }))

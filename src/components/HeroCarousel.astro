@@ -1,0 +1,575 @@
+---
+/**
+ * Home page photo carousel: real project photos with a caption that links to each project.
+ *
+ * Accessibility follows the WAI-ARIA carousel pattern: a play/pause control, previous/next
+ * and per-slide buttons, rotation that pauses on hover and stops when keyboard focus enters,
+ * no automatic rotation for visitors who prefer reduced motion, and inactive slides removed
+ * from the tab order. Without JavaScript the first photo shows on its own.
+ */
+import { Picture } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { href } from '@lib/href';
+import type { CarouselSlide } from '@lib/projects';
+
+interface Props {
+  slides: CarouselSlide[];
+  label?: string;
+  /** Milliseconds each photo stays on screen while the slideshow plays. */
+  interval?: number;
+}
+
+const { slides, label = 'Project photos', interval = 6000 } = Astro.props;
+const count = slides.length;
+/** The caption arrow is kept on the same line as the title's last word. */
+const titleParts = (title: string) => {
+  const words = title.trim().split(/\s+/);
+  const last = words.pop() ?? '';
+  return { head: words.join(' '), last };
+};
+---
+
+{count > 0 && (
+  <section
+    class="carousel"
+    data-carousel
+    data-interval={interval}
+    aria-roledescription="carousel"
+    aria-label={label}
+    style={`--carousel-interval: ${interval}ms`}
+  >
+    <div class="carousel__viewport" data-viewport>
+      <div class="carousel__slides" aria-live="off" data-slides>
+        {slides.map((slide, i) => (
+          <div
+            class:list={['carousel__slide', { 'is-active': i === 0 }]}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${count}`}
+            data-slide
+            hidden={i > 0}
+          >
+            <Picture
+              src={slide.image}
+              alt={slide.alt}
+              formats={['avif', 'webp']}
+              fallbackFormat="jpg"
+              widths={[480, 720, 960, 1200]}
+              sizes="(min-width: 1280px) 620px, (min-width: 1024px) 48vw, (min-width: 700px) 640px, 92vw"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : 'auto'}
+              decoding="async"
+              style={
+                slide.focus
+                  ? `object-position: ${slide.focus}; transform-origin: ${slide.focus}`
+                  : undefined
+              }
+              pictureAttributes={{ class: 'carousel__picture' }}
+            />
+            <div class="carousel__caption">
+              <a class="carousel__title" href={href(slide.href)}>
+                {titleParts(slide.title).head}{' '}
+                <span class="carousel__title-end">
+                  {titleParts(slide.title).last}
+                  <Icon name="lucide:arrow-right" class="icon" />
+                </span>
+              </a>
+              {slide.meta && <p class="carousel__meta">{slide.meta}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {count > 1 && (
+      <div class="carousel__controls" data-controls hidden>
+        <button
+          type="button"
+          class="carousel__btn carousel__toggle"
+          data-toggle
+          aria-label="Pause slideshow"
+        >
+          <Icon name="lucide:pause" class="carousel__icon-pause" />
+          <Icon name="lucide:play" class="carousel__icon-play" />
+        </button>
+        <div class="carousel__dots">
+          {slides.map((slide, i) => (
+            <button
+              type="button"
+              class="carousel__dot"
+              data-dot={i}
+              aria-label={`Show photo ${i + 1} of ${count}: ${slide.title}`}
+              aria-current={i === 0 ? 'true' : undefined}
+            >
+              <span class="carousel__dot-fill" />
+            </button>
+          ))}
+        </div>
+        <div class="carousel__arrows">
+          <button type="button" class="carousel__btn" data-prev aria-label="Previous photo">
+            <Icon name="lucide:chevron-left" />
+          </button>
+          <button type="button" class="carousel__btn" data-next aria-label="Next photo">
+            <Icon name="lucide:chevron-right" />
+          </button>
+        </div>
+      </div>
+    )}
+  </section>
+)}
+
+<script>
+  const FADE_MS = 900;
+
+  function initCarousel(root: HTMLElement) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+    const controls = root.querySelector<HTMLElement>('[data-controls]');
+    if (slides.length < 2 || !controls) return;
+
+    const viewport = root.querySelector<HTMLElement>('[data-viewport]')!;
+    const live = root.querySelector<HTMLElement>('[data-slides]')!;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-toggle]')!;
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+    const interval = Number(root.dataset.interval) || 6000;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let index = 0;
+    /** Set by the play/pause button, by keyboard focus, or by a reduced-motion preference. */
+    let stopped = reduceMotion;
+    let hovering = false;
+    let inView = true;
+    let timer: number | undefined;
+    let startedAt = 0;
+    let remaining = interval;
+
+    controls.hidden = false;
+
+    /** Unhide a slide so its lazy image loads; forces a style flush so the fade runs. */
+    const reveal = (i: number) => {
+      const slide = slides[i];
+      if (!slide.hidden) return;
+      slide.hidden = false;
+      void slide.offsetWidth;
+    };
+
+    const syncSlides = () => {
+      slides.forEach((slide, i) => {
+        const active = i === index;
+        slide.classList.toggle('is-active', active);
+        slide.toggleAttribute('inert', !active);
+        if (active) slide.removeAttribute('aria-hidden');
+        else slide.setAttribute('aria-hidden', 'true');
+      });
+      dots.forEach((dot, i) => {
+        if (i === index) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+    };
+
+    const syncState = () => {
+      root.dataset.state = stopped ? 'stopped' : timer !== undefined ? 'playing' : 'paused';
+      live.setAttribute('aria-live', stopped ? 'polite' : 'off');
+      toggle.setAttribute('aria-label', stopped ? 'Play slideshow' : 'Pause slideshow');
+    };
+
+    const canRun = () => !stopped && !hovering && inView && !document.hidden;
+
+    const pause = () => {
+      if (timer !== undefined) {
+        window.clearTimeout(timer);
+        timer = undefined;
+        remaining = Math.max(0, remaining - (performance.now() - startedAt));
+      }
+      syncState();
+    };
+
+    const run = () => {
+      if (timer === undefined && canRun()) {
+        startedAt = performance.now();
+        timer = window.setTimeout(() => {
+          timer = undefined;
+          show(index + 1);
+        }, remaining);
+      }
+      syncState();
+    };
+
+    const show = (target: number) => {
+      const n = slides.length;
+      const next = ((target % n) + n) % n;
+      if (next !== index) {
+        const leaving = slides[index];
+        reveal(next);
+        leaving.classList.add('is-leaving');
+        window.setTimeout(() => leaving.classList.remove('is-leaving'), FADE_MS);
+        index = next;
+        syncSlides();
+        reveal((index + 1) % n);
+      }
+      if (timer !== undefined) window.clearTimeout(timer);
+      timer = undefined;
+      remaining = interval;
+      run();
+    };
+
+    const stop = () => {
+      stopped = true;
+      pause();
+    };
+
+    toggle.addEventListener('click', () => {
+      if (stopped) {
+        stopped = false;
+        remaining = interval;
+        run();
+      } else {
+        stop();
+      }
+    });
+    root.querySelector('[data-prev]')!.addEventListener('click', () => show(index - 1));
+    root.querySelector('[data-next]')!.addEventListener('click', () => show(index + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+
+    // Keyboard focus anywhere except the play/pause button stops rotation for good.
+    root.addEventListener('focusin', (event) => {
+      if (event.target !== toggle) stop();
+    });
+
+    root.addEventListener('pointerenter', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      hovering = true;
+      pause();
+    });
+    root.addEventListener('pointerleave', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      hovering = false;
+      run();
+    });
+
+    // Swipe on touch screens.
+    let startX = 0;
+    let startY = 0;
+    viewport.addEventListener(
+      'pointerdown',
+      (event) => {
+        startX = event.clientX;
+        startY = event.clientY;
+      },
+      { passive: true },
+    );
+    viewport.addEventListener('pointerup', (event) => {
+      if (event.pointerType === 'mouse') return;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+      stop();
+      show(dx < 0 ? index + 1 : index - 1);
+    });
+
+    document.addEventListener('visibilitychange', () => (document.hidden ? pause() : run()));
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        inView = entry.isIntersecting;
+        if (inView) run();
+        else pause();
+      }).observe(root);
+    }
+
+    // Load the second photo once the page itself has finished loading.
+    const preload = () => reveal(1);
+    if (document.readyState === 'complete') preload();
+    else window.addEventListener('load', preload, { once: true });
+
+    syncSlides();
+    run();
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(initCarousel);
+</script>
+
+<style>
+  .carousel {
+    position: relative;
+  }
+
+  .carousel__viewport {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(135deg, var(--navy-deep), var(--teal-800));
+    box-shadow: var(--shadow-3);
+    touch-action: pan-y;
+  }
+
+  .carousel__viewport::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    pointer-events: none;
+  }
+
+  .carousel__slides,
+  .carousel__slide {
+    position: absolute;
+    inset: 0;
+  }
+
+  .carousel__slide {
+    opacity: 0;
+    transition: opacity 900ms ease;
+  }
+
+  .carousel__slide[hidden] {
+    display: none;
+  }
+
+  .carousel__slide.is-active {
+    z-index: 2;
+    opacity: 1;
+  }
+
+  /* The outgoing photo stays opaque under the incoming one, so the fade never dips. */
+  .carousel__slide.is-leaving {
+    z-index: 1;
+    opacity: 1;
+    transition: none;
+  }
+
+  .carousel__slide :global(picture) {
+    position: absolute;
+    inset: 0;
+  }
+
+  .carousel__slide :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .carousel__slide.is-active :global(img),
+  .carousel__slide.is-leaving :global(img) {
+    animation: carousel-zoom calc(var(--carousel-interval) + 900ms) ease-out both;
+  }
+
+  .carousel[data-state='paused'] .carousel__slide :global(img),
+  .carousel[data-state='stopped'] .carousel__slide :global(img) {
+    animation-play-state: paused;
+  }
+
+  @keyframes carousel-zoom {
+    from {
+      transform: scale(1);
+    }
+
+    to {
+      transform: scale(1.06);
+    }
+  }
+
+  .carousel__caption {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 1;
+    padding: 3.5rem 1.25rem 1.1rem;
+    background: linear-gradient(
+      to top,
+      rgba(0, 24, 54, 0.9),
+      rgba(0, 24, 54, 0.55) 55%,
+      transparent
+    );
+    color: #fff;
+  }
+
+  .carousel__title {
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    text-decoration: none;
+  }
+
+  .carousel__title-end {
+    white-space: nowrap;
+  }
+
+  .carousel__title :global(.icon) {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: 0.35rem;
+    vertical-align: -3px;
+    transition: transform var(--dur-1, 150ms) ease;
+  }
+
+  .carousel__title:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .carousel__title:hover :global(.icon) {
+    transform: translateX(3px);
+  }
+
+  .carousel__meta {
+    margin: 0.25rem 0 0;
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .carousel__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+  }
+
+  .carousel__controls[hidden] {
+    display: none;
+  }
+
+  .carousel__dots {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .carousel__arrows {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .carousel__btn {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1, 150ms) ease,
+      border-color var(--dur-1, 150ms) ease;
+  }
+
+  .carousel__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .carousel__btn :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .carousel__icon-play {
+    display: none;
+  }
+
+  .carousel[data-state='stopped'] .carousel__icon-pause {
+    display: none;
+  }
+
+  .carousel[data-state='stopped'] .carousel__icon-play {
+    display: block;
+  }
+
+  .carousel__dot {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  /* Inactive photos show as small dots; the current one as a bar that fills while it plays. */
+  .carousel__dot-fill {
+    position: relative;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.45);
+    overflow: hidden;
+    transition:
+      width var(--dur-2, 250ms) ease,
+      background-color var(--dur-2, 250ms) ease;
+  }
+
+  .carousel__dot:hover .carousel__dot-fill {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .carousel__dot[aria-current='true'] .carousel__dot-fill {
+    width: 24px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .carousel__dot[aria-current='true'] .carousel__dot-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--aqua-400);
+    transform-origin: left center;
+    transform: scaleX(1);
+  }
+
+  .carousel[data-state='playing'] .carousel__dot[aria-current='true'] .carousel__dot-fill::after,
+  .carousel[data-state='paused'] .carousel__dot[aria-current='true'] .carousel__dot-fill::after {
+    animation: carousel-progress var(--carousel-interval) linear both;
+  }
+
+  .carousel[data-state='paused'] .carousel__dot[aria-current='true'] .carousel__dot-fill::after {
+    animation-play-state: paused;
+  }
+
+  @keyframes carousel-progress {
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (max-width: 639px) {
+    .carousel__viewport {
+      aspect-ratio: 4 / 3;
+    }
+
+    .carousel__caption {
+      padding: 2.75rem 1rem 0.9rem;
+    }
+
+    .carousel__title {
+      font-size: 0.95rem;
+    }
+
+    .carousel__meta {
+      font-size: var(--text-xs);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel__slide.is-active :global(img),
+    .carousel__slide.is-leaving :global(img),
+    .carousel__dot[aria-current='true'] .carousel__dot-fill::after {
+      animation: none !important;
+    }
+  }
+</style>

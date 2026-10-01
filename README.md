@@ -58,6 +58,7 @@ partners: ['Client name'] # optional; only with the client's written permission
 summary: 'One sentence used on cards and as the meta description.'
 image: ../../assets/projects/hertford.jpg # optional, 4:3 or wider
 imageAlt: 'Describe the photo'
+imageFocus: '35% 50%' # optional; part of the photo kept when it is cropped (CSS object-position)
 featured: true # show on the home page
 published: true # false keeps it out of the site entirely
 source: 'Where this information came from'
@@ -101,7 +102,7 @@ Each form posts JSON to the endpoint in its environment variable (`PUBLIC_FORM_E
 
 ## Images
 
-Hero illustrations are the 2025 "hero art" set (`src/assets/hero/`). Astro's image service converts them to AVIF/WebP at several widths at build time; never commit resized copies. To generate matching art for a new page, use the same recipe that produced the set: a single focal object or scene, "no people, clean dark blue-green palette, glowing lines and grids, modern minimal background", 1536×1024 or 1024×1024.
+The home page hero is a carousel of project photos rather than an illustration. It takes the photo of every published project in project order (`order`), up to six, but only photos at least 1000 px wide, so the large frame never shows a soft, enlarged image; when the original of a smaller photo replaces it (same file name), that project joins the carousel automatically. Each slide links to its project page. Set `imageFocus` on a project to choose which part of a wide photo stays in the 3:2 crop. The other pages use the hero illustrations: the 2025 "hero art" set (`src/assets/hero/`). Astro's image service converts them to AVIF/WebP at several widths at build time; never commit resized copies. To generate matching art for a new page, use the same recipe that produced the set: a single focal object or scene, "no people, clean dark blue-green palette, glowing lines and grids, modern minimal background", 1536×1024 or 1024×1024.
 
 Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide), three crops from the 2018 brochure (about 660 px wide; the second Charleston rooftop crop is not used on the site) and three photos from the 2026 project abstracts (1275 px wide, cropped to remove the client names printed on the abstract artwork). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
 
