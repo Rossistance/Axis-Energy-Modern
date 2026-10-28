@@ -124,15 +124,35 @@ test('project cards are compact: four to a row, no summary paragraph', async ({ 
     expect(box.width).toBeLessThanOrEqual(300);
     expect(box.height).toBeLessThanOrEqual(300);
   }
-  // Small type groups share rows: the eight published projects fit on two rows.
+  // Cards in the same row line up, at most four to a row.
   const rows = new Set(boxes.map((b) => b.top));
-  expect(rows.size).toBeLessThanOrEqual(Math.ceil(boxes.length / 4));
-  // Cards in the same row line up.
   for (const top of rows) {
-    const heights = boxes.filter((b) => b.top === top).map((b) => Math.round(b.height));
-    expect(new Set(heights).size, `row at ${top}px`).toBe(1);
+    const row = boxes.filter((b) => b.top === top);
+    expect(row.length, `row at ${top}px`).toBeLessThanOrEqual(4);
+    expect(new Set(row.map((b) => Math.round(b.height))).size, `row at ${top}px`).toBe(1);
   }
 });
+
+for (const width of [1280, 1440, 768, 390]) {
+  test(`each project type starts its own line at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('projects/');
+    const groups = await page.locator('.type-group').evaluateAll((els) =>
+      els.map((el) => {
+        const r = el.getBoundingClientRect();
+        return { left: r.left, width: r.width, top: r.top, bottom: r.bottom };
+      }),
+    );
+    expect(groups.length).toBeGreaterThan(1);
+    for (let i = 1; i < groups.length; i++) {
+      // Same left edge and full width as the first group, and entirely below the one before.
+      expect(Math.abs(groups[i].left - groups[0].left)).toBeLessThan(1);
+      expect(Math.abs(groups[i].width - groups[0].width)).toBeLessThan(1);
+      expect(groups[i].top).toBeGreaterThanOrEqual(groups[i - 1].bottom);
+    }
+  });
+}
 
 test('on phones each project card is a compact row with the photo beside the text', async ({
   page,

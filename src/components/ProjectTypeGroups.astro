@@ -3,10 +3,8 @@
  * Published projects grouped under type headings, each with its project count and size.
  * Used on the Projects page and, for the remaining projects, on its service views.
  *
- * Groups sit side by side on one four-column grid, each spanning as many columns as it has
- * cards, so small groups share a row instead of leaving most of it empty. The groups are
- * ordered to fill the rows (each goes into the first row of four with room for it), and
- * that order is the reading order at every width.
+ * Each group starts its own full-width row (owner, 2026-10-28: types never share a line);
+ * its cards sit up to four to a row, on the same columns in every group so they line up.
  */
 import ProjectCard from '@components/ProjectCard.astro';
 import { formatSize, formatStorage } from '@lib/format';
@@ -16,30 +14,13 @@ interface Props {
   projects: Project[];
 }
 
-const COLUMNS = 4;
 const { projects } = Astro.props;
-const groups = groupByType(projects).map((g) => ({
-  ...g,
-  span: Math.min(g.projects.length, COLUMNS),
-  totals: portfolioTotals(g.projects),
-}));
-
-const rows: { used: number; items: typeof groups }[] = [];
-for (const group of groups) {
-  const row = rows.find((r) => r.used + group.span <= COLUMNS);
-  if (row) {
-    row.items.push(group);
-    row.used += group.span;
-  } else {
-    rows.push({ used: group.span, items: [group] });
-  }
-}
-const packed = rows.flatMap((r) => r.items);
+const groups = groupByType(projects).map((g) => ({ ...g, totals: portfolioTotals(g.projects) }));
 ---
 
 <div class="type-groups">
-  {packed.map((group) => (
-    <div class="type-group" id={`type-${group.type}`} data-span={group.span}>
+  {groups.map((group) => (
+    <div class="type-group" id={`type-${group.type}`}>
       <div class="type-group__head">
         <h3>{group.label}</h3>
         <p class="type-group__meta tabular">
@@ -60,26 +41,18 @@ const packed = rows.flatMap((r) => r.items);
 <style>
   .type-groups {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(1.5rem, 3vw, 2rem) 1rem;
-  }
-
-  /* A group's cards sit on the page grid's own columns; groups sharing a row stretch to
-     the same height, so their cards line up. */
-  .type-group,
-  .type-group__grid {
-    display: grid;
-    grid-template-columns: subgrid;
-    row-gap: 1rem;
+    gap: clamp(1.75rem, 3.5vw, 2.5rem);
   }
 
   .type-group {
-    grid-template-rows: auto 1fr;
+    display: grid;
+    row-gap: 1rem;
   }
 
-  .type-group__head,
   .type-group__grid {
-    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
   }
 
   .type-group__head {
@@ -102,33 +75,20 @@ const packed = rows.flatMap((r) => r.items);
   }
 
   @media (min-width: 560px) {
-    .type-groups {
+    .type-group__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .type-group:not([data-span='1']) {
-      grid-column: span 2;
     }
   }
 
   @media (min-width: 860px) {
-    .type-groups {
+    .type-group__grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .type-group[data-span='3'],
-    .type-group[data-span='4'] {
-      grid-column: span 3;
     }
   }
 
   @media (min-width: 1100px) {
-    .type-groups {
+    .type-group__grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .type-group[data-span='4'] {
-      grid-column: span 4;
     }
   }
 </style>
