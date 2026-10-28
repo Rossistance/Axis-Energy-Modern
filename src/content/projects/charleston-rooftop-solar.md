@@ -16,7 +16,7 @@ image: ../../assets/projects/charleston-rooftop-solar.jpg
 imageAlt: "Thin-film solar laminates on the white roof of a manufacturing facility under a clear sky"
 featured: true
 published: true
-order: 8
+order: 9
 source: "Live site project page (axis-energyinc.com), narrative edited only to withhold the client and partner names at the owner's request; delivered by the White Electrical renewable division that became Axis Energy in 2017 (2024 company overview deck)"
 ---
 

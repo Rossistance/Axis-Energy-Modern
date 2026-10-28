@@ -15,7 +15,7 @@ image: ../../assets/projects/durham-manufacturing-solar.jpg
 imageAlt: "Aerial photograph of ground-mounted solar rows beside a manufacturing plant in Durham, North Carolina"
 featured: true
 published: true
-order: 7
+order: 8
 source: "Live site project page (axis-energyinc.com), narrative edited only to withhold the client and partner names at the owner's request; delivered by the White Electrical renewable division that became Axis Energy in 2017 (2024 company overview deck)"
 ---
 

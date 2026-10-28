@@ -383,6 +383,6 @@ export const experienceGroups = [
   {
     title: 'Specialty projects',
     detail: 'Landfills · community solar · energy storage',
-    example: 'Florence Solar Array · 1.71 MW · Florence, SC',
+    example: 'Cooperative Solar and Storage Portfolio · 11.7 MWdc + 22.6 MWh · North Carolina',
   },
 ];

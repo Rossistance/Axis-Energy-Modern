@@ -13,9 +13,9 @@ image: ../../assets/projects/florence-solar-array.png
 imageAlt: 'Aerial view of curved rows of ground-mounted solar panels in Florence, South Carolina'
 imageCredit: 'Photo: Axis Energy brochure (2018)'
 featured: false
-published: true
-order: 10
-source: "2018 Axis Energy brochure interior (Our Experience: Specialty Projects). Completion year not stated in the brochure. Client name withheld at the owner's request."
+published: false
+order: 11
+source: "2018 Axis Energy brochure interior (Our Experience: Specialty Projects). Completion year not stated in the brochure. Client name withheld at the owner's request. Unpublished 2026-10-28: replaced by the Holly Springs Biomanufacturing Solar page at the owner's request."
 ---
 
 This 1.71 MW solar array in Florence, South Carolina, appears in Axis Energy's brochure under specialty projects, the group that also covers landfill installations, community solar and energy storage.
