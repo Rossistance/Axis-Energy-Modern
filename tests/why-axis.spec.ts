@@ -1,27 +1,64 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Why Axis (2026-10-01): six placeholder cards awaiting new copy, the stat cards without the
- * rankings list, no O&M excellence section, and the safety partners graphic in place of the
- * testimonial. Employee ownership moved to About.
+ * Why Axis: the six "Total project peace of mind" cards (copy supplied 2026-10-28) with a
+ * closing call to action, the stat cards without the rankings list, no O&M excellence
+ * section, and the safety partners graphic in place of the testimonial. Employee ownership
+ * moved to About.
  */
 
-test('the six "Total project peace of mind" cards are placeholders', async ({ page }) => {
+const titles = [
+  'One Partner. Coordinated Delivery.',
+  'Established Backing. Electrical Roots.',
+  'Quality Led in the Field.',
+  'Resources Matched to Your Project.',
+  'Employee-Owned Accountability.',
+  'Safety Built into Execution.',
+];
+
+test('the six "Total project peace of mind" cards show their copy, numbered 01–06', async ({
+  page,
+}) => {
   await page.goto('why-axis/');
   const cards = page.locator('.pillars > article');
   await expect(cards).toHaveCount(6);
-  await expect(page.locator('.pillar--placeholder')).toHaveCount(6);
-  await expect(page.locator('.pillars h3')).toHaveCount(0);
+  await expect(page.locator('.pillar--placeholder')).toHaveCount(0);
+  await expect(page.locator('.pillars h3')).toHaveText(titles);
+  await expect(page.locator('.pillars .pillar__number')).toHaveText([
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+  ]);
   for (let i = 0; i < 6; i++) {
-    await expect(cards.nth(i).locator('.pillar__note')).toHaveText(
-      `Card ${i + 1}: title and description to come`,
-    );
+    expect(((await cards.nth(i).locator('p').textContent()) ?? '').length).toBeGreaterThan(150);
   }
   // None of the old card titles is left on the page.
   const text = (await page.locator('main').textContent()) ?? '';
   for (const old of ['Total Solution', 'Strong Financial Position', 'Bench Strength']) {
     expect(text).not.toContain(old);
   }
+});
+
+test('the cards end with a call to action to Work with Axis and Projects', async ({ page }) => {
+  await page.goto('why-axis/');
+  const close = page.locator('.pillars-close');
+  await expect(close.locator('h3')).toHaveText('Let’s Put Our Experience to Work on Your Project.');
+  await expect(close.locator('p')).toContainText('talk with Axis about the next step.');
+  const primary = close.locator('a.btn--primary');
+  const secondary = close.locator('a.btn--secondary');
+  await expect(primary).toHaveText('Work with Axis');
+  await expect(primary).toHaveAttribute('href', /\/work-with-axis\/$/);
+  await expect(secondary).toHaveText('Explore our projects');
+  await expect(secondary).toHaveAttribute('href', /\/projects\/$/);
+  // The block sits directly under the cards, inside the same section.
+  await expect(page.locator('section:has(.pillars) .pillars-close')).toHaveCount(1);
+
+  await primary.click();
+  await expect(page).toHaveURL(/\/work-with-axis\/$/);
+  await expect(page.locator('main h1')).toHaveCount(1);
 });
 
 test('By the numbers keeps the stat cards and drops the rankings list', async ({ page }) => {

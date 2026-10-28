@@ -1,7 +1,8 @@
 ---
 /**
- * "Total Project Peace of Mind" cards. A card with a title and body renders normally; an
- * empty one is a numbered placeholder until Axis supplies its copy (src/data/pillars.ts).
+ * "Total Project Peace of Mind" cards. A card with a title and body shows its number (or its
+ * icon, if it has one) above the copy; an empty one is a numbered placeholder until Axis
+ * supplies its copy (src/data/pillars.ts).
  */
 import { Icon } from 'astro-icon/components';
 import { hasCopy, type Pillar } from '@data/pillars';
@@ -11,22 +12,29 @@ interface Props {
 }
 
 const { cards } = Astro.props;
+const number = (i: number) => String(i + 1).padStart(2, '0');
 ---
 
 <div class="grid grid--3 pillars" data-reveal-group>
   {cards.map((p, i) =>
     hasCopy(p) ? (
       <article class="card card--lift pillar">
-        <div class="icon-tile">
-          <Icon name={p.icon ?? 'lucide:check'} />
-        </div>
+        {p.icon ? (
+          <div class="icon-tile">
+            <Icon name={p.icon} />
+          </div>
+        ) : (
+          <span class="pillar__number" aria-hidden="true">
+            {number(i)}
+          </span>
+        )}
         <h3>{p.title}</h3>
         <p>{p.body}</p>
       </article>
     ) : (
       <article class="card pillar pillar--placeholder">
         <span class="pillar__number" aria-hidden="true">
-          {String(i + 1).padStart(2, '0')}
+          {number(i)}
         </span>
         <span class="pillar__line pillar__line--title" aria-hidden="true" />
         <span class="pillar__line" aria-hidden="true" />
@@ -73,6 +81,14 @@ const { cards } = Astro.props;
     font-weight: 800;
     color: var(--brand-blue);
     letter-spacing: 0.04em;
+  }
+
+  /* On a filled card the number takes the place, and the look, of an icon tile. */
+  .pillar:not(.pillar--placeholder) .pillar__number {
+    margin-bottom: var(--s-4);
+    border: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0, 75, 141, 0.12), rgba(0, 135, 82, 0.14));
   }
 
   .pillar__line {
