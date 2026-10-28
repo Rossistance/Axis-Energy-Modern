@@ -14,7 +14,7 @@ export interface Pillar {
 export const pillars: Pillar[] = [
   {
     title: 'One Partner. Coordinated Delivery.',
-    body: 'Axis brings solar, battery storage, microgrids, and electrical infrastructure together through coordinated engineering, procurement, construction, and commissioning. Customers have a direct point of contact to manage project interfaces, with O&M and technical services available to support continued operation.',
+    body: 'Axis brings solar, battery storage, microgrids, and electrical infrastructure together through coordinated engineering, procurement, construction, and commissioning. Customers have a single point of contact to manage project interfaces, with O&M and technical services available to support continued operation.',
   },
   {
     title: 'Established Backing. Electrical Roots.',
