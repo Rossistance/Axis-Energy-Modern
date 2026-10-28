@@ -23,6 +23,8 @@ const projects = defineCollection({
       city: z.string().optional(),
       state: z.string().length(2),
       sizeMwdc: z.number().positive(),
+      /** Gross AC capacity, shown in the details beside the DC size. */
+      acMw: z.number().positive().optional(),
       sites: z.number().int().positive().optional(),
       year: z.number().int().optional(),
       /** "2016-02", "2021-12-22" or "2024" */
@@ -33,6 +35,9 @@ const projects = defineCollection({
       role: z.array(z.string()).default(['EPC']),
       mount: z.string().optional(),
       modules: z.string().optional(),
+      inverters: z.string().optional(),
+      /** Point of interconnection, e.g. "34.5 kV distribution interconnection". */
+      interconnection: z.string().optional(),
       storageMwh: z.number().optional(),
       storageBrand: z.string().optional(),
       partners: z.array(z.string()).optional(),
@@ -46,6 +51,8 @@ const projects = defineCollection({
       scope: z.array(z.string()).optional(),
       /** Why the project matters to owners: short titled points. */
       benefits: z.array(z.object({ title: z.string(), body: z.string() })).optional(),
+      /** How Axis kept execution under control: short titled points, shown before the benefits. */
+      controls: z.array(z.object({ title: z.string(), body: z.string() })).optional(),
       image: image().optional(),
       imageAlt: z.string().optional(),
       imageCredit: z.string().optional(),

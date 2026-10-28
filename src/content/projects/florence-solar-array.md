@@ -14,7 +14,7 @@ imageAlt: 'Aerial view of curved rows of ground-mounted solar panels in Florence
 imageCredit: 'Photo: Axis Energy brochure (2018)'
 featured: false
 published: true
-order: 9
+order: 10
 source: "2018 Axis Energy brochure interior (Our Experience: Specialty Projects). Completion year not stated in the brochure. Client name withheld at the owner's request."
 ---
 

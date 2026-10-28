@@ -55,6 +55,9 @@ market: 'co-ops-utilities' # optional; section of the Markets page: commercial-i
 role: ['EPC']
 storageMwh: 5.0 # optional
 storageBrand: 'Tesla' # optional
+acMw: 10.5 # optional, gross AC capacity
+inverters: '84 string inverters' # optional
+interconnection: '34.5 kV distribution' # optional
 partners: ['Client name'] # optional; only with the client's written permission
 summary: 'One sentence used on cards and as the meta description.'
 image: ../../assets/projects/hertford.jpg # optional, 4:3 or wider
@@ -69,6 +72,9 @@ impact: 'The outcome, shown in the Impact callout.'
 challenge: 'What made the project hard.' # "Project delivery" cards,
 approach: 'How Axis solved it.' #          together with challenge
 scope: ['Axis scope item', 'Another item'] # sidebar checklist
+controls: # optional "How Axis controlled execution" points, before the benefits
+  - title: 'Takeover assessment'
+    body: 'One sentence.'
 benefits: # "Why it matters to owners" checklist
   - title: 'Operational proof'
     body: 'One sentence.'
@@ -80,9 +86,9 @@ gallery: # extra photos in the sidebar
 Narrative paragraphs in Markdown, written like the other project pages.
 ```
 
-Thirty-one completed projects from the Solar Power World submissions are already entered with `published: false`. Flip the flag once a client name may be shown publicly.
+Thirty completed projects from the Solar Power World submissions are already entered with `published: false`. Flip the flag once a client name may be shown publicly.
 
-Every published project is shown **without client or partner names, at the owner's request**: the four pages from the owner's 2026 project abstracts (Cooperative Solar and Storage Portfolio, Walnut Grove Microgrid, Wendell Campus Microgrid, Cabot Water Utility Solar) and the five earlier case studies (North Carolina Utility-Scale Portfolio, Durham Manufacturing Solar, Charleston Rooftop Solar, Floyd Road, Florence Solar Array). Keep client names out of titles, copy, alt text, captions, slugs, image file names and `partners` until the client grants permission in writing. The three case studies carried over from the old website have new slugs, and their old WordPress URLs are deliberately not redirected: a redirect would put the client's name back in a URL and tie it to the page. If a name is added later and the slug changes, add a redirect from the old URL.
+Every published project is shown **without client or partner names, at the owner's request**: the five pages from the owner's 2026 project abstracts (Cooperative Solar and Storage Portfolio, Walnut Grove Microgrid, Wendell Campus Microgrid, Cabot Water Utility Solar, Hertford Solar; the Hertford abstract names no client) and the five earlier case studies (North Carolina Utility-Scale Portfolio, Durham Manufacturing Solar, Charleston Rooftop Solar, Floyd Road, Florence Solar Array). Keep client names out of titles, copy, alt text, captions, slugs, image file names and `partners` until the client grants permission in writing. The three case studies carried over from the old website have new slugs, and their old WordPress URLs are deliberately not redirected: a redirect would put the client's name back in a URL and tie it to the page. If a name is added later and the slug changes, add a redirect from the old URL.
 
 **Team members:** `src/content/team/*.md` (name, title, email, LinkedIn, photo, summary, education, credentials, order); they appear on Leadership (`/about/leadership/`). **Jobs (manual listings):** `src/content/jobs/*.md`; entries with `sample: true` only appear in preview builds.
 
@@ -118,7 +124,7 @@ Every other page except the project pages has the same compact header (`src/comp
 
 **Markets page** (`/markets/`): one section per market, from `src/data/project-markets.ts`; the Markets menu and the home page diagram jump to them, and a project appears in a market through its `market` field. Old links to a market on the Projects page forward to the Markets page.
 
-Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide), three crops from the 2018 brochure (about 660 px wide; the second Charleston rooftop crop is not used on the site) and photos from the 2026 project abstracts (three 1275 px wide, cropped to remove the client names printed on the abstract artwork, and the Cabot abstract's 460 px inset photo, whose larger background photo was too blurred to use). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
+Project photos in `src/assets/projects/` are the only photography on the site and every one shows a named Axis project: the three images from the old website (392 px wide), three crops from the 2018 brochure (about 660 px wide; the second Charleston rooftop crop is not used on the site) and photos from the 2026 project abstracts (three 1275 px wide, cropped to remove the client names printed on the abstract artwork, the Cabot abstract's 460 px inset photo, whose larger background photo was too blurred to use, and four photos from the Hertford abstract, 588–1290 px wide). They are displayed at or below their native size. Replace them with the original high-resolution photographs before launch, keeping the same file names, and add photos for any project you publish from the unpublished list.
 
 Icons and the social sharing image are generated: `npm run icons` and `node scripts/make-og.mjs`.
 

@@ -16,7 +16,7 @@ image: ../../assets/projects/north-carolina-utility-scale-portfolio.jpg
 imageAlt: "Aerial view of a ground-mounted solar array surrounded by woodland in North Carolina"
 featured: true
 published: true
-order: 5
+order: 6
 source: "Live site project page (axis-energyinc.com), narrative edited only to withhold the client's name and portfolio name at the owner's request."
 ---
 

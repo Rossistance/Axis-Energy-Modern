@@ -67,8 +67,11 @@ const figures = [
 const details = [
   { label: 'Type', value: TYPE_LABELS[data.type] },
   { label: 'Sites', value: data.sites && data.sites > 1 ? String(data.sites) : '' },
+  { label: 'AC capacity', value: data.acMw ? `${data.acMw} MWac` : '' },
   { label: 'Mount', value: data.mount ?? '' },
   { label: 'Modules', value: data.modules ?? '' },
+  { label: 'Inverters', value: data.inverters ?? '' },
+  { label: 'Interconnection', value: data.interconnection ?? '' },
   { label: 'Storage system', value: storage && data.storageBrand ? data.storageBrand : '' },
 ].filter((d) => d.value);
 const delivery = [
@@ -180,7 +183,7 @@ const delivery = [
     </div>
   </section>
 
-  {(delivery.length > 0 || data.benefits) && (
+  {(delivery.length > 0 || data.controls || data.benefits) && (
     <section class="section section--sm band-alt" aria-labelledby="delivery-title">
       <div class="container">
         <h2 id="delivery-title" class="mini-title">
@@ -197,6 +200,19 @@ const delivery = [
               </div>
             ))}
           </div>
+        )}
+        {data.controls && (
+          <>
+            <h2 class="mini-title benefits__title">How Axis controlled execution</h2>
+            <ul class="benefits">
+              {data.controls.map((c) => (
+                <li>
+                  <strong>{c.title}</strong>
+                  <span>{c.body}</span>
+                </li>
+              ))}
+            </ul>
+          </>
         )}
         {data.benefits && (
           <>
