@@ -1,5 +1,5 @@
 ---
-title: "Holly Springs Biomanufacturing Solar"
+title: "Amgen Holly Springs Biomanufacturing Solar"
 city: "Holly Springs"
 state: NC
 coordinates: { lat: 35.6513, lon: -78.8336 }
@@ -39,12 +39,13 @@ benefits:
     body: "Rooftop and ground-mount construction were managed as one electrical generation scope."
   - title: "Built-in sustainability"
     body: "Onsite PV complements the campus's lower-impact facility design."
-image: ../../assets/projects/holly-springs-biomanufacturing-solar.jpg
-imageAlt: "Rows of fixed-tilt ground-mounted solar panels in a cleared area surrounded by woodland"
+image: ../../assets/projects/holly-springs-biomanufacturing-solar-rooftop.jpg
+imageAlt: "Aerial view of rooftop solar panels on a large flat roof, with a parking lot and the ground-mount array beyond"
+imageFocus: "40% 60%"
 gallery:
-  - image: ../../assets/projects/holly-springs-biomanufacturing-solar-rooftop.jpg
-    alt: "Aerial view of rooftop solar panels on a large flat roof, with a parking lot and the ground-mount array beyond"
-    caption: "The rooftop array, with the ground-mount array in the distance"
+  - image: ../../assets/projects/holly-springs-biomanufacturing-solar.jpg
+    alt: "Rows of fixed-tilt ground-mounted solar panels in a cleared area surrounded by woodland"
+    caption: "The fixed-tilt ground-mount array"
   - image: ../../assets/projects/holly-springs-biomanufacturing-solar-roof-racking.jpg
     alt: "Solar racking laid out across a flat white roof at sunset"
     caption: "Roof layout, attachments and racking around a process-building roof"
@@ -54,7 +55,7 @@ gallery:
 featured: true
 published: true
 order: 6
-source: "Extracted from the Axis Energy project abstract (supplied by the owner on 2026-10-28). The abstract gives no system size or completion date; 1.693 MWdc and the completion month come from the Solar Power World submission (SPW 2024 sheet: completed 2023-12-05). Client name, facility brand name and the client's campus investment figure withheld at the owner's request; photos are from the abstract, cropped to leave out the printed client name."
+source: "Extracted from the Axis Energy project abstract (supplied by the owner on 2026-10-28). The abstract gives no system size or completion date; 1.693 MWdc and the completion month come from the Solar Power World submission (SPW 2024 sheet: completed 2023-12-05). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). The client's campus investment figure is still left out. Photos are from the abstract, cropped to leave out the printed client name; the rooftop photo is the full-size version the owner sent as a hero option on 2026-10-22."
 ---
 
 Axis Energy delivered rooftop and ground-mount solar for a greenfield pharmaceutical biomanufacturing campus in Holly Springs, North Carolina. The assignment joined two distinct array environments into one coordinated delivery program, combining process-campus safety, roof access and equipment congestion, civil fieldwork, distributed string inverters, medium-voltage collection, testing and turnover.

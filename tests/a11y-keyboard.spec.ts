@@ -20,7 +20,7 @@ test('About us dropdown opens with the keyboard and closes on Escape', async ({ 
   await expect(toggle).toBeFocused();
 });
 
-test('Services dropdown lists the four services, with O&M offerings expanding beneath O&M', async ({
+test('Services dropdown lists the four services, with O&M as a plain link to its own page', async ({
   page,
 }) => {
   await page.goto('');
@@ -38,31 +38,34 @@ test('Services dropdown lists the four services, with O&M offerings expanding be
     'O&M & Technical Services',
   ]);
   await expect(menu.getByRole('link', { name: 'Services Overview' })).toHaveCount(0);
+  await expect(menu.getByRole('link', { name: 'O&M & Technical Services' })).toHaveAttribute(
+    'href',
+    /\/om-and-technical-services\/$/,
+  );
+  // No hover-expand group under Services any more (owner, 2026-10-28).
+  await expect(menu.locator('.submenu__group, .submenu__nested')).toHaveCount(0);
 
-  // Offerings stay hidden until O&M is hovered or its toggle is pressed.
-  const offerings = menu.locator('.submenu__nested a');
-  await expect(offerings).toHaveCount(6);
-  await expect(offerings.first()).toBeHidden();
-  await menu.locator('.submenu__group').hover();
-  await expect(offerings.first()).toBeVisible();
-  await expect(menu.getByRole('link', { name: 'Repowering & Rebuilds' })).toBeVisible();
-
-  await page.mouse.move(5, 600);
   await toggle.focus();
   await page.keyboard.press('Escape');
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
 });
 
-test('O&M offerings expand from the keyboard with their toggle', async ({ page }) => {
+test('the O&M menu opens from the keyboard and lists its page sections', async ({ page }) => {
   await page.goto('');
-  await page.locator('[aria-controls="submenu-services"]').click();
-  const groupToggle = page.locator('#submenu-services .subgroup-toggle');
-  await page.mouse.move(5, 600);
-  await groupToggle.focus();
-  await expect(groupToggle).toHaveAttribute('aria-expanded', 'false');
+  const toggle = page.locator('[aria-controls="submenu-o-m"]');
+  await toggle.focus();
   await page.keyboard.press('Enter');
-  await expect(groupToggle).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.locator('#submenu-services .submenu__nested a').first()).toBeVisible();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  const links = page.locator('#submenu-o-m a');
+  await expect(links.first()).toBeFocused();
+  await expect(links).toHaveCount(7);
+  await expect(links.first()).toHaveText('Preventive Maintenance');
+  await expect(links.first()).toHaveAttribute(
+    'href',
+    /\/om-and-technical-services\/#preventive-maintenance$/,
+  );
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
 });
 
 test('mobile drawer groups expand to show the Services pages', async ({ page }) => {
@@ -86,8 +89,7 @@ test('mobile drawer groups expand to show the Services pages', async ({ page }) 
     'Electrical Infrastructure & Commissioning',
     'O&M & Technical Services',
   ]);
-  await page.locator('#drawer-services .drawer__expand--sub').click();
-  await expect(page.locator('#drawer-services a:visible')).toHaveCount(10);
+  await expect(page.locator('#drawer-services .drawer__expand--sub')).toHaveCount(0);
   await page.locator('#drawer-services').getByRole('link', { name: 'Solar EPC' }).click();
   await expect(page).toHaveURL(/\/services\/solar-epc\/$/);
 });

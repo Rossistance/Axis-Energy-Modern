@@ -1,5 +1,5 @@
 ---
-title: "Wendell Campus Microgrid"
+title: "Siemens Wendell Microgrid"
 city: "Wendell"
 state: NC
 coordinates: { lat: 35.781, lon: -78.3697 }
@@ -39,7 +39,7 @@ gallery:
 featured: true
 published: true
 order: 3
-source: "Extracted from the Axis Energy project abstract (updated September 2026); completion year from the Solar Power World submission (SPW 2025 sheet). Client name withheld at the owner's request until permission to use it is granted."
+source: "Extracted from the Axis Energy project abstract (updated September 2026); completion year from the Solar Power World submission (SPW 2025 sheet). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos)."
 ---
 
 Axis Energy served as general contractor and EPC lead for a campus microgrid at an active manufacturing facility in Wendell, North Carolina. The system pairs a 1.519 MWdc structural solar carport with a 3.916 MWh Tesla battery, tied together by new electrical infrastructure and a microgrid controls platform.

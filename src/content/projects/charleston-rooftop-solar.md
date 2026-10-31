@@ -1,13 +1,13 @@
 ---
-title: "Charleston Rooftop Solar"
+title: "Boeing Charleston Rooftop Solar"
 city: "Charleston"
 state: SC
 coordinates: { lat: 32.7765, lon: -79.9311 }
 sizeMwdc: 2.6
 year: 2011
 commissioned: "2011-12"
-type: rooftop
-market: "investor-owned"
+type: commercial
+market: "commercial-industrial"
 role: ["Construction"]
 mount: "Rooftop"
 modules: "18,000 thin-film laminate modules"
@@ -16,8 +16,8 @@ image: ../../assets/projects/charleston-rooftop-solar.jpg
 imageAlt: "Thin-film solar laminates on the white roof of a manufacturing facility under a clear sky"
 featured: true
 published: true
-order: 9
-source: "Live site project page (axis-energyinc.com), narrative edited only to withhold the client and partner names at the owner's request; delivered by the White Electrical renewable division that became Axis Energy in 2017 (2024 company overview deck)"
+order: 10
+source: "Live site project page (axis-energyinc.com), narrative edited to withhold the client and partner names at the owner's request (09-28); title names the client with the owner's permission (2026-10-29: names allowed, no logos); moved from Investor-Owned to Commercial & Industrial at the owner's request (2026-10-28); a new abstract is coming from the owner; delivered by the White Electrical renewable division that became Axis Energy in 2017 (2024 company overview deck)"
 ---
 
 In May of 2011 Axis Energy joined two partners to construct a 2.6 MWDC rooftop photovoltaic system on a newly built manufacturing facility in Charleston, SC. In total, 18,000 thin-film laminate modules were used to cover approximately 10 acres of roof space atop the facility. The installation will provide the facility years of clean renewable energy.

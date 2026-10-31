@@ -1,0 +1,509 @@
+---
+/**
+ * O&M & Technical Services: a stand-alone, one-page site placed after Projects in the header
+ * (owner, 2026-10-28). It leads with the Yadkinville repower, then lays out the six offerings
+ * as sections that the O&M menu and the "On this page" bar jump to, then the O&M, repowering
+ * and recovery projects. It replaces the Services subpage and its six offering pages, which
+ * redirect here (astro.config.mjs and hosting/).
+ */
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import SubNav from '@components/SubNav.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import { heroes } from '@data/heroes';
+import { company } from '@data/company';
+import { routes } from '@data/routes';
+import {
+  omOfferings,
+  servicePages,
+  servicePath,
+  serviceProjectsPath,
+  OM_PAGE_SLUG,
+  OM_PATH,
+  OM_FEATURED_PROJECT,
+  OM_PROJECTS_ID,
+} from '@data/services';
+import { stateName } from '@lib/format';
+import { href } from '@lib/href';
+import { getPublishedProjects, projectsForService } from '@lib/projects';
+
+const omPage = servicePages.find((p) => p.slug === OM_PAGE_SLUG)!;
+const others = servicePages.filter((p) => p.slug !== OM_PAGE_SLUG);
+const published = await getPublishedProjects();
+const byId = new Map(published.map((p) => [p.id, p]));
+const featured = byId.get(OM_FEATURED_PROJECT);
+// O&M, repowering and recovery work first (the featured project leads), then EPC projects
+// Axis also maintains.
+const omProjects = projectsForService(published, OM_PAGE_SLUG).sort(
+  (a, b) =>
+    Number(b.id === OM_FEATURED_PROJECT) - Number(a.id === OM_FEATURED_PROJECT) ||
+    Number(b.data.type === 'om') - Number(a.data.type === 'om'),
+);
+const names = company.omStates.map(stateName);
+const area = `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+const sections = [
+  ...(featured ? [{ label: 'Featured project', href: '#featured' }] : []),
+  ...omOfferings.map((o) => ({ label: o.title, href: `#${o.slug}` })),
+  { label: 'Project experience', href: `#${OM_PROJECTS_ID}` },
+];
+const delivery = featured
+  ? [
+      { title: 'Challenge', body: featured.data.challenge },
+      { title: 'Axis response', body: featured.data.approach },
+      { title: 'Result', body: featured.data.impact },
+    ].filter((d) => d.body)
+  : [];
+---
+
+<BaseLayout title={omPage.title} description={omPage.summary}>
+  <PageHero
+    eyebrow="Operations & Maintenance"
+    title={omPage.title}
+    lead={omPage.summary}
+    photo={heroes['om-and-technical-services']}
+    crumbs={[{ label: omPage.title, href: OM_PATH }]}
+  />
+
+  <SubNav items={sections} />
+
+  <section class="section section--sm om-intro" aria-labelledby="om-intro-title">
+    <div class="container om-intro__grid">
+      <div data-reveal>
+        <p class="eyebrow">{omPage.block.eyebrow}</p>
+        <h2 id="om-intro-title">{omPage.block.title}</h2>
+        <p class="lead">{omPage.lead}</p>
+        <p class="om-intro__detail">{omPage.block.intro}</p>
+      </div>
+      <aside class="card om-intro__aside" data-reveal aria-labelledby="area-title">
+        <div class="icon-tile">
+          <Icon name="lucide:map-pin" />
+        </div>
+        <h2 id="area-title">Service area</h2>
+        <p>Our O&M and technical services teams support owners in {area}.</p>
+        <a class="btn btn--primary" href={href(routes.projectRequest)}>
+          Request service
+        </a>
+        <a class="link-arrow" href={href(serviceProjectsPath(OM_PAGE_SLUG))}>
+          See O&M projects <Icon name="lucide:arrow-right" class="icon" />
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  {featured && (
+    <section
+      class="section band-alt om-featured om-anchor"
+      id="featured"
+      aria-labelledby="featured-title"
+    >
+      <div class="container">
+        <div class="om-featured__grid">
+          {featured.data.image && (
+            <figure class="photo-frame om-featured__photo" data-reveal>
+              <Image
+                src={featured.data.image}
+                alt={featured.data.imageAlt ?? featured.data.title}
+                widths={[480, 800, featured.data.image.width]}
+                sizes="(min-width: 900px) 560px, 100vw"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          )}
+          <div class="om-featured__text" data-reveal>
+            <p class="eyebrow">Repowering in practice</p>
+            <h2 id="featured-title">{featured.data.title}</h2>
+            <p>{featured.data.summary}</p>
+            {featured.data.keyFigures && (
+              <dl class="om-figures">
+                {featured.data.keyFigures.map((f) => (
+                  <div>
+                    <dt>{f.label}</dt>
+                    <dd class="tabular">{f.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            <a class="btn btn--secondary" href={href(`/project/${featured.id}/`)}>
+              Read the project <Icon name="lucide:arrow-right" class="icon" />
+            </a>
+          </div>
+        </div>
+        {delivery.length > 0 && (
+          <div class="om-delivery" data-reveal-group>
+            {delivery.map((d) => (
+              <div class="card om-delivery__item">
+                <h3>{d.title}</h3>
+                <p>{d.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {featured.data.gallery && (
+          <div class="om-stages" data-reveal-group>
+            {featured.data.gallery.map((photo) => (
+              <figure class="photo-frame photo-frame--crop">
+                <Image
+                  src={photo.image}
+                  alt={photo.alt}
+                  widths={[340, photo.image.width]}
+                  sizes="(min-width: 900px) 380px, 100vw"
+                  loading="lazy"
+                  decoding="async"
+                />
+                {photo.caption && <figcaption>{photo.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="section om-offerings" aria-labelledby="offerings-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Technical services"
+        title="O&M and technical services"
+        lead="From scheduled maintenance to rebuilding a plant after a storm, flood or equipment failure."
+        id="offerings-title"
+      />
+      <div class="om-offerings__list">
+        {omOfferings.map((o, i) => {
+          const proof = (o.projects ?? []).map((id) => byId.get(id)).filter((p) => !!p);
+          return (
+            <section
+              class="card om-offering om-anchor"
+              id={o.slug}
+              aria-labelledby={`${o.slug}-title`}
+              data-reveal
+            >
+              <div class="om-offering__text">
+                <span class="om-offering__num tabular" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 id={`${o.slug}-title`}>{o.title}</h3>
+                <p class="om-offering__summary">{o.summary}</p>
+                {o.detail && <p class="om-offering__detail">{o.detail}</p>}
+              </div>
+              <div class="om-offering__side">
+                <ul class="list-check">
+                  {o.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+                {proof.length > 0 && (
+                  <p class="om-offering__proof">
+                    <strong>Proven at</strong>
+                    {proof.map((p) => (
+                      <a href={href(`/project/${p.id}/`)}>
+                        {p.data.title} <Icon name="lucide:arrow-right" />
+                      </a>
+                    ))}
+                  </p>
+                )}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="section band-alt om-anchor"
+    id={OM_PROJECTS_ID}
+    aria-labelledby="om-projects-title"
+  >
+    <div class="container">
+      <SectionHeading
+        eyebrow="Project experience"
+        title="O&M, repowering and recovery projects"
+        id="om-projects-title"
+        align="row"
+      >
+        <a class="link-arrow" href={href(serviceProjectsPath(OM_PAGE_SLUG))}>
+          See them with all projects <Icon name="lucide:arrow-right" class="icon" />
+        </a>
+      </SectionHeading>
+      <div class="grid om-projects__grid" data-reveal-group>
+        {omProjects.map((p) => (
+          <ProjectCard project={p} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="more-title">
+    <div class="container">
+      <SectionHeading eyebrow="Services" title="More from Axis" id="more-title" />
+      <div class="grid grid--3" data-reveal-group>
+        {others.map((o) => (
+          <a class="card card--lift offering-card" href={href(servicePath(o.slug))}>
+            <div class="icon-tile">
+              <Icon name={o.icon} />
+            </div>
+            <h3>{o.title}</h3>
+            <p>{o.summary}</p>
+            <span class="link-arrow">
+              Learn more <Icon name="lucide:arrow-right" class="icon" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Sections land below the sticky header and the "On this page" bar. */
+  .om-anchor {
+    scroll-margin-top: calc(var(--header-h) + 4.25rem);
+  }
+
+  .om-intro__grid {
+    display: grid;
+    gap: 1.5rem 2.5rem;
+    align-items: start;
+  }
+
+  .om-intro__detail {
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+  }
+
+  .om-intro__aside {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: start;
+  }
+
+  .om-intro__aside h2 {
+    margin: 0.25rem 0 0;
+    font-size: 1.35rem;
+  }
+
+  .om-intro__aside p {
+    color: var(--text-muted);
+  }
+
+  .om-featured__grid {
+    display: grid;
+    gap: 1.5rem 2.5rem;
+    align-items: center;
+  }
+
+  .photo-frame {
+    margin: 0;
+    width: 100%;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--mist-100);
+  }
+
+  .photo-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .photo-frame--crop img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .photo-frame figcaption {
+    padding: 0.5rem 0.85rem;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .om-featured__text h2 {
+    margin: 0.4rem 0 0.75rem;
+  }
+
+  .om-featured__text > p {
+    color: var(--text-muted);
+  }
+
+  .om-figures {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+  }
+
+  .om-figures div {
+    padding: 0.7rem 0.9rem;
+    border-left: 3px solid var(--brand-green);
+    background: #fff;
+    border-radius: var(--r-md);
+  }
+
+  .om-figures dt {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .om-figures dd {
+    margin: 0.1rem 0 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--brand-navy);
+  }
+
+  .om-delivery {
+    display: grid;
+    gap: 1rem;
+    margin-top: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .om-delivery__item h3 {
+    font-size: 1.05rem;
+    margin: 0 0 0.35rem;
+    color: var(--brand-green-dark);
+  }
+
+  .om-delivery__item p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .om-stages {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .om-stages figure {
+    margin: 0;
+  }
+
+  .om-offerings__list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .om-offering {
+    display: grid;
+    gap: 1rem 2.5rem;
+  }
+
+  .om-offering__num {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--brand-green);
+    letter-spacing: 0.08em;
+  }
+
+  .om-offering h3 {
+    margin: 0.2rem 0 0.4rem;
+    font-size: 1.25rem;
+  }
+
+  .om-offering__summary {
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .om-offering__detail {
+    color: var(--text-muted);
+    margin: 0.6rem 0 0;
+  }
+
+  .om-offering__side {
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+  }
+
+  .om-offering__side ul {
+    margin: 0;
+  }
+
+  .om-offering__proof {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.75rem;
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .om-offering__proof strong {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .om-offering__proof a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 600;
+  }
+
+  .om-offering__proof :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .om-projects__grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 1rem;
+  }
+
+  .offering-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .offering-card h3 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  .offering-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .offering-card .link-arrow {
+    margin-top: auto;
+    padding-top: 0.25rem;
+    color: var(--link);
+  }
+
+  @media (min-width: 700px) {
+    .om-delivery,
+    .om-stages {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 900px) {
+    .om-intro__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+
+    .om-featured__grid {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    }
+
+    .om-offering {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    }
+  }
+</style>

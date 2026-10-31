@@ -24,10 +24,21 @@ test('sitemap lists every route', () => {
     'services/solar-epc/',
     'services/battery-storage-and-microgrids/',
     'services/electrical-infrastructure-and-commissioning/',
+    'om-and-technical-services/',
+    'project/yadkinville-solar/',
+    'project/florence-solar-array/',
+    'project/edenton-inverter-thermal-event-recovery/',
+    'project/fayetteville-flood-resilience-pcs-elevation/',
+    'project/mount-olive-asset-recovery/',
+  ]) {
+    expect(paths).toContain(p);
+  }
+  // The O&M subpages became sections of the O&M page (2026-10-28); only redirects remain.
+  for (const p of [
     'services/om-and-technical-services/',
     'services/om-and-technical-services/repowering/',
   ]) {
-    expect(paths).toContain(p);
+    expect(paths).not.toContain(p);
   }
 });
 

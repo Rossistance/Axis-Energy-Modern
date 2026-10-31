@@ -142,12 +142,19 @@ export const serviceGroups: ServiceGroup[] = [
 
 const group = (id: string) => serviceGroups.find((g) => g.id === id)!;
 
-/** O&M and technical services offerings, each with its own placeholder page for now. */
+/**
+ * O&M and technical services offerings: the sections of the O&M one-page site, in page
+ * order, and the items of the O&M menu (owner, 2026-10-28). `slug` is the section's anchor.
+ */
 export interface ServiceOffering {
   slug: string;
   title: string;
   summary: string;
+  /** A longer description, shown under the summary. */
+  detail?: string;
   items: string[];
+  /** Published project ids that show this service in practice (src/content/projects). */
+  projects?: string[];
 }
 
 export const omOfferings: ServiceOffering[] = [
@@ -166,35 +173,60 @@ export const omOfferings: ServiceOffering[] = [
     slug: 'corrective-maintenance',
     title: 'Corrective Maintenance & 24/7 Response',
     summary: '24/7 rapid response coverage to reduce down time and increase ROI.',
+    detail:
+      'When major equipment fails, Axis mobilizes to establish the true damage boundary, removes what the event compromised, rebuilds the feeders, grounding, communications and pathways around the replacement, and tests everything before the block returns to service.',
     items: [
       '24/7 rapid response coverage',
       'Diagnostics and corrective repairs',
+      'Inverter replacement and feeder reconstruction after equipment events',
       'Warranty coordination and reporting',
     ],
+    projects: ['edenton-inverter-thermal-event-recovery'],
   },
   {
     slug: 'performance-monitoring',
     title: 'Performance Monitoring & Optimization',
     summary: 'Balance-of-system inspection and analysis that keeps your PV system optimized.',
+    detail:
+      'Aerial thermography, field inspection and electrical testing separate isolated component faults from systemic deficiencies, so an underperforming plant gets a prioritized recovery plan and a documented baseline for ongoing O&M.',
     items: [
       'Overall balance-of-system inspection and analysis',
       'String circuit performance',
-      'Thermal imaging',
+      'Thermal imaging and aerial infrared scans',
       'Performance monitoring',
+      'Asset recovery for underperforming plants',
     ],
+    projects: ['mount-olive-asset-recovery'],
   },
   {
     slug: 'repowering',
     title: 'Repowering & Rebuilds',
     summary:
       'Rebuild and repowering projects that support owners through the full life of an asset.',
-    items: ['Demonstration and rebuild projects', 'Lifecycle planning'],
+    detail:
+      'Selective reuse and targeted replacement of structural and electrical systems, up to a full demolition and rebuild: Axis keeps the infrastructure worth keeping, replaces what failed to documented standards, and verifies the plant before turnover.',
+    items: [
+      'Damage assessment, demolition and rebuild',
+      'Foundation and racking replacement',
+      'DC restoration, testing and turnover',
+      'Lifecycle planning',
+    ],
+    projects: ['yadkinville-solar'],
   },
   {
     slug: 'storm-damage',
     title: 'Storm Damage Assessment & Repair',
     summary: 'Storm damage assessment and repair to bring damaged systems back into service.',
-    items: ['Storm damage assessment', 'Storm damage repairs', '24/7 rapid response coverage'],
+    detail:
+      'From storm-damaged arrays to flooded inverter stations, Axis assesses the damage, protects the equipment that can be saved and rebuilds the structural, medium-voltage and communications systems around it.',
+    items: [
+      'Storm damage assessment',
+      'Storm damage repairs',
+      'Flood hardening and inverter-station elevation',
+      'Medium-voltage and fiber reconstruction',
+      '24/7 rapid response coverage',
+    ],
+    projects: ['yadkinville-solar', 'fayetteville-flood-resilience-pcs-elevation'],
   },
   {
     slug: 'decommissioning',
@@ -337,8 +369,18 @@ export const servicePages: ServicePage[] = [
 ];
 
 export const OM_PAGE_SLUG = 'om-and-technical-services';
-export const servicePath = (slug: string) => `/services/${slug}/`;
-export const offeringPath = (slug: string) => `/services/${OM_PAGE_SLUG}/${slug}/`;
+/**
+ * O&M & Technical Services is a stand-alone page after Projects in the header, not a
+ * Services subpage (owner, 2026-10-28); its offerings are sections of that one page.
+ */
+export const OM_PATH = `/${OM_PAGE_SLUG}/`;
+export const servicePath = (slug: string) =>
+  slug === OM_PAGE_SLUG ? OM_PATH : `/services/${slug}/`;
+export const offeringPath = (slug: string) => `${OM_PATH}#${slug}`;
+/** The project that leads the O&M page (owner, 2026-10-28: "Lead with Yadkinville Repower"). */
+export const OM_FEATURED_PROJECT = 'yadkinville-solar';
+/** Anchor of the O&M page's project section. */
+export const OM_PROJECTS_ID = 'om-projects';
 /** The Projects page focused on one service's projects (see projectsForService). */
 export const serviceProjectsPath = (slug: string) => `/projects/${slug}/`;
 

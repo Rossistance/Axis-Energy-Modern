@@ -9,15 +9,19 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import ProjectTypeGroups from '@components/ProjectTypeGroups.astro';
 import { heroes } from '@data/heroes';
-import { MARKET_IDS } from '@data/project-markets';
+import { MARKET_IDS, RETIRED_MARKETS } from '@data/project-markets';
 import { routes } from '@data/routes';
 import { href } from '@lib/href';
 import { getPublishedProjects } from '@lib/projects';
 
 const projects = await getPublishedProjects();
 const description =
-  'Axis Energy projects by type: solar, solar + storage, microgrids and rooftop work for commercial and industrial owners, cooperatives and utilities, municipalities and developers.';
-const forward = { ids: ['markets', ...MARKET_IDS], markets: href(routes.markets) };
+  'Axis Energy projects by type: solar, solar + storage, microgrids, and O&M, repowering and recovery work for commercial and industrial owners, cooperatives and utilities, municipalities and developers.';
+const forward = {
+  ids: ['markets', ...MARKET_IDS],
+  retired: RETIRED_MARKETS,
+  markets: href(routes.markets),
+};
 ---
 
 <BaseLayout title="Projects" {description}>
@@ -40,7 +44,8 @@ const forward = { ids: ['markets', ...MARKET_IDS], markets: href(routes.markets)
 
   <script is:inline define:vars={{ forward }}>
     // /projects/#co-ops-utilities and the like: the markets now live on /markets/.
-    const id = decodeURIComponent(location.hash.slice(1));
+    const hash = decodeURIComponent(location.hash.slice(1));
+    const id = forward.retired[hash] ?? hash;
     if (forward.ids.includes(id)) {
       location.replace(forward.markets + (id === 'markets' ? '' : `#${id}`));
     }

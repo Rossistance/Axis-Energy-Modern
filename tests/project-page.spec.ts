@@ -71,7 +71,7 @@ test('related projects are compact cards, same market or type first', async ({ p
   await expect(cards).toHaveCount(4);
   // The other Electric Co-ops & Utilities project leads.
   await expect(cards.first().locator('.project-card__title')).toHaveText(
-    'Cooperative Solar and Storage Portfolio',
+    'NCEMC Solar and Storage Portfolio',
   );
   for (const card of await cards.all()) {
     expect((await card.boundingBox())!.height).toBeLessThanOrEqual(300);

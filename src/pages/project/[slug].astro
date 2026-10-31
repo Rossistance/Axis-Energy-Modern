@@ -52,20 +52,29 @@ const jsonLd = [
   }),
 ];
 const ogImage = data.image ? data.image.src : undefined;
-const market = projectMarkets
-  .flatMap((m) => [m, ...(m.children ?? [])])
-  .find((m) => m.id === data.market);
+const market = projectMarkets.find((m) => m.id === data.market);
 
 const storage = formatStorage(data.storageMwh);
 const completed = formatCommissioned(data.commissioned) || (data.year ? String(data.year) : '');
+// O&M and recovery profiles carry the abstract's own stat band (keyFigures) instead of a plant size.
 const figures = [
-  { label: 'Solar', value: formatSize(data.sizeMwdc) },
-  { label: 'Storage', value: storage ?? '' },
-  { label: data.commissioned ? 'Commissioned' : 'Completed', value: completed },
+  ...(data.keyFigures
+    ? data.keyFigures.map((f) => ({ label: f.label, value: f.value, text: false }))
+    : [
+        { label: 'Solar', value: data.sizeMwdc ? formatSize(data.sizeMwdc) : '', text: false },
+        { label: 'Storage', value: storage ?? '', text: false },
+        {
+          label: data.commissioned ? 'Commissioned' : 'Completed',
+          value: completed,
+          text: false,
+        },
+      ]),
   { label: 'Axis role', value: data.role.join(', '), text: true },
 ].filter((f) => f.value);
 const details = [
   { label: 'Type', value: TYPE_LABELS[data.type] },
+  { label: 'Plant size', value: data.keyFigures && data.sizeMwdc ? formatSize(data.sizeMwdc) : '' },
+  { label: 'Completed', value: data.keyFigures ? completed : '' },
   { label: 'Sites', value: data.sites && data.sites > 1 ? String(data.sites) : '' },
   { label: 'AC capacity', value: data.acMw ? `${data.acMw} MWac` : '' },
   { label: 'Mount', value: data.mount ?? '' },

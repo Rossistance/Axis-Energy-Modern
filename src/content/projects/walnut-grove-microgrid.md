@@ -33,13 +33,16 @@ image: ../../assets/projects/walnut-grove-microgrid.jpg
 imageAlt: "Aerial view of the microgrid's battery storage and medium-voltage equipment yard beside rows of tracking solar panels"
 imageFocus: "35% 50%"
 gallery:
+  - image: ../../assets/projects/walnut-grove-microgrid-aerial.jpg
+    alt: "Aerial view of the microgrid's solar array and equipment yard beside farm fields in Walnut Grove, Mississippi"
+    caption: "The site from above. Aerial: USDA NAIP / USGS The National Map, 2023"
   - image: ../../assets/projects/walnut-grove-microgrid-equipment-yard.jpg
     alt: "Overhead view of the microgrid's battery containers, inverters and medium-voltage equipment on a gravel pad"
     caption: "Battery storage, power conversion and medium-voltage equipment"
 featured: true
 published: true
 order: 2
-source: "Extracted from the Axis Energy project abstract (updated September 2026), which supersedes the Solar Power World submission figures (SPW 2022 sheet: 2.579 MWdc, 5.288 MWh LG Chem storage, completed December 2021). Client name withheld at the owner's request."
+source: "Extracted from the Axis Energy project abstract (updated September 2026), which supersedes the Solar Power World submission figures (SPW 2022 sheet: 2.579 MWdc, 5.288 MWh LG Chem storage, completed December 2021). The utility is not named: it declined permission earlier, so this entry stays unnamed under the 2026-10-29 rule."
 ---
 
 Axis Energy delivered the Walnut Grove Microgrid in Mississippi for its utility owner, leading the complete EPC effort. The project pairs 2.751 MWdc of bifacial solar on OMCO Origin trackers with 5.014 MWh of battery storage, and Axis delivered and commissioned the medium-voltage, controls, protection and interconnection systems so that everything operates as one coordinated platform. The microgrid entered commercial operation in 2023.

@@ -1,14 +1,14 @@
 ---
 /**
  * Compact project card: a 16:9 photo, the title, the location and one line of key figures
- * (size, storage, year). The summary, role and scope live on the project page, so the
+ * (size or headline figure, storage, year). The summary, role and scope live on the project page, so the
  * card stays small enough for four in a row.
  */
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import { href } from '@lib/href';
-import { formatSize, formatStorage } from '@lib/format';
-import { TYPE_LABELS, projectLocation, type Project } from '@lib/projects';
+import { formatStorage } from '@lib/format';
+import { TYPE_LABELS, headlineFigure, projectLocation, type Project } from '@lib/projects';
 
 interface Props {
   project: Project;
@@ -24,7 +24,7 @@ const { data } = project;
 const url = href(`/project/${project.id}/`);
 const storage = formatStorage(data.storageMwh);
 const facts = [
-  formatSize(data.sizeMwdc),
+  headlineFigure(project),
   storage && `${storage} storage`,
   data.year && String(data.year),
 ].filter(Boolean);

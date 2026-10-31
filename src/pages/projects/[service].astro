@@ -3,6 +3,7 @@
  * The Projects page focused on one service: each service page's "See projects" link opens
  * this view, which puts that service's projects first (projectsForService in
  * src/lib/projects.ts) and lists the rest below, grouped by type as on the Projects page.
+ * Like the Projects page it shows no counts or size totals (owner, 2026-10-28).
  */
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -14,8 +15,7 @@ import { heroes } from '@data/heroes';
 import { routes } from '@data/routes';
 import { servicePages, servicePath, serviceProjectsPath, type ServicePage } from '@data/services';
 import { href } from '@lib/href';
-import { formatSize, formatStorage } from '@lib/format';
-import { getPublishedProjects, portfolioTotals, projectsForService } from '@lib/projects';
+import { getPublishedProjects, projectsForService } from '@lib/projects';
 
 export function getStaticPaths() {
   return servicePages.map((page) => ({ params: { service: page.slug }, props: { page } }));
@@ -25,15 +25,7 @@ const { page } = Astro.props as { page: ServicePage };
 const all = await getPublishedProjects();
 const focus = projectsForService(all, page.slug);
 const others = all.filter((p) => !focus.includes(p));
-const totals = portfolioTotals(focus);
 const title = `${page.title} projects`;
-const summary = [
-  `${focus.length} of ${all.length} projects`,
-  focus.length > 0 && formatSize(totals.mwdc),
-  totals.mwh > 0 && `${formatStorage(totals.mwh)} storage`,
-]
-  .filter(Boolean)
-  .join(' · ');
 ---
 
 <BaseLayout {title} description={`Axis Energy ${page.title} projects: ${page.summary}`}>
@@ -60,7 +52,7 @@ const summary = [
           </span>
           <p>
             <strong>Showing {page.title}</strong>
-            <span class="tabular">{summary}</span>
+            <span class="focus-bar__note">Projects that put this service to work come first.</span>
           </p>
         </div>
         <div class="focus-bar__actions">
@@ -135,7 +127,7 @@ const summary = [
     color: var(--text);
   }
 
-  .focus-bar__what span.tabular {
+  .focus-bar__note {
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--text-muted);

@@ -3,15 +3,27 @@ import { test, expect } from '@playwright/test';
 /**
  * Projects page: projects grouped by type (no filters, no project list table; the markets
  * moved to their own page on 2026-10-01), and one view per service that the service pages'
- * "See projects" link opens, with that service's projects first.
+ * "See projects" link opens, with that service's projects first. No counts or size totals
+ * (owner, 2026-10-28): running totals live in By the numbers on Why Axis.
  */
 
 const services = [
-  ['solar-epc', 'Solar EPC'],
-  ['battery-storage-and-microgrids', 'Battery Storage & Microgrids'],
-  ['electrical-infrastructure-and-commissioning', 'Electrical Infrastructure & Commissioning'],
-  ['om-and-technical-services', 'O&M & Technical Services'],
+  ['solar-epc', 'Solar EPC', 'services/solar-epc/'],
+  [
+    'battery-storage-and-microgrids',
+    'Battery Storage & Microgrids',
+    'services/battery-storage-and-microgrids/',
+  ],
+  [
+    'electrical-infrastructure-and-commissioning',
+    'Electrical Infrastructure & Commissioning',
+    'services/electrical-infrastructure-and-commissioning/',
+  ],
+  ['om-and-technical-services', 'O&M & Technical Services', 'om-and-technical-services/'],
 ] as const;
+
+/** "4 projects", "70.42 MWdc", "22.6 MWh": the totals the owner asked to remove. */
+const TOTALS = /\d+ (of \d+ )?projects?\b|\d MWdc ·|MWh$/;
 
 test('projects are grouped under type headings, with no filters or project table', async ({
   page,
@@ -32,8 +44,18 @@ test('projects are grouped under type headings, with no filters or project table
   expect(new Set(titles).size, 'no project appears twice').toBe(titles.length);
   for (const group of await groups.all()) {
     await expect(group.locator('.project-card').first()).toBeVisible();
-    await expect(group.locator('.type-group__meta')).toContainText(/\d+ projects?/);
+    await expect(group.locator('.type-group__meta')).toHaveCount(0);
+    await expect(group.locator('.type-group__head')).not.toContainText(TOTALS);
   }
+  // Boeing's Charleston rooftop sits with the C&I projects (owner, 2026-10-28).
+  await expect(
+    page.locator('#type-commercial .project-card__title', { hasText: 'Boeing Charleston' }),
+  ).toHaveCount(1);
+  await expect(page.locator('#type-rooftop')).toHaveCount(0);
+  // The O&M, repowering and recovery profiles lead with Yadkinville.
+  await expect(page.locator('#type-om .project-card__title').first()).toHaveText(
+    'Yadkinville Storm Recovery and Rebuild',
+  );
 });
 
 test('the Projects page no longer holds the markets', async ({ page }) => {
@@ -50,16 +72,23 @@ test('old links to a market on the Projects page forward to the Markets page', a
   await page.waitForURL(/\/markets\/$/);
 });
 
-for (const [slug, title] of services) {
+for (const [slug, title, servicePath] of services) {
   test(`"See projects" on ${title} opens the Projects page focused on its projects`, async ({
     page,
   }) => {
-    await page.goto(`services/${slug}/`);
-    // The link sits at the foot of the What we deliver section.
-    const block = page.locator('.service-block');
-    const link = block.locator('.service-block__footer a.see-projects');
-    await expect(link).toHaveText(`See projects for ${title}`);
-    await link.click();
+    await page.goto(servicePath);
+    if (slug === 'om-and-technical-services') {
+      await page
+        .locator('.om-intro__aside')
+        .getByRole('link', { name: 'See O&M projects' })
+        .click();
+    } else {
+      // The link sits at the foot of the What we deliver section.
+      const block = page.locator('.service-block');
+      const link = block.locator('.service-block__footer a.see-projects');
+      await expect(link).toHaveText(`See projects for ${title}`);
+      await link.click();
+    }
     await expect(page).toHaveURL(new RegExp(`/projects/${slug}/$`));
 
     await expect(page.locator('h1')).toHaveText(`${title} projects`);
@@ -72,13 +101,13 @@ for (const [slug, title] of services) {
     );
     await expect(bar.getByRole('link', { name: title })).toHaveAttribute(
       'href',
-      new RegExp(`/services/${slug}/$`),
+      new RegExp(`/${servicePath}$`),
     );
 
     // The focused projects come first; every other project is still listed once below.
     const focused = await page.locator('.focus__grid .project-card__title').allTextContents();
     expect(focused.length, `${title} has projects`).toBeGreaterThan(0);
-    await expect(bar).toContainText(new RegExp(`${focused.length} of \\d+ projects`));
+    await expect(bar).not.toContainText(TOTALS);
     const others = await page.locator('.type-group .project-card__title').allTextContents();
     expect(others.filter((t) => focused.includes(t))).toEqual([]);
     await page.goto('projects/');
@@ -90,11 +119,17 @@ for (const [slug, title] of services) {
 test('each service view shows the projects that fit the service', async ({ page }) => {
   const expectations: Record<string, { has: string[]; not: string[] }> = {
     'battery-storage-and-microgrids': {
-      has: ['Walnut Grove Microgrid', 'Wendell Campus Microgrid'],
+      has: ['Walnut Grove Microgrid', 'Siemens Wendell Microgrid'],
       not: ['Floyd Road'],
     },
     'om-and-technical-services': {
-      has: ['Cooperative Solar and Storage Portfolio'],
+      has: [
+        'Yadkinville Storm Recovery and Rebuild',
+        'Edenton Solar Inverter Thermal Event Recovery',
+        'Innovative Solar 42 Flood Resilience and PCS Elevation',
+        'Solar 55 Asset Recovery and Performance Restoration',
+        'NCEMC Solar and Storage Portfolio',
+      ],
       not: ['Floyd Road'],
     },
     'solar-epc': { has: ['Floyd Road'], not: ['Walnut Grove Microgrid'] },

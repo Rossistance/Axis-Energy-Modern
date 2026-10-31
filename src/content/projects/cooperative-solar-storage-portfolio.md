@@ -1,5 +1,5 @@
 ---
-title: "Cooperative Solar and Storage Portfolio"
+title: "NCEMC Solar and Storage Portfolio"
 location: "Various, NC"
 state: NC
 sizeMwdc: 11.7
@@ -36,7 +36,7 @@ gallery:
 featured: true
 published: true
 order: 1
-source: "Extracted from the Axis Energy project abstract (updated September 2026). Client name withheld at the owner's request until permission to use it is granted. The five 2020 North Carolina solar + Tesla storage entries from the SPW 2021 sheet (11.83 MWdc and 22.69 MWh combined) appear to be these sites: keep them unpublished to avoid double counting, and confirm the completion year before adding one here."
+source: "Extracted from the Axis Energy project abstract (updated September 2026). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). The five 2020 North Carolina solar + Tesla storage entries from the SPW 2021 sheet (11.83 MWdc and 22.69 MWh combined) appear to be these sites: keep them unpublished to avoid double counting, and confirm the completion year before adding one here."
 ---
 
 Axis Energy delivered a five-site solar and storage portfolio across North Carolina cooperative territories, combining 11.7 MWdc of solar generation with 22.6 MWh of Tesla battery storage. Together the sites form a repeatable platform for local generation and peak-demand support.

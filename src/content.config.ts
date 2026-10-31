@@ -11,6 +11,8 @@ export const PROJECT_TYPES = [
   'microgrid',
   'community',
   'rooftop',
+  /** Operations, repowering and recovery work on an existing plant. */
+  'om',
 ] as const;
 
 const projects = defineCollection({
@@ -22,7 +24,8 @@ const projects = defineCollection({
       location: z.string().optional(),
       city: z.string().optional(),
       state: z.string().length(2),
-      sizeMwdc: z.number().positive(),
+      /** Plant DC size. Optional for O&M and recovery work, where `keyFigures` tell the story. */
+      sizeMwdc: z.number().positive().optional(),
       /** Gross AC capacity, shown in the details beside the DC size. */
       acMw: z.number().positive().optional(),
       sites: z.number().int().positive().optional(),
@@ -41,6 +44,12 @@ const projects = defineCollection({
       storageMwh: z.number().optional(),
       storageBrand: z.string().optional(),
       partners: z.array(z.string()).optional(),
+      /**
+       * Headline figures from the project abstract's stat band, e.g. { value: "3.0 MW", label:
+       * "Central inverter replaced" }. When set, they replace the computed key figures on the
+       * project page, and the first one leads the card's facts line.
+       */
+      keyFigures: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
       summary: z.string(),
       /** Outcome, shown in the Impact callout. */
       impact: z.string().optional(),

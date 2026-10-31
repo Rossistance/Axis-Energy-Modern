@@ -1,22 +1,28 @@
 ---
 /**
- * Markets: the owners Axis builds for, one section per market with the published projects
- * delivered for each (Investor-Owned sits inside Electric Co-ops & Utilities). The Markets
- * menu and the home page diagram jump to these sections (src/data/project-markets.ts).
- * Moved here from the Projects page on 2026-10-01.
+ * Markets: the owners Axis builds for, one section per market with up to three of the
+ * published projects delivered for each; the rest are on the Projects page (owner,
+ * 2026-10-28). The Markets menu and the home page diagram jump to these sections
+ * (src/data/project-markets.ts). Moved here from the Projects page on 2026-10-01.
  */
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import MarketProjects from '@components/MarketProjects.astro';
 import { heroes } from '@data/heroes';
-import { projectMarkets, type ProjectMarket } from '@data/project-markets';
+import {
+  projectMarkets,
+  MARKET_PROFILE_LIMIT,
+  RETIRED_MARKETS,
+  type ProjectMarket,
+} from '@data/project-markets';
 import { routes } from '@data/routes';
 import { href } from '@lib/href';
 import { getPublishedProjects, type Project } from '@lib/projects';
 
 const projects = await getPublishedProjects();
-const inMarket = (m: ProjectMarket): Project[] => projects.filter((p) => p.data.market === m.id);
+const inMarket = (m: ProjectMarket): Project[] =>
+  projects.filter((p) => p.data.market === m.id).slice(0, MARKET_PROFILE_LIMIT);
 const description =
   'The markets Axis Energy serves: commercial and industrial owners, electric cooperatives and utilities, municipal and institutional owners, and developers and independent power producers.';
 ---
@@ -25,7 +31,7 @@ const description =
   <PageHero
     eyebrow="Markets"
     title="Markets we serve"
-    lead="The owners we build for, with the published projects delivered for each."
+    lead="The owners we build for, with a few of the projects delivered for each."
     photo={heroes.markets}
     crumbs={[{ label: 'Markets', href: routes.markets }]}
   />
@@ -44,29 +50,27 @@ const description =
             </div>
             <div class="market__work">
               <MarketProjects projects={inMarket(market)} emptyNote={market.emptyNote} />
-
-              {market.children?.map((sub) => (
-                <section class="market market--sub" id={sub.id} aria-labelledby={`${sub.id}-title`}>
-                  <h3 id={`${sub.id}-title`}>
-                    <Icon name={sub.icon} />
-                    {sub.title}
-                  </h3>
-                  <p>{sub.summary}</p>
-                  <MarketProjects projects={inMarket(sub)} emptyNote={sub.emptyNote} />
-                </section>
-              ))}
             </div>
           </section>
         ))}
       </div>
 
       <p class="markets__more">
+        <a class="btn btn--primary" href={href(routes.projects)}>
+          See all projects <Icon name="lucide:arrow-right" class="icon" />
+        </a>
         <a class="btn btn--secondary" href={href(routes.caseStudies)}>
           Request case studies <Icon name="lucide:arrow-right" class="icon" />
         </a>
       </p>
     </div>
   </section>
+
+  <script is:inline define:vars={{ retired: RETIRED_MARKETS }}>
+    // /markets/#investor-owned and other merged sections: jump to the market that took them in.
+    const target = retired[decodeURIComponent(location.hash.slice(1))];
+    if (target) location.replace(`#${target}`);
+  </script>
 </BaseLayout>
 
 <style>
@@ -93,8 +97,7 @@ const description =
     font-size: 1.3rem;
   }
 
-  .market__intro p,
-  .market--sub > p {
+  .market__intro p {
     color: var(--text-muted);
     margin: 0;
   }
@@ -105,32 +108,12 @@ const description =
     align-content: start;
   }
 
-  /* Investor-Owned: a subsection inside Electric Co-ops & Utilities. */
-  .market--sub {
-    display: grid;
-    gap: 0.6rem;
-    padding: 1rem 0 0 1rem;
-    border-left: 3px solid var(--brand-green);
-    border-radius: 0;
-  }
-
-  .market--sub h3 {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin: 0;
-    font-size: 1.1rem;
-  }
-
-  .market--sub h3 :global(svg) {
-    width: 18px;
-    height: 18px;
-    color: var(--brand-green);
-  }
-
   .markets__more {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
     margin: clamp(1.5rem, 3vw, 2rem) 0 0;
-    text-align: center;
   }
 
   /* Arriving from the Markets menu or the home page: a brief highlight on the section. */

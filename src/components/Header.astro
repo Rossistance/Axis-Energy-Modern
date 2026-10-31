@@ -8,6 +8,8 @@ import NavDrawer from './NavDrawer.astro';
 
 const current = Astro.url.pathname;
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+/* A child that is also a top-level item (O&M under Services) marks only that item as current. */
+const topLevel = new Set(primaryNav.map((item) => item.href));
 ---
 
 <header class="site-header" data-header>
@@ -27,7 +29,8 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
       <ul class="primary-nav__list">
         {primaryNav.map((item) => {
           const active =
-            isActive(item.href, current) || item.children?.some((c) => isActive(c.href, current));
+            isActive(item.href, current) ||
+            item.children?.some((c) => !topLevel.has(c.href) && isActive(c.href, current));
           if (!item.children) {
             return (
               <li>
@@ -64,7 +67,7 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                   );
                   if (!child.children) return <li>{link}</li>;
                   const groupId = `${id}-${slugify(child.label)}`;
-                  // Markets jump to sections of the Projects page; O&M offerings are pages.
+                  // A nested group's links jump to page sections (#) or open pages.
                   const kind = child.href.includes('#') ? 'sections' : 'pages';
                   return (
                     <li class="submenu__group" data-subgroup>
@@ -339,8 +342,9 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     color: var(--brand-blue);
   }
 
-  /* A menu item with pages of its own (O&M & Technical Services): the pages expand beneath
-     it on hover, or with its toggle button for keyboard and touch. */
+  /* A menu item with a group of its own: the group expands beneath it on hover, or with its
+     toggle button for keyboard and touch. No menu uses one since O&M became a top-level item
+     and Investor-Owned joined Electric Co-ops & Utilities (2026-10-28). */
   .submenu__row {
     display: flex;
     align-items: center;
@@ -403,7 +407,7 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     color: var(--brand-blue);
   }
 
-  /* A sub-market under its market (Investor-Owned under Electric Co-ops & Utilities). */
+  /* A fourth menu level, for a group inside a nested group. */
   .submenu__deep {
     list-style: none;
     margin: 0 0 0.15rem 0.75rem;
@@ -521,28 +525,41 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     }
   }
 
-  /* 1100–1279 px: eight menu items and the Work with Axis button share a narrower bar. */
-  @media (min-width: 1100px) and (max-width: 1279px) {
-    .site-header__inner {
-      gap: 0.9rem;
-    }
-
+  /* 1280–1379 px: nine menu items need slightly tighter spacing to stay inside the container. */
+  @media (min-width: 1280px) and (max-width: 1379px) {
     .primary-nav__list > li > a {
-      padding-inline: 0.45rem;
-      font-size: 0.92rem;
-    }
-
-    .primary-nav__list > li.has-submenu > a {
-      padding-right: 0.3rem;
+      padding-inline: 0.6rem;
     }
 
     .primary-nav__list > li > a::after {
-      left: 0.45rem;
-      right: 0.45rem;
+      left: 0.6rem;
+      right: 0.6rem;
+    }
+  }
+
+  /* 1100–1279 px: nine menu items and the Work with Axis button share a narrower bar
+     (O&M joined the menu after Projects on 2026-10-28). */
+  @media (min-width: 1100px) and (max-width: 1279px) {
+    .site-header__inner {
+      gap: 0.55rem;
+    }
+
+    .primary-nav__list > li > a {
+      padding-inline: 0.3rem;
+      font-size: 0.88rem;
+    }
+
+    .primary-nav__list > li.has-submenu > a {
+      padding-right: 0.15rem;
+    }
+
+    .primary-nav__list > li > a::after {
+      left: 0.3rem;
+      right: 0.3rem;
     }
 
     .primary-nav .submenu-toggle {
-      margin-right: 0.2rem;
+      margin-right: 0.1rem;
     }
   }
 </style>
@@ -596,7 +613,7 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     if (!submenus.some((li) => li.contains(e.target as Node))) closeAll();
   });
 
-  // Links to a section of the current page (Projects → Markets on the Projects page) don't
+  // Links to a section of the current page (the O&M menu on the O&M page, Markets on Markets) don't
   // load a new page, so close the menu after the jump instead of leaving it open over it.
   submenus.forEach((li) => {
     li.querySelectorAll<HTMLAnchorElement>('.submenu a[href*="#"]').forEach((a) => {

@@ -7,16 +7,29 @@ import { routes } from './routes';
  *
  * Summaries are drafted from the 2024 company deck's market segments and the published
  * project pages; see docs/CONTENT-REVIEW.md before changing them.
+ *
+ * Investor-owned utilities are part of Electric Co-ops & Utilities, not a market of their own
+ * (owner, 2026-10-28).
  */
 export const MARKET_IDS = [
   'commercial-industrial',
   'co-ops-utilities',
-  'investor-owned',
   'municipal-institutional',
   'developers-ipps',
 ] as const;
 
 export type MarketId = (typeof MARKET_IDS)[number];
+
+/** Market sections that were merged into another; old links to them are forwarded. */
+export const RETIRED_MARKETS: Record<string, MarketId> = {
+  'investor-owned': 'co-ops-utilities',
+};
+
+/**
+ * Profiles shown per market on the Markets page, in portfolio order (owner, 2026-10-28:
+ * "3 profiles for each Market"). Every published project is on the Projects page.
+ */
+export const MARKET_PROFILE_LIMIT = 3;
 
 export interface ProjectMarket {
   id: MarketId;
@@ -27,8 +40,6 @@ export interface ProjectMarket {
   summary: string;
   /** Shown when no published project is assigned to the market yet. */
   emptyNote: string;
-  /** Sub-markets, shown inside the parent section (Investor-Owned under Co-ops & Utilities). */
-  children?: ProjectMarket[];
 }
 
 export const projectMarkets: ProjectMarket[] = [
@@ -46,18 +57,8 @@ export const projectMarkets: ProjectMarket[] = [
     title: 'Electric Co-ops & Utilities',
     icon: 'lucide:zap',
     summary:
-      'Solar, battery storage and microgrids for electric cooperatives and utilities, from EPC delivery to long-term O&M.',
+      'Solar, battery storage and microgrids for electric cooperatives, municipal utilities and investor-owned utilities, from EPC delivery to long-term O&M.',
     emptyNote: 'Cooperative and utility project references are available on request.',
-    children: [
-      {
-        id: 'investor-owned',
-        title: 'Investor-Owned',
-        icon: 'lucide:building-2',
-        summary:
-          'Utility-owned solar built with investor-owned utilities and their project partners, including arrays on their customers’ facilities.',
-        emptyNote: 'Investor-owned utility project references are available on request.',
-      },
-    ],
   },
   {
     id: 'municipal-institutional',

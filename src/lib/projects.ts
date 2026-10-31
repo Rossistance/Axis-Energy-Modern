@@ -12,6 +12,7 @@ export const TYPE_LABELS: Record<Project['data']['type'], string> = {
   microgrid: 'Microgrid',
   community: 'Community solar',
   rooftop: 'Rooftop',
+  om: 'O&M & recovery',
 };
 
 /** Headings for the type groups on the Projects page. */
@@ -23,6 +24,7 @@ export const TYPE_GROUP_LABELS: Record<Project['data']['type'], string> = {
   microgrid: 'Microgrids',
   community: 'Community solar',
   rooftop: 'Rooftop solar',
+  om: 'O&M, repowering & recovery',
 };
 
 export async function getPublishedProjects(): Promise<Project[]> {
@@ -31,13 +33,30 @@ export async function getPublishedProjects(): Promise<Project[]> {
     const ao = a.data.order ?? 999;
     const bo = b.data.order ?? 999;
     if (ao !== bo) return ao - bo;
-    return (b.data.year ?? 0) - (a.data.year ?? 0) || b.data.sizeMwdc - a.data.sizeMwdc;
+    return (
+      (b.data.year ?? 0) - (a.data.year ?? 0) || (b.data.sizeMwdc ?? 0) - (a.data.sizeMwdc ?? 0)
+    );
   });
 }
 
 export function projectLocation(p: Project): string {
   if (p.data.location) return p.data.location;
   return [p.data.city, p.data.state].filter(Boolean).join(', ');
+}
+
+/**
+ * The short figure that leads a project's card and list rows: the plant size, or the first
+ * of its `keyFigures` when it has no size (O&M and recovery work).
+ */
+export function headlineFigure(p: Project): string | null {
+  if (p.data.sizeMwdc) return formatSize(p.data.sizeMwdc);
+  const first = p.data.keyFigures?.[0];
+  if (!first) return null;
+  // "Central inverter replaced" → "3.0 MW central inverter replaced"; acronyms (PCS) keep their case.
+  const label = /^[A-Z][a-z]/.test(first.label)
+    ? first.label[0].toLowerCase() + first.label.slice(1)
+    : first.label;
+  return `${first.value} ${label}`;
 }
 
 /** "11.7 MWdc · 22.6 MWh storage · 5 sites in North Carolina" */
@@ -47,9 +66,7 @@ export function projectMeta(p: Project): string {
     p.data.sites && p.data.sites > 1
       ? `${p.data.sites} sites in ${stateName(p.data.state)}`
       : projectLocation(p);
-  return [formatSize(p.data.sizeMwdc), storage && `${storage} storage`, place]
-    .filter(Boolean)
-    .join(' · ');
+  return [headlineFigure(p), storage && `${storage} storage`, place].filter(Boolean).join(' · ');
 }
 
 /**
@@ -77,20 +94,13 @@ const SERVICE_PROJECTS: Record<string, (p: Project) => boolean> = {
   /** Projects whose published scope includes interconnection, medium-voltage or commissioning work. */
   'electrical-infrastructure-and-commissioning': (p) =>
     !!p.data.scope?.some((line) => /interconnection|medium-voltage|commissioning/i.test(line)),
-  'om-and-technical-services': (p) => p.data.role.includes('O&M'),
+  /** O&M, repowering and recovery profiles, plus EPC projects Axis also maintains. */
+  'om-and-technical-services': (p) => p.data.type === 'om' || p.data.role.includes('O&M'),
 };
 
 export function projectsForService(projects: Project[], slug: string): Project[] {
   const match = SERVICE_PROJECTS[slug];
   return match ? projects.filter(match) : [];
-}
-
-export function portfolioTotals(projects: Project[]) {
-  const mwdc = projects.reduce((s, p) => s + p.data.sizeMwdc, 0);
-  const mwh = projects.reduce((s, p) => s + (p.data.storageMwh ?? 0), 0);
-  const states = new Set(projects.map((p) => p.data.state));
-  const sites = projects.reduce((s, p) => s + (p.data.sites ?? 1), 0);
-  return { count: projects.length, mwdc, mwh, states: [...states].sort(), sites };
 }
 
 export interface CarouselSlide {

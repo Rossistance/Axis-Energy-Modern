@@ -11,6 +11,9 @@ import type { ImageMetadata } from 'astro';
 import cooperative from '@assets/projects/cooperative-solar-storage-portfolio.jpg';
 import walnutGrove from '@assets/projects/walnut-grove-microgrid.jpg';
 import wendell from '@assets/projects/wendell-campus-microgrid.jpg';
+import hertfordFields from '@assets/heroes/hertford-fields.jpg';
+import hollySpringsRooftop from '@assets/heroes/holly-springs-rooftop.jpg';
+import yadkinville from '@assets/projects/yadkinville-solar.jpg';
 
 export interface HeroPhoto {
   src: ImageMetadata;
@@ -24,15 +27,20 @@ const solarStorage: HeroPhoto = { src: cooperative, position: '50% 16%', placeho
 const microgrid: HeroPhoto = { src: walnutGrove, position: '50% 20%', placeholder: true };
 const carport: HeroPhoto = { src: wendell, position: '50% 36%', placeholder: true };
 
+/* Chosen heroes: two of the options Axis sent on 2026-10-22, and the Yadkinville rebuild
+   that leads the O&M page (2026-10-28). */
+const allFields: HeroPhoto = { src: hertfordFields, position: '50% 30%', placeholder: false };
+const rooftop: HeroPhoto = { src: hollySpringsRooftop, position: '50% 55%', placeholder: false };
+const rebuild: HeroPhoto = { src: yadkinville, position: '50% 45%', placeholder: false };
+
 export const heroes = {
   services: solarStorage,
   'solar-epc': microgrid,
   'battery-storage-and-microgrids': carport,
   'electrical-infrastructure-and-commissioning': solarStorage,
-  'om-and-technical-services': microgrid,
-  omOffering: solarStorage,
-  projects: microgrid,
-  markets: solarStorage,
+  'om-and-technical-services': rebuild,
+  projects: allFields,
+  markets: rooftop,
   whyAxis: solarStorage,
   about: carport,
   leadership: microgrid,

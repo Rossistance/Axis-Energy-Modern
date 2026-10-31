@@ -6,9 +6,10 @@ import { href, isActive } from '@lib/href';
 
 const current = Astro.url.pathname;
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-/** A group starts open when the current page is inside it. */
+/** A group starts open when the current page is inside it (not when it only links to another top-level item, like O&M under Services). */
+const topLevel = new Set(primaryNav.map((item) => item.href));
 const inGroup = (item: NavItem): boolean =>
-  isActive(item.href, current) || !!item.children?.some((c) => inGroup(c));
+  isActive(item.href, current) || !!item.children?.some((c) => !topLevel.has(c.href) && inGroup(c));
 ---
 
 <dialog id="site-drawer" class="drawer" aria-label="Site menu" data-drawer>

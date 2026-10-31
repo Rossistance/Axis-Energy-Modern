@@ -9,6 +9,8 @@ RewriteRule ^(news/)?five-takeaways-from-a-nc-energy-policy-panel/?$ /news/ [R=3
 RewriteRule ^(news/)?solar-could-provide-25-of-the-worlds-energy-by-2050/?$ /news/ [R=301,L]
 RewriteRule ^request-a-quote/?$ /work-with-axis/developer-project-owner/ [R=301,L]
 RewriteRule ^subcontractors/?$ /work-with-axis/subcontractor/ [R=301,L]
+RewriteRule ^services/om-and-technical-services/?$ /om-and-technical-services/ [R=301,L]
+RewriteRule ^services/om-and-technical-services/([a-z-]+)/?$ /om-and-technical-services/#$1 [R=301,L,NE]
 RewriteRule ^sitemap\.xml$ /sitemap-index.xml [R=301,L]
 ErrorDocument 404 /404.html
 

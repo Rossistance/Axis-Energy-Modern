@@ -43,13 +43,20 @@ test('on phones inner page headers stay compact', async ({ page }) => {
   }
 });
 
-test('every inner page header shows a photo labeled as a placeholder', async ({ page }) => {
+// Headers with a chosen photo (2026-10-30): Projects and its service views, Markets and O&M.
+const chosen = (path: string) =>
+  path.startsWith('projects/') || path === 'markets/' || path === 'om-and-technical-services/';
+
+test('every inner page header shows a photo, labeled as a placeholder until one is chosen', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   for (const path of inner) {
     await page.goto(path);
     const hero = page.locator('main > .page-hero');
     await expect.soft(hero.locator('.page-hero__photo img'), path).toHaveCount(1);
-    await expect.soft(hero.locator('.page-hero__tag'), path).toHaveText('Placeholder photo');
+    if (chosen(path)) await expect.soft(hero.locator('.page-hero__tag'), path).toHaveCount(0);
+    else await expect.soft(hero.locator('.page-hero__tag'), path).toHaveText('Placeholder photo');
   }
 });
 

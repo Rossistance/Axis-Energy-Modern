@@ -48,6 +48,21 @@ export default defineConfig({
       // Request a Quote and Subcontractors moved under Work with Axis (2026-10-01).
       '/request-a-quote/': '/work-with-axis/developer-project-owner/',
       '/subcontractors/': '/work-with-axis/subcontractor/',
+      // O&M became a stand-alone one-page site; its offering pages are now sections (2026-10-28).
+      '/services/om-and-technical-services/': '/om-and-technical-services/',
+      ...Object.fromEntries(
+        [
+          'preventive-maintenance',
+          'corrective-maintenance',
+          'performance-monitoring',
+          'repowering',
+          'storm-damage',
+          'decommissioning',
+        ].map((slug) => [
+          `/services/om-and-technical-services/${slug}/`,
+          `/om-and-technical-services/#${slug}`,
+        ]),
+      ),
     }).map(([from, to]) => [from, base === '/' ? to : `${base}${to}`]),
   ),
   vite: {

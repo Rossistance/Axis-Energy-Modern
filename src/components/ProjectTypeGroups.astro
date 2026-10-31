@@ -1,21 +1,22 @@
 ---
 /**
- * Published projects grouped under type headings, each with its project count and size.
- * Used on the Projects page and, for the remaining projects, on its service views.
+ * Published projects grouped under type headings. Used on the Projects page and, for the
+ * remaining projects, on its service views.
  *
  * Each group starts its own full-width row (owner, 2026-10-28: types never share a line);
  * its cards sit up to four to a row, on the same columns in every group so they line up.
+ * Groups show no project count or size totals (owner, 2026-10-28): the page grows as profiles
+ * are added, and running totals belong to By the numbers on Why Axis.
  */
 import ProjectCard from '@components/ProjectCard.astro';
-import { formatSize, formatStorage } from '@lib/format';
-import { groupByType, portfolioTotals, type Project } from '@lib/projects';
+import { groupByType, type Project } from '@lib/projects';
 
 interface Props {
   projects: Project[];
 }
 
 const { projects } = Astro.props;
-const groups = groupByType(projects).map((g) => ({ ...g, totals: portfolioTotals(g.projects) }));
+const groups = groupByType(projects);
 ---
 
 <div class="type-groups">
@@ -23,11 +24,6 @@ const groups = groupByType(projects).map((g) => ({ ...g, totals: portfolioTotals
     <div class="type-group" id={`type-${group.type}`}>
       <div class="type-group__head">
         <h3>{group.label}</h3>
-        <p class="type-group__meta tabular">
-          {group.totals.count} {group.totals.count === 1 ? 'project' : 'projects'} ·{' '}
-          {formatSize(group.totals.mwdc)}
-          {group.totals.mwh > 0 && ` · ${formatStorage(group.totals.mwh)}`}
-        </p>
       </div>
       <div class="type-group__grid" data-reveal-group>
         {group.projects.map((p) => (
@@ -65,13 +61,6 @@ const groups = groupByType(projects).map((g) => ({ ...g, totals: portfolioTotals
   .type-group__head h3 {
     margin: 0;
     font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
-  }
-
-  .type-group__meta {
-    margin: 0;
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--text-muted);
   }
 
   @media (min-width: 560px) {

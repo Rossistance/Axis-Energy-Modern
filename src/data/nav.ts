@@ -1,4 +1,11 @@
-import { servicePages, omOfferings, servicePath, offeringPath, OM_PAGE_SLUG } from './services';
+import {
+  servicePages,
+  omOfferings,
+  servicePath,
+  offeringPath,
+  OM_PATH,
+  OM_PROJECTS_ID,
+} from './services';
 import { projectMarkets, marketPath, type ProjectMarket } from './project-markets';
 import { routes } from './routes';
 
@@ -9,26 +16,14 @@ export interface NavItem {
 }
 
 /** Markets are sections of the Markets page, so these links jump within that page. */
-const marketItem = (m: ProjectMarket): NavItem => ({
-  label: m.title,
-  href: marketPath(m.id),
-  children: m.children?.map(marketItem),
-});
+const marketItem = (m: ProjectMarket): NavItem => ({ label: m.title, href: marketPath(m.id) });
 
 export const primaryNav: NavItem[] = [
   {
     label: 'Services',
     href: '/services/',
-    children: [
-      ...servicePages.map((page) => ({
-        label: page.title,
-        href: servicePath(page.slug),
-        children:
-          page.slug === OM_PAGE_SLUG
-            ? omOfferings.map((o) => ({ label: o.title, href: offeringPath(o.slug) }))
-            : undefined,
-      })),
-    ],
+    // O&M & Technical Services stays listed here as a plain link to its own page.
+    children: servicePages.map((page) => ({ label: page.title, href: servicePath(page.slug) })),
   },
   {
     label: 'Markets',
@@ -36,6 +31,15 @@ export const primaryNav: NavItem[] = [
     children: projectMarkets.map(marketItem),
   },
   { label: 'Projects', href: routes.projects },
+  // A stand-alone page after Projects; its menu jumps to the page's sections (owner, 2026-10-28).
+  {
+    label: 'O&M',
+    href: OM_PATH,
+    children: [
+      ...omOfferings.map((o) => ({ label: o.title, href: offeringPath(o.slug) })),
+      { label: 'O&M project experience', href: `${OM_PATH}#${OM_PROJECTS_ID}` },
+    ],
+  },
   { label: 'Why Axis', href: '/why-axis/' },
   {
     label: 'About us',

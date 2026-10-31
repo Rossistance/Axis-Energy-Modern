@@ -1,4 +1,8 @@
 ---
+/**
+ * Service pages under /services/. O&M & Technical Services is not one of them: it is a
+ * stand-alone page (src/pages/om-and-technical-services.astro) since 2026-10-28.
+ */
 import { Icon } from 'astro-icon/components';
 import type { ImageMetadata } from 'astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -10,14 +14,11 @@ import { heroes } from '@data/heroes';
 import photoFloydRoad from '@assets/projects/floyd-road-gaston-nc.png';
 import photoWalnutGrove from '@assets/projects/walnut-grove-microgrid.jpg';
 import photoEquipmentYard from '@assets/projects/walnut-grove-microgrid-equipment-yard.jpg';
-import photoCooperative from '@assets/projects/cooperative-solar-storage-portfolio.jpg';
 import {
   servicePages,
-  omOfferings,
   process,
   experienceGroups,
   servicePath,
-  offeringPath,
   serviceProjectsPath,
   OM_PAGE_SLUG,
   type ServicePage,
@@ -25,7 +26,9 @@ import {
 import { href } from '@lib/href';
 
 export function getStaticPaths() {
-  return servicePages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+  return servicePages
+    .filter((page) => page.slug !== OM_PAGE_SLUG)
+    .map((page) => ({ params: { slug: page.slug }, props: { page } }));
 }
 
 const { page } = Astro.props as { page: ServicePage };
@@ -46,15 +49,9 @@ const photos: Record<string, { src: ImageMetadata; alt: string; caption: string 
     alt: "Overhead view of the microgrid's battery containers, inverters and medium-voltage equipment on a gravel pad",
     caption: 'Walnut Grove Microgrid equipment yard · Walnut Grove, MS',
   },
-  'om-and-technical-services': {
-    src: photoCooperative,
-    alt: 'Aerial view of a ground-mounted solar array and its battery storage and inverter pad in rural North Carolina',
-    caption: 'Cooperative Solar and Storage Portfolio · maintained by Axis since operations began',
-  },
 };
 
 const others = servicePages.filter((p) => p.slug !== page.slug);
-const isOm = page.slug === OM_PAGE_SLUG;
 ---
 
 <BaseLayout title={page.title} description={page.summary}>
@@ -78,29 +75,6 @@ const isOm = page.slug === OM_PAGE_SLUG;
       <Icon name="lucide:arrow-right" class="see-projects__arrow" />
     </a>
   </ServiceBlock>
-
-  {isOm && (
-    <section class="section band-alt" aria-labelledby="offerings-title">
-      <div class="container">
-        <SectionHeading
-          eyebrow="Technical services"
-          title="O&M and technical services offerings"
-          id="offerings-title"
-        />
-        <div class="grid grid--3" data-reveal-group>
-          {omOfferings.map((o) => (
-            <a class="card card--lift offering-card" href={href(offeringPath(o.slug))}>
-              <h3>{o.title}</h3>
-              <p>{o.summary}</p>
-              <span class="link-arrow">
-                Learn more <Icon name="lucide:arrow-right" class="icon" />
-              </span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
 
   {page.slug === 'solar-epc' && (
     <section class="section" aria-labelledby="experience-title">
