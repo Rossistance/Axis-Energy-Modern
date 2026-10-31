@@ -1,8 +1,9 @@
 /**
  * Headline figures. Only `confirmed: true` entries render.
  * Sources: 2024 company overview deck (Dec 2024); Solar Power World public profile (2026).
- * The deck's "150 MW+" counts the project team's collective experience; SPW's
- * 99,040 kW counts installations reported since founding. Owner to choose the basis.
+ * The deck's "150 MW+" counts the project team's collective experience, including the White
+ * Electrical renewable division; the owner kept that basis on 2026-10-31, so the copy says "our
+ * team". The Axis-era project listings alone add up to about 103 MWdc across 33 projects.
  */
 export interface Stat {
   value: string;
@@ -18,7 +19,7 @@ export const stats: Stat[] = [
     value: '150 MW+',
     numeric: 150,
     suffix: ' MW+',
-    label: 'Solar constructed',
+    label: 'Solar constructed by our team',
     source: '2024 company overview deck',
     confirmed: true,
   },
@@ -88,7 +89,7 @@ export const heritage = [
   {
     year: '2024',
     title: 'Solar + storage across nine states',
-    body: '150 MW+ of solar and 30 MWh of battery storage constructed across 28 projects, with work in the Carolinas, Arkansas, Mississippi, Tennessee, Kentucky, Virginia and Pennsylvania.',
+    body: 'Our team has constructed 150 MW+ of solar and 30 MWh of battery storage across 28 projects, with work in the Carolinas, Arkansas, Mississippi, Tennessee, Kentucky, Virginia and Pennsylvania.',
   },
   {
     year: '2026',
