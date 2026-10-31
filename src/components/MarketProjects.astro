@@ -94,7 +94,7 @@ const { projects, emptyNote } = Astro.props;
   .market-project__thumb :global(img) {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: var(--photo-fit);
   }
 
   .market-project__thumb :global(svg) {

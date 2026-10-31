@@ -96,7 +96,7 @@ const copyIntoBuild = !!remote && /(^|\.)licdn\.com$/.test(new URL(remote).hostn
   .post-card__media :global(img) {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: var(--photo-fit);
     transition: transform var(--dur-3) var(--ease-out);
   }
 

@@ -40,8 +40,7 @@ benefits:
   - title: "Repowering discipline"
     body: "The phased approach kept usable infrastructure and replaced failed components to documented standards."
 image: ../../assets/projects/yadkinville-solar.jpg
-imageAlt: "Aerial view of a fixed-tilt solar field being rebuilt, with new rows of panels, equipment pads and red clay ground"
-imageFocus: "60% 50%"
+imageAlt: "Aerial view of the solar field during the rebuild, with pallets of new modules staged on the grass in front of the rows"
 gallery:
   - image: ../../assets/projects/yadkinville-solar-stage-1.jpg
     alt: "Aerial view of the existing solar field in a clearing surrounded by woodland"

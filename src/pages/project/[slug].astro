@@ -170,7 +170,7 @@ const delivery = [
           </figure>
         )}
         {data.gallery?.map((photo) => (
-          <figure class="photo-frame photo-frame--crop">
+          <figure class="photo-frame photo-frame--fit">
             <Image
               src={photo.image}
               alt={photo.alt}
@@ -461,10 +461,10 @@ const delivery = [
     height: auto;
   }
 
-  /* Secondary photos: a shorter 16:9 crop, so the photo column stays beside the facts. */
-  .photo-frame--crop img {
+  /* Secondary photos: a shorter 16:9 frame, so the photo column stays beside the facts. */
+  .photo-frame--fit img {
     aspect-ratio: 16 / 9;
-    object-fit: cover;
+    object-fit: var(--photo-fit);
   }
 
   .photo-frame figcaption {

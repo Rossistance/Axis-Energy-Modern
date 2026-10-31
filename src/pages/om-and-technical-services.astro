@@ -145,7 +145,7 @@ const delivery = featured
         {featured.data.gallery && (
           <div class="om-stages" data-reveal-group>
             {featured.data.gallery.map((photo) => (
-              <figure class="photo-frame photo-frame--crop">
+              <figure class="photo-frame photo-frame--fit">
                 <Image
                   src={photo.image}
                   alt={photo.alt}
@@ -311,9 +311,9 @@ const delivery = featured
     height: auto;
   }
 
-  .photo-frame--crop img {
+  .photo-frame--fit img {
     aspect-ratio: 16 / 9;
-    object-fit: cover;
+    object-fit: var(--photo-fit);
   }
 
   .photo-frame figcaption {
