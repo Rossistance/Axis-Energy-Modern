@@ -30,8 +30,7 @@ benefits:
   - title: "A reference for manufacturers"
     body: "A working example for manufacturers weighing solar, storage, controls integration and resilient campus infrastructure."
 image: ../../assets/projects/wendell-campus-microgrid.jpg
-imageAlt: "Aerial view of solar carport canopies beside a manufacturing plant and its employee parking"
-imageFocus: "20% 50%"
+imageAlt: "Aerial view of the solar carport canopy with the battery storage and switchgear yard in front and forest behind"
 gallery:
   - image: ../../assets/projects/wendell-campus-microgrid-carport.jpg
     alt: "Aerial view of the solar carport rows with a construction laydown area and site trailers alongside"
@@ -39,7 +38,7 @@ gallery:
 featured: true
 published: true
 order: 3
-source: "Extracted from the Axis Energy project abstract (updated September 2026); completion year from the Solar Power World submission (SPW 2025 sheet). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos)."
+source: "Extracted from the Axis Energy project abstract (updated September 2026); completion year from the Solar Power World submission (SPW 2025 sheet). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). Main photo replaced on 2026-10-30 with a full-size drone photo from the project profile folder, trimmed at the left and bottom to leave out a third-party truck logo and a foreground roof."
 ---
 
 Axis Energy served as general contractor and EPC lead for a campus microgrid at an active manufacturing facility in Wendell, North Carolina. The system pairs a 1.519 MWdc structural solar carport with a 3.916 MWh Tesla battery, tied together by new electrical infrastructure and a microgrid controls platform.

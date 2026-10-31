@@ -44,7 +44,7 @@ imageAlt: "Aerial view of rooftop solar panels on a large flat roof, with a park
 imageFocus: "40% 60%"
 gallery:
   - image: ../../assets/projects/holly-springs-biomanufacturing-solar.jpg
-    alt: "Rows of fixed-tilt ground-mounted solar panels in a cleared area surrounded by woodland"
+    alt: "A curving bank of fixed-tilt ground-mounted solar panels in a cleared area surrounded by woodland"
     caption: "The fixed-tilt ground-mount array"
   - image: ../../assets/projects/holly-springs-biomanufacturing-solar-roof-racking.jpg
     alt: "Solar racking laid out across a flat white roof at sunset"
@@ -55,7 +55,7 @@ gallery:
 featured: true
 published: true
 order: 6
-source: "Extracted from the Axis Energy project abstract (supplied by the owner on 2026-10-28). The abstract gives no system size or completion date; 1.693 MWdc and the completion month come from the Solar Power World submission (SPW 2024 sheet: completed 2023-12-05). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). The client's campus investment figure is still left out. Photos are from the abstract, cropped to leave out the printed client name; the rooftop photo is the full-size version the owner sent as a hero option on 2026-10-22."
+source: "Extracted from the Axis Energy project abstract (supplied by the owner on 2026-10-28). The abstract gives no system size or completion date; 1.693 MWdc and the completion month come from the Solar Power World submission (SPW 2024 sheet: completed 2023-12-05). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). The client's campus investment figure is still left out. Photos are from the abstract, cropped to leave out the printed client name; the rooftop photo is the full-size version the owner sent as a hero option on 2026-10-22. Ground-mount gallery photo replaced on 2026-10-30 with the full panorama from the job's photo folder on AxisShare."
 ---
 
 Axis Energy delivered rooftop and ground-mount solar for a greenfield pharmaceutical biomanufacturing campus in Holly Springs, North Carolina. The assignment joined two distinct array environments into one coordinated delivery program, combining process-campus safety, roof access and equipment congestion, civil fieldwork, distributed string inverters, medium-voltage collection, testing and turnover.

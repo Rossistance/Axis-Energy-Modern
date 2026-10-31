@@ -6,6 +6,7 @@ coordinates: { lat: 35.0527, lon: -78.8784 }
 year: 2019
 type: om
 role: ["Flood recovery", "Medium-voltage electrical"]
+acMw: 71
 interconnection: "35 kV collection system"
 keyFigures:
   - { value: "10", label: "Flood-affected PCS stations" }
@@ -51,7 +52,7 @@ gallery:
 featured: true
 published: true
 order: 14
-source: "Extracted from the Axis Energy Innovative Solar 42 flood resilience abstract (supplied by the owner on 2026-10-22, revised 2026-10-28). The abstract covers PCS stations 8, 15, 16 and 19 through 25, an elevation design of about 32 inches and the 2019 recovery program; it gives no plant size. Photos are from the abstract, cropped to leave out its printed title."
+source: "Extracted from the Axis Energy Innovative Solar 42 flood resilience abstract (supplied by the owner on 2026-10-22, revised 2026-10-28). The abstract covers PCS stations 8, 15, 16 and 19 through 25, an elevation design of about 32 inches and the 2019 recovery program. Plant size (71 MWac nameplate, operating since September 2017) from the public EIA-860 generator data, 2025 edition. Photos are from the abstract, cropped to leave out its printed title."
 ---
 
 An extreme storm in September 2018 left ten central inverter stations at Innovative Solar 42, near Fayetteville, North Carolina, standing in floodwater. Rather than replace the equipment, the owner raised it: each power conversion station was lifted onto a vault-supported design about 32 inches above its old grade.

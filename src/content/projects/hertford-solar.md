@@ -41,7 +41,7 @@ benefits:
   - title: "One accountable delivery path"
     body: "Environmental compliance, engineering, construction, testing and interconnection were managed as one coordinated recovery effort."
 image: ../../assets/projects/hertford-solar.jpg
-imageAlt: "Aerial view of rows of single-axis tracking solar panels among woodland and fields near Ahoskie, North Carolina"
+imageAlt: "Low aerial view across rows of single-axis tracking solar panels toward the other fields and woodland near Ahoskie, North Carolina"
 gallery:
   - image: ../../assets/projects/hertford-solar-trackers.jpg
     alt: "Aerial view of long rows of tracker-mounted solar panels across a grassy site"
@@ -55,7 +55,7 @@ gallery:
 featured: true
 published: true
 order: 5
-source: "Extracted from the Axis Energy Hertford Solar project abstract (supplied by the owner on 2026-10-28; 13.97 MWdc supersedes the 13.974 MWdc in the SPW 2022 sheet). The abstract gives no completion date; the month comes from the Solar Power World submission (SPW 2022 sheet: completed 2021-12-22). The abstract names no client; the facility is privately owned. Photos are from the abstract, cropped to leave out its printed title."
+source: "Extracted from the Axis Energy Hertford Solar project abstract (supplied by the owner on 2026-10-28; 13.97 MWdc supersedes the 13.974 MWdc in the SPW 2022 sheet). The abstract gives no completion date; the month comes from the Solar Power World submission (SPW 2022 sheet: completed 2021-12-22). The abstract names no client; the facility is privately owned. Photos are from the abstract, cropped to leave out its printed title. Main photo replaced on 2026-10-30 with an August 2022 aerial from the job's photo folder on AxisShare, trimmed of blank sky."
 ---
 
 Axis Energy took over Hertford Solar, a 13.97 MWdc utility-scale project near Ahoskie, North Carolina, after the original EPC completed initial clearing and grading but did not finish the work. Axis inherited a disturbed site, took on the critical responsibilities, completed the design and carried out the remaining civil, mechanical, electrical, testing and closeout work.

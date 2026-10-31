@@ -4,6 +4,7 @@ city: "Florence"
 state: SC
 coordinates: { lat: 34.1954, lon: -79.7626 }
 sizeMwdc: 1.76
+year: 2016
 type: commercial
 market: "commercial-industrial"
 role: ["EPC"]
@@ -36,8 +37,7 @@ benefits:
   - title: "Adaptive EPC"
     body: "Solar construction was fitted around existing grades, pavement, drainage, utilities and plant operations."
 image: ../../assets/projects/florence-solar-array.jpg
-imageAlt: "Aerial view of rows of ground-mounted solar panels across a paved parking lot beside a manufacturing plant"
-imageFocus: "35% 50%"
+imageAlt: "Aerial view of the finished solar rows across a paved parking lot, with the manufacturing plant and its loading docks behind"
 gallery:
   - image: ../../assets/projects/florence-solar-array-stage-1.jpg
     alt: "Aerial view of a paved lot with rows of solar racking foundations laid out"
@@ -51,7 +51,7 @@ gallery:
 featured: true
 published: true
 order: 8
-source: "Extracted from the Axis Energy GE HealthCare Florence Parking Lot Solar abstract (supplied by the owner on 2026-10-28 as a Commercial & Industrial profile); its 1.76 MWdc supersedes the 1.71 MW in the 2018 brochure. The abstract gives no completion date. Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). Photos are from the abstract, cropped to leave out its printed title."
+source: "Extracted from the Axis Energy GE HealthCare Florence Parking Lot Solar abstract (supplied by the owner on 2026-10-28 as a Commercial & Industrial profile); its 1.76 MWdc supersedes the 1.71 MW in the 2018 brochure. The abstract gives no completion date. Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). Photos are from the abstract, cropped to leave out its printed title. Completion year 2016 from the job records: construction began on 26 April 2016 and an aerial of the finished array is dated 15 June 2016 (the project lists give 1,746 kWdc against the abstract's 1.76 MWdc; owner to confirm). Main photo replaced on 2026-10-30 with that full-frame aerial from the owner's project photo folder, with a carrier's logo on one trailer retouched out."
 ---
 
 At GE HealthCare's MRI magnet manufacturing campus in Florence, South Carolina, a former employee parking lot sat underused. Axis Energy turned it into a 1.76 MWdc solar facility connected behind the meter, so the power it generates offsets electricity the plant would otherwise buy, without clearing any undeveloped land.

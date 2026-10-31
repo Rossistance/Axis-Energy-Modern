@@ -29,7 +29,7 @@ benefits:
   - title: "Essential-service value"
     body: "The project connects renewable generation and cost control to the long-term affordability of a critical public water system."
 image: ../../assets/projects/cabot-water-utility-solar.jpg
-imageAlt: "Aerial view of rows of single-axis tracking solar panels on a cleared site surrounded by fields and woodland"
+imageAlt: "Aerial view of the completed single-axis tracking solar array, split by a gravel access road, with grassland and woodland around it"
 gallery:
   - image: ../../assets/projects/cabot-water-utility-solar-aerial.jpg
     alt: "Aerial view looking straight down on the tracking solar array in open fields near Cabot, Arkansas"
@@ -37,7 +37,7 @@ gallery:
 featured: true
 published: true
 order: 4
-source: "Extracted from the Axis Energy project abstract (supplied by the owner on 2026-10-28), which supersedes the Solar Power World submission figures (SPW 2022 sheet: 4.81 MWdc, EPC, completed 2021-12-28). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). The photo is the abstract's inset photo; the site aerial is public-domain USDA NAIP 2023 imagery from the owner's imagery pack (2026-10-23)."
+source: "Extracted from the Axis Energy project abstract (supplied by the owner on 2026-10-28), which supersedes the Solar Power World submission figures (SPW 2022 sheet: 4.81 MWdc, EPC, completed 2021-12-28). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). The photo is the abstract's inset photo; the site aerial is public-domain USDA NAIP 2023 imagery from the owner's imagery pack (2026-10-23). Main photo replaced on 2026-10-30 with the full-size completed-array aerial from the job's photo folder on AxisShare."
 ---
 
 Axis Energy built a 4.8 MWdc solar facility in Cabot, Arkansas, for a public water utility. More than 11,000 modules sit on a ground-mounted, single-axis tracking system across a 30-acre site, and the facility began generating power in May 2022.

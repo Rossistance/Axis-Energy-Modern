@@ -27,8 +27,7 @@ benefits:
   - title: "Lifecycle continuity"
     body: "Knowledge from construction and commissioning now informs diagnostics, maintenance, warranty coordination and reporting."
 image: ../../assets/projects/cooperative-solar-storage-portfolio.jpg
-imageAlt: "Aerial view of a ground-mounted solar array and its battery storage and inverter pad in rural North Carolina"
-imageFocus: "100% 50%"
+imageAlt: "Aerial view of two of the portfolio's ground-mounted solar sites and an equipment pad among woodland in rural North Carolina"
 gallery:
   - image: ../../assets/projects/cooperative-solar-storage-portfolio-battery-pad.jpg
     alt: "Close view of a battery storage enclosure, transformer and switchgear on a concrete pad at one of the sites"
@@ -36,7 +35,7 @@ gallery:
 featured: true
 published: true
 order: 1
-source: "Extracted from the Axis Energy project abstract (updated September 2026). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). The five 2020 North Carolina solar + Tesla storage entries from the SPW 2021 sheet (11.83 MWdc and 22.69 MWh combined) appear to be these sites: keep them unpublished to avoid double counting, and confirm the completion year before adding one here."
+source: "Extracted from the Axis Energy project abstract (updated September 2026). Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). The five 2020 North Carolina solar + Tesla storage entries from the SPW 2021 sheet (11.83 MWdc and 22.69 MWh combined) appear to be these sites: keep them unpublished to avoid double counting, and confirm the completion year before adding one here. Main photo replaced on 2026-10-30 with a full-size aerial of the Spencer Meadow and Lowe Country sites from the owner's project photo folder."
 ---
 
 Axis Energy delivered a five-site solar and storage portfolio across North Carolina cooperative territories, combining 11.7 MWdc of solar generation with 22.6 MWh of Tesla battery storage. Together the sites form a repeatable platform for local generation and peak-demand support.

@@ -2,10 +2,12 @@
 title: "Edenton Solar Inverter Thermal Event Recovery"
 city: "Edenton"
 state: NC
-coordinates: { lat: 36.0579, lon: -76.6077 }
+coordinates: { lat: 36.0508, lon: -76.5466 }
+sizeMwdc: 7.552
 year: 2019
 type: om
 role: ["Thermal event recovery"]
+acMw: 5
 inverters: "Power Electronics HEMK 3,000 kW central inverter (replacement)"
 keyFigures:
   - { value: "3.0 MW", label: "Central inverter" }
@@ -38,8 +40,7 @@ benefits:
   - title: "Replacement with evidence"
     body: "Cable testing, disciplined labeling, documented terminations and turnover records show the rebuilt block is ready for service."
 image: ../../assets/projects/edenton-inverter-thermal-event-recovery.jpg
-imageAlt: "Side-by-side photos of a fire-damaged central inverter on its skid and the replacement inverter installed in its place"
-imageFocus: "30% 50%"
+imageAlt: "A fire-damaged central inverter on its skid beside an intact transformer cabinet, with combiners and the solar array behind"
 gallery:
   - image: ../../assets/projects/edenton-inverter-thermal-event-recovery-stage-1.jpg
     alt: "Burned-out inverter cabinets with their doors open"
@@ -53,7 +54,7 @@ gallery:
 featured: true
 published: true
 order: 13
-source: "Extracted from the Axis Energy Edenton inverter thermal event recovery abstract (supplied by the owner on 2026-10-22, revised 2026-10-28). The abstract gives the inverter rating, the April 2019 event and 2.5 weeks of planned field execution, but not the plant's overall size. Photos are from the abstract."
+source: "Extracted from the Axis Energy Edenton inverter thermal event recovery abstract (supplied by the owner on 2026-10-22, revised 2026-10-28). The abstract gives the inverter rating, the April 2019 event and 2.5 weeks of planned field execution, but not the plant's overall size. Plant size (7.552 MWdc, 5.0 MWac, with a 2,000 kW and a 3,000 kW inverter) and site location from the sealed electrical record set (February 2019) in the job's estimate folder on AxisShare. Photos are from the abstract. Main photo replaced on 2026-10-30 with the uncropped April 2019 post-event original from the job folder; the abstract's side-by-side 'after' half dates from the plant's 2018 construction, not the 2019 replacement, so it is no longer used (flag for the owner)."
 ---
 
 In April 2019 a thermal event destroyed one of the 3 MW Power Electronics HEMK central inverters at Edenton Solar in North Carolina. The fire did not stop at the cabinet: it damaged the DC equipment, the feeder conductors running to the combiner clusters, and parts of the conduit system under the skid.

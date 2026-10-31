@@ -30,8 +30,7 @@ benefits:
   - title: "Repeatable resilience"
     body: "A practical reference for utilities, cooperatives, industrial campuses and critical facilities evaluating microgrid investments."
 image: ../../assets/projects/walnut-grove-microgrid.jpg
-imageAlt: "Aerial view of the microgrid's battery storage and medium-voltage equipment yard beside rows of tracking solar panels"
-imageFocus: "35% 50%"
+imageAlt: "Aerial view of the microgrid's battery storage and medium-voltage equipment yard in front of the full tracking solar array"
 gallery:
   - image: ../../assets/projects/walnut-grove-microgrid-aerial.jpg
     alt: "Aerial view of the microgrid's solar array and equipment yard beside farm fields in Walnut Grove, Mississippi"
@@ -42,7 +41,7 @@ gallery:
 featured: true
 published: true
 order: 2
-source: "Extracted from the Axis Energy project abstract (updated September 2026), which supersedes the Solar Power World submission figures (SPW 2022 sheet: 2.579 MWdc, 5.288 MWh LG Chem storage, completed December 2021). The utility is not named: it declined permission earlier, so this entry stays unnamed under the 2026-10-29 rule."
+source: "Extracted from the Axis Energy project abstract (updated September 2026), which supersedes the Solar Power World submission figures (SPW 2022 sheet: 2.579 MWdc, 5.288 MWh LG Chem storage, completed December 2021). The utility is not named: it declined permission earlier, so this entry stays unnamed under the 2026-10-29 rule. Main photo replaced on 2026-10-30 with an August 2022 drone photo from the owner's project photo folder (no utility signage visible)."
 ---
 
 Axis Energy delivered the Walnut Grove Microgrid in Mississippi for its utility owner, leading the complete EPC effort. The project pairs 2.751 MWdc of bifacial solar on OMCO Origin trackers with 5.014 MWh of battery storage, and Axis delivered and commissioned the medium-voltage, controls, protection and interconnection systems so that everything operates as one coordinated platform. The microgrid entered commercial operation in 2023.
