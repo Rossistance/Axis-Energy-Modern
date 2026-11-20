@@ -52,6 +52,13 @@ test('projects are grouped under type headings, with no filters or project table
     page.locator('#type-commercial .project-card__title', { hasText: 'Boeing Charleston' }),
   ).toHaveCount(1);
   await expect(page.locator('#type-rooftop')).toHaveCount(0);
+  // The 2026-11-02 abstracts: EnerSys with the C&I projects, Boehringer under canopies.
+  await expect(
+    page.locator('#type-commercial .project-card__title', { hasText: 'EnerSys Reading' }),
+  ).toHaveCount(1);
+  await expect(page.locator('#type-carport .project-card__title')).toHaveText([
+    'Boehringer Ingelheim Gainesville Solar Canopy',
+  ]);
   // The O&M, repowering and recovery profiles lead with Yadkinville.
   await expect(page.locator('#type-om .project-card__title').first()).toHaveText(
     'Yadkinville Storm Recovery and Rebuild',

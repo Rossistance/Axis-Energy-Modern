@@ -22,6 +22,13 @@ scope:
   - "DC collection, conduit routing and electrical balance of system"
   - "Quality control, testing, commissioning and turnover"
   - "Coordination with Baker Renewable Energy, SCE&G and site stakeholders"
+benefits:
+  - title: "Proven team capability"
+    body: "The core renewable construction team that established Axis Energy delivered this work through White Electrical's Renewable Energy Division."
+  - title: "Industrial project discipline"
+    body: "Safe rooftop execution, repeatable installation quality, organized electrical pathways and coordination around a major manufacturing asset."
+  - title: "A foundation for growth"
+    body: "Experience at this scale helped show that a dedicated renewable energy company could serve complex commercial and industrial clients."
 image: ../../assets/projects/charleston-rooftop-solar.jpg
 imageAlt: "Rows of thin-film solar laminates stretching to the horizon across a white membrane roof under a deep blue sky"
 gallery:
@@ -31,7 +38,7 @@ gallery:
 featured: true
 published: true
 order: 10
-source: "Rebuilt from the Axis Energy Boeing Dreamliner rooftop solar heritage abstract (2026-10-29, AxisShare prequalification folder), which supersedes the live-site text; cross-checked with the project experience list (2,605,680 W, started April 2011). The abstract presents it as predecessor experience led by Baker Renewable Energy, not an Axis Energy contract, and names Baker. Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). Photos are full-size October 2011 originals from the owner's project photo folder; no logos visible."
+source: "Rebuilt from the Axis Energy Boeing Dreamliner rooftop solar heritage abstract (2026-10-29, AxisShare prequalification folder), which supersedes the live-site text; cross-checked with the project experience list (2,605,680 W, started April 2011). The abstract presents it as predecessor experience led by Baker Renewable Energy, not an Axis Energy contract, and names Baker. Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). Photos are full-size October 2011 originals from the owner's project photo folder; no logos visible. The owner re-sent the same abstract on 2026-11-02; its 'why this project matters' points were added on 2026-11-20."
 ---
 
 Before Axis Energy became a dedicated renewable EPC and O&M company, its team built its capabilities inside White Electrical's Renewable Energy Division. On Boeing's Building 88-30, the 787 Final Assembly Building in North Charleston, that team worked with Baker Renewable Energy, which led the delivery, to install a 2.6 MWdc rooftop array: more than 18,000 lightweight thin-film laminates across about 10 acres of membrane roof.

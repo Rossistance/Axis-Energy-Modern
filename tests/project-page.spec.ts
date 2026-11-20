@@ -77,3 +77,26 @@ test('related projects are compact cards, same market or type first', async ({ p
     expect((await card.boundingBox())!.height).toBeLessThanOrEqual(300);
   }
 });
+
+test('GE Aviation Durham is told from its 2026-11-02 abstract, as heritage EPC work', async ({
+  page,
+}) => {
+  await page.goto('project/durham-manufacturing-solar/');
+  const main = page.locator('main');
+  await expect(page.locator('.figures')).toContainText('EPC');
+  await expect(main).toContainText('drilled piers');
+  await expect(main).toContainText('White Electrical');
+  // Audit M6 (2026-11-02): no "Axis Energy began work" in 2014 and no "MWDC".
+  await expect(main).not.toContainText('Axis Energy began work');
+  await expect(main).not.toContainText('MWDC');
+  await expect(main).not.toContainText(/construction management/i);
+});
+
+test('the new C&I profiles show their delivery story without a photo yet', async ({ page }) => {
+  for (const path of ['project/reading-dual-array-solar/', 'project/gainesville-solar-canopy/']) {
+    await page.goto(path);
+    await expect(page.locator('main h1')).toBeVisible();
+    await expect(page.locator('.delivery__item h3').first()).toHaveText('Challenge');
+    await expect(page.locator('main')).toContainText('How Axis controlled execution');
+  }
+});
