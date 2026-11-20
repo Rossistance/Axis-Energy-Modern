@@ -31,7 +31,8 @@ export const company = {
   // the Axis Promise show it with a tap-to-call link as soon as it is set.
   phone: null as { display: string; tel: string } | null,
   /** Response commitment (owner, 2026-11-02: "a response commitment within 24hrs"). */
-  responseTime: 'within 24 hours',
+  // A non-breaking space keeps "24 hours" on one line.
+  responseTime: 'within 24\u00a0hours',
   fax: { display: '919.285.2581' },
   email: 'info@axis-energyinc.com',
   careersEmail: 'careers@axis-energyinc.com',

@@ -9,7 +9,7 @@ test('highlight bubbles link to Projects, About and Why Axis', async ({ page }) 
   await page.goto('');
   const chips = page.locator('.hero__chips a');
   await expect(chips).toHaveCount(3);
-  await expect(chips.nth(0)).toContainText('150 MW');
+  await expect(chips.nth(0)).toContainText('195 MW');
   await expect(chips.nth(0)).toHaveAttribute('href', /\/projects\/$/);
   await expect(chips.nth(1)).toContainText('employee-owned');
   await expect(chips.nth(1)).toHaveAttribute('href', /\/about\/$/);

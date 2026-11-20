@@ -27,6 +27,13 @@ test('no page carries the concept review scaffolding or the retired wording', as
       '24/7 response',
       '24/7 service',
       'one business day',
+      // The 24 hours are a reply to the request, not a site visit (Ross, 2026-11-20).
+      'Rapid response within 24 hours',
+      'Rapid response, within 24 hours',
+      'on site within 24',
+      'on-site within 24',
+      // Audit H1: ask for salary expectations, never salary history.
+      'salary history',
     ]) {
       expect.soft(text.includes(retired), `${path || '/'}: "${retired}"`).toBe(false);
     }
@@ -49,7 +56,9 @@ test("home leads with the promise, the owner's pain and two next steps", async (
   const band = page.locator('#your-risk');
   await expect(band.locator('h2')).toHaveText('Energy projects fail in the gaps. We close them.');
   await expect(band.locator('.three-ps__card h3').last()).toHaveText(PROMISE);
-  await expect(band.locator('.three-ps__card').last()).toContainText('within 24 hours');
+  await expect(band.locator('.three-ps__card').last()).toContainText(
+    '24-hour response on every request',
+  );
   await expect(band.locator('.three-ps__proof a')).toHaveCount(3);
 });
 
@@ -60,7 +69,9 @@ test('Why Axis states the promise and seven commitments, with proof still to com
   await expect(page.locator('main h1')).toHaveText(PROMISE);
   const items = page.locator('#promise .promise-item');
   await expect(items).toHaveCount(7);
-  await expect(items.nth(5).locator('h3')).toHaveText('A response within 24 hours');
+  await expect(items.nth(5).locator('h3')).toHaveText(
+    'A response to every request within 24 hours',
+  );
   await expect(items.nth(5)).toContainText('Alabama');
 
   // Safety rates are 1910 Legacy's consolidated figures; in preview, points without a figure
@@ -72,7 +83,7 @@ test('Why Axis states the promise and seven commitments, with proof still to com
   await expect(proof.first()).toHaveClass(/is-pending/);
 });
 
-test('the GE Florence quote shows on Why Axis and the Florence page, pending approval', async ({
+test('the GE Florence quote shows on Why Axis and the Florence page, unnamed and pending approval', async ({
   page,
 }) => {
   for (const path of ['why-axis/', 'project/florence-solar-array/']) {
@@ -83,8 +94,12 @@ test('the GE Florence quote shows on Why Axis and the Florence page, pending app
       '[Axis Energy’s] commitment to quality',
     );
     await expect(quote.locator('blockquote')).not.toContainText('White');
-    await expect(quote.locator('figcaption')).toContainText('Derrik Filippo');
-    await expect(quote.locator('figcaption')).toContainText('Senior Project Manager, GE Solar');
+    // Attributed by title and company only (Ross, 2026-11-20).
+    await expect(quote.locator('figcaption strong')).toHaveText('GE Solar');
+    await expect(quote.locator('figcaption')).toContainText('Senior Project Manager');
+    await expect(quote.locator('figcaption')).toHaveText(
+      /^\s*GE Solar\s*Senior Project Manager\s*$/,
+    );
     await expect(quote.locator('.testimonial__pending')).toHaveText('Pending approval');
   }
 });
@@ -96,7 +111,9 @@ test('the Plant Health Assessment leads the O&M page, quoted per plant', async (
   await expect(section).toContainText('quoted after a short review');
   await expect(section).not.toContainText(/\$|price|fee/i);
   await expect(section.locator('.card')).toHaveCount(3);
-  await expect(page.locator('.om-intro__response')).toContainText('We respond within 24 hours');
+  await expect(page.locator('.om-intro__response')).toContainText(
+    'We respond to every service request within 24 hours.',
+  );
 });
 
 test('Project Rescue & EPC Takeover is a service page, in the menu and the footer', async ({
@@ -139,6 +156,6 @@ test('the contact band promises a reply within 24 hours and lists no phone numbe
 }) => {
   await page.goto('');
   const contact = page.locator('.cta-band__contact');
-  await expect(contact).toContainText('We respond within 24 hours');
+  await expect(contact).toContainText('We respond to every request within 24 hours');
   await expect(contact.locator('a[href^="tel:"]')).toHaveCount(0);
 });

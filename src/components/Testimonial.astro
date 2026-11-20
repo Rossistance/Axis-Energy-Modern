@@ -1,6 +1,6 @@
 ---
 /**
- * A client's own words with their name, title and company. A quote not yet approved for
+ * A client's own words with their title and company (and name, when given). A quote not yet approved for
  * publication shows only in preview builds, marked "Pending approval" (src/data/testimonials.ts).
  */
 import type { Testimonial } from '@data/testimonials';
@@ -18,10 +18,19 @@ const { testimonial: t } = Astro.props;
     <p>“{t.quote}”</p>
   </blockquote>
   <figcaption>
-    <strong>{t.name}</strong>
-    <span>
-      {t.title}, {t.company}
-    </span>
+    {t.name ? (
+      <>
+        <strong>{t.name}</strong>
+        <span>
+          {t.title}, {t.company}
+        </span>
+      </>
+    ) : (
+      <>
+        <strong>{t.company}</strong>
+        <span>{t.title}</span>
+      </>
+    )}
   </figcaption>
 </figure>
 

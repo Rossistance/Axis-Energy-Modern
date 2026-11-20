@@ -5,7 +5,8 @@
 export interface Testimonial {
   /** The words shown, with any edit to the original in square brackets. */
   quote: string;
-  name: string;
+  /** The person's name, shown above the title when given. */
+  name?: string;
   title: string;
   company: string;
   /** Project page the quote is about (its slug), where it is shown too. */
@@ -19,13 +20,12 @@ export const testimonials: Testimonial[] = [
   {
     quote:
       'This site has consistently been one of the top performing sites in our portfolio for the past couple of years. We appreciate [Axis Energy’s] commitment to quality and performance.',
-    name: 'Derrik Filippo',
     title: 'Senior Project Manager',
     company: 'GE Solar',
     project: 'florence-solar-array',
     approved: false,
     source:
-      'Email from Derrik Filippo (GE Solar) to Josh Butler, 10 May 2019, subject "Florence", forwarded by the owner on 2026-11-02 to use as a testimonial "reframed to remove the reference to White and just leave it as Axis". The original reads "White’s (now Axis)"; the edit is shown in brackets. Opening sentence of the email, not quoted: the preventative maintenance inspection at Florence had just been completed with no corrective items. Pending: Ross to confirm the attribution and the edit, and whether GE needs to approve it.',
+      'Email from GE Solar\'s Senior Project Manager for the site to Josh Butler, 10 May 2019, subject "Florence", forwarded by the owner on 2026-11-02 to use as a testimonial "reframed to remove the reference to White and just leave it as Axis". The original reads "White’s (now Axis)"; the edit is shown in brackets. Opening sentence of the email, not quoted: the preventative maintenance inspection at Florence had just been completed with no corrective items. Attributed by title and company only, with the bracketed edit (Ross, 2026-11-20). Pending: a written OK from GE Solar before `approved` is set to true.',
   },
 ];
 

@@ -71,7 +71,9 @@ export const serviceGroups: ServiceGroup[] = [
     columns: [
       {
         title: 'Rapid Response',
-        items: ['Rapid response, within 24 hours, to reduce down time and increase ROI'],
+        items: [
+          'A response to every service request within 24 hours, to reduce down time and increase ROI',
+        ],
       },
       {
         title: 'Scheduled Maintenance',
@@ -177,11 +179,12 @@ export const omOfferings: ServiceOffering[] = [
   {
     slug: 'corrective-maintenance',
     title: 'Corrective Maintenance & Rapid Response',
-    summary: 'Rapid response, within 24 hours, to reduce down time and increase ROI.',
+    summary:
+      'A response to every service request within 24 hours, to reduce down time and increase ROI.',
     detail:
       'When major equipment fails, Axis mobilizes to establish the true damage boundary, removes what the event compromised, rebuilds the feeders, grounding, communications and pathways around the replacement, and tests everything before the block returns to service.',
     items: [
-      'Rapid response within 24 hours',
+      'A response to every service request within 24 hours',
       'Diagnostics and corrective repairs',
       'Inverter replacement and feeder reconstruction after equipment events',
       'Warranty coordination and reporting',
@@ -229,7 +232,7 @@ export const omOfferings: ServiceOffering[] = [
       'Storm damage repairs',
       'Flood hardening and inverter-station elevation',
       'Medium-voltage and fiber reconstruction',
-      'Rapid response within 24 hours',
+      'A response to every service request within 24 hours',
     ],
     projects: ['yadkinville-solar', 'fayetteville-flood-resilience-pcs-elevation'],
   },

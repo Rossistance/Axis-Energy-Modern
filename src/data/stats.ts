@@ -1,9 +1,11 @@
 /**
  * Headline figures. Only `confirmed: true` entries render.
- * Sources: 2024 company overview deck (Dec 2024); Solar Power World public profile (2026).
- * The deck's "150 MW+" counts the project team's collective experience, including the White
- * Electrical renewable division; the owner kept that basis on 2026-10-31, so the copy says "our
- * team". The Axis-era project listings alone add up to about 103 MWdc across 33 projects.
+ * Sources: the owner's Solar Projects Historical Analysis (2026-11-10): 81 completed projects,
+ * 2010 to October 2026, 196.7 MW across 12 states (NC, AR, SC, TN, VA, GA, TX, MS, CA, KY, PA,
+ * CO), and 28 sites under an active O&M contract; refreshed on Ross's go-ahead, 2026-11-20.
+ * Like the deck's "150 MW+" before them, the totals count the project team's experience,
+ * including the White Electrical renewable division, so the copy says "our team". Battery
+ * storage still comes from the 2024 company overview deck (Dec 2024).
  */
 export interface Stat {
   value: string;
@@ -16,11 +18,11 @@ export interface Stat {
 
 export const stats: Stat[] = [
   {
-    value: '150 MW+',
-    numeric: 150,
+    value: '195 MW+',
+    numeric: 195,
     suffix: ' MW+',
     label: 'Solar constructed by our team',
-    source: '2024 company overview deck',
+    source: 'Solar Projects Historical Analysis (owner, 2026-11-10)',
     confirmed: true,
   },
   {
@@ -32,24 +34,24 @@ export const stats: Stat[] = [
     confirmed: true,
   },
   {
+    value: '81',
+    numeric: 81,
+    label: 'Projects completed by our team',
+    source: 'Solar Projects Historical Analysis (owner, 2026-11-10)',
+    confirmed: true,
+  },
+  {
+    value: '12',
+    numeric: 12,
+    label: 'States',
+    source: 'Solar Projects Historical Analysis (owner, 2026-11-10)',
+    confirmed: true,
+  },
+  {
     value: '28',
     numeric: 28,
-    label: 'Projects constructed',
-    source: '2024 company overview deck',
-    confirmed: true,
-  },
-  {
-    value: '9',
-    numeric: 9,
-    label: 'States',
-    source: '2024 company overview deck',
-    confirmed: true,
-  },
-  {
-    value: '5',
-    numeric: 5,
     label: 'Sites under O&M contract',
-    source: '2024 company overview deck',
+    source: 'Solar Projects Historical Analysis, O&M sheet (owner, 2026-11-10)',
     confirmed: true,
   },
 ];

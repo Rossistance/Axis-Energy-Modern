@@ -65,8 +65,9 @@ export const commitments: Commitment[] = [
   },
   {
     icon: 'lucide:timer',
-    title: 'A response within 24 hours',
-    body: `Tell us about a plant you own, or a problem with one, and we respond ${company.responseTime}, anywhere we provide O&M: ${omArea}.`,
+    // The promise is a reply to the request, not a technician on site (Ross, 2026-11-20).
+    title: 'A response to every request within 24 hours',
+    body: `Tell us about a plant you own, or a problem with one, and we respond to your request ${company.responseTime}. Our O&M teams cover ${omArea}.`,
     proof: 'Corrective maintenance and rapid response are part of every Axis O&M agreement.',
     link: { label: 'O&M services', href: '/om-and-technical-services/#corrective-maintenance' },
   },
