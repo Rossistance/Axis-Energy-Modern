@@ -52,6 +52,8 @@ Pick one. All serve the `dist/` folder.
 
 **Traditional host (cPanel, Plesk, plain Apache/nginx, S3 + CloudFront).** Upload the contents of `dist/` to the document root. For Apache copy `hosting/apache/.htaccess` next to `index.html`; for nginx include `hosting/nginx/redirects.conf` in the server block. Make sure the server serves `404.html` for unknown paths and sets long cache headers on `/_astro/*` (file names are content-hashed).
 
+**Security headers (every host; pre-launch audit M2, 2026-11-20).** `hosting/` holds the same six headers for each host type: `netlify/_headers` (Netlify and Cloudflare Pages: copy it into `public/` with `_redirects`), the `headers` block in `vercel.json`, the `mod_headers` block in `apache/.htaccess`, and `nginx/security-headers.conf` (include it in the server block, and in any location block that sets its own headers). They send a content security policy that matches the site (its own scripts, styles, fonts and images only; forms may post to any https: service; no other site may frame it), HSTS for a year, `nosniff`, `X-Frame-Options: DENY`, `strict-origin-when-cross-origin` and a permissions policy that turns off camera, microphone, location, payment and USB. `tests/security-headers.spec.ts` loads every page under the policy and fails on anything it would block. Once the form service is chosen, narrow `connect-src` and `form-action` to its origin; if a third-party tool is added later (analytics, chat, an embedded map), add its origins to the policy in all four files or browsers will block it. GitHub Pages cannot send headers, so the GitHub preview runs without them.
+
 ## 4. Forms
 
 The three forms post JSON (`Content-Type: application/json`, `Accept: application/json`) with the field ids as keys plus `_subject`, `_form`, `_replyto` and a `_gotcha` honeypot. This matches Formspree's AJAX API; Basin, Getform, Web3Forms and most similar services accept the same shape. Steps with Formspree as an example:
@@ -76,6 +78,8 @@ LinkedIn and Indeed do not provide a public API for listing a company's openings
 
 Listings are fetched when the site builds. The GitHub Actions workflow rebuilds every six hours; on other hosts schedule a rebuild (Netlify/Vercel build hooks, or a cron that runs the build) so the feed stays current. If the feed is unreachable the build still succeeds and falls back to the static listings.
 
+**Status (2026-11-20):** not connected. Openings posted on LinkedIn cannot be read by the site (LinkedIn's job APIs are for applicant-tracking vendors only), so the Careers page needs the ATS that 1910 Legacy Talent Acquisition posts from; if that ATS also posts to LinkedIn, both stay in step. Until then Careers shows the sample listings in preview and the "No openings are posted right now" card in production.
+
 ## 6. LinkedIn news feed
 
 The News page shows the latest posts from the Axis Energy LinkedIn page: each card has the post's photo, its headline or opening lines and the date, and opens the post on LinkedIn. It uses LinkedIn's official API only; scraping LinkedIn is against its terms.
@@ -91,6 +95,8 @@ The News page shows the latest posts from the Axis Energy LinkedIn page: each ca
 5. In the repository settings set the secret `LINKEDIN_ACCESS_TOKEN` and the variables `NEWS_SOURCE=linkedin` and `LINKEDIN_ORGANIZATION_ID`, then re-run the workflow. The News page shows the posts on the next build, and the workflow rebuilds every six hours so new posts appear on their own.
 
 **Keeping it running.** Access tokens last 60 days. If LinkedIn issues the app a refresh token (one year), store it as the secret `LINKEDIN_REFRESH_TOKEN` together with the variable `LINKEDIN_CLIENT_ID` and the secret `LINKEDIN_CLIENT_SECRET`; the build then renews the access token itself and only needs re-authorizing once a year. Otherwise replace `LINKEDIN_ACCESS_TOKEN` every 60 days. LinkedIn retires API versions after about a year: update `LINKEDIN_API_VERSION` (YYYYMM, default `202609`) to a current version when that happens. If LinkedIn cannot be read (expired token, retired version, outage), the build still succeeds and the page falls back to the posts in `src/content/posts/`; preview builds say so on the page, and the build log shows the reason.
+
+**Status (2026-11-20):** not connected. A LinkedIn page admin (Ross has admin access) needs to do steps 1–3; LinkedIn's review of the Community Management API request can take days to weeks. The token can post as the company page, so keep it as a secret on the build server only, never in the code. Until it is connected, preview builds show the sample posts and production shows only the Follow box (pre-launch audit H2).
 
 **Without the API.** Keep `NEWS_SOURCE=static` and add a file per post to `src/content/posts/` (the post's LinkedIn URL, date, summary and photo), or point `NEWS_SOURCE=json-url` and `NEWS_URL` at any JSON feed of `{ url, date, title, summary, image, imageAlt }` items, such as one exported by a social-media aggregator or an automation tool.
 
@@ -116,7 +122,7 @@ All other pages keep their paths (`/services/`, `/projects/`, `/why-axis/`, `/ab
 ## 8. Cut-over checklist
 
 1. Set launch environment variables (`SITE_URL`, `SITE_BASE=/`, `PUBLIC_SITE_MODE=production`, form endpoints, jobs source, LinkedIn news feed) and build.
-2. Deploy to the chosen host and test on its temporary URL: every page, the three forms in live mode, the jobs list, the News posts, the 404 page, the redirects.
+2. Deploy to the chosen host and test on its temporary URL: every page, the three forms in live mode, the jobs list, the News posts, the 404 page, the redirects, and the response headers (`curl -I <url>` lists the six security headers from `hosting/`).
 3. DNS: point `www.axis-energyinc.com` (CNAME) and the apex `axis-energyinc.com` (A/ALIAS or redirect to www) at the new host; enable HTTPS (Let's Encrypt is automatic on Pages, Netlify, Vercel and Cloudflare).
 4. Keep the WordPress site reachable for a few days on a different hostname in case anything was missed, then retire it (and its plugins) so it is no longer a security exposure.
 5. Google Search Console: verify the property, submit `https://www.axis-energyinc.com/sitemap-index.xml`, and watch the Coverage report for 404s from old links.
@@ -136,3 +142,4 @@ All other pages keep their paths (`/services/`, `/projects/`, `/why-axis/`, `/ab
 - The Leadership page has one profile (as on the live site). Additional profiles are a content decision.
 - No phone number is published until Axis confirms the business line (`company.phone` in `src/data/company.ts`). The GE Florence testimonial and the safety and schedule proof points are preview-only until approved or supplied (`src/data/testimonials.ts`, `src/data/promise.ts`); a production build leaves them out on its own.
 - GitHub Pages cannot serve real 301 redirects or custom headers; the other hosts can.
+- The GitHub repository was a public test environment. Its history holds material that should not stay public: the old site's phone number, internal workbooks deleted on 27 Sep and the hidden client entries. Moving the site to the Axis host does not change that: make the repository private or delete it once the web team has its copy (pre-launch audit B5).

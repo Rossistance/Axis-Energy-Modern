@@ -1,0 +1,12 @@
+# Security headers (audit M2, 2026-11-20). The same six headers are in every file in hosting/;
+# tests/security-headers.spec.ts loads every page under this policy and checks the files agree.
+# connect-src and form-action allow any https: origin so the form service works whichever one
+# is chosen; narrow them to its origin once it is known.
+# Netlify / Cloudflare Pages format. Copy to the publish directory root, next to _redirects.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https:; form-action 'self' https: mailto:; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
