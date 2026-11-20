@@ -20,6 +20,20 @@ const description =
     crumbs={[{ label: 'About us', href: '/about/' }]}
   />
 
+  <section class="section section--sm about-purpose" aria-labelledby="purpose-title">
+    <div class="container container--narrow" data-reveal>
+      <p class="eyebrow">Why we exist</p>
+      <h2 id="purpose-title">
+        So owners never have to wonder whether their energy project gets finished, gets energized,
+        or keeps performing.
+      </h2>
+      <p class="lead">
+        Everything else we do, from a superintendent on every site to electrical work led in house
+        and a response within 24 hours, exists to keep that promise.
+      </p>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="history-title">
     <div class="container split split--5-7">
       <div data-reveal>
@@ -81,6 +95,21 @@ const description =
 </BaseLayout>
 
 <style>
+  .about-purpose {
+    text-align: center;
+  }
+
+  .about-purpose h2 {
+    font-size: clamp(1.45rem, 1.1rem + 1.4vw, 2.2rem);
+    line-height: 1.2;
+    margin: 0.5rem auto 0.75rem;
+    max-width: 30ch;
+  }
+
+  .about-purpose .lead {
+    margin: 0 auto;
+    max-width: 44rem;
+  }
   .family {
     display: grid;
     gap: 0.5rem;

@@ -44,6 +44,8 @@ const omProjects = projectsForService(published, OM_PAGE_SLUG).sort(
 );
 const area = stateList(company.omStates);
 const sections = [
+  // The Plant Health Assessment leads the page (3 P's update, owner 2026-11-02).
+  { label: 'Plant Health Assessment', href: '#plant-health' },
   ...(featured ? [{ label: 'Featured project', href: '#featured' }] : []),
   ...omOfferings.map((o) => ({ label: o.title, href: `#${o.slug}` })),
   { label: 'Project experience', href: `#${OM_PROJECTS_ID}` },
@@ -82,6 +84,15 @@ const delivery = featured
         </div>
         <h2 id="area-title">Service area</h2>
         <p>Our O&M and technical services teams support owners in {area}.</p>
+        <p class="om-intro__response">
+          <strong>We respond {company.responseTime}</strong> to service requests.
+          {company.phone && (
+            <>
+              {' '}
+              Call <a href={`tel:${company.phone.tel}`}>{company.phone.display}</a>.
+            </>
+          )}
+        </p>
         <a class="btn btn--primary" href={href(routes.projectRequest)}>
           Request service
         </a>
@@ -89,6 +100,71 @@ const delivery = featured
           See O&M projects <Icon name="lucide:arrow-right" class="icon" />
         </a>
       </aside>
+    </div>
+  </section>
+
+  <section
+    class="section band-alt om-anchor plant-health"
+    id="plant-health"
+    aria-labelledby="plant-health-title"
+  >
+    <div class="container">
+      <div class="plant-health__head" data-reveal>
+        <p class="eyebrow">Plant Health Assessment</p>
+        <h2 id="plant-health-title">Is your plant producing what it should?</h2>
+        <p class="lead">
+          Many plants drift below their production estimates without anyone noticing, and many lost
+          their original EPC or O&M provider along the way. We find out what is wrong and what it is
+          worth to fix, in an assessment scoped to your plant and quoted after a short review of its
+          data.
+        </p>
+      </div>
+      <div class="plant-health__grid" data-reveal-group>
+        <div class="card">
+          <div class="icon-tile">
+            <Icon name="lucide:scan-search" />
+          </div>
+          <h3>We inspect</h3>
+          <ul class="list-check">
+            <li>Aerial infrared scan of the array</li>
+            <li>String, inverter and medium-voltage testing</li>
+            <li>Balance-of-system walk-down and monitoring review</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="icon-tile">
+            <Icon name="lucide:clipboard-list" />
+          </div>
+          <h3>You get</h3>
+          <ul class="list-check">
+            <li>A prioritized recovery plan with the energy each fix recovers</li>
+            <li>A documented baseline for ongoing O&M</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="icon-tile">
+            <Icon name="lucide:target" />
+          </div>
+          <h3>Best for</h3>
+          <ul class="list-check">
+            <li>Plants producing below their estimates</li>
+            <li>Orphaned plants whose EPC or O&M provider is gone</li>
+            <li>Owners preparing for a refinance, sale or warranty claim</li>
+          </ul>
+        </div>
+      </div>
+      <div class="plant-health__foot" data-reveal>
+        <p>
+          <strong>Proven at Solar 55:</strong> aerial thermography and field testing traced faults
+          affecting 14.7% of the plant's capacity and set the recovery plan.
+          <a class="link-arrow" href={href('/project/mount-olive-asset-recovery/')}>
+            Read the project <Icon name="lucide:arrow-right" class="icon" />
+          </a>
+        </p>
+        <a class="btn btn--primary" href={href(routes.projectRequest)}>
+          Request an assessment
+        </a>
+      </div>
     </div>
   </section>
 
@@ -258,6 +334,58 @@ const delivery = featured
 </BaseLayout>
 
 <style>
+  .om-intro__response {
+    margin: 0.25rem 0 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--r-md, 12px);
+    background: var(--surface-alt, #f5f8fa);
+    font-size: 0.92rem;
+  }
+
+  .plant-health__head {
+    max-width: 48rem;
+  }
+
+  .plant-health__grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  @media (min-width: 860px) {
+    .plant-health__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .plant-health__grid h3 {
+    margin: 0.75rem 0 0.5rem;
+    font-size: 1.15rem;
+  }
+
+  .plant-health__grid .list-check {
+    font-size: 0.95rem;
+  }
+
+  .plant-health__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: clamp(1.25rem, 3vw, 1.75rem);
+  }
+
+  .plant-health__foot p {
+    margin: 0;
+    max-width: 52rem;
+    color: var(--text-muted);
+  }
+
+  .plant-health__foot .link-arrow {
+    display: inline-flex;
+    margin-left: 0.25rem;
+  }
   /* Sections land below the sticky header and the "On this page" bar. */
   .om-anchor {
     scroll-margin-top: calc(var(--header-h) + 4.25rem);

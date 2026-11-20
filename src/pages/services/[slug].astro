@@ -76,6 +76,62 @@ const others = servicePages.filter((p) => p.slug !== page.slug);
     </a>
   </ServiceBlock>
 
+  {page.slug === 'battery-storage-and-microgrids' && (
+    <section
+      class="section band-alt storage-addon"
+      id="storage-add-on"
+      aria-labelledby="storage-addon-title"
+    >
+      <div class="container">
+        <SectionHeading
+          eyebrow="Storage add-on"
+          title="Add storage to the solar you already own"
+          lead="Solar's federal credit now has a hard deadline; storage's runs years longer. Energy storage is not subject to the December 31, 2027 placed-in-service deadline that now applies to solar, so adding batteries to an existing array remains one of the best-supported upgrades an owner can make."
+          id="storage-addon-title"
+        />
+        <ul class="storage-addon__grid" data-reveal-group>
+          <li class="card">
+            <div class="icon-tile">
+              <Icon name="lucide:zap" />
+            </div>
+            <h3>Electric co-ops & utilities</h3>
+            <p>
+              Shave the wholesale peaks that set demand charges, and firm up solar output for
+              members.
+            </p>
+          </li>
+          <li class="card">
+            <div class="icon-tile">
+              <Icon name="lucide:factory" />
+            </div>
+            <h3>Commercial & industrial owners</h3>
+            <p>Cut demand charges and keep critical loads running through an outage.</p>
+          </li>
+          <li class="card">
+            <div class="icon-tile">
+              <Icon name="lucide:plug-zap" />
+            </div>
+            <h3>Existing solar plants</h3>
+            <p>
+              Integrate batteries, controls and protection with the array and interconnection you
+              already have.
+            </p>
+          </li>
+        </ul>
+        <p class="storage-addon__proof" data-reveal>
+          <strong>Proof:</strong> 22.6 MWh of Tesla storage across the five-site NCEMC portfolio ·
+          5.014 MWh islanding microgrid at Walnut Grove · 3.916 MWh solar-carport microgrid at
+          Siemens Wendell.
+        </p>
+        <p class="storage-addon__cta" data-reveal>
+          <a class="btn btn--primary" href={href('/work-with-axis/developer-project-owner/')}>
+            Ask for a storage add-on study
+          </a>
+        </p>
+      </div>
+    </section>
+  )}
+
   {page.slug === 'solar-epc' && (
     <section class="section" aria-labelledby="experience-title">
       <div class="container">
@@ -133,6 +189,42 @@ const others = servicePages.filter((p) => p.slug !== page.slug);
 </BaseLayout>
 
 <style>
+  .storage-addon__grid {
+    list-style: none;
+    margin: clamp(1.25rem, 3vw, 2rem) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 860px) {
+    .storage-addon__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .storage-addon__grid h3 {
+    margin: 0.75rem 0 0.4rem;
+    font-size: 1.12rem;
+  }
+
+  .storage-addon__grid p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .storage-addon__proof {
+    margin: 1.5rem 0 0;
+    color: var(--text-muted);
+  }
+
+  .storage-addon__proof strong {
+    color: var(--brand-navy);
+  }
+
+  .storage-addon__cta {
+    margin: 1rem 0 0;
+  }
   /* "See projects": a pill under What we deliver, styled like the home page highlights. */
   .see-projects {
     display: inline-flex;

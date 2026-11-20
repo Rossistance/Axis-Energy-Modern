@@ -11,12 +11,14 @@ import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import ProjectCard from '@components/ProjectCard.astro';
+import Testimonial from '@components/Testimonial.astro';
 import { projectMarkets, marketPath } from '@data/project-markets';
 import { routes } from '@data/routes';
 import { href, absoluteUrl } from '@lib/href';
 import { formatSize, formatStorage, formatCommissioned } from '@lib/format';
 import { getPublishedProjects, projectLocation, TYPE_LABELS, type Project } from '@lib/projects';
 import { projectSchema } from '@lib/schema';
+import { visibleTestimonials } from '@data/testimonials';
 
 export async function getStaticPaths() {
   const projects = await getPublishedProjects();
@@ -53,6 +55,7 @@ const jsonLd = [
 ];
 const ogImage = data.image ? data.image.src : undefined;
 const market = projectMarkets.find((m) => m.id === data.market);
+const quotes = visibleTestimonials.filter((t) => t.project === project.id);
 
 const storage = formatStorage(data.storageMwh);
 const completed = formatCommissioned(data.commissioned) || (data.year ? String(data.year) : '');
@@ -241,6 +244,19 @@ const delivery = [
             </ul>
           </>
         )}
+      </div>
+    </section>
+  )}
+
+  {quotes.length > 0 && (
+    <section class="section section--sm" aria-labelledby="client-words-title">
+      <div class="container container--narrow">
+        <h2 id="client-words-title" class="mini-title">
+          In the client’s words
+        </h2>
+        {quotes.map((t) => (
+          <Testimonial testimonial={t} />
+        ))}
       </div>
     </section>
   )}

@@ -67,11 +67,11 @@ export const serviceGroups: ServiceGroup[] = [
     title: 'O&M',
     icon: 'lucide:wrench',
     intro:
-      'We keep your PV system operating and optimized with 24/7 rapid response, scheduled preventive maintenance, and balance-of-system inspection and analysis from an expert team of technicians well versed in an assortment of PV technologies.',
+      'We keep your PV system operating and optimized with rapid response, scheduled preventive maintenance, and balance-of-system inspection and analysis from an expert team of technicians well versed in an assortment of PV technologies.',
     columns: [
       {
-        title: '24/7 Rapid Response',
-        items: ['24/7 rapid response coverage to reduce down time and increase ROI'],
+        title: 'Rapid Response',
+        items: ['Rapid response, within 24 hours, to reduce down time and increase ROI'],
       },
       {
         title: 'Scheduled Maintenance',
@@ -176,12 +176,12 @@ export const omOfferings: ServiceOffering[] = [
   },
   {
     slug: 'corrective-maintenance',
-    title: 'Corrective Maintenance & 24/7 Response',
-    summary: '24/7 rapid response coverage to reduce down time and increase ROI.',
+    title: 'Corrective Maintenance & Rapid Response',
+    summary: 'Rapid response, within 24 hours, to reduce down time and increase ROI.',
     detail:
       'When major equipment fails, Axis mobilizes to establish the true damage boundary, removes what the event compromised, rebuilds the feeders, grounding, communications and pathways around the replacement, and tests everything before the block returns to service.',
     items: [
-      '24/7 rapid response coverage',
+      'Rapid response within 24 hours',
       'Diagnostics and corrective repairs',
       'Inverter replacement and feeder reconstruction after equipment events',
       'Warranty coordination and reporting',
@@ -229,7 +229,7 @@ export const omOfferings: ServiceOffering[] = [
       'Storm damage repairs',
       'Flood hardening and inverter-station elevation',
       'Medium-voltage and fiber reconstruction',
-      '24/7 rapid response coverage',
+      'Rapid response within 24 hours',
     ],
     projects: ['yadkinville-solar', 'fayetteville-flood-resilience-pcs-elevation'],
   },
@@ -360,13 +360,13 @@ export const servicePages: ServicePage[] = [
     slug: 'om-and-technical-services',
     title: 'O&M & Technical Services',
     icon: 'lucide:wrench',
-    summary: `24/7 rapid response, scheduled maintenance and performance optimization in ${omArea}.`,
+    summary: `Rapid response, scheduled maintenance and performance optimization in ${omArea}.`,
     lead: omGroup.intro,
     block: {
       ...omGroup,
       eyebrow: 'What we deliver',
       title: 'Operations and maintenance',
-      intro: `Our O&M and technical services teams support owners in ${omArea}, from scheduled maintenance and 24/7 response to repowering, storm repairs and decommissioning.`,
+      intro: `Our O&M and technical services teams support owners in ${omArea}, from scheduled maintenance and rapid response to repowering, storm repairs and decommissioning.`,
     },
   },
 ];
@@ -410,7 +410,7 @@ export const process = [
   },
   {
     title: 'Operate & optimize',
-    body: '24/7 rapid response, scheduled maintenance and performance optimization for the life of the asset.',
+    body: 'Rapid response, scheduled maintenance and performance optimization for the life of the asset.',
   },
 ];
 

@@ -5,17 +5,22 @@ import { test, expect } from '@playwright/test';
  * (employee ownership moved to About on 2026-10-01).
  */
 
-test('the hero headline is "The Power of Partnership"', async ({ page }) => {
+test('the hero headline is the Axis Promise', async ({ page }) => {
   await page.goto('');
-  await expect(page.locator('.hero h1')).toHaveText('The Power of Partnership');
+  await expect(page.locator('.hero h1')).toHaveText(
+    'Built right. Energized on schedule. Performing for years.',
+  );
 });
 
-test('the footprint map follows the hero and the teaser sections are gone', async ({ page }) => {
+test('the hero, the "Your risk" band and the map, with the old teaser sections gone', async ({
+  page,
+}) => {
   await page.goto('');
   const sections = page.locator('main > section');
-  await expect(sections).toHaveCount(2);
+  await expect(sections).toHaveCount(3);
   await expect(sections.nth(0)).toHaveClass(/hero/);
-  await expect(sections.nth(1)).toHaveClass(/footprint/);
+  await expect(sections.nth(1)).toHaveClass(/three-ps/);
+  await expect(sections.nth(2)).toHaveClass(/footprint/);
   await expect(page.locator('#employee-owned')).toHaveCount(0);
   for (const id of [
     'services-title',

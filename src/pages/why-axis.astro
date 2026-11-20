@@ -5,6 +5,11 @@ import SectionHeading from '@components/SectionHeading.astro';
 import Pillars from '@components/Pillars.astro';
 import StatStrip from '@components/StatStrip.astro';
 import SafetyPartners from '@components/SafetyPartners.astro';
+import PromiseList from '@components/PromiseList.astro';
+import { Icon } from 'astro-icon/components';
+import Testimonial from '@components/Testimonial.astro';
+import { promiseLine, proofPoints } from '@data/promise';
+import { visibleTestimonials } from '@data/testimonials';
 import { heroes } from '@data/heroes';
 import { stats } from '@data/stats';
 import { pillars, pillarsClose, hasCopy } from '@data/pillars';
@@ -21,25 +26,43 @@ if (cards.length < pillars.length) {
   );
 }
 
+// Proof under By the numbers: the figures that exist and, in preview, the ones still to come.
+// Production builds leave out points without a figure (safety rates come from 1910 Legacy's
+// consolidated record, owner 2026-11-02) and testimonials not yet approved.
+const proof = preview ? proofPoints : proofPoints.filter((p) => p.value);
+const quotes = visibleTestimonials;
+
 const description =
   'Why owners choose Axis Energy: one accountable team, a proven track record and a safety program graded by Avetta, Veriforce and ISNetworld.';
 ---
 
 <BaseLayout title="Why Axis" {description}>
   <PageHero
-    eyebrow="Why Axis"
-    title="We give our partners total project peace of mind."
-    lead="Six commitments we keep on every site."
+    eyebrow="Why Axis · The Axis Promise"
+    title={promiseLine}
+    lead="Seven commitments we put in writing, and the proof behind each one."
     photo={heroes.whyAxis}
     crumbs={[{ label: 'Why Axis', href: '/why-axis/' }]}
   />
+
+  <section class="section" id="promise" aria-labelledby="promise-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="The Axis Promise"
+        title="What we commit to on every project, and how you can hold us to it"
+        lead="Reliability is a promise you can check. Each commitment below names the proof we already have."
+        id="promise-title"
+      />
+      <PromiseList />
+    </div>
+  </section>
 
   {cards.length > 0 && (
     <section class="section" aria-labelledby="pillars-title">
       <div class="container">
         <SectionHeading
           eyebrow="Total project peace of mind"
-          title="What sets Axis apart"
+          title="What that means for your project"
           id="pillars-title"
         />
         <Pillars {cards} />
@@ -68,6 +91,25 @@ const description =
         id="numbers-title"
       />
       <StatStrip stats={stats} />
+      {(proof.length > 0 || quotes.length > 0) && (
+        <div class="proof-panel">
+          {proof.length > 0 && (
+            <ul class="proof-panel__list">
+              {proof.map((p) => (
+                <li class:list={{ 'is-pending': !p.value }}>
+                  <Icon name={p.icon} />
+                  <strong class="proof-panel__value">{p.value ?? 'To come'}</strong>
+                  <span class="proof-panel__label">{p.label}</span>
+                  {!p.value && <span class="proof-panel__note">Figure from {p.source}</span>}
+                </li>
+              ))}
+            </ul>
+          )}
+          {quotes.map((t) => (
+            <Testimonial testimonial={t} />
+          ))}
+        </div>
+      )}
     </div>
   </section>
 
@@ -97,6 +139,67 @@ const description =
 </BaseLayout>
 
 <style>
+  .proof-panel {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
+  }
+
+  .proof-panel__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 760px) {
+    .proof-panel__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .proof-panel__list li {
+    display: grid;
+    gap: 0.3rem;
+    align-content: start;
+    justify-items: start;
+    padding: 1rem 1.1rem;
+    border-radius: var(--r-md, 12px);
+    background: var(--surface, #fff);
+    box-shadow: inset 0 0 0 1px var(--line);
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  /* Preview only: a point still waiting for its figure. */
+  .proof-panel__list li.is-pending {
+    box-shadow: none;
+    border: 1px dashed var(--line-strong, #b9c6d0);
+    background: transparent;
+  }
+
+  .proof-panel__list :global(svg) {
+    width: 22px;
+    height: 22px;
+    color: var(--brand-green);
+  }
+
+  .proof-panel__value {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--brand-navy);
+  }
+
+  .is-pending .proof-panel__value {
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .proof-panel__note {
+    font-size: 0.8rem;
+  }
+
   .pillars-close {
     max-width: 46rem;
     margin: clamp(2.5rem, 5vw, 3.5rem) auto 0;

@@ -1,0 +1,241 @@
+---
+/**
+ * Project Rescue & EPC Takeover (3 P's update, approved by the owner 2026-11-02): a named
+ * service for stalled and abandoned projects, built on the Hertford Solar takeover and the O&M
+ * recovery profiles.
+ */
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import { heroes } from '@data/heroes';
+import { routes } from '@data/routes';
+import { href } from '@lib/href';
+import { getPublishedProjects } from '@lib/projects';
+
+const published = await getPublishedProjects();
+const proofIds = [
+  'hertford-solar',
+  'yadkinville-solar',
+  'edenton-inverter-thermal-event-recovery',
+  'fayetteville-flood-resilience-pcs-elevation',
+];
+const proof = proofIds.map((id) => published.find((p) => p.id === id)).filter(Boolean);
+const hertford = published.find((p) => p.id === 'hertford-solar');
+
+const callers = [
+  {
+    icon: 'lucide:briefcase',
+    title: 'Developers & IPPs',
+    body: 'Your EPC stalled or left, and the placed-in-service date has not moved.',
+  },
+  {
+    icon: 'lucide:factory',
+    title: 'Owners',
+    body: 'Your site is half built, your permits are exposed and your equipment is sitting in a laydown yard.',
+  },
+  {
+    icon: 'lucide:landmark',
+    title: 'Lenders & tax-equity investors',
+    body: 'Capital is committed to a project that has stopped moving, and you need a credible path to completion.',
+  },
+  {
+    icon: 'lucide:file-check',
+    title: 'Sureties',
+    body: 'A bonded contractor has defaulted, and you need a completion contractor who can take over the work.',
+  },
+];
+
+const steps = [
+  {
+    title: 'Takeover assessment',
+    body: 'We document inherited conditions, define the remaining scope and set who owns the permits, materials and incomplete work.',
+  },
+  {
+    title: 'Compliance recovery',
+    body: 'Re-establish erosion control and environmental compliance, then grading, stabilization and permit closeout.',
+  },
+  {
+    title: 'Equipment reconciliation',
+    body: 'Fit owner-furnished modules, trackers, inverters and switchgear into the final design rather than stranding or replacing them.',
+  },
+  {
+    title: 'Build and energize',
+    body: 'Complete engineering, construction, medium-voltage work, testing, commissioning and utility energization with our own electrical team.',
+  },
+  {
+    title: 'Turnover and O&M',
+    body: 'Hand over a documented plant, and keep it producing under Axis O&M if you choose.',
+  },
+];
+
+const description =
+  'When a contractor walks away or a project stalls, Axis Energy steps in, restores compliance and carries the solar or storage project to energization.';
+---
+
+<BaseLayout title="Project Rescue & EPC Takeover" {description}>
+  <PageHero
+    eyebrow="Services"
+    title="Project Rescue & EPC Takeover"
+    lead="When your contractor walks away, stalls or runs out of road, Axis steps in, stabilizes the site and carries the project to energization."
+    photo={heroes.projects}
+    crumbs={[
+      { label: 'Services', href: '/services/' },
+      { label: 'Project Rescue & EPC Takeover', href: routes.projectRescue },
+    ]}
+  />
+
+  <section class="section" aria-labelledby="callers-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Who calls us"
+        title="A stalled project costs more every week it sits."
+        lead="Contractor exits and tighter tax-credit deadlines have left projects across the Southeast looking for a builder who can pick up someone else's work and finish it."
+        id="callers-title"
+      />
+      <ul class="rescue-callers" data-reveal-group>
+        {callers.map((c) => (
+          <li class="card">
+            <div class="icon-tile">
+              <Icon name={c.icon} />
+            </div>
+            <h3>{c.title}</h3>
+            <p>{c.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band-alt" aria-labelledby="steps-title">
+    <div class="container">
+      <SectionHeading
+        eyebrow="How a takeover works"
+        title="From inherited problems to a controlled completion"
+        id="steps-title"
+      />
+      <ol class="rescue-steps" data-reveal-group>
+        {steps.map((s, i) => (
+          <li class="card">
+            <span class="rescue-steps__num" aria-hidden="true">
+              {i + 1}
+            </span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {hertford && (
+    <section class="section" aria-labelledby="proof-title">
+      <div class="container">
+        <SectionHeading
+          eyebrow="Proof"
+          title="Hertford Solar: abandoned at clearing and grading, delivered through interconnection"
+          lead={hertford.data.summary}
+          id="proof-title"
+        />
+        <ul class="rescue-proof" data-reveal-group>
+          {proof.map((p) => (
+            <li>
+              <ProjectCard project={p!} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="section section--sm band-alt" aria-labelledby="rescue-cta-title">
+    <div class="container rescue-cta" data-reveal>
+      <div>
+        <h2 id="rescue-cta-title">Have a stalled project?</h2>
+        <p class="lead">
+          Send us what you have: the contract, permits, drawings and schedule. We will tell you what
+          it takes to finish, and how fast.
+        </p>
+      </div>
+      <a class="btn btn--primary btn--lg" href={href(routes.projectRequest)}>
+        Talk to us about a takeover
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .rescue-callers,
+  .rescue-steps,
+  .rescue-proof {
+    list-style: none;
+    margin: clamp(1.25rem, 3vw, 2rem) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 720px) {
+    .rescue-callers,
+    .rescue-proof {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .rescue-callers,
+    .rescue-proof {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .rescue-steps {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  .rescue-callers h3,
+  .rescue-steps h3 {
+    margin: 0.75rem 0 0.4rem;
+    font-size: 1.1rem;
+  }
+
+  .rescue-callers p,
+  .rescue-steps p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .rescue-steps__num {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: var(--brand-navy);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .rescue-proof li {
+    display: flex;
+  }
+
+  .rescue-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem 2rem;
+  }
+
+  .rescue-cta h2 {
+    margin: 0 0 0.4rem;
+  }
+
+  .rescue-cta .lead {
+    margin: 0;
+    max-width: 44rem;
+  }
+</style>

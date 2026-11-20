@@ -1,3 +1,4 @@
+import { company } from '@data/company';
 import type { FormSpec } from './types';
 
 /** Mirrors the live site's Contact Form 7 fields: Name*, Email*, Phone, Subject*, Message*. */
@@ -7,7 +8,7 @@ export const contactForm: FormSpec = {
   subject: 'Website contact',
   submitLabel: 'Send message',
   successTitle: 'Thanks — your message is on its way.',
-  successBody: 'We read every message and typically respond within one business day.',
+  successBody: `We read every message and respond ${company.responseTime}.`,
   reviewIntro: '',
   draftKey: 'axis-contact-draft',
   steps: [

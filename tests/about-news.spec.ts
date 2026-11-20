@@ -32,7 +32,13 @@ test('A company of owners follows the history on About', async ({ page }) => {
   const ids = await page
     .locator('main > section')
     .evaluateAll((els) => els.map((el) => el.id || el.getAttribute('aria-labelledby')));
-  expect(ids.slice(1)).toEqual(['history-title', 'employee-owned', 'family-title']);
+  // "Why we exist" opens the page (3 P's update, 2026-11-02), then the history.
+  expect(ids.slice(1)).toEqual([
+    'purpose-title',
+    'history-title',
+    'employee-owned',
+    'family-title',
+  ]);
   const owners = page.locator('#employee-owned');
   await expect(owners.locator('h2')).toHaveText('A company of owners');
   await expect(owners.locator('blockquote')).toContainText('a company of owners');

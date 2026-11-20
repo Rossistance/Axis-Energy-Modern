@@ -8,6 +8,7 @@ import PageHero from '@components/PageHero.astro';
 import { heroes } from '@data/heroes';
 import { servicePages, servicePath } from '@data/services';
 import { href } from '@lib/href';
+import { routes } from '@data/routes';
 
 const description =
   'A total EPC and O&M solution: solar EPC, battery storage and microgrids, electrical infrastructure and commissioning, and O&M and technical services.';
@@ -42,6 +43,21 @@ const description =
             </a>
           </li>
         ))}
+        <li>
+          <a class="card card--lift service-card" href={href(routes.projectRescue)}>
+            <div class="icon-tile">
+              <Icon name="lucide:life-buoy" />
+            </div>
+            <h3>Project Rescue & EPC Takeover</h3>
+            <p>
+              When a contractor walks away or a project stalls, Axis takes it over, restores
+              compliance and carries it to energization.
+            </p>
+            <span class="link-arrow service-card__more">
+              Learn more <Icon name="lucide:arrow-right" class="icon" />
+            </span>
+          </a>
+        </li>
       </ul>
     </div>
   </section>

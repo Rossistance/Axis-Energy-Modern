@@ -1,0 +1,110 @@
+---
+/** The seven commitments of the Axis Promise, each with its proof (src/data/promise.ts). */
+import { Icon } from 'astro-icon/components';
+import { commitments } from '@data/promise';
+import { href } from '@lib/href';
+---
+
+<ol class="promise-list" data-reveal-group>
+  {commitments.map((c, i) => (
+    <li class="card promise-item">
+      <div class="promise-item__head">
+        <span class="promise-item__num" aria-hidden="true">
+          {String(i + 1).padStart(2, '0')}
+        </span>
+        <span class="icon-tile promise-item__icon">
+          <Icon name={c.icon} />
+        </span>
+      </div>
+      <h3>{c.title}</h3>
+      <p>{c.body}</p>
+      <p class="promise-item__proof">
+        <strong>Proof:</strong> {c.proof}
+        {c.link && (
+          <a class="link-arrow" href={href(c.link.href)}>
+            {c.link.label} <Icon name="lucide:arrow-right" class="icon" />
+          </a>
+        )}
+      </p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .promise-list {
+    list-style: none;
+    margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 720px) {
+    .promise-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .promise-list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .promise-item:nth-child(n + 5) {
+      grid-column: span 1;
+    }
+
+    .promise-item:last-child {
+      grid-column: span 2;
+    }
+  }
+
+  .promise-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 4px solid var(--brand-green);
+  }
+
+  .promise-item__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .promise-item__num {
+    font-family: var(--font-display, inherit);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--brand-navy);
+    opacity: 0.25;
+  }
+
+  .promise-item h3 {
+    font-size: 1.12rem;
+    margin: 0.2rem 0 0;
+  }
+
+  .promise-item p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .promise-item__proof {
+    margin-top: auto !important;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.88rem !important;
+  }
+
+  .promise-item__proof strong {
+    color: var(--brand-navy);
+  }
+
+  .promise-item__proof .link-arrow {
+    display: inline-flex;
+    margin-left: 0.25rem;
+    font-size: 0.88rem;
+  }
+</style>

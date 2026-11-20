@@ -1,19 +1,20 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Why Axis: the six "Total project peace of mind" cards (copy supplied 2026-10-28) with a
+ * Why Axis: the Axis Promise and the six "Total project peace of mind" cards (copy supplied
+ * 2026-10-28, retitled as outcomes with a proof line in the 3 P's update, 2026-11-02) with a
  * closing call to action, the stat cards without the rankings list, no O&M excellence
  * section, and the safety partners graphic in place of the testimonial. Employee ownership
  * moved to About.
  */
 
 const titles = [
-  'One Partner. Coordinated Delivery.',
-  'Established Backing. Electrical Roots.',
-  'Quality Led in the Field.',
-  'Resources Matched to Your Project.',
-  'Employee-Owned Accountability.',
-  'Safety Built into Execution.',
+  'One call. One accountable team.',
+  'A contractor that will be there at turnover.',
+  'Quality you can verify at handover.',
+  'The right crew for your site and scale.',
+  'Owners on your project, not just employees.',
+  'Everyone home safe, and your operations keep running.',
 ];
 
 test('the six "Total project peace of mind" cards show their copy, numbered 01â€“06', async ({
@@ -33,7 +34,10 @@ test('the six "Total project peace of mind" cards show their copy, numbered 01â€
     '06',
   ]);
   for (let i = 0; i < 6; i++) {
-    expect(((await cards.nth(i).locator('p').textContent()) ?? '').length).toBeGreaterThan(150);
+    expect(((await cards.nth(i).locator('p').first().textContent()) ?? '').length).toBeGreaterThan(
+      150,
+    );
+    await expect(cards.nth(i).locator('.pillar__proof')).toContainText('Proof:');
   }
   // None of the old card titles is left on the page.
   const text = (await page.locator('main').textContent()) ?? '';
@@ -66,13 +70,14 @@ test('By the numbers keeps the stat cards and drops the rankings list', async ({
   const numbers = page.locator('#by-the-numbers');
   await expect(numbers.locator('h2')).toHaveText('A track record you can underwrite');
   await expect(numbers.locator('.stat')).toHaveCount(5);
-  await expect(numbers.locator('table, ol, ul')).toHaveCount(0);
+  await expect(numbers.locator('table, ol, .rankings')).toHaveCount(0);
 });
 
-test('the O&M excellence section and the testimonials are gone', async ({ page }) => {
+test('the O&M excellence section and the old testimonial are gone', async ({ page }) => {
   await page.goto('why-axis/');
   await expect(page.locator('#om')).toHaveCount(0);
-  await expect(page.locator('main blockquote')).toHaveCount(0);
+  // Only the GE Florence quote (2026-11-02), and only in preview until it is approved.
+  await expect(page.locator('main blockquote')).toHaveCount(1);
   const text = (await page.locator('main').textContent()) ?? '';
   expect(text).not.toMatch(/O&M excellence/i);
   expect(text).not.toContain('TJ Murphy');

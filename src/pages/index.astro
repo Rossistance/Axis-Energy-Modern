@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import FootprintMap from '@components/FootprintMap.astro';
 import PartnershipDiagram from '@components/PartnershipDiagram.astro';
+import ThreePs from '@components/ThreePs.astro';
 import { rankings } from '@data/stats';
 import { absoluteUrl } from '@lib/href';
 import { getPublishedProjects, carouselSlides } from '@lib/projects';
@@ -44,13 +45,15 @@ const jsonLd = [
     ]}
     trust={[
       '100% employee-owned through the 1910 Legacy ESOP',
-      'A 1910 Legacy Enterprises company',
+      'Bonding and financial backing through 1910 Legacy Enterprises',
       `Solar Power World Top Solar Contractor, ${recognition}`,
       'Headquartered in Holly Springs, North Carolina',
     ]}
   >
     <PartnershipDiagram />
   </Hero>
+
+  <ThreePs />
 
   <FootprintMap />
 </BaseLayout>

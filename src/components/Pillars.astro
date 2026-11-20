@@ -30,6 +30,11 @@ const number = (i: number) => String(i + 1).padStart(2, '0');
         )}
         <h3>{p.title}</h3>
         <p>{p.body}</p>
+        {p.proof && (
+          <p class="pillar__proof">
+            <strong>Proof:</strong> {p.proof}
+          </p>
+        )}
       </article>
     ) : (
       <article class="card pillar pillar--placeholder">
@@ -47,6 +52,17 @@ const number = (i: number) => String(i + 1).padStart(2, '0');
 </div>
 
 <style>
+  .pillar__proof {
+    margin-top: 0.85rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem !important;
+  }
+
+  .pillar__proof strong {
+    color: var(--brand-navy);
+  }
+
   .pillar h3 {
     font-size: 1.25rem;
     margin-bottom: 0.5rem;

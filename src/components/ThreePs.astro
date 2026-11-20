@@ -1,0 +1,212 @@
+---
+/**
+ * Home page "Your risk, our responsibility" band (3 P's update, approved by the owner
+ * 2026-11-02): the owner's pain, Axis's purpose and the Axis promise, with three projects as proof. Sources for the pain points are listed
+ * in the strategy update's sources document (EPC wind-downs, the 2027 placed-in-service
+ * deadline for solar under 48E/45Y, and fleet under-production versus estimates).
+ */
+import { Icon } from 'astro-icon/components';
+import { href } from '@lib/href';
+import { promiseLine } from '@data/promise';
+
+const proof = [
+  {
+    href: '/project/hertford-solar/',
+    title: 'Hertford Solar',
+    body: 'Took over a 13.97 MWdc project another EPC left at clearing and grading, and carried it to interconnection.',
+  },
+  {
+    href: '/project/yadkinville-solar/',
+    title: 'Yadkinville rebuild',
+    body: 'Demolished and rebuilt a storm-damaged 4.8 MWdc plant, then returned it to service.',
+  },
+  {
+    href: '/project/cooperative-solar-storage-portfolio/',
+    title: 'NCEMC portfolio',
+    body: 'Built five solar + storage sites with 22.6 MWh of Tesla storage, and kept them running under Axis O&M.',
+  },
+];
+---
+
+<section class="section three-ps" id="your-risk" aria-labelledby="three-ps-title">
+  <div class="container">
+    <div class="section-heading section-heading--center" data-reveal>
+      <p class="eyebrow">Your risk, our responsibility</p>
+      <h2 id="three-ps-title">Energy projects fail in the gaps. We close them.</h2>
+      <p class="lead">
+        Between design, construction, energization and operation there are hand-offs where schedules
+        slip and performance leaks away. Axis owns all of them.
+      </p>
+    </div>
+
+    <div class="three-ps__grid" data-reveal-group>
+      <article class="card three-ps__card three-ps__card--pain">
+        <p class="three-ps__step">
+          <Icon name="lucide:triangle-alert" /> The pain
+        </p>
+        <h3>Projects stall, slip and under-produce.</h3>
+        <ul class="three-ps__list">
+          <li>Contractors exit mid-build, leaving permits, crews and schedules in limbo.</li>
+          <li>
+            Deadlines leave no slack: solar that missed the July 4, 2026 construction start must be
+            in service by December 31, 2027 to keep the federal credit.
+          </li>
+          <li>Plants quietly under-produce their estimates, and no one owns the fix.</li>
+        </ul>
+      </article>
+
+      <article class="card three-ps__card three-ps__card--purpose">
+        <p class="three-ps__step">
+          <Icon name="lucide:target" /> Our purpose
+        </p>
+        <h3>We take execution risk off the owner.</h3>
+        <p>
+          One accountable, employee-owned team engineers, builds, energizes and maintains your
+          system, with electrical roots that go back to 1910 and the backing of 1910 Legacy
+          Enterprises behind every contract.
+        </p>
+      </article>
+
+      <article class="card three-ps__card three-ps__card--promise">
+        <p class="three-ps__step">
+          <Icon name="lucide:shield-check" /> Our promise
+        </p>
+        <h3>{promiseLine}</h3>
+        <p>
+          Seven commitments we put in writing, from a named project lead to a response within 24
+          hours.
+        </p>
+        <a class="link-arrow" href={href('/why-axis/#promise')}>
+          Read the Axis Promise <Icon name="lucide:arrow-right" class="icon" />
+        </a>
+      </article>
+    </div>
+
+    <ul class="three-ps__proof" aria-label="Proof" data-reveal-group>
+      {proof.map((p) => (
+        <li>
+          <a href={href(p.href)}>
+            <strong>{p.title}</strong>
+            <span>{p.body}</span>
+            <Icon name="lucide:arrow-right" class="three-ps__arrow" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .three-ps__grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  @media (min-width: 900px) {
+    .three-ps__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .three-ps__card {
+    border-top: 4px solid var(--brand-navy);
+  }
+
+  .three-ps__card--pain {
+    border-top-color: #c2410c;
+  }
+
+  .three-ps__card--purpose {
+    border-top-color: var(--brand-green);
+  }
+
+  .three-ps__step {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-navy);
+  }
+
+  .three-ps__card--pain .three-ps__step {
+    color: #b23a0a;
+  }
+
+  .three-ps__card--purpose .three-ps__step {
+    color: var(--brand-green);
+  }
+
+  .three-ps__step :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .three-ps__card h3 {
+    font-size: 1.25rem;
+    margin: 0 0 0.6rem;
+  }
+
+  .three-ps__card p,
+  .three-ps__list {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+  }
+
+  .three-ps__list {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .three-ps__proof {
+    list-style: none;
+    margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 900px) {
+    .three-ps__proof {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .three-ps__proof a {
+    position: relative;
+    display: grid;
+    gap: 0.2rem;
+    height: 100%;
+    padding: 0.9rem 2.5rem 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md, 12px);
+    color: var(--text);
+    text-decoration: none;
+    background: var(--surface-alt, #f5f8fa);
+  }
+
+  .three-ps__proof a:hover strong {
+    text-decoration: underline;
+  }
+
+  .three-ps__proof span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .three-ps__proof :global(.three-ps__arrow) {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    transform: translateY(-50%);
+    color: var(--brand-green);
+  }
+</style>

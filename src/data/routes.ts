@@ -17,4 +17,6 @@ export const routes = {
   leadership: '/about/leadership/',
   news: '/news/',
   contact: '/contact/',
+  /** Service page for stalled and abandoned projects (3 P's update, owner 2026-11-02). */
+  projectRescue: '/services/project-rescue/',
 } as const;

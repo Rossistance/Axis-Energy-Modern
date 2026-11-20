@@ -70,6 +70,8 @@ export const rfqForm: FormSpec = {
             'O&M for an existing system',
             'Electrical or medium-voltage infrastructure',
             'Decommissioning or repowering',
+            'Stalled project / EPC takeover',
+            'Plant Health Assessment',
           ),
         },
         {

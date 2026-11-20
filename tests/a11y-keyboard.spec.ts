@@ -36,6 +36,7 @@ test('Services dropdown lists the four services, with O&M as a plain link to its
     'Battery Storage & Microgrids',
     'Electrical Infrastructure & Commissioning',
     'O&M & Technical Services',
+    'Project Rescue & EPC Takeover',
   ]);
   await expect(menu.getByRole('link', { name: 'Services Overview' })).toHaveCount(0);
   await expect(menu.getByRole('link', { name: 'O&M & Technical Services' })).toHaveAttribute(
@@ -58,12 +59,14 @@ test('the O&M menu opens from the keyboard and lists its page sections', async (
   await expect(toggle).toHaveAttribute('aria-expanded', 'true');
   const links = page.locator('#submenu-o-m a');
   await expect(links.first()).toBeFocused();
-  await expect(links).toHaveCount(7);
-  await expect(links.first()).toHaveText('Preventive Maintenance');
+  // The Plant Health Assessment leads (3 P's update, 2026-11-02), then the six offerings.
+  await expect(links).toHaveCount(8);
+  await expect(links.first()).toHaveText('Plant Health Assessment');
   await expect(links.first()).toHaveAttribute(
     'href',
-    /\/om-and-technical-services\/#preventive-maintenance$/,
+    /\/om-and-technical-services\/#plant-health$/,
   );
+  await expect(links.nth(1)).toHaveText('Preventive Maintenance');
   await page.keyboard.press('Escape');
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
 });
@@ -88,6 +91,7 @@ test('mobile drawer groups expand to show the Services pages', async ({ page }) 
     'Battery Storage & Microgrids',
     'Electrical Infrastructure & Commissioning',
     'O&M & Technical Services',
+    'Project Rescue & EPC Takeover',
   ]);
   await expect(page.locator('#drawer-services .drawer__expand--sub')).toHaveCount(0);
   await page.locator('#drawer-services').getByRole('link', { name: 'Solar EPC' }).click();

@@ -25,7 +25,13 @@ export const company = {
     geo: { lat: 35.6513, lng: -78.8336 }, // Holly Springs, NC (town centre; refine with exact pin)
   },
   // No phone number is published: the number on the old site was Josh Butler's cell
-  // (owner, 2026-10-01). Add a main office line here if Axis wants one listed.
+  // (owner, 2026-10-01). The owner asked to list the business number with the 24-hour
+  // response (2026-11-02); it goes here, as { display: '919.555.0100', tel: '+19195550100' },
+  // once Ross confirms which number is the business line. The contact band, the O&M page and
+  // the Axis Promise show it with a tap-to-call link as soon as it is set.
+  phone: null as { display: string; tel: string } | null,
+  /** Response commitment (owner, 2026-11-02: "a response commitment within 24hrs"). */
+  responseTime: 'within 24 hours',
   fax: { display: '919.285.2581' },
   email: 'info@axis-energyinc.com',
   careersEmail: 'careers@axis-energyinc.com',

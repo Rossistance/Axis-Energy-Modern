@@ -40,6 +40,10 @@ export interface ProjectMarket {
   summary: string;
   /** Shown when no published project is assigned to the market yet. */
   emptyNote: string;
+  /** The risk this owner carries, and Axis's answer to it (3 P's update, owner 2026-11-02). */
+  pain?: string;
+  answer?: string;
+  answerLink?: { label: string; href: string };
 }
 
 export const projectMarkets: ProjectMarket[] = [
@@ -51,6 +55,9 @@ export const projectMarkets: ProjectMarket[] = [
     summary:
       'On-site solar, carports, battery storage and microgrids for manufacturers, campuses and commercial facilities, phased around operations that keep running.',
     emptyNote: 'Commercial and industrial project references are available on request.',
+    pain: 'Energy isn’t your core business. The project has to be built around a working campus without disrupting production, and the savings have to actually show up.',
+    answer:
+      'One accountable team phases the work around your operations, then Axis O&M keeps the system producing after turnover.',
   },
   {
     id: 'co-ops-utilities',
@@ -59,6 +66,13 @@ export const projectMarkets: ProjectMarket[] = [
     summary:
       'Solar, battery storage and microgrids for electric cooperatives, municipal utilities and investor-owned utilities, from EPC delivery to long-term O&M.',
     emptyNote: 'Cooperative and utility project references are available on request.',
+    pain: 'Peak demand costs, reliability expectations and lean engineering staff, with medium-voltage work that has to meet utility standards the first time.',
+    answer:
+      'Solar + storage and microgrids built to utility standards by an electrical contractor, then maintained under one O&M agreement.',
+    answerLink: {
+      label: 'Add storage to existing solar',
+      href: '/services/battery-storage-and-microgrids/#storage-add-on',
+    },
   },
   {
     id: 'municipal-institutional',
@@ -67,6 +81,9 @@ export const projectMarkets: ProjectMarket[] = [
     summary:
       'Solar for school districts, water and wastewater authorities, counties and other public facilities.',
     emptyNote: 'Municipal and institutional project references are available on request.',
+    pain: 'Public money and public scrutiny: procurement rules, bonding requirements and no tolerance for a project that slips or under-delivers.',
+    answer:
+      'Bonding backed by 1910 Legacy Enterprises, and documented turnover your board and auditors can review.',
   },
   {
     id: 'developers-ipps',
@@ -75,6 +92,10 @@ export const projectMarkets: ProjectMarket[] = [
     summary:
       'Utility-scale and distributed solar for developers and independent power producers, from single sites to multi-site portfolios.',
     emptyNote: 'Developer and IPP project references are available on request.',
+    pain: 'Schedule is everything: solar that missed the July 4, 2026 construction start must be in service by December 31, 2027 to keep the federal credit, so a contractor that stalls can cost you the project’s economics.',
+    answer:
+      'We hold the schedule to commercial operation, and when another EPC walks away we take the project over.',
+    answerLink: { label: 'Project Rescue & EPC Takeover', href: '/services/project-rescue/' },
   },
 ];
 

@@ -23,7 +23,11 @@ export const primaryNav: NavItem[] = [
     label: 'Services',
     href: '/services/',
     // O&M & Technical Services stays listed here as a plain link to its own page.
-    children: servicePages.map((page) => ({ label: page.title, href: servicePath(page.slug) })),
+    children: [
+      ...servicePages.map((page) => ({ label: page.title, href: servicePath(page.slug) })),
+      // Stalled and abandoned projects (3 P's update, owner 2026-11-02).
+      { label: 'Project Rescue & EPC Takeover', href: routes.projectRescue },
+    ],
   },
   {
     label: 'Markets',
@@ -36,6 +40,8 @@ export const primaryNav: NavItem[] = [
     label: 'O&M',
     href: OM_PATH,
     children: [
+      // The entry offer for existing plants (3 P's update, owner 2026-11-02).
+      { label: 'Plant Health Assessment', href: `${OM_PATH}#plant-health` },
       ...omOfferings.map((o) => ({ label: o.title, href: offeringPath(o.slug) })),
       { label: 'O&M project experience', href: `${OM_PATH}#${OM_PROJECTS_ID}` },
     ],
@@ -75,6 +81,7 @@ export const footerColumns: { title: string; items: NavItem[] }[] = [
     title: 'Services',
     items: [
       ...servicePages.map((page) => ({ label: page.title, href: servicePath(page.slug) })),
+      { label: 'Project Rescue & EPC Takeover', href: routes.projectRescue },
       { label: 'Markets', href: routes.markets },
       { label: 'Projects', href: routes.projects },
     ],

@@ -9,31 +9,39 @@ export interface Pillar {
   title?: string;
   body?: string;
   icon?: string;
+  /** One line of evidence under the card (3 P's update, owner 2026-11-02). */
+  proof?: string;
 }
 
 export const pillars: Pillar[] = [
   {
-    title: 'One Partner. Coordinated Delivery.',
+    title: 'One call. One accountable team.',
+    proof: 'NCEMC portfolio: five sites built, then kept running under Axis O&M.',
     body: 'Axis brings solar, battery storage, microgrids, and electrical infrastructure together through coordinated engineering, procurement, construction, and commissioning. Customers have a single point of contact to manage project interfaces, with O&M and technical services available to support continued operation.',
   },
   {
-    title: 'Established Backing. Electrical Roots.',
+    title: 'A contractor that will be there at turnover.',
+    proof: 'Part of 1910 Legacy Enterprises, building across the Southeast since 1910.',
     body: 'As part of 1910 Legacy Enterprises, Axis combines renewable energy expertise with an established electrical contracting heritage. That foundation informs our approach to power systems, interconnection, and commissioning, while organizational backing supports procurement, bonding, and the resources needed to execute our customers’ projects.',
   },
   {
-    title: 'Quality Led in the Field.',
+    title: 'Quality you can verify at handover.',
+    proof: 'An Axis superintendent on every site; tested and commissioned before turnover.',
     body: 'Experienced project managers and superintendents guide execution, coordinate trade partners, and oversee quality throughout construction. From installation reviews through testing, commissioning, and turnover, Axis focuses on the details that help deliver a complete, dependable energy system.',
   },
   {
-    title: 'Resources Matched to Your Project.',
+    title: 'The right crew for your site and scale.',
+    proof: 'From a 1.5 MWdc campus microgrid to a 36.5 MWdc seven-site portfolio.',
     body: 'Axis combines its project leadership and technical team with established engineering, equipment, and construction partners. We align resources with each project’s scope, location, and complexity—supporting individual installations, operating facilities, and coordinated portfolios across multiple sites.',
   },
   {
-    title: 'Employee-Owned Accountability.',
+    title: 'Owners on your project, not just employees.',
+    proof: '100% employee-owned through the 1910 Legacy ESOP.',
     body: 'Employee ownership gives our team a personal stake in the company’s work and long-term relationships. Through the 1910 Legacy employee ownership structure, Axis connects individual responsibility with shared success—reinforcing care for our customers, our colleagues, and the assets we build and maintain.',
   },
   {
-    title: 'Safety Built into Execution.',
+    title: 'Everyone home safe, and your operations keep running.',
+    proof: 'Safety program graded on Avetta, Veriforce and ISNetworld.',
     body: 'Safety is a responsibility we carry from planning through completion. Axis emphasizes work planning, subcontractor qualification, field oversight, and coordination around existing operations and electrical systems. Our priority is protecting people while executing work with discipline and care.',
   },
 ];

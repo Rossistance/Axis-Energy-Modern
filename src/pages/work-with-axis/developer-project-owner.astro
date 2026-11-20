@@ -19,7 +19,7 @@ const steps = [
   },
   {
     title: 'We talk',
-    body: 'Expect a call or email within one business day to confirm scope, site details and timing.',
+    body: `Expect a call or email ${company.responseTime} to confirm scope, site details and timing.`,
   },
   {
     title: 'You get a plan',
@@ -32,7 +32,7 @@ const steps = [
   <PageHero
     eyebrow={workWithAxis.label}
     title="Developer/Project Owner"
-    lead="Tell us about your solar, storage, microgrid, electrical or O&M project and we will follow up within one business day. Estimates are fine."
+    lead="Tell us about your solar, storage, microgrid, electrical or O&M project and we will follow up within 24 hours. Estimates are fine."
     photo={heroes.projectRequest}
     crumbs={[
       { label: workWithAxis.label, href: routes.workWithAxis },

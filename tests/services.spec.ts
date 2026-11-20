@@ -27,11 +27,15 @@ const offerings = [
   'decommissioning',
 ];
 
-test('Services is a single page of four cards, one per service page', async ({ page }) => {
+test('Services is a single page of cards: the four service pages and Project Rescue', async ({
+  page,
+}) => {
   await page.goto('services/');
   await expect(page.locator('main > section')).toHaveCount(2);
   const cards = page.locator('a.service-card');
-  await expect(cards).toHaveCount(4);
+  await expect(cards).toHaveCount(5);
+  await expect(cards.last()).toHaveText(/Project Rescue & EPC Takeover/);
+  await expect(cards.last()).toHaveAttribute('href', /\/services\/project-rescue\/$/);
   for (const [path, title] of pages) {
     await expect(cards.filter({ hasText: title })).toHaveAttribute('href', new RegExp(`/${path}$`));
   }
@@ -104,8 +108,9 @@ test('O&M is one page that leads with Yadkinville and holds the six offerings as
   );
   // The "On this page" bar and the project cards.
   const bar = page.locator('[data-subnav] a');
-  await expect(bar.first()).toHaveAttribute('href', '#featured');
-  await expect(bar).toHaveCount(offerings.length + 2);
+  await expect(bar.first()).toHaveAttribute('href', '#plant-health');
+  await expect(bar.nth(1)).toHaveAttribute('href', '#featured');
+  await expect(bar).toHaveCount(offerings.length + 3);
   expect(await page.locator('#om-projects .project-card').count()).toBeGreaterThanOrEqual(4);
   await expect(page.locator('#om-projects .project-card__title').first()).toHaveText(
     'Yadkinville Storm Recovery and Rebuild',

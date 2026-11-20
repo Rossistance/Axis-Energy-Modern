@@ -43,9 +43,11 @@ test('on phones inner page headers stay compact', async ({ page }) => {
   }
 });
 
-// Headers with a chosen photo (2026-10-30): Projects and its service views, Markets and O&M.
+// Headers with a chosen photo (2026-10-30): Projects and its service views, Markets and O&M;
+// Project Rescue uses the Hertford aerial, the takeover it is built on (2026-11-20).
 const chosen = (path: string) =>
-  path.startsWith('projects/') || path === 'markets/' || path === 'om-and-technical-services/';
+  path.startsWith('projects/') ||
+  ['markets/', 'om-and-technical-services/', 'services/project-rescue/'].includes(path);
 
 test('every inner page header shows a photo, labeled as a placeholder until one is chosen', async ({
   page,

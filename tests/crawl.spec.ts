@@ -25,6 +25,7 @@ test('sitemap lists every route', () => {
     'services/battery-storage-and-microgrids/',
     'services/electrical-infrastructure-and-commissioning/',
     'om-and-technical-services/',
+    'services/project-rescue/',
     'project/yadkinville-solar/',
     'project/florence-solar-array/',
     'project/edenton-inverter-thermal-event-recovery/',

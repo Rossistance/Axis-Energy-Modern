@@ -7,6 +7,7 @@ import { Icon } from 'astro-icon/components';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
 import { heroes } from '@data/heroes';
+import { company } from '@data/company';
 import { routes } from '@data/routes';
 import { workWithAxis } from '@data/nav';
 import { href } from '@lib/href';
@@ -23,7 +24,7 @@ const options = [
     label: 'Developer/Project Owner',
     href: routes.projectRequest,
     icon: 'lucide:briefcase',
-    body: 'Tell us about your solar, storage, microgrid, electrical or O&M project. We follow up within one business day.',
+    body: `Tell us about your solar, storage, microgrid, electrical or O&M project. We follow up ${company.responseTime}.`,
     action: 'Start a project request',
   },
 ];
