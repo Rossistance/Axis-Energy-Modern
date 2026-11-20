@@ -56,7 +56,19 @@ test('headquarters pin and project pins are shown, and nothing on the map is cli
   await expect(map.locator('.footprint__label-name')).toHaveText('Holly Springs, NC');
   // Towns from the owner's project list (2026-11-10) plus the project entries, one pin per town.
   expect(await map.locator('.footprint__pins use').count()).toBeGreaterThanOrEqual(50);
-  await expect(page.locator('#footprint-map-desc')).toContainText(/Pins mark \d+ towns/);
+  await expect(page.locator('#footprint-map-desc')).toContainText(/Round pins mark \d+ towns/);
   await expect(map.locator('a, button, [tabindex]')).toHaveCount(0);
-  await expect(page.locator('.footprint__legend li')).toHaveCount(4);
+  await expect(page.locator('.footprint__legend li')).toHaveCount(5);
+});
+
+test('active O&M sites have their own pin, described in words as well as colour', async ({
+  page,
+}) => {
+  // Owner, 2026-11-10: "adding pins with a different color head for the active O&M site addresses".
+  await page.goto('');
+  const om = page.locator('.footprint__pins use.is-om');
+  expect(await om.count()).toBeGreaterThanOrEqual(15);
+  const desc = (await page.locator('#footprint-map-desc').textContent()) ?? '';
+  expect(desc).toMatch(new RegExp(`mark ${await om.count()} towns where Axis maintains a plant`));
+  await expect(page.locator('.footprint__legend')).toContainText('Active O&M contracts');
 });
