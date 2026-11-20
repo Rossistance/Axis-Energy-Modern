@@ -14,6 +14,8 @@ keyFigures:
   - { value: "60 + 60", label: "Loadbreak elbows and splice kits" }
   - { value: "2019", label: "Recovery" }
 summary: "After a September 2018 storm submerged ten central inverter stations at Innovative Solar 42 near Fayetteville, North Carolina, Axis supported their elevation and rebuilt the 35 kV and fiber connections needed to return the PCS fleet to service."
+seoTitle: "Innovative Solar 42 Flood Resilience"
+description: "After a 2018 flood, Axis helped raise ten inverter stations at Innovative Solar 42 near Fayetteville, NC, and rebuilt their 35 kV and fiber links."
 impact: "Ten central inverter stations raised above grade with reconstructed medium-voltage and communications interfaces, tested cable systems, renewed labeling and a repeatable recovery sequence."
 challenge: "Protect ten submerged power conversion stations from recurring flood exposure while preserving an operating 35 kV collection system and restoring the fiber communications network."
 approach: "Axis de-energized and de-terminated each station, coordinated the lift and the vault construction, extended the medium-voltage and fiber circuits, then reset and re-terminated the elevated skids, tested them and supported staged re-energization."

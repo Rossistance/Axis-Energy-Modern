@@ -12,6 +12,7 @@ role: ["EPC"]
 mount: "Ground mount"
 partners: ["White Electrical"]
 summary: "Seven utility-scale solar facilities across two North Carolina regions, 36.515 MWdc in all, delivered concurrently by Axis Energy and White Electrical as one managed execution program."
+description: "Conergy NC1: seven solar facilities in two North Carolina regions, 36.515 MWdc in all, delivered concurrently by Axis Energy and White Electrical."
 impact: "A coordinated 36.515 MWdc portfolio delivered across the Raleigh–Triad corridor and the region west of Charlotte through repeatable site execution and one integrated management structure."
 challenge: "Execute seven geographically separated solar projects on overlapping schedules while keeping safety, quality, documentation and schedule controls uniform across every site."
 approach: "Axis combined portfolio leadership and field coordination with White Electrical's electrical-construction capability, supported by common planning, procurement, reporting, commissioning and closeout processes."

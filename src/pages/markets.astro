@@ -24,7 +24,7 @@ const projects = await getPublishedProjects();
 const inMarket = (m: ProjectMarket): Project[] =>
   projects.filter((p) => p.data.market === m.id).slice(0, MARKET_PROFILE_LIMIT);
 const description =
-  'The markets Axis Energy serves: commercial and industrial owners, electric cooperatives and utilities, municipal and institutional owners, and developers and independent power producers.';
+  'Markets Axis Energy serves: commercial and industrial owners, electric co-ops and utilities, municipal and institutional owners, and developers and IPPs.';
 ---
 
 <BaseLayout title="Markets" {description}>

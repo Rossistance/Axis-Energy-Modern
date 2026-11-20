@@ -51,6 +51,10 @@ const projects = defineCollection({
        */
       keyFigures: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
       summary: z.string(),
+      /** Search description when the summary runs past ~155 characters (pre-launch audit M5). */
+      description: z.string().max(160).optional(),
+      /** Shorter text for the browser title when the project title is long (audit M12). */
+      seoTitle: z.string().optional(),
       /** Outcome, shown in the Impact callout. */
       impact: z.string().optional(),
       /** Case-study detail (all optional): the problem Axis had to solve and how it was solved. */
@@ -93,6 +97,8 @@ const team = defineCollection({
       photo: image().optional(),
       photoAlt: z.string().optional(),
       summary: z.string(),
+      /** Search description when the summary runs past ~155 characters (pre-launch audit M5). */
+      description: z.string().max(160).optional(),
       education: z.array(z.string()).optional(),
       credentials: z.array(z.string()).optional(),
       order: z.number().default(99),

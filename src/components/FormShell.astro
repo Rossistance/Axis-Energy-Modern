@@ -416,9 +416,11 @@ const action = endpoint || `mailto:${company.email}?subject=${encodeURIComponent
           if (!res.ok) throw new Error(`Request failed (${res.status})`);
           success();
         } catch (err) {
+          // Visitors see a plain message; the technical detail stays in the console (audit M10).
+          console.error('Form submission failed:', err);
           setStatus(
             'error',
-            `We couldn't send your message (${err instanceof Error ? err.message : 'network error'}). Please email <a href="mailto:${form.dataset.mailto}">${form.dataset.mailto}</a>.`,
+            `We couldn't send your message just now. Please try again in a few minutes, or email <a href="mailto:${form.dataset.mailto}">${form.dataset.mailto}</a>.`,
           );
         } finally {
           setBusy(false);

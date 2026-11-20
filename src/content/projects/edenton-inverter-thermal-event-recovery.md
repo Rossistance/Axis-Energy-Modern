@@ -14,6 +14,7 @@ keyFigures:
   - { value: "2.5 weeks", label: "Planned field execution" }
   - { value: "2019", label: "Recovery" }
 summary: "Axis replaced a fire-damaged 3 MW Power Electronics HEMK central inverter at Edenton Solar in North Carolina and rebuilt the feeders, grounding, communications and conduit pathways needed to return the inverter block to service."
+description: "Axis replaced a fire-damaged 3 MW central inverter at Edenton Solar, NC, and rebuilt the feeders, grounding and communications to return it to service."
 impact: "A complete replacement installation with reconstructed power and communications pathways, tested conductors and terminations, and a documented basis for returning the block to operation."
 challenge: "Recover a utility-scale inverter block after an April 2019 thermal event damaged the central inverter, its DC equipment, the feeder conductors and parts of the conduit system under the skid."
 approach: "Axis set safe demolition limits, removed the damaged equipment and feeders, excavated and rehabilitated the pathways, integrated the replacement inverter, rebuilt its interfaces and electrically tested the installation before turnover."

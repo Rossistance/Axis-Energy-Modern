@@ -14,7 +14,7 @@ npm ci
 SITE_URL=https://www.axis-energyinc.com SITE_BASE=/ PUBLIC_SITE_MODE=production npm run build
 ```
 
-`dist/` is the complete site. You can also download a ready-made root-domain build from the latest GitHub Actions run (artifact `site-dist`) without installing anything.
+`dist/` is the complete site. You can also download a ready-made root-domain build from the latest GitHub Actions run (artifact `site-dist`) without installing anything; since 2026-11-20 that build receives the three form endpoint variables too, so it is live once they are set.
 
 ### Environment variables
 
@@ -124,7 +124,7 @@ All other pages keep their paths (`/services/`, `/projects/`, `/why-axis/`, `/ab
 
 ## 9. After launch
 
-- Content edits are Markdown or small TypeScript data files; see the README. Any git push to `Main-Backup` rebuilds the site.
+- Content edits are Markdown or small TypeScript data files; see the README. Any git push to `Main-Backup` rebuilds the site. The workflow runs the HTML validator and the Playwright suite first and only deploys when they pass (2026-11-20, pre-launch audit H8).
 - Keep dependencies current a few times a year: `npm outdated`, `npx @astrojs/upgrade`, then `npm test`.
 - Design tokens (colours, type, spacing) live in `src/styles/tokens.css`; brand colours are the official PANTONE 288 blue (#004B8D) and PANTONE 348 green (#008752).
 

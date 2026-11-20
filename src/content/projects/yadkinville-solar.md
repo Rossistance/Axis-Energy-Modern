@@ -14,6 +14,7 @@ keyFigures:
   - { value: "RBI GM-2", label: "Replacement racking" }
   - { value: "2019–2020", label: "Field execution" }
 summary: "Axis restored a storm-damaged 4.808 MWdc fixed-tilt solar facility in Yadkinville, North Carolina, through controlled shutdown, complete demolition and reconstruction on new foundations and RBI GM-2 racking."
+description: "Axis rebuilt a storm-damaged 4.808 MWdc solar plant in Yadkinville, North Carolina: controlled shutdown, full demolition and new RBI GM-2 racking."
 impact: "A reconstructed fixed-tilt field with new racking, reinstalled modules, restored DC connections, completed wire management and documented testing, returned to service by one accountable team."
 challenge: "Recover a damaged operating asset while protecting the infrastructure worth keeping, working around buried electrical systems, and resolving failed foundations and posts."
 approach: "Axis sequenced shutdown, testing and isolation, then demolition, post removal, resurvey and new pile driving, followed by the structural rebuild, rewiring, bonding, infrared testing and QA/QC, row by row."

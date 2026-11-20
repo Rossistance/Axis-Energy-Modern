@@ -52,6 +52,22 @@ jobs:
           node-version: 22
           package-manager: npm@latest
 
+  # The deploy waits for the HTML validator and the Playwright suite (pre-launch audit H8,
+  # 2026-11-02). Tests run against a preview-mode build at the default base path.
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run validate:html
+      - run: npm test
+
   # A second build with SITE_BASE=/ for hand-off to any host (download from the run's Artifacts).
   handoff:
     runs-on: ubuntu-latest
@@ -59,6 +75,9 @@ jobs:
       SITE_URL: ${{ vars.HANDOFF_SITE_URL || 'https://www.axis-energyinc.com' }}
       SITE_BASE: /
       PUBLIC_SITE_MODE: ${{ vars.PUBLIC_SITE_MODE || 'preview' }}
+      PUBLIC_FORM_ENDPOINT_CONTACT: ${{ vars.PUBLIC_FORM_ENDPOINT_CONTACT }}
+      PUBLIC_FORM_ENDPOINT_RFQ: ${{ vars.PUBLIC_FORM_ENDPOINT_RFQ }}
+      PUBLIC_FORM_ENDPOINT_SUBS: ${{ vars.PUBLIC_FORM_ENDPOINT_SUBS }}
       JOBS_SOURCE: ${{ vars.JOBS_SOURCE || 'static' }}
       JOBS_BOARD: ${{ vars.JOBS_BOARD }}
       JOBS_URL: ${{ vars.JOBS_URL }}
@@ -88,7 +107,7 @@ jobs:
           retention-days: 30
 
   deploy:
-    needs: build
+    needs: [build, test]
     runs-on: ubuntu-latest
     environment:
       name: github-pages

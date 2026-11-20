@@ -11,7 +11,7 @@ const team = (await getCollection('team', ({ data }) => data.published)).sort(
   (a, b) => a.data.order - b.data.order,
 );
 const description =
-  'Meet the leadership of Axis Energy — renewable experience and expertise from a company of owners.';
+  'Meet the leadership of Axis Energy, an employee-owned solar EPC and O&M contractor: renewable experience and expertise from a company of owners.';
 ---
 
 <BaseLayout title="Leadership" {description}>

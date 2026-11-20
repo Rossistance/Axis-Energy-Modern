@@ -6,6 +6,7 @@ linkedin: "https://www.linkedin.com/in/joshuawbutler/"
 photo: ../../assets/team/josh-butler.webp
 photoAlt: "Portrait of Josh Butler, President of Axis Energy"
 summary: "Josh Butler is the President of Axis Energy, Inc. A former Commissioned Officer in the United States Coast Guard and a Project Management Professional since 2014, he led the launch of Axis Energy as the newest subsidiary of 1910 Legacy Enterprises in 2017."
+description: "Josh Butler, President of Axis Energy: former U.S. Coast Guard officer and PMP who led the 2017 launch of Axis as a 1910 Legacy Enterprises company."
 education:
   - "Bachelor's degree in Business Administration and Logistics, University of North Florida"
 credentials:

@@ -62,6 +62,8 @@ partners: ['White Electrical'] # optional; not shown on the page
 keyFigures: # optional; the abstract's stat band, for O&M and recovery work (replaces the size figures)
   - { value: '3.0 MW', label: 'Central inverter' }
 summary: 'One sentence used on cards and as the meta description.'
+description: 'Optional search description (at most 160 characters) when the summary is longer.'
+seoTitle: 'Optional shorter browser title' # when title + " | Axis Energy" runs past 65 characters
 image: ../../assets/projects/hertford.jpg # optional, 4:3 or wider
 imageAlt: 'Describe the photo'
 imageFocus: '35% 50%' # optional; part of the photo kept when it is cropped (CSS object-position)
@@ -135,13 +137,13 @@ Icons and the social sharing image are generated: `npm run icons` and `node scri
 ```bash
 npm run check          # astro check (TypeScript + template diagnostics)
 npm run build && npm run validate:html
-npm test               # Playwright + axe against the production build
+npm test               # Playwright + axe against the production build (also checks title and description lengths)
 node scripts/screenshots.mjs   # full-page screenshots of every route (needs `npm run preview` running)
 ```
 
 ## Deployment
 
-Pushes to `Main-Backup` build and deploy to GitHub Pages through `.github/workflows/deploy.yml` (repository **Settings → Pages → Source: GitHub Actions** must be selected once). The same workflow also uploads a root-domain build (`site-dist` artifact) for hosting elsewhere. Full instructions, including custom-domain and DNS cut-over steps, are in [`docs/HANDOFF.md`](docs/HANDOFF.md).
+Pushes to `Main-Backup` build and deploy to GitHub Pages through `.github/workflows/deploy.yml`; since 2026-11-20 the deploy waits for a `test` job that runs the HTML validator and the full Playwright suite, so a failing test stops the publish (pre-launch audit H8) (repository **Settings → Pages → Source: GitHub Actions** must be selected once). The same workflow also uploads a root-domain build (`site-dist` artifact) for hosting elsewhere. Full instructions, including custom-domain and DNS cut-over steps, are in [`docs/HANDOFF.md`](docs/HANDOFF.md).
 
 ## Source collateral
 

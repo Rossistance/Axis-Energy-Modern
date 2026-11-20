@@ -10,6 +10,7 @@ role: ["EPC", "O&M"]
 storageMwh: 22.6
 storageBrand: "Tesla"
 summary: "Five coordinated solar and storage sites across North Carolina cooperative territories, combining 11.7 MWdc of solar with 22.6 MWh of Tesla battery storage, delivered and continuously maintained by Axis."
+description: "Five NCEMC solar and storage sites in North Carolina: 11.7 MWdc of solar and 22.6 MWh of Tesla battery storage, built and maintained by Axis Energy."
 impact: "Five operating sites supported by the same partner from construction and commissioning through preventive maintenance, corrective service and lifecycle planning."
 challenge: "Deliver coordinated solar and battery assets at five locations, keeping technical standards consistent while adapting execution to each site's and cooperative's requirements."
 approach: "Standardized multi-site EPC delivery across civil, structural, electrical, solar, Tesla battery storage, controls, interconnection, commissioning and owner turnover."

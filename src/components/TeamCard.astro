@@ -33,9 +33,9 @@ const url = href(`/team/${person.id}/`);
     )}
   </a>
   <div class="team-card__body">
-    <h3>
+    <h2>
       <a href={url}>{data.name}</a>
-    </h3>
+    </h2>
     <p class="team-card__title">{data.title}</p>
     <p class="team-card__summary">{data.summary}</p>
     <div class="team-card__links">
@@ -92,12 +92,12 @@ const url = href(`/team/${person.id}/`);
     padding: 1.25rem 1.35rem 1.5rem;
   }
 
-  .team-card h3 {
+  .team-card h2 {
     font-size: 1.3rem;
     margin-bottom: 0.15rem;
   }
 
-  .team-card h3 a {
+  .team-card h2 a {
     text-decoration: none;
     color: var(--text);
   }

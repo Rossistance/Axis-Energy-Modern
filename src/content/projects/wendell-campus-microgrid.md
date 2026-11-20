@@ -13,6 +13,7 @@ mount: "Solar carport"
 storageMwh: 3.916
 storageBrand: "Tesla"
 summary: "A 1.519 MWdc solar carport and 3.916 MWh Tesla battery microgrid on an active manufacturing campus in Wendell, North Carolina, delivered by Axis as general contractor and EPC lead."
+description: "A 1.519 MWdc solar carport and 3.916 MWh Tesla battery microgrid on Siemens' manufacturing campus in Wendell, NC, delivered by Axis as EPC lead."
 impact: "An integrated campus energy platform, delivered through disciplined live-site coordination and phased construction, then tested, commissioned and turned over to the owner."
 challenge: "Integrate structural solar, battery storage, electrical systems, communications and controls on a working manufacturing campus without disrupting the facility."
 approach: "Axis led general contracting and EPC execution across site civil work, foundations, carport structures, PV, the Tesla battery system and controls, and coordinated permitting and facility stakeholders throughout."

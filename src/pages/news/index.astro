@@ -16,7 +16,7 @@ import { getPosts } from '@lib/news';
 const { posts, source, warning } = await getPosts();
 const preview = (import.meta.env.PUBLIC_SITE_MODE ?? 'preview') !== 'production';
 const description =
-  'News from Axis Energy: project milestones, team news and company updates from the Axis Energy LinkedIn page.';
+  'News from Axis Energy, an employee-owned solar EPC and O&M contractor: project milestones, team news and company updates from our LinkedIn page.';
 ---
 
 <BaseLayout title="News" {description}>

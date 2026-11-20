@@ -13,6 +13,7 @@ mount: "OMCO Origin trackers"
 modules: "Bifacial"
 storageMwh: 5.014
 summary: "A 2.751 MWdc bifacial solar and 5.014 MWh battery storage utility microgrid in Walnut Grove, Mississippi, delivered and commissioned by Axis and proven in islanded operation."
+description: "A 2.751 MWdc solar and 5.014 MWh battery storage utility microgrid in Walnut Grove, Mississippi, delivered by Axis and proven in islanded operation."
 impact: "The microgrid has successfully islanded, validating the complete system in real operation rather than through component-level testing alone."
 challenge: "Integrate solar generation, battery storage, utility protection and microgrid controls into a single system capable of independent operation."
 approach: "Complete EPC execution, with Axis coordinating the interfaces among civil, structural, electrical, controls, OEM and utility stakeholders from construction through owner turnover."

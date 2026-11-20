@@ -28,7 +28,10 @@ const others = all.filter((p) => !focus.includes(p));
 const title = `${page.title} projects`;
 ---
 
-<BaseLayout {title} description={`Axis Energy ${page.title} projects: ${page.summary}`}>
+<BaseLayout
+  {title}
+  description={`${page.title} projects by Axis Energy, the employee-owned EPC and O&M contractor, followed by every other project grouped by type.`}
+>
   <PageHero
     eyebrow="Projects"
     {title}

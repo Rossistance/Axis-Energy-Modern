@@ -13,6 +13,7 @@ keyFigures:
   - { value: "14.7%", label: "Array capacity affected" }
   - { value: "2018", label: "Assessment and recovery" }
 summary: "Axis revived a neglected 2.0 MWac solar facility, Solar 55 in Mount Olive, North Carolina, through forensic assessment, code-compliance repairs, targeted remediation and performance verification."
+description: "Axis revived Solar 55, a neglected 2.0 MWac plant in Mount Olive, NC, through forensic assessment, code repairs, remediation and performance checks."
 impact: "A code-compliant facility returned to full designed operating health, with restored inverter and string availability, corrected physical deficiencies and a documented baseline for ongoing O&M."
 challenge: "Recover a poorly performing asset burdened by deficient installation practices, prolonged neglect, structural damage, electrical defects and incomplete maintenance."
 approach: "Axis established a condition baseline, mapped thermal anomalies from the air, inspected installation quality in the field, prioritized safety and production risks, carried out the repairs and verified corrected operation."

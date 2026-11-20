@@ -12,6 +12,7 @@ role: ["Electrical construction"]
 mount: "Rooftop, on a membrane roof"
 modules: "More than 18,000 lightweight UNI-SOLAR thin-film laminates"
 summary: "A 2.6 MWdc rooftop array of more than 18,000 lightweight thin-film laminates across about 10 acres of Boeing's 787 Final Assembly Building in North Charleston, South Carolina, completed in December 2011 by Baker Renewable Energy with the White Electrical renewable construction team that later became Axis Energy."
+description: "A 2.6 MWdc rooftop array of 18,000+ thin-film laminates on Boeing's 787 Final Assembly Building in North Charleston, SC, completed in December 2011."
 impact: "When it was announced, Boeing identified the installation as the Southeast's largest solar project by production capacity."
 challenge: "Deploy a multi-megawatt system across the roof of a newly opened aerospace manufacturing facility while protecting the roofing system, keeping access safe and coordinating the work in a high-profile industrial setting."
 approach: "Baker Renewable Energy led the rooftop delivery. White Electrical's Renewable Energy Division brought rooftop installation planning, material handling, electrical construction, raceway organization, testing and commissioning into one coordinated effort."

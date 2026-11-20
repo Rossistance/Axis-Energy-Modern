@@ -55,14 +55,24 @@ for (const path of paths) {
     await expect(page).toHaveTitle(/Axis Energy/);
     expect(errors, `console errors on ${path}`).toEqual([]);
 
+    // Search snippets: titles within 65 characters, descriptions 90–160 (pre-launch audit
+    // M5 and M12, 2026-11-02).
+    const title = await page.title();
+    expect(title.length, `title length on ${path}: ${title}`).toBeLessThanOrEqual(65);
+    const description =
+      (await page.locator('meta[name="description"]').getAttribute('content')) ?? '';
+    expect(description.length, `description length on ${path}`).toBeGreaterThanOrEqual(90);
+    expect(description.length, `description length on ${path}`).toBeLessThanOrEqual(160);
+
     // @axe-core/playwright ships types for a newer playwright-core; the runtime API is identical.
     const results = await new AxeBuilder({
       page: page as unknown as ConstructorParameters<typeof AxeBuilder>[0]['page'],
     })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'best-practice'])
       .analyze();
+    // Serious and critical issues, plus skipped heading levels (audit M8, 2026-11-02).
     const serious = results.violations.filter(
-      (v) => v.impact === 'serious' || v.impact === 'critical',
+      (v) => v.impact === 'serious' || v.impact === 'critical' || v.id === 'heading-order',
     );
     expect(
       serious.map(

@@ -90,7 +90,12 @@ const delivery = [
 ].filter((d) => d.body);
 ---
 
-<BaseLayout title={data.title} description={data.summary} {jsonLd} ogImage={ogImage}>
+<BaseLayout
+  title={data.seoTitle ?? data.title}
+  description={data.description ?? data.summary}
+  {jsonLd}
+  ogImage={ogImage}
+>
   <section class="project-head band-dark" aria-labelledby="page-title">
     <div class="container project-head__inner">
       <Breadcrumbs

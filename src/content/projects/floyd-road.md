@@ -8,6 +8,7 @@ type: utility
 role: ['EPC']
 mount: 'Ground mount'
 summary: "A 6.75 MW utility-scale solar farm in Gaston, North Carolina, featured in Axis Energy's brochure as an example of fixed-tilt and tracking utility-scale work."
+description: "A 6.75 MW solar farm in Gaston, North Carolina, shown in Axis Energy's brochure as an example of its fixed-tilt and tracking solar work."
 image: ../../assets/projects/floyd-road-aerial.jpg
 imageAlt: 'Aerial view looking straight down on the Floyd Road solar farm beside a rail line near Gaston, North Carolina'
 imageCredit: 'Aerial: USDA NAIP / USGS The National Map, 2023'

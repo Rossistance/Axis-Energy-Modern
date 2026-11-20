@@ -11,6 +11,7 @@ role: ["EPC"]
 mount: "Ground mount across an existing paved parking lot"
 interconnection: "Behind-the-meter connection to the facility's electrical system"
 summary: "A 1.76 MWdc behind-the-meter solar facility built across a former employee parking lot at GE HealthCare's MRI magnet manufacturing campus in Florence, South Carolina, offsetting the plant's grid-supplied energy without using undeveloped land."
+description: "A 1.76 MWdc behind-the-meter array on a former parking lot at GE HealthCare's MRI magnet plant in Florence, South Carolina, completed in 2016."
 impact: "An idle paved lot now generates power next to the point of consumption, reducing the manufacturing campus's purchased energy."
 challenge: "Turn a former employee parking area into energy infrastructure while working within the existing pavement, drainage, access, utilities and the requirements of an operating manufacturing campus."
 approach: "Axis led the EPC delivery: existing-site planning, structural support and pavement-interface construction, photovoltaic installation, electrical balance of system and behind-the-meter interconnection with the facility, followed by testing, commissioning and turnover."

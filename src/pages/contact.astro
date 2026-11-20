@@ -10,7 +10,7 @@ import { routes } from '@data/routes';
 import { href, absoluteUrl } from '@lib/href';
 import { localBusinessSchema } from '@lib/schema';
 
-const description = `Contact Axis Energy in Holly Springs, NC. Email ${company.email} or send us a message.`;
+const description = `Contact Axis Energy in Holly Springs, North Carolina: email ${company.email}, send a message, or start a solar, storage or O&M project request.`;
 const siteUrl = absoluteUrl('/', Astro.site);
 const jsonLd = [localBusinessSchema(siteUrl, absoluteUrl('/icon-512.png', Astro.site))];
 const cards = [
@@ -105,7 +105,7 @@ const cards = [
         <div class="card quick">
           <h3 class="aside-title">Careers</h3>
           <p class="text-muted">
-            E-mail your résumé and salary history to{' '}
+            Email your résumé and salary history to{' '}
             <a href={`mailto:${company.careersEmail}`}>{company.careersEmail}</a>.
           </p>
         </div>
