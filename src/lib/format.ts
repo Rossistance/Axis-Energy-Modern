@@ -65,6 +65,12 @@ export const STATE_NAMES: Record<string, string> = {
   VA: 'Virginia',
 };
 
+/** "North Carolina, South Carolina and Georgia" from two-letter codes. */
+export function stateList(codes: readonly string[]): string {
+  const names = codes.map(stateName);
+  return names.length < 2 ? names.join('') : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
+}
+
 export function stateName(code: string): string {
   return STATE_NAMES[code] ?? code;
 }

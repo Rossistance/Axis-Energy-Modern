@@ -2,6 +2,11 @@
  * Service content. Sources: live axis-energyinc.com/services (2018 copy),
  * 2018 brochure interior, 2024 company overview deck, Solar Power World profile.
  */
+import { company } from '@data/company';
+import { stateList } from '@lib/format';
+
+/** The O&M states in words, from `company.omStates`. */
+const omArea = stateList(company.omStates);
 export interface ServiceGroup {
   id: string;
   eyebrow: string;
@@ -355,15 +360,13 @@ export const servicePages: ServicePage[] = [
     slug: 'om-and-technical-services',
     title: 'O&M & Technical Services',
     icon: 'lucide:wrench',
-    summary:
-      '24/7 rapid response, scheduled maintenance and performance optimization in North Carolina, South Carolina, Georgia and Virginia.',
+    summary: `24/7 rapid response, scheduled maintenance and performance optimization in ${omArea}.`,
     lead: omGroup.intro,
     block: {
       ...omGroup,
       eyebrow: 'What we deliver',
       title: 'Operations and maintenance',
-      intro:
-        'Our O&M and technical services teams support owners in North Carolina, South Carolina, Georgia and Virginia, from scheduled maintenance and 24/7 response to repowering, storm repairs and decommissioning.',
+      intro: `Our O&M and technical services teams support owners in ${omArea}, from scheduled maintenance and 24/7 response to repowering, storm repairs and decommissioning.`,
     },
   },
 ];

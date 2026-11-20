@@ -34,9 +34,11 @@ test('map shades the O&M states, the lower 48 and leaves Alaska and Hawaii neutr
   await page.goto('');
   const states = page.locator('.footprint__states path');
   await expect(states).toHaveCount(51);
-  await expect(page.locator('.footprint__states .is-om')).toHaveCount(4);
+  // NC, SC, GA, VA and, since the Wilmer O&M contract (owner, 2026-11-10), Alabama.
+  await expect(page.locator('.footprint__states .is-om')).toHaveCount(5);
   await expect(page.locator('.footprint__states .is-outside')).toHaveCount(2);
-  await expect(page.locator('.footprint__states .is-project')).toHaveCount(45);
+  await expect(page.locator('.footprint__states .is-project')).toHaveCount(44);
+  await expect(page.locator('.footprint__legend')).toContainText('Virginia and Alabama');
   const fills = await page.evaluate(() =>
     ['is-om', 'is-project', 'is-outside'].map(
       (c) => getComputedStyle(document.querySelector(`.footprint__states .${c}`)!).fill,
@@ -52,7 +54,9 @@ test('headquarters pin and project pins are shown, and nothing on the map is cli
   const map = page.locator('.footprint__map');
   await expect(map).toHaveAttribute('role', 'img');
   await expect(map.locator('.footprint__label-name')).toHaveText('Holly Springs, NC');
-  expect(await map.locator('.footprint__pins use').count()).toBeGreaterThanOrEqual(20);
+  // Towns from the owner's project list (2026-11-10) plus the project entries, one pin per town.
+  expect(await map.locator('.footprint__pins use').count()).toBeGreaterThanOrEqual(50);
+  await expect(page.locator('#footprint-map-desc')).toContainText(/Pins mark \d+ towns/);
   await expect(map.locator('a, button, [tabindex]')).toHaveCount(0);
   await expect(page.locator('.footprint__legend li')).toHaveCount(4);
 });

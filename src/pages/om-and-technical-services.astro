@@ -26,7 +26,7 @@ import {
   OM_FEATURED_PROJECT,
   OM_PROJECTS_ID,
 } from '@data/services';
-import { stateName } from '@lib/format';
+import { stateList } from '@lib/format';
 import { href } from '@lib/href';
 import { getPublishedProjects, projectsForService } from '@lib/projects';
 
@@ -42,8 +42,7 @@ const omProjects = projectsForService(published, OM_PAGE_SLUG).sort(
     Number(b.id === OM_FEATURED_PROJECT) - Number(a.id === OM_FEATURED_PROJECT) ||
     Number(b.data.type === 'om') - Number(a.data.type === 'om'),
 );
-const names = company.omStates.map(stateName);
-const area = `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+const area = stateList(company.omStates);
 const sections = [
   ...(featured ? [{ label: 'Featured project', href: '#featured' }] : []),
   ...omOfferings.map((o) => ({ label: o.title, href: `#${o.slug}` })),
