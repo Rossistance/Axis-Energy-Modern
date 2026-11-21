@@ -21,3 +21,9 @@ tests/__screenshots__/
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# local dev context (machine-only; may hold sensitive notes — copy by hand between machines)
+_dev-context/
+CLAUDE.local.md
+.claude/launch.json
+.claude/settings.local.json
