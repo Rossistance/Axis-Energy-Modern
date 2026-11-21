@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Why Axis: the Axis Promise and the six "Total project peace of mind" cards (copy supplied
- * 2026-10-28, retitled as outcomes with a proof line in the 3 P's update, 2026-11-02) with a
+ * Why Axis: the seven commitments and the six "Total project peace of mind" cards (copy
+ * supplied 2026-10-28, retitled as outcomes in the 3 P's update, 2026-11-02, each proof written
+ * into its text 2026-11-20) with a
  * closing call to action, the stat cards without the rankings list, no O&M excellence
  * section, and the safety partners graphic in place of the testimonial. Employee ownership
  * moved to About.
@@ -15,6 +16,16 @@ const titles = [
   'The right crew for your site and scale.',
   'Owners on your project, not just employees.',
   'Everyone home safe, and your operations keep running.',
+];
+
+/** The proof each card carries in its own text (owner, 2026-11-20). */
+const proofs = [
+  'NCEMC',
+  'since 1910',
+  'tested and commissioned',
+  '36.5 MWdc',
+  '100% employee-owned',
+  'Avetta, Veriforce and ISNetworld',
 ];
 
 test('the six "Total project peace of mind" cards show their copy, numbered 01â€“06', async ({
@@ -37,8 +48,10 @@ test('the six "Total project peace of mind" cards show their copy, numbered 01â€
     expect(((await cards.nth(i).locator('p').first().textContent()) ?? '').length).toBeGreaterThan(
       150,
     );
-    await expect(cards.nth(i).locator('.pillar__proof')).toContainText('Proof:');
+    await expect(cards.nth(i)).toContainText(proofs[i]);
   }
+  // No "Proof:" line under the cards (owner, 2026-11-20).
+  await expect(page.locator('.pillar__proof')).toHaveCount(0);
   // None of the old card titles is left on the page.
   const text = (await page.locator('main').textContent()) ?? '';
   for (const old of ['Total Solution', 'Strong Financial Position', 'Bench Strength']) {

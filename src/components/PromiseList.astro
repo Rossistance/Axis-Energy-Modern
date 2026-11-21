@@ -1,5 +1,5 @@
 ---
-/** The seven commitments of the Axis Promise, each with its proof (src/data/promise.ts). */
+/** The seven commitments on Why Axis (src/data/promise.ts); each body carries its own proof. */
 import { Icon } from 'astro-icon/components';
 import { commitments } from '@data/promise';
 import { href } from '@lib/href';
@@ -18,14 +18,11 @@ import { href } from '@lib/href';
       </div>
       <h3>{c.title}</h3>
       <p>{c.body}</p>
-      <p class="promise-item__proof">
-        <strong>Proof:</strong> {c.proof}
-        {c.link && (
-          <a class="link-arrow" href={href(c.link.href)}>
-            {c.link.label} <Icon name="lucide:arrow-right" class="icon" />
-          </a>
-        )}
-      </p>
+      {c.link && (
+        <a class="link-arrow promise-item__link" href={href(c.link.href)}>
+          {c.link.label} <Icon name="lucide:arrow-right" class="icon" />
+        </a>
+      )}
     </li>
   ))}
 </ol>
@@ -91,20 +88,11 @@ import { href } from '@lib/href';
     font-size: 0.95rem;
   }
 
-  .promise-item__proof {
-    margin-top: auto !important;
-    padding-top: 0.6rem;
-    border-top: 1px solid var(--line);
-    font-size: 0.88rem !important;
-  }
-
-  .promise-item__proof strong {
-    color: var(--brand-navy);
-  }
-
-  .promise-item__proof .link-arrow {
+  .promise-item__link {
     display: inline-flex;
-    margin-left: 0.25rem;
-    font-size: 0.88rem;
+    align-self: start;
+    margin-top: auto;
+    padding-top: 0.4rem;
+    font-size: 0.9rem;
   }
 </style>

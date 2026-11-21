@@ -5,14 +5,14 @@ import { test, expect } from '@playwright/test';
  * (employee ownership moved to About on 2026-10-01).
  */
 
-test('the hero headline is the Axis Promise', async ({ page }) => {
+test('the hero headline is the promise line', async ({ page }) => {
   await page.goto('');
   await expect(page.locator('.hero h1')).toHaveText(
     'Built right. Energized on schedule. Performing for years.',
   );
 });
 
-test('the hero, the "Your risk" band and the map, with the old teaser sections gone', async ({
+test('the hero, the band under it and the map, with the old teaser sections gone', async ({
   page,
 }) => {
   await page.goto('');

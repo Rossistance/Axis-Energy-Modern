@@ -40,7 +40,19 @@ test('no page carries the concept review scaffolding or the retired wording', as
     // Visible text only, so links keep their slugs. "Utility-scale" is retired for distributed
     // generation and no size range is printed (owner, 2026-11-20, audit H7).
     const visible = await page.locator('body').innerText();
-    for (const retired of [/utility[- ]scale/i, /\d\s*[–-]\s*\d+\s*MW\b/]) {
+    for (const retired of [
+      /utility[- ]scale/i,
+      /\d\s*[–-]\s*\d+\s*MW\b/,
+      // Pain, purpose and promise are woven into the copy, never labelled (owner, 2026-11-20).
+      /\bProof:/i,
+      /Your risk:/i,
+      /Our answer:/i,
+      /\bThe pain\b/i,
+      /\bOur purpose\b/i,
+      /\bOur promise\b/i,
+      /Axis Promise/i,
+      /Why we exist/i,
+    ]) {
       expect.soft(retired.test(visible), `${path || '/'}: ${retired}`).toBe(false);
     }
   }
@@ -59,13 +71,14 @@ test("home leads with the promise, the owner's pain and two next steps", async (
   );
   await expect(ctas.last()).toHaveAttribute('href', /\/om-and-technical-services\/#plant-health$/);
 
+  // One passage under the hero: pain, purpose and promise with no labels (owner, 2026-11-20).
   const band = page.locator('#your-risk');
   await expect(band.locator('h2')).toHaveText('Energy projects fail in the gaps. We close them.');
-  await expect(band.locator('.three-ps__card h3').last()).toHaveText(PROMISE);
-  await expect(band.locator('.three-ps__card').last()).toContainText(
-    '24-hour response on every request',
-  );
-  await expect(band.locator('.three-ps__proof a')).toHaveCount(3);
+  await expect(band).toContainText('December 31, 2027');
+  await expect(band).toContainText('built right, energized on schedule and still performing');
+  await expect(band).toContainText('a response to every request within 24 hours');
+  await expect(band.locator('.three-ps__card, .three-ps__step')).toHaveCount(0);
+  await expect(band.locator('.three-ps__projects a')).toHaveCount(3);
 });
 
 test('Why Axis states the promise and seven commitments, with proof still to come marked as such', async ({

@@ -31,7 +31,7 @@ const description =
   <PageHero
     eyebrow="Markets"
     title="Markets we serve"
-    lead="Every owner carries a different risk. Here is the one we take off your table, with projects that prove it."
+    lead="Each kind of owner carries a different risk. Here is how we take yours off the table, and the projects where we already have."
     photo={heroes.markets}
     crumbs={[{ label: 'Markets', href: routes.markets }]}
   />
@@ -48,12 +48,9 @@ const description =
               <h2 id={`${market.id}-title`}>{market.title}</h2>
               <p>{market.summary}</p>
               {market.pain && (
-                <div class="market__pain">
+                <div class="market__story">
                   <p>
-                    <strong>Your risk:</strong> {market.pain}
-                  </p>
-                  <p>
-                    <strong>Our answer:</strong> {market.answer}
+                    {market.pain} {market.answer}
                     {market.answerLink && (
                       <>
                         {' '}
@@ -92,26 +89,16 @@ const description =
 </BaseLayout>
 
 <style>
-  .market__pain {
-    display: grid;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    padding: 0.85rem 1rem;
-    border-left: 4px solid #c2410c;
-    border-radius: 0 var(--r-md, 12px) var(--r-md, 12px) 0;
-    background: #fff7f2;
+  .market__story {
+    margin-top: 0.85rem;
   }
 
-  .market__intro .market__pain p {
+  .market__intro .market__story p {
     color: var(--text);
-    font-size: 0.95rem;
+    font-size: 0.97rem;
   }
 
-  .market__pain strong {
-    color: var(--brand-navy);
-  }
-
-  .market__pain .link-arrow {
+  .market__story .link-arrow {
     display: inline-flex;
     font-size: 0.92rem;
   }

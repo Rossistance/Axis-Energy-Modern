@@ -30,12 +30,14 @@ test('the Markets page lists the four markets, up to three profiles each, with n
   await expect(page.locator('#co-ops-utilities .market__intro > p')).toContainText(
     'investor-owned',
   );
-  // Each market names the owner's risk and Axis's answer (3 P's update, 2026-11-02).
+  // Each market tells the owner's risk and Axis's answer as one paragraph, with no labels
+  // (3 P's update, 2026-11-02; woven 2026-11-20).
   for (const [id] of markets) {
-    await expect(page.locator(`#${id} .market__pain`)).toContainText('Your risk:');
-    await expect(page.locator(`#${id} .market__pain`)).toContainText('Our answer:');
+    const story = page.locator(`#${id} .market__story`);
+    await expect(story).toHaveCount(1);
+    await expect(story).not.toContainText(/Your risk|Our answer/);
   }
-  await expect(page.locator('#developers-ipps .market__pain')).toContainText('December 31, 2027');
+  await expect(page.locator('#developers-ipps .market__story')).toContainText('December 31, 2027');
 
   // Each market lists up to three projects, or offers references on request.
   for (const [id] of markets) {
