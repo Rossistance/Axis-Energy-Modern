@@ -80,6 +80,23 @@ test('Solar EPC experience says Community and Distributed Generation, not utilit
     'Specialty projects',
   ]);
   await expect(experience).not.toContainText(/utility/i);
+  // No size range: each project at its real size (owner, 2026-11-20).
+  await expect(experience.locator('.experience__detail').first()).toHaveText(
+    'Ground mount · fixed tilt · tracking',
+  );
+});
+
+test('distributed generation replaces utility-scale on the service pages (audit H7)', async ({
+  page,
+}) => {
+  await page.goto('services/solar-epc/');
+  await expect(page.locator('body')).toContainText(
+    'Engineering, procurement and construction for distributed generation, commercial and industrial solar',
+  );
+  await page.goto('services/battery-storage-and-microgrids/');
+  await expect(page.locator('main')).toContainText('Distributed generation solar + storage sites');
+  await page.goto('work-with-axis/developer-project-owner/');
+  await expect(page.locator('form[data-form-id]')).toContainText('Ground-mount solar');
 });
 
 test('O&M is one page that leads with Yadkinville and holds the six offerings as sections', async ({

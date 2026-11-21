@@ -47,6 +47,8 @@ test('projects are grouped under type headings, with no filters or project table
     await expect(group.locator('.type-group__meta')).toHaveCount(0);
     await expect(group.locator('.type-group__head')).not.toContainText(TOTALS);
   }
+  // "Distributed generation" replaced "Utility-scale solar" (owner, 2026-11-20, audit H7).
+  expect(headings.map((h) => h.trim())).toContain('Distributed generation');
   // Boeing's Charleston rooftop sits with the C&I projects (owner, 2026-10-28).
   await expect(
     page.locator('#type-commercial .project-card__title', { hasText: 'Boeing Charleston' }),

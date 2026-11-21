@@ -14,7 +14,7 @@ modules: "More than 11,000 modules"
 summary: "A 4.8 MWdc single-axis tracking solar facility on a 30-acre site in Cabot, Arkansas, built by Axis for a public water utility: the first Arkansas PSC-approved net-metering facility above 1 MW."
 description: "4.8 MWdc single-axis tracking solar for Central Arkansas Water in Cabot, Arkansas: the first Arkansas PSC-approved net-metering facility above 1 MW."
 impact: "Projected to produce more than 8.24 million kWh in its first year and to offset approximately 20 percent of the water utility's energy expense, supporting long-term energy-price stability for its customers."
-challenge: "Construct a utility-scale solar asset on a 30-acre site while coordinating the civil, structural, electrical, interconnection and commissioning requirements of a first-of-its-kind regulatory project."
+challenge: "Construct a ground-mounted, single-axis tracking solar facility on a 30-acre site while coordinating the civil, structural, electrical, interconnection and commissioning requirements of a first-of-its-kind regulatory project."
 approach: "Axis executed site construction, OMCO Origin tracker installation, module placement, electrical collection, equipment integration, testing and turnover as one coordinated delivery effort."
 scope:
   - "Solar construction delivery and field coordination"

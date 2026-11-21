@@ -10,12 +10,12 @@ type: utility
 role: ["EPC"]
 storageMwh: 2.514
 storageBrand: "Tesla"
-summary: "1.31 MWdc utility-scale solar project in Asheboro, North Carolina with 2.514 MWh of Tesla battery storage, delivered by Axis Energy as EPC and completed in December 2020."
+summary: "1.31 MWdc solar project in Asheboro, North Carolina with 2.514 MWh of Tesla battery storage, delivered by Axis Energy as EPC and completed in December 2020."
 featured: false
 published: false
 source: "Solar Power World Top Solar Contractors submission (SPW 2021 sheet, Solar Power World Master workbook in the private marketing archive)."
 ---
 
-1.31 MWdc utility-scale solar project in Asheboro, North Carolina with 2.514 MWh of Tesla battery storage, delivered by Axis Energy as EPC and completed in December 2020.
+1.31 MWdc solar project in Asheboro, North Carolina with 2.514 MWh of Tesla battery storage, delivered by Axis Energy as EPC and completed in December 2020.
 
 *Details from Axis Energy's Solar Power World Top Solar Contractors submission. Publication of this project page is pending owner confirmation.*

@@ -101,7 +101,7 @@ export const serviceGroups: ServiceGroup[] = [
       {
         title: 'Battery energy storage',
         items: [
-          'Utility-scale solar + storage sites',
+          'Distributed generation solar + storage sites',
           'Microgrid and demonstration projects',
           'Integration with Tesla and LG Chem battery systems on completed projects',
         ],
@@ -265,7 +265,7 @@ export const servicePages: ServicePage[] = [
     title: 'Solar EPC',
     icon: 'lucide:hard-hat',
     summary:
-      'Engineering, procurement and construction for utility-scale, commercial and industrial solar, with one point of contact from design through commissioning.',
+      'Engineering, procurement and construction for distributed generation, commercial and industrial solar, with one point of contact from design to commissioning.',
     lead: group('epc').intro,
     block: {
       ...group('epc'),
@@ -293,7 +293,7 @@ export const servicePages: ServicePage[] = [
         {
           title: 'Battery energy storage',
           items: [
-            'Utility-scale solar + storage sites',
+            'Distributed generation solar + storage sites',
             'Tesla battery storage, controls, communications and system integration',
             'Integration with Tesla and LG Chem battery systems on completed projects',
           ],
@@ -420,7 +420,7 @@ export const process = [
 export const experienceGroups = [
   {
     title: 'Community and Distributed Generation',
-    detail: '1–15 MW · fixed tilt · tracking',
+    detail: 'Ground mount · fixed tilt · tracking',
     example: 'Floyd Road · 6.75 MW · Gaston, NC',
   },
   {

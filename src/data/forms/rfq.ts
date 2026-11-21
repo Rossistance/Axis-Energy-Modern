@@ -60,7 +60,7 @@ export const rfqForm: FormSpec = {
           required: true,
           full: true,
           options: opts(
-            'Ground-mount utility-scale solar',
+            'Ground-mount solar',
             'Commercial or industrial rooftop',
             'Carport or canopy',
             'Solar + battery storage',

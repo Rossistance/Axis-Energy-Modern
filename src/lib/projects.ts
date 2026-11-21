@@ -5,7 +5,7 @@ import { formatSize, formatStorage, stateName } from './format';
 export type Project = CollectionEntry<'projects'>;
 
 export const TYPE_LABELS: Record<Project['data']['type'], string> = {
-  utility: 'Utility-scale',
+  utility: 'Distributed generation',
   commercial: 'Commercial & industrial',
   municipal: 'Municipal & government',
   carport: 'Carport & canopy',
@@ -17,7 +17,7 @@ export const TYPE_LABELS: Record<Project['data']['type'], string> = {
 
 /** Headings for the type groups on the Projects page. */
 export const TYPE_GROUP_LABELS: Record<Project['data']['type'], string> = {
-  utility: 'Utility-scale solar',
+  utility: 'Distributed generation',
   commercial: 'Commercial & industrial solar',
   municipal: 'Municipal & government solar',
   carport: 'Carports & canopies',

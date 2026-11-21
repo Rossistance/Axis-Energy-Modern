@@ -11,7 +11,7 @@ market: "developers-ipps"
 role: ["EPC"]
 mount: "Ground mount"
 partners: ["White Electrical"]
-summary: "Seven utility-scale solar facilities across two North Carolina regions, 36.515 MWdc in all, delivered concurrently by Axis Energy and White Electrical as one managed execution program."
+summary: "Seven solar facilities across two North Carolina regions, 36.515 MWdc in all, delivered concurrently by Axis Energy and White Electrical as one managed execution program."
 description: "Conergy NC1: seven solar facilities in two North Carolina regions, 36.515 MWdc in all, delivered concurrently by Axis Energy and White Electrical."
 impact: "A coordinated 36.515 MWdc portfolio delivered across the Raleigh–Triad corridor and the region west of Charlotte through repeatable site execution and one integrated management structure."
 challenge: "Execute seven geographically separated solar projects on overlapping schedules while keeping safety, quality, documentation and schedule controls uniform across every site."
@@ -61,7 +61,7 @@ order: 7
 source: "Extracted from the Axis Energy Conergy NC1 Portfolio abstract (sent by the owner on 2026-10-29 to replace the earlier seven-site profile); its 36.515 MWdc supersedes the live site's 38 MWDC. Commissioning month from the live site project page. Client named with the owner's permission (2026-10-29: client and owner names allowed, no logos). Site aerials are public-domain USDA NAIP 2023 imagery located from the owner's project address list (imagery pack of 2026-10-23); the abstract's own photos were not supplied as files."
 ---
 
-The Conergy NC1 portfolio put seven utility-scale solar facilities under construction at the same time, spread across two North Carolina regions: Alamance and Durham counties in the Raleigh–Triad corridor, and the Rutherford, Cleveland, Catawba and Lincoln-area sites west of Charlotte. Axis Energy and White Electrical delivered all seven, 36.515 MWdc in total, as one coordinated program rather than seven separate jobs.
+The Conergy NC1 portfolio put seven solar facilities under construction at the same time, spread across two North Carolina regions: Alamance and Durham counties in the Raleigh–Triad corridor, and the Rutherford, Cleveland, Catawba and Lincoln-area sites west of Charlotte. Axis Energy and White Electrical delivered all seven, 36.515 MWdc in total, as one coordinated program rather than seven separate jobs.
 
 Shared project controls and repeatable field standards held the portfolio together: one schedule and reporting cadence, consistent installation checks and documentation, resources moved between sites as conditions changed, and disciplined electrical execution through testing, interconnection and turnover. The portfolio was commissioned in February 2016.
 

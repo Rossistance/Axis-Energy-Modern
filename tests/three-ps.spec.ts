@@ -37,6 +37,12 @@ test('no page carries the concept review scaffolding or the retired wording', as
     ]) {
       expect.soft(text.includes(retired), `${path || '/'}: "${retired}"`).toBe(false);
     }
+    // Visible text only, so links keep their slugs. "Utility-scale" is retired for distributed
+    // generation and no size range is printed (owner, 2026-11-20, audit H7).
+    const visible = await page.locator('body').innerText();
+    for (const retired of [/utility[- ]scale/i, /\d\s*[–-]\s*\d+\s*MW\b/]) {
+      expect.soft(retired.test(visible), `${path || '/'}: ${retired}`).toBe(false);
+    }
   }
 });
 

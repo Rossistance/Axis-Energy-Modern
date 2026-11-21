@@ -4,7 +4,7 @@ export const company = {
   legalName: 'Axis Energy Inc.',
   tagline: 'Renewable Solutions | Reliable Partners', // 2024 company overview deck
   description:
-    'Axis Energy is an employee-owned renewable energy contractor delivering integrated solar, battery storage, electrical infrastructure and operations & maintenance solutions for commercial, industrial, municipal and utility-scale customers.',
+    'Axis Energy is an employee-owned renewable energy contractor delivering integrated solar, battery storage, electrical infrastructure and operations & maintenance solutions for commercial and industrial owners, electric cooperatives, municipalities and independent power producers.',
   founded: 2017, // incorporated in Georgia, 2017 (deck)
   parent: {
     name: '1910 Legacy Enterprises',

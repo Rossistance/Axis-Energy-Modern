@@ -14,7 +14,7 @@ mount: "FTC Voyager single-axis trackers"
 modules: "34,720 Canadian Solar bifacial modules"
 inverters: "84 CHINT 125 kW string inverters"
 interconnection: "34.5 kV, Dominion Energy distribution"
-summary: "A 13.97 MWdc utility-scale solar facility in Ahoskie, North Carolina, abandoned by its original EPC after clearing and grading, which Axis took over, brought back into compliance and delivered through commissioning and utility interconnection."
+summary: "A 13.97 MWdc solar facility in Ahoskie, North Carolina, abandoned by its original EPC after clearing and grading, which Axis took over, brought back into compliance and delivered through commissioning and utility interconnection."
 description: "Axis took over the 13.97 MWdc Hertford Solar project near Ahoskie, NC, after its first EPC left at grading, and carried it through interconnection."
 impact: "A completed and interconnected privately owned renewable-energy asset, delivered with integrated civil, mechanical, electrical, controls, testing, commissioning and environmental closeout."
 challenge: "Recover an unfinished project after the original EPC departed, while protecting pre-purchased equipment, correcting site-compliance exposure and turning partially completed work into a buildable plan."
@@ -59,7 +59,7 @@ order: 5
 source: "Extracted from the Axis Energy Hertford Solar project abstract (supplied by the owner on 2026-10-28; 13.97 MWdc supersedes the 13.974 MWdc in the SPW 2022 sheet). The abstract gives no completion date; the month comes from the Solar Power World submission (SPW 2022 sheet: completed 2021-12-22). The abstract names no client; the facility is privately owned. Photos are from the abstract, cropped to leave out its printed title. Main photo replaced on 2026-10-30 with an August 2022 aerial from the job's photo folder on AxisShare, trimmed of blank sky."
 ---
 
-Axis Energy took over Hertford Solar, a 13.97 MWdc utility-scale project near Ahoskie, North Carolina, after the original EPC completed initial clearing and grading but did not finish the work. Axis inherited a disturbed site, took on the critical responsibilities, completed the design and carried out the remaining civil, mechanical, electrical, testing and closeout work.
+Axis Energy took over Hertford Solar, a 13.97 MWdc solar project near Ahoskie, North Carolina, after the original EPC completed initial clearing and grading but did not finish the work. Axis inherited a disturbed site, took on the critical responsibilities, completed the design and carried out the remaining civil, mechanical, electrical, testing and closeout work.
 
 The job called for more than finishing a defined construction scope. Axis took control of partially advanced work, confirmed that the owner's pre-purchased components were compatible, brought the disturbed site back into NCDEQ compliance and completed the IFC design. Field execution was coordinated around wetlands, multiple array areas, road crossings and the utility point of interconnection.
 

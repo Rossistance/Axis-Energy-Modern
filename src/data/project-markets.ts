@@ -90,7 +90,7 @@ export const projectMarkets: ProjectMarket[] = [
     title: 'Developers & IPPs',
     icon: 'lucide:briefcase',
     summary:
-      'Utility-scale and distributed solar for developers and independent power producers, from single sites to multi-site portfolios.',
+      'Distributed generation solar for developers and independent power producers, from single sites to multi-site portfolios.',
     emptyNote: 'Developer and IPP project references are available on request.',
     pain: 'Schedule is everything: solar that missed the July 4, 2026 construction start must be in service by December 31, 2027 to keep the federal credit, so a contractor that stalls can cost you the project’s economics.',
     answer:
