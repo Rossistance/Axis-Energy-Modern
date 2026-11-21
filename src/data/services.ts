@@ -24,7 +24,7 @@ export const serviceGroups: ServiceGroup[] = [
     title: 'EPC',
     icon: 'lucide:hard-hat',
     intro:
-      'Axis brings you a full array of EPC services, one point of contact through design and construction, a strong financial position to back large projects, an outstanding culture of safety, and superior quality at a competitive price.',
+      'Behind that single point of contact is a strong financial position to back large projects, a safety program graded on Avetta, Veriforce and ISNetworld, and an experienced superintendent on every site, so quality is checked in the field rather than discovered at turnover.',
     columns: [
       {
         title: 'Engineering',
@@ -67,7 +67,7 @@ export const serviceGroups: ServiceGroup[] = [
     title: 'O&M',
     icon: 'lucide:wrench',
     intro:
-      'We keep your PV system operating and optimized with rapid response, scheduled preventive maintenance, and balance-of-system inspection and analysis from an expert team of technicians well versed in an assortment of PV technologies.',
+      'Left alone, a solar plant drifts below its estimate one string and one inverter at a time. Our technicians keep your PV system operating and optimized with rapid response, scheduled preventive maintenance and balance-of-system inspection and analysis, and they work across the range of PV technologies in the field.',
     columns: [
       {
         title: 'Rapid Response',
@@ -272,7 +272,7 @@ export const servicePages: ServicePage[] = [
       eyebrow: 'What we deliver',
       title: 'Engineering, procurement and construction',
       intro:
-        'Our clients enjoy great peace of mind being able to make one phone call to Axis Energy and know their renewable energy project will be executed with excellence. We take care of it all, from development and due diligence, to pre-construction and full design, through construction and commissioning.',
+        'Distributed generation projects are easy to underserve: too large for a rooftop installer, too small to get a large builder’s best team. Axis is built for that work, and for commercial and industrial solar alike. One call covers development and due diligence, pre-construction and full design, construction and commissioning, with one point of contact the whole way.',
     },
   },
   {
@@ -288,7 +288,7 @@ export const servicePages: ServicePage[] = [
       title: 'Battery storage and microgrids',
       icon: 'lucide:battery-charging',
       intro:
-        'From five coordinated solar + storage sites to campus and utility microgrids, Axis integrates solar generation, battery storage, protection and controls into systems that perform from the first day of operation.',
+        'Storage and microgrid projects tend to go wrong at the seams between solar generation, battery storage, protection and controls. Axis integrates them as one system, from five coordinated solar + storage sites to campus and utility microgrids, so it performs from the first day of operation.',
       columns: [
         {
           title: 'Battery energy storage',
@@ -330,7 +330,7 @@ export const servicePages: ServicePage[] = [
       title: 'Electrical infrastructure and commissioning',
       icon: 'lucide:zap',
       intro:
-        'Axis grew out of the renewable division of White Electrical Construction Company, founded in 1910. That electrical depth carries every project from the medium-voltage point of interconnection to verified performance at turnover.',
+        'Interconnection is where many renewable projects stall: medium-voltage construction, the utility’s requirements and the testing all have to line up before a plant can energize. Axis grew out of the renewable division of White Electrical Construction Company, founded in 1910, and that electrical depth carries every project from the medium-voltage point of interconnection to verified performance at turnover.',
       columns: [
         {
           title: 'Medium-voltage construction',

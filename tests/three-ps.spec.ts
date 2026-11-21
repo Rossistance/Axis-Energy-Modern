@@ -34,6 +34,10 @@ test('no page carries the concept review scaffolding or the retired wording', as
       'on-site within 24',
       // Audit H1: ask for salary expectations, never salary history.
       'salary history',
+      // 2018 brochure lines retired from the service intros (audit D6, owner 2026-11-20).
+      'great peace of mind',
+      'competitive price',
+      'well versed in an assortment',
     ]) {
       expect.soft(text.includes(retired), `${path || '/'}: "${retired}"`).toBe(false);
     }

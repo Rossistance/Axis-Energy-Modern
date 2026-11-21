@@ -11,7 +11,9 @@ test('About keeps history and the family of companies, and drops the other secti
 }) => {
   await page.goto('about/');
   const main = page.locator('main');
-  await expect(main.getByRole('heading', { name: 'Excellence for over 100 years' })).toBeVisible();
+  await expect(
+    main.getByRole('heading', { name: 'Built on more than a century of electrical contracting' }),
+  ).toBeVisible();
   await expect(
     main.getByRole('heading', { name: 'Built on strong partnerships since 1910' }),
   ).toBeVisible();
