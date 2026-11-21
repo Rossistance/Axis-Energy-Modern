@@ -8,7 +8,7 @@ import SafetyPartners from '@components/SafetyPartners.astro';
 import PromiseList from '@components/PromiseList.astro';
 import { Icon } from 'astro-icon/components';
 import Testimonial from '@components/Testimonial.astro';
-import { promiseLine, proofPoints } from '@data/promise';
+import { brandLine, proofPoints } from '@data/promise';
 import { visibleTestimonials } from '@data/testimonials';
 import { heroes } from '@data/heroes';
 import { stats } from '@data/stats';
@@ -39,7 +39,7 @@ const description =
 <BaseLayout title="Why Axis" {description}>
   <PageHero
     eyebrow="Why Axis"
-    title={promiseLine}
+    title={brandLine}
     lead="Seven commitments we make on every project, and the work we have already done to keep them."
     photo={heroes.whyAxis}
     crumbs={[{ label: 'Why Axis', href: '/why-axis/' }]}

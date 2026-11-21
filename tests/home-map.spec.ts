@@ -5,11 +5,9 @@ import { test, expect } from '@playwright/test';
  * (employee ownership moved to About on 2026-10-01).
  */
 
-test('the hero headline is the promise line', async ({ page }) => {
+test('the hero headline is The Power of Partnership', async ({ page }) => {
   await page.goto('');
-  await expect(page.locator('.hero h1')).toHaveText(
-    'Built right. Energized on schedule. Performing for years.',
-  );
+  await expect(page.locator('.hero h1')).toHaveText('The Power of Partnership');
 });
 
 test('the hero, the band under it and the map, with the old teaser sections gone', async ({

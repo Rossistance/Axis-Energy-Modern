@@ -1,8 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
 
 /**
- * Home page headline as the owner's diagram (2026-10-01), led since 2026-11-02 by the Axis
- * Promise with "The power of partnership" as its eyebrow (3 P's update) ·
+ * Home page headline as the owner's diagram (2026-10-01): The Power of Partnership, with the
+ * brand line "Built by owners, for owners." under it since 2026-11-21 (Ross) ·
  * Solar | Battery Storage | Microgrids · Performance built · for · four market boxes that
  * open their section of the Markets page.
  */
@@ -19,10 +19,8 @@ const diagram = (page: Page) => page.locator('.hero .partnership');
 test('the diagram reads top to bottom like the owner’s example', async ({ page }) => {
   await page.goto('');
   const d = diagram(page);
-  await expect(d.locator('.partnership__eyebrow')).toHaveText('The power of partnership');
-  await expect(d.locator('h1')).toHaveText(
-    'Built right. Energized on schedule. Performing for years.',
-  );
+  await expect(d.locator('h1')).toHaveText('The Power of Partnership');
+  await expect(d.locator('.partnership__tagline')).toHaveText('Built by owners, for owners.');
   // Four services, as plain labels for now (owner, 2026-10-01).
   await expect(d.locator('.partnership__services li')).toHaveText([
     'Solar',

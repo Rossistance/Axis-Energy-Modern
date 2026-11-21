@@ -1,6 +1,7 @@
 ---
 /**
- * Home page headline as the owner's diagram (2026-10-01): "The Power of Partnership", what
+ * Home page headline as the owner's diagram (2026-10-01): "The Power of Partnership" with the
+ * brand line, the brand statement and why it holds (employee ownership, Ross 2026-11-21), what
  * Axis does, "Performance built for" and the four markets it serves. The services are plain
  * labels for now (owner, 2026-10-01); each market card opens its section of the Markets
  * page.
@@ -15,7 +16,7 @@
 import { projectMarkets, marketPath } from '@data/project-markets';
 import { href } from '@lib/href';
 import { routes } from '@data/routes';
-import { promiseBeats } from '@data/promise';
+import { brandLine, brandStatement } from '@data/promise';
 
 /** Labels, not links, for now: four across when they fit, two by two when not. */
 const services = ['Solar', 'Battery Storage', 'Microgrids', 'Asset Management'];
@@ -47,22 +48,17 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
 ---
 
 <div class="partnership" style={vars}>
-  <!-- The Axis Promise leads, the owner's pain follows; "The power of partnership" is the eyebrow (3 P's update, owner 2026-11-02). -->
+  <!-- The Power of Partnership leads; the brand line and statement follow (Ross, 2026-11-21). -->
   <div class="partnership__lead">
-    <p class="partnership__eyebrow">The power of partnership</p>
-    <h1 id="hero-title" class="partnership__title partnership__title--promise">
-      {promiseBeats.map((beat, i) => (
-        <>
-          {i > 0 && ' '}
-          <span>{beat}</span>
-        </>
-      ))}
+    <h1 id="hero-title" class="partnership__title">
+      The Power of Partnership
     </h1>
+    <p class="partnership__tagline">{brandLine}</p>
+    <p class="partnership__statement">{brandStatement}</p>
   </div>
   <p class="partnership__pain">
-    When a solar, storage or microgrid project stalls, slips or under-produces, the owner pays for
-    it. Axis takes that execution risk off your plate, from the first site visit to the last
-    kilowatt-hour.
+    Axis is 100% employee-owned, so the people who engineer, build and maintain your solar, storage
+    or microgrid project own a piece of the company that stands behind it.
   </p>
 
   <ul class="partnership__services" aria-label="What we do">
@@ -151,24 +147,26 @@ const vars = `--fan: ${FAN}rem; --fan-narrow: ${FAN_NARROW}rem; --card-h: ${CARD
 </div>
 
 <style>
-  /* Promise headline, pain line and next steps (3 P's update, 2026-11-02). */
-  .partnership__eyebrow {
-    margin: 0 0 0.65rem;
+  /* Brand line, statement, ownership line and next steps (Ross, 2026-11-21). */
+  .partnership__tagline {
+    max-width: 26ch;
+    margin: 0.85rem auto 0;
     color: var(--aqua-400, #3fcfc4);
-    font-size: 0.78rem;
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.2rem, 0.95rem + 0.9vw, 1.55rem);
     font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    line-height: 1.25;
   }
 
-  .partnership__title--promise {
-    max-width: none;
-    font-size: clamp(1.85rem, 1rem + 2.3vw, 2.6rem);
-    line-height: 1.08;
-  }
-
-  .partnership__title--promise span {
-    display: block;
+  .partnership__statement {
+    max-width: 30ch;
+    margin: 0.45rem auto 0;
+    color: #fff;
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.02rem, 0.9rem + 0.45vw, 1.2rem);
+    font-weight: 600;
+    line-height: 1.35;
+    text-wrap: balance;
   }
 
   .partnership__pain {

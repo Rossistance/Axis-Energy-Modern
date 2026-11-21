@@ -8,7 +8,8 @@ import { sitemapPaths } from './routes';
  * 1910 Legacy's consolidated record, and the GE Florence quote as the client testimonial.
  */
 
-const PROMISE = 'Built right. Energized on schedule. Performing for years.';
+const BRAND_LINE = 'Built by owners, for owners.';
+const BRAND_STATEMENT = 'Your name is on the plant. Ours is on the work.';
 
 test('no page carries the concept review scaffolding or the retired wording', async ({ page }) => {
   for (const path of ['', ...sitemapPaths()]) {
@@ -62,11 +63,19 @@ test('no page carries the concept review scaffolding or the retired wording', as
   }
 });
 
-test("home leads with the promise, the owner's pain and two next steps", async ({ page }) => {
+test('home leads with the power of partnership, the brand line and two next steps', async ({
+  page,
+}) => {
   await page.goto('');
   const hero = page.locator('.hero .partnership');
-  await expect(hero.locator('h1')).toHaveText(PROMISE);
-  await expect(hero.locator('.partnership__pain')).toContainText('the owner pays for it');
+  // Ross, 2026-11-21: partnership leads, then the brand line and statement, then employee
+  // ownership as the reason they hold. The rescue-only pain line is gone from the hero.
+  await expect(hero.locator('h1')).toHaveText('The Power of Partnership');
+  await expect(hero.locator('.partnership__tagline')).toHaveText(BRAND_LINE);
+  await expect(hero.locator('.partnership__statement')).toHaveText(BRAND_STATEMENT);
+  await expect(hero.locator('.partnership__pain')).toContainText('100% employee-owned');
+  await expect(hero).not.toContainText('the owner pays for it');
+  await expect(hero).not.toContainText('Performing for years');
   const ctas = hero.locator('.partnership__cta a');
   await expect(ctas).toHaveText(['Start a project', 'Existing plant? Get it producing']);
   await expect(ctas.first()).toHaveAttribute(
@@ -89,7 +98,7 @@ test('Why Axis states the promise and seven commitments, with proof still to com
   page,
 }) => {
   await page.goto('why-axis/');
-  await expect(page.locator('main h1')).toHaveText(PROMISE);
+  await expect(page.locator('main h1')).toHaveText(BRAND_LINE);
   const items = page.locator('#promise .promise-item');
   await expect(items).toHaveCount(7);
   await expect(items.nth(5).locator('h3')).toHaveText(

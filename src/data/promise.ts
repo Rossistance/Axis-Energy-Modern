@@ -8,12 +8,13 @@ import { company } from '@data/company';
 import { stateList } from '@lib/format';
 
 /**
- * The three beats of the promise line, shown on separate lines in the home page headline. The
- * owner asked for another way to say "Kept producing" (2026-11-02); "Performing for years." is
- * the proposed replacement, pending Ross's pick.
+ * The brand line under "The Power of Partnership" on the home page, also the Why Axis header,
+ * and the line that follows it in the hero (Ross, 2026-11-21). They replace the three-beat
+ * promise "Built right. Energized on schedule. Performing for years.", whose third beat never
+ * read right and repeated the diagram's "Performance built".
  */
-export const promiseBeats = ['Built right.', 'Energized on schedule.', 'Performing for years.'];
-export const promiseLine = promiseBeats.join(' ');
+export const brandLine = 'Built by owners, for owners.';
+export const brandStatement = 'Your name is on the plant. Ours is on the work.';
 
 export interface Commitment {
   icon: string;
